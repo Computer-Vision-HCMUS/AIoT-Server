@@ -1,0 +1,1 @@
+idea của Đức trình bày ở đây

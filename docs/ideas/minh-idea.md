@@ -1,0 +1,1 @@
+idea của Minh trình bày ở đây
