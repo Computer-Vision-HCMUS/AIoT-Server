@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartDesk Buddy — Screen Flow Simulator</title>
+  <title>SmartClock — Screen Flow Simulator</title>
   <style>
     :root {
       --bg: #0f1419; --panel: #1a2332; --border: #2d3a4f;
@@ -58,6 +58,10 @@
     .breadcrumb { font-size: 0.8rem; color: var(--hint); margin-bottom: 16px; padding: 8px 12px; background: rgba(0,0,0,.2); border-radius: 6px; font-family: monospace; }
     .log { max-height: 180px; overflow-y: auto; font-size: 0.75rem; font-family: monospace; color: var(--hint); border-top: 1px solid var(--border); padding-top: 12px; }
     .log .evt { color: #7dd3fc; }
+    .objective-grid { display: grid; gap: 8px; margin: 0 0 18px; }
+    .objective-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: rgba(15,23,42,.45); color: #cbd5e1; font-size: .78rem; }
+    .objective-card.active { border-color: var(--lcd-accent); background: rgba(251,191,36,.08); color: #f8fafc; }
+    .objective-card strong { display: block; margin-bottom: 3px; color: #f1f5f9; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1e40af; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; opacity: 0; transition: all .25s; z-index: 100; pointer-events: none; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .loading-overlay { position: absolute; inset: 0; background: rgba(10,22,40,.92); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; font-size: 0.75rem; color: var(--lcd-accent); z-index: 5; }
@@ -67,13 +71,13 @@
 </head>
 <body>
   <header>
-    <h1>SmartDesk Buddy — Screen Flow Simulator</h1>
-    <p>Mô phỏng TFT + 5 nút vật lý · Bấm phím <strong>1–5</strong> hoặc click nút trên thiết bị</p>
+    <h1>SmartClock — Screen Flow Simulator</h1>
+    <p>Mô phỏng luồng màn hình theo 3 objective: tập trung, giấc ngủ, giải trí · Bấm phím <strong>1–5</strong> hoặc click nút trên thiết bị</p>
   </header>
 
   <div class="layout">
     <div class="device">
-      <div class="device-label">ESP32-S3 · TFT Display</div>
+      <div class="device-label">SmartClock · TFT Display</div>
       <div id="tft" class="tft"></div>
       <div class="buttons" id="btnRow">
         <button class="btn" data-key="1">1</button>
@@ -89,6 +93,8 @@
 
     <div class="panel">
       <div class="breadcrumb" id="breadcrumb">HOME</div>
+      <h2>Objective Map</h2>
+      <div class="objective-grid" id="objectiveMap"></div>
       <h2>Hướng dẫn màn hình hiện tại</h2>
       <ul class="hint-list" id="hints"></ul>
       <h2 style="font-size:.85rem;color:var(--hint);margin-bottom:8px">Nhật ký sự kiện</h2>
@@ -127,9 +133,9 @@
       study_menu: {
         breadcrumb: "STUDY › Menu",
         hints: [
-          { key: 1, text: "Chuyển sang mode tiếp theo (SLEEP)", primary: true },
+          { key: 1, text: "Chuyển sang Objective 2: SLEEP", primary: true },
           { key: 2, text: "Mở Pomodoro Timer", primary: true },
-          { key: 3, text: "Mở Practice Seminar", primary: true },
+          { key: 3, text: "Mở Seminar Practice", primary: true },
         ],
       },
       pomodoro: {
@@ -139,13 +145,13 @@
           { key: 2, text: "Quay về STUDY Menu", primary: true },
           { key: 3, text: "Start / Stop timer", primary: true },
           { key: 4, text: "Reset timer", primary: true },
-          { key: 5, text: "Mở cấu hình STUDY_TIMER", primary: true },
+          { key: 5, text: "Mở cấu hình thời gian Pomodoro", primary: true },
         ],
       },
       study_timer: {
         breadcrumb: "STUDY › Pomodoro › Config",
         hints: [
-          { key: 2, text: "Xác nhận & đồng bộ Firebase → quay Pomodoro", primary: true },
+          { key: 2, text: "Lưu cấu hình → quay Pomodoro", primary: true },
           { key: 3, text: "Chọn field chỉnh (Study / Break)", primary: true },
           { key: 4, text: "Tăng giá trị (+1 phút)", primary: true },
           { key: 5, text: "Giảm giá trị (−1 phút)", primary: true },
@@ -156,23 +162,23 @@
         hints: [
           { key: 2, text: "Quay về STUDY Menu", primary: true },
           { key: 3, text: "Start / Stop ghi âm", primary: true },
-          { key: 4, text: "Gửi đánh giá lên AI Server", primary: true },
+          { key: 4, text: "Xem đánh giá bài luyện tập", primary: true },
         ],
       },
       sleep_menu: {
         breadcrumb: "SLEEP › Menu",
         hints: [
-          { key: 1, text: "Chuyển sang RELAX", primary: true },
-          { key: 2, text: "Bắt đầu giám sát ngủ (START_SLEEP)", primary: true },
-          { key: 3, text: "Mở Sleep Settings", primary: true },
-          { key: 4, text: "Mở SLEEP_TIMER Config", primary: true },
+          { key: 1, text: "Chuyển sang Objective 3: RELAX", primary: true },
+          { key: 2, text: "Bắt đầu theo dõi giấc ngủ", primary: true },
+          { key: 3, text: "Mở cài đặt báo thức", primary: true },
+          { key: 4, text: "Mở cấu hình thời lượng ngủ", primary: true },
         ],
       },
       start_sleep: {
         breadcrumb: "SLEEP › Monitoring",
         hints: [
-          { key: 2, text: "Dừng giám sát → AI đánh giá Sleep Score", primary: true },
-          { key: 3, text: "(Đang monitoring — không dùng)" },
+          { key: 2, text: "Dừng theo dõi → xem đánh giá giấc ngủ", primary: true },
+          { key: 3, text: "(Đang theo dõi — không dùng)" },
         ],
       },
       sleep_score: {
@@ -182,15 +188,15 @@
       sleep_settings: {
         breadcrumb: "SLEEP › Settings",
         hints: [
-          { key: 2, text: "Xác nhận & lưu Firebase → SLEEP Menu", primary: true },
+          { key: 2, text: "Lưu cài đặt → SLEEP Menu", primary: true },
           { key: 3, text: "Bật / tắt báo thức (mặc định 07:00)", primary: true },
-          { key: 4, text: "Mở SLEEP_TIMER Config", primary: true },
+          { key: 4, text: "Mở cấu hình thời lượng ngủ / báo thức", primary: true },
         ],
       },
       sleep_timer: {
         breadcrumb: "SLEEP › Timer Config",
         hints: [
-          { key: 2, text: "Xác nhận & đồng bộ → quay Settings", primary: true },
+          { key: 2, text: "Lưu cấu hình → quay Settings", primary: true },
           { key: 3, text: "Chọn field (Duration / Alarm hour)", primary: true },
           { key: 4, text: "Tăng giá trị", primary: true },
           { key: 5, text: "Giảm giá trị", primary: true },
@@ -284,25 +290,25 @@
 
       if (state.loading) {
         tft.innerHTML = `<div class="screen-title"><span>${mode}</span><span class="mode-badge">${screen}</span></div>
-          <div class="loading-overlay"><div class="spinner"></div><span>Đang đồng bộ Firebase...</span></div>`;
+          <div class="loading-overlay"><div class="spinner"></div><span>Đang lưu cấu hình...</span></div>`;
         return;
       }
 
       switch (screen) {
         case "home":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Giám sát môi trường · Edge AI</div>
+          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">SmartClock Objective Overview</div>
             <div class="metric-grid">
-              <div class="metric"><label>Sound Level</label><div class="val">${state.soundLevel} dB</div></div>
-              <div class="metric"><label>Sound Quality</label><div class="val ${state.soundQuality === "Quiet" ? "good" : "bad"}">${state.soundQuality}</div></div>
-              <div class="metric"><label>Light Level</label><div class="val">${state.lightLevel} lux</div></div>
-              <div class="metric"><label>Light Quality</label><div class="val ${state.lightQuality === "Suitable" ? "good" : "warn"}">${state.lightQuality}</div></div>
-            </div><div class="status-bar">Cập nhật realtime · INMP441 + Light Sensor</div>`;
+              <div class="metric"><label>Objective 1</label><div class="val">Focus</div></div>
+              <div class="metric"><label>Objective 2</label><div class="val good">Sleep</div></div>
+              <div class="metric"><label>Objective 3</label><div class="val warn">Relax</div></div>
+              <div class="metric"><label>Controls</label><div class="val">5 keys</div></div>
+            </div><div class="status-bar">Pomodoro · Seminar · Sleep · Alarm · Game · Music</div>`;
           status = "Nhấn [1] để chuyển sang STUDY";
           break;
         case "study_menu":
-          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Chọn module học tập:</div>
+          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Objective 1 · Hỗ trợ tập trung:</div>
             <div class="menu-item active">[2] Pomodoro Timer</div>
-            <div class="menu-item active">[3] Practice Seminar</div>
+            <div class="menu-item active">[3] Seminar Practice</div>
             <div class="status-bar">Pomodoro: ${state.studyMin}/${state.breakMin} min</div>`;
           break;
         case "pomodoro":
@@ -312,7 +318,7 @@
             <div class="status-bar">Study ${state.studyMin}m · Break ${state.breakMin}m</div>`;
           break;
         case "study_timer":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">STUDY_TIMER — chỉnh cấu hình</div>
+          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Pomodoro Config — chỉnh cấu hình</div>
             <div class="config-row ${state.configField === "study" ? "selected" : ""}"><span>Study Time</span><span>${state.studyMin} min</span></div>
             <div class="config-row ${state.configField === "break" ? "selected" : ""}"><span>Break Time</span><span>${state.breakMin} min</span></div>
             <div class="status-bar">[2] Lưu · [3] Đổi field · [4/5] ±1</div>`;
@@ -329,15 +335,15 @@
               </div><div class="status-bar">[2] Quay STUDY Menu</div>`;
           } else {
             body = `<div style="margin-bottom:10px">${state.recording ? '<span class="recording-dot"></span>REC ' + fmtTime(state.recordSec) : "⏺ Sẵn sàng ghi"}</div>
-              <div style="font-size:.65rem;color:var(--lcd-dim);line-height:1.6">1. [3] Ghi bài thuyết trình<br>2. [3] Dừng ghi<br>3. [4] Gửi AI đánh giá</div>
-              <div class="status-bar">INMP441 → Upload → AI Server</div>`;
+            <div style="font-size:.65rem;color:var(--lcd-dim);line-height:1.6">1. [3] Bắt đầu trình bày<br>2. [3] Kết thúc trình bày<br>3. [4] Xem đánh giá</div>
+              <div class="status-bar">Đo thời lượng · đánh giá cơ bản</div>`;
           }
           break;
         case "sleep_menu":
-          body = `<div style="margin-bottom:8px;font-size:.65rem;color:var(--lcd-dim)">Sleep Assistant</div>
-            <div class="menu-item active">[2] Start Sleep Monitoring</div>
-            <div class="menu-item active">[3] Sleep Settings</div>
-            <div class="menu-item active">[4] Sleep Timer Config</div>
+          body = `<div style="margin-bottom:8px;font-size:.65rem;color:var(--lcd-dim)">Objective 2 · Hỗ trợ giấc ngủ</div>
+            <div class="menu-item active">[2] Theo dõi giấc ngủ</div>
+            <div class="menu-item active">[3] Cài đặt báo thức</div>
+            <div class="menu-item active">[4] Cấu hình thời lượng ngủ</div>
             <div class="status-bar">Duration: ${state.sleepDurationH}h · Alarm: ${state.alarmEnabled ? state.alarmTime : "OFF"}</div>`;
           break;
         case "start_sleep":
@@ -347,28 +353,28 @@
               <div class="metric"><label>Light</label><div class="val">${state.lightLevel} lux</div></div>
             </div>
             <div style="text-align:center;margin-top:12px;font-size:1.1rem;color:var(--lcd-accent)">${fmtElapsed(state.sleepElapsed)}</div>
-            <div class="status-bar">Upload batch mỗi 240s · [2] Stop</div>`;
+            <div class="status-bar">Ghi nhận thời gian ngủ · [2] Stop</div>`;
           break;
         case "sleep_score":
           body = `<div style="color:var(--lcd-accent);margin-bottom:10px">Sleep Quality Report</div>
             <div style="text-align:center;font-size:2rem;color:var(--lcd-good);margin:10px 0">${state.sleepScore}/100</div>
-            <div style="font-size:.65rem;color:var(--lcd-dim);text-align:center">Duration · Light · Sound analysis</div>
+            <div style="font-size:.65rem;color:var(--lcd-dim);text-align:center">Đánh giá dựa trên thời lượng và môi trường nghỉ ngơi</div>
             <div class="status-bar">[2] Xác nhận → SLEEP Menu</div>`;
           break;
         case "sleep_settings":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Sleep Settings</div>
+          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Alarm Settings</div>
             <div class="config-row"><span>Alarm</span><span class="${state.alarmEnabled ? "good" : ""}">${state.alarmEnabled ? "ON " + state.alarmTime : "OFF"}</span></div>
             <div class="config-row"><span>Target Duration</span><span>${state.sleepDurationH} hours</span></div>
-            <div class="status-bar">[3] Toggle alarm · [4] Timer config · [2] Save</div>`;
+            <div class="status-bar">[3] Bật/tắt báo thức · [4] chỉnh giờ · [2] lưu</div>`;
           break;
         case "sleep_timer":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">SLEEP_TIMER Config</div>
+          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Sleep Duration / Alarm Config</div>
             <div class="config-row ${state.sleepConfigField === "duration" ? "selected" : ""}"><span>Sleep Duration</span><span>${state.sleepDurationH} h</span></div>
             <div class="config-row ${state.sleepConfigField === "alarm" ? "selected" : ""}"><span>Alarm Hour</span><span>${state.alarmTime}</span></div>
             <div class="status-bar">[2] Lưu · [3] Đổi field · [4/5] ±</div>`;
           break;
         case "relax_menu":
-          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Giải trí:</div>
+          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Objective 3 · Giải trí và trang trí:</div>
             <div class="menu-item active">[2] Flappy Bird</div>
             <div class="menu-item active">[3] Music Player</div>`;
           break;
@@ -376,7 +382,7 @@
           body = state.flappyGameOver
             ? `<div style="text-align:center;color:var(--lcd-bad);margin:20px 0">GAME OVER</div>
                <div style="text-align:center;font-size:1.5rem;color:var(--lcd-accent)">Score: ${state.flappyScore}</div>
-               <div class="status-bar">Score → Firebase · [2] Thoát</div>`
+               <div class="status-bar">[2] Thoát về RELAX Menu</div>`
             : `<div class="game-area">
                  <div class="bird" style="top:${state.flappyY}px"></div>
                  <div class="pipe" style="left:${state.pipeX}px;top:0;height:50px"></div>
@@ -396,6 +402,25 @@
         <div class="screen-body">${body}</div>${status ? `<div class="status-bar">${status}</div>` : ""}`;
     }
 
+    function currentObjective() {
+      if (state.mode === "STUDY") return "focus";
+      if (state.mode === "SLEEP") return "sleep";
+      if (state.mode === "RELAX") return "relax";
+      return "home";
+    }
+
+    function renderObjectiveMap() {
+      const active = currentObjective();
+      const items = [
+        { id: "focus", title: "Objective 1", text: "Pomodoro Timer · Seminar Practice" },
+        { id: "sleep", title: "Objective 2", text: "Theo dõi giấc ngủ · Báo thức" },
+        { id: "relax", title: "Objective 3", text: "Flappy Bird · Music Player" },
+      ];
+      document.getElementById("objectiveMap").innerHTML = items.map(item =>
+        `<div class="objective-card ${active === item.id ? "active" : ""}"><strong>${item.title}</strong>${item.text}</div>`
+      ).join("");
+    }
+
     function renderHints() {
       const meta = SCREEN_META[state.screen] || SCREEN_META.home;
       document.getElementById("breadcrumb").textContent = meta.breadcrumb;
@@ -404,7 +429,7 @@
       ).join("");
     }
 
-    function render() { renderTFT(); renderHints(); }
+    function render() { renderTFT(); renderObjectiveMap(); renderHints(); }
 
     function handleKey(key) {
       if (state.loading) return;
@@ -436,7 +461,7 @@
           if (k === "4" && !state.recording && state.recordSec > 0) {
             showLoading(1200, () => {
               state.seminarResult = { clarity: 78 + Math.floor(Math.random() * 15), speed: 110 + Math.floor(Math.random() * 30), noise: 38 + Math.floor(Math.random() * 10), confidence: 72 + Math.floor(Math.random() * 20) };
-              toast("AI evaluation complete");
+              toast("Đã tạo đánh giá luyện tập");
             }); return;
           }
           if (k === "4" && state.recordSec === 0) toast("Cần ghi âm trước khi đánh giá");
@@ -449,7 +474,7 @@
         case "start_sleep":
           if (k === "2") {
             state.monitoring = false;
-            showLoading(1500, () => { state.sleepScore = 65 + Math.floor(Math.random() * 28); state.screen = "sleep_score"; toast("Sleep analysis complete"); });
+            showLoading(1500, () => { state.sleepScore = 65 + Math.floor(Math.random() * 28); state.screen = "sleep_score"; toast("Đã tạo báo cáo giấc ngủ"); });
             return;
           }
           break;
@@ -478,7 +503,7 @@
           if (k === "3") { state.screen = "music"; state.playing = false; }
           break;
         case "flappy":
-          if (k === "2") { if (state.flappyGameOver) log("Score uploaded → Firebase"); state.screen = "relax_menu"; }
+          if (k === "2") { if (state.flappyGameOver) log(`Flappy score saved locally: ${state.flappyScore}`); state.screen = "relax_menu"; }
           if (k === "3" && !state.flappyGameOver) { state.flappyVel = -6; state.flappyScore++; }
           break;
         case "music":
@@ -496,8 +521,8 @@
         state.timerSec--;
         if (state.timerSec === 0) {
           state.timerRunning = false;
-          toast("🔔 Beep ×3 — Session logged to Firebase");
-          log(`Pomodoro ${state.timerPhase} complete → Firebase`);
+          toast("🔔 Beep ×3 — Hoàn thành phiên Pomodoro");
+          log(`Pomodoro ${state.timerPhase} complete`);
           state.timerPhase = state.timerPhase === "study" ? "break" : "study";
           resetPomodoroTimer();
         }
@@ -505,7 +530,7 @@
       if (state.screen === "seminar" && state.recording) state.recordSec++;
       if (state.screen === "start_sleep" && state.monitoring) {
         state.sleepElapsed++;
-        if (state.sleepElapsed > 0 && state.sleepElapsed % 240 === 0) log("Sleep batch upload → Firebase (240s)");
+        if (state.sleepElapsed > 0 && state.sleepElapsed % 240 === 0) log("Sleep monitoring checkpoint (240s)");
       }
       if (state.screen === "flappy" && !state.flappyGameOver) {
         state.flappyVel += 0.4;
