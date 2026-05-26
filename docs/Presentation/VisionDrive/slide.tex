@@ -1,0 +1,310 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese,english]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{xcolor}
+\usepackage{ragged2e}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+\definecolor{driveblue}{HTML}{1D4ED8}
+\definecolor{driveorange}{HTML}{F97316}
+\definecolor{drivegreen}{HTML}{16A34A}
+\definecolor{drivedark}{HTML}{111827}
+
+\setbeamercolor{structure}{fg=driveblue}
+\setbeamercolor{frametitle}{fg=white,bg=driveblue}
+\setbeamercolor{title}{fg=white,bg=driveblue}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{driveblue}$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{driveorange}$\bullet$}
+
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+\title[VisionDriveAI]{VisionDriveAI}
+\subtitle{AIoT Distraction Detection System for Urban Motorbikes}
+\author{Trần Hải Đức \and Nguyễn Trọng Tài \and Nguyễn Công Chiến \and Nguyễn Tấn Thắng}
+\institute{Faculty of Information Technology \\ University of Science}
+\date{May 26, 2026}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+  \vspace{-0.4cm}
+  \begin{center}
+    \textbf{Tập trung hơn, lái xe an toàn hơn.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Agenda}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{enumerate}
+      \item Problem and Market Context
+      \item Product Vision
+      \item Architecture
+      \item Hardware Prototype
+    \end{enumerate}
+    \column{0.5\textwidth}
+    \begin{enumerate}
+      \setcounter{enumi}{4}
+      \item Objectives and Use Cases
+      \item User Flow
+      \item Business Value
+      \item Roadmap
+    \end{enumerate}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Problem}
+  \begin{block}{Motorbike riders need real-time attention support}
+    In urban traffic, distraction can happen in seconds: drowsiness, looking away, phone usage, unstable handlebar motion.
+  \end{block}
+  \begin{itemize}
+    \item Motorbikes are common in Vietnam, but driver monitoring systems mostly target cars.
+    \item Smartphone safety apps can track routes, but phones themselves can cause distraction.
+    \item Dashcams record incidents, but often do not prevent them in real time.
+    \item Riders need a low-cost, edge-first system with immediate feedback.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Product Vision}
+  \begin{columns}
+    \column{0.58\textwidth}
+    \textbf{VisionDriveAI} is an AIoT safety assistant for urban motorbike riders.
+    \vspace{0.3cm}
+    \begin{itemize}
+      \item Detect drowsiness, gaze deviation, and phone holding.
+      \item Combine camera and IMU for stronger context.
+      \item Alert locally through vibration, buzzer, and LED.
+      \item Log trips and personalize model behavior over time.
+    \end{itemize}
+    \column{0.38\textwidth}
+    \begin{tikzpicture}
+      \draw[driveblue, line width=1.4pt, rounded corners=8pt, fill=blue!4] (0,0) rectangle (4.2,3.1);
+      \node[driveblue, font=\Large\bfseries] at (2.1,2.45) {VisionDriveAI};
+      \node[align=center] at (2.1,1.55) {Camera + IMU\\Edge AI\\Realtime Alert};
+      \node[drivegreen, font=\small\bfseries] at (2.1,0.45) {Urban Motorbike Safety};
+    \end{tikzpicture}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Architecture}
+  \begin{figure}
+  \centering
+  \begin{tikzpicture}[
+      node distance=1.0cm,
+      box/.style={draw, rounded corners, minimum width=2.7cm, minimum height=0.75cm, align=center, font=\small},
+      arrow/.style={-{Latex}, thick}
+    ]
+    \node[box] (rider) {Rider};
+    \node[box, right=1.4cm of rider] (edge) {Edge Device\\ESP32-S3};
+    \node[box, above=0.75cm of edge] (cam) {ESP32-CAM};
+    \node[box, below=0.75cm of edge] (imu) {MPU-6050};
+    \node[box, right=1.4cm of edge] (alert) {Vibration\\Buzzer + LED};
+    \node[box, right=1.4cm of alert] (app) {Mobile App};
+    \node[box, right=1.4cm of app] (server) {Server\\Pattern AI};
+
+    \draw[arrow] (rider) -- (edge);
+    \draw[arrow] (cam) -- (edge);
+    \draw[arrow] (imu) -- (edge);
+    \draw[arrow] (edge) -- (alert);
+    \draw[arrow] (alert) -- (rider);
+    \draw[<->, thick] (edge) -- (app);
+    \draw[<->, thick] (app) -- (server);
+  \end{tikzpicture}
+  \caption{Edge-Mobile-Server Architecture}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Hardware Prototype}
+  \small
+  \begin{tabularx}{\textwidth}{@{}lLr@{}}
+    \toprule
+    \textbf{Component} & \textbf{Role} & \textbf{Estimated Price} \\
+    \midrule
+    ESP32-S3 & Edge inference, Wi-Fi/BLE, sensor fusion & 150k \\
+    ESP32-CAM & Face, gaze, and hand/phone detection & 80k \\
+    MPU-6050 & Handlebar motion, braking, instability sensing & 30k \\
+    Vibration Motor & First-level haptic warning on handlebar & 20k \\
+    Buzzer + LED RGB & Escalated audio/visual alert & 15k \\
+    LiPo + charging module & Independent prototype power & 80k \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.35cm}
+  \begin{block}{Prototype cost}
+    Total estimated hardware cost: \textbf{approximately 375,000 VND}
+  \end{block}
+\end{frame}
+
+\begin{frame}{3 Objectives}
+  \begin{columns}
+    \column{0.33\textwidth}
+    \begin{block}{Objective 1}
+      \textbf{Detect}
+      \begin{itemize}
+        \item Drowsiness
+        \item Gaze deviation
+        \item Phone holding
+      \end{itemize}
+    \end{block}
+    \column{0.33\textwidth}
+    \begin{block}{Objective 2}
+      \textbf{Alert}
+      \begin{itemize}
+        \item 3-level alert
+        \item App notification
+        \item AI pattern
+      \end{itemize}
+    \end{block}
+    \column{0.33\textwidth}
+    \begin{block}{Objective 3}
+      \textbf{Improve}
+      \begin{itemize}
+        \item Safety Score
+        \item Trends
+        \item Personalization
+      \end{itemize}
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Overall Use Cases}
+  \small
+  \begin{tabularx}{\textwidth}{@{}lLcc@{}}
+    \toprule
+    \textbf{Objective} & \textbf{Use Case} & \textbf{AI} & \textbf{Core Value} \\
+    \midrule
+    Detect & Drowsiness and gaze deviation & Yes & Early attention risk detection \\
+    Detect & Phone holding while riding & Yes & Reduce phone-related distraction \\
+    Alert & Three-level escalation alert & No & Immediate local feedback \\
+    Alert & Realtime notification and pattern AI & Yes & Long-term risk insight \\
+    Improve & Trip Safety Score & No & Behavior feedback after ride \\
+    Improve & Personalized driver model & Yes & Fewer false positives \\
+    \bottomrule
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{Objective 1: Real-Time Detection}
+  \begin{columns}
+    \column{0.48\textwidth}
+    \begin{block}{Drowsiness + Gaze}
+      \begin{itemize}
+        \item Eye closure over threshold.
+        \item Head nodding down.
+        \item Looking away continuously.
+      \end{itemize}
+    \end{block}
+    \column{0.48\textwidth}
+    \begin{block}{Phone Holding}
+      \begin{itemize}
+        \item Detect hand-phone posture.
+        \item Combine IMU to reduce false positives.
+        \item Prioritize moving vehicle context.
+      \end{itemize}
+    \end{block}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{center}
+    \textbf{Target latency: under 500ms on edge device}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Objective 2: Alert and App Feedback}
+  \begin{columns}
+    \column{0.48\textwidth}
+    \textbf{3-level escalation}
+    \begin{enumerate}
+      \item Light handlebar vibration.
+      \item Strong vibration + short buzzer beep.
+      \item Continuous buzzer + red LED.
+    \end{enumerate}
+    \column{0.48\textwidth}
+    \textbf{App and AI pattern}
+    \begin{itemize}
+      \item Log event timestamp and type.
+      \item Push notification for severe events.
+      \item Detect risky time/route patterns.
+      \item Adjust sensitivity over time.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Objective 3: Trip Analytics}
+  \begin{block}{Safety Score 0--100}
+    After each trip, the app summarizes distraction events, eye-closure duration, phone holding, hard braking, and alert frequency.
+  \end{block}
+  \begin{itemize}
+    \item Weekly/monthly trend dashboard.
+    \item Clear behavior feedback for riders.
+    \item Personalized baseline after 1--2 weeks of data.
+    \item Lower false positives compared with fixed thresholds.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{User Flow}
+  \begin{center}
+    \Large
+    Mount Device $\rightarrow$ Pair App $\rightarrow$ Start Trip $\rightarrow$ Detect + Alert $\rightarrow$ Safety Score
+  \end{center}
+  \vspace{0.4cm}
+  \begin{itemize}
+    \item Edge Device can alert without Internet.
+    \item App enables logs, push notifications, and trip dashboard.
+    \item Server enables pattern analysis and personalization.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Business Value}
+  \begin{itemize}
+    \item \textbf{Safety:} detects risky behavior before it becomes an incident.
+    \item \textbf{Affordability:} prototype under 400k VND component cost.
+    \item \textbf{Local relevance:} designed for Vietnam's motorbike-heavy urban traffic.
+    \item \textbf{Scalability:} useful for families, delivery riders, and small fleets.
+    \item \textbf{Data advantage:} long-term patterns can guide safer habits.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Limitations and Roadmap}
+  \begin{columns}
+    \column{0.48\textwidth}
+    \textbf{Limitations}
+    \begin{itemize}
+      \item Low light and rain affect camera.
+      \item Edge AI has memory/compute limits.
+      \item Privacy needs careful handling.
+      \item Real-road calibration is required.
+    \end{itemize}
+    \column{0.48\textwidth}
+    \textbf{Roadmap}
+    \begin{itemize}
+      \item Robust enclosure and mounting.
+      \item Better sensor fusion.
+      \item Face/hand model optimization.
+      \item Map-based risk hotspot analytics.
+      \item Personalized driver profiles.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \Huge Thank You
+    \vspace{0.6cm}
+
+    \Large VisionDriveAI
+    \vspace{0.2cm}
+
+    \normalsize Tập trung hơn, lái xe an toàn hơn.
+  \end{center}
+\end{frame}
+
+\end{document}
