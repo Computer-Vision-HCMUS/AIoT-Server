@@ -176,4 +176,4 @@ Method:
 - Kết quả phân loại được dùng để điều khiển servo.
 
 Kết luận của tôi:
-    near-real_time được đánhh giá là không nặng lắm, nhưng có cài được trên esp8266 không thì phải tìm hiểu tiếp, việc nó nhanh hay chậm có vẻ là vì Edge Impulse, tôi kêu chatgpt liệt kê phương pháp thay thế cho edge impulse với quy mô nhỏ hơn thì chỉ có decision tree là được thôi.
+    near-real_time được đánhh giá là không nặng lắm, nhưng có cài được trên esp8266 thỏa ý Đức không thì phải tìm hiểu tiếp, việc nó nhanh hay chậm có vẻ là vì Edge Impulse, tôi kêu chatgpt liệt kê phương pháp thay thế cho edge impulse với quy mô nhỏ hơn thì chỉ có decision tree là được thôi.
