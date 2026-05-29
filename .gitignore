@@ -4,7 +4,11 @@
 *.env
 aiot.db
 *.db
+*.db*
 *.db-journal
+
+.secrets/
+*.secret
 
 __pycache__/
 *.py[cod]
