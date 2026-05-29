@@ -95,20 +95,23 @@ flowchart LR
 
 VisionDriveAI sử dụng các linh kiện phổ biến, phù hợp prototype chi phí thấp và dễ mua trên các nền tảng linh kiện điện tử.
 
-| Component | Quantity | Purpose | Estimated Price (VND) |
-| --------- | -------- | ------- | --------------------- |
-| ESP32-S3 | 1 | Xử lý Edge AI, Sensor Fusion, Wi-Fi/BLE và điều khiển cảnh báo | 150,000 |
-| ESP32-CAM | 1 | Camera nhận diện khuôn mặt, hướng nhìn và tư thế tay | 80,000 |
-| MPU-6050 | 1 | Gia tốc kế và con quay hồi chuyển để phân tích chuyển động tay lái | 30,000 |
-| Vibration Motor DC | 1 | Tạo rung ở ghi đông để cảnh báo mức nhẹ | 20,000 |
-| Buzzer + LED RGB | 1 set | Còi và đèn cảnh báo theo nhiều mức nguy hiểm | 15,000 |
-| LiPo Battery 3.7V + Charging Module | 1 | Nguồn độc lập cho prototype | 80,000 |
+| Component | Quantity | Availability | Interface | Purpose | Estimated Price (VND) |
+| --------- | -------- | ------------ | --------- | ------- | --------------------- |
+| ESP32-S3 DevKitC-1 (N8R8 hoặc N16R8) | 1 | Mua thêm | Wi-Fi, BLE, SPI, I2C | Edge AI inference, Sensor Fusion và upload log lên app/server | 150,000 - 220,000 |
+| ESP32-CAM (OV2640 2MP) Ai-Thinker | 1 | Mua thêm | UART / Wi-Fi LAN | Camera nhận diện khuôn mặt, hướng nhìn, tay và điện thoại | 225,000 |
+| MPU-6050 GY-521 (Accel + Gyro 6DOF) | 1 | Mua thêm | I2C | Phân tích chuyển động tay lái, loại false positive khi xe dừng và phát hiện phanh gấp | 30,000 |
+| Vibration Motor DC coin 10mm | 1 | Mua thêm | GPIO PWM qua NPN | Cảnh báo mức 1 bằng rung tay lái | 20,000 |
+| Buzzer passive 5V | 1 | Mua thêm | GPIO PWM | Cảnh báo mức 2 bằng beep ngắn và mức 3 bằng còi liên tục | 8,000 |
+| LED RGB common cathode | 1 | Mua thêm | GPIO PWM x3 | Cảnh báo mức 3 bằng LED đỏ nháy | 5,000 |
+| Pin LiPo 3.7V 2000mAh + TP4056 + MT3608 | 1 | Mua thêm | Power | Nguồn độc lập cho toàn hệ thống | 80,000 |
+| Transistor NPN 2N2222/BC547 | 3 | Mua thêm | Driver | Driver cho motor rung và buzzer, bảo vệ GPIO ESP32 | 5,000 |
+| INMP441 Microphone | 1 | Có sẵn, tùy chọn | I2S | Đo noise level môi trường nếu mở rộng tính năng | 40,000 - 55,000 |
 
 ### Estimated Total Cost
 
 | Cost Type | Estimated Range |
 | --------- | --------------- |
-| Prototype cost | Approximately 375,000 VND |
+| Required additional components | Approximately 518,000 VND |
 
 Giá trên là ước lượng cho phiên bản prototype. Chi phí thực tế có thể thay đổi theo nhà cung cấp, chất lượng linh kiện, loại module và phương án vỏ/lắp đặt.
 

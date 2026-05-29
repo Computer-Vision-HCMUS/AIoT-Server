@@ -104,24 +104,24 @@ flowchart LR
 
 SmartClock sử dụng các thành phần phần cứng phổ biến, chi phí tương đối thấp và dễ tìm trên thị trường linh kiện điện tử. Bảng dưới đây mô tả các thành phần chính và giá ước lượng.
 
-| Component | Quantity | Purpose | Estimated Price (VND) |
-| --------- | -------- | ------- | --------------------- |
-| ESP32-6288 | 1 | Vi điều khiển chính, xử lý logic, kết nối Wi-Fi và điều khiển các module ngoại vi | 180,000 - 250,000 |
-| TFT Display | 1 | Hiển thị giao diện, menu, timer, báo cáo giấc ngủ, game và trình phát nhạc | 120,000 - 220,000 |
-| Button | 5 | Điều hướng menu và thao tác với các chức năng của SmartClock | 10,000 - 25,000 |
-| Light Sensor | 1 | Ghi nhận cường độ ánh sáng môi trường để hỗ trợ theo dõi điều kiện nghỉ ngơi | 15,000 - 35,000 |
-| INMP441 Microphone | 1 | Ghi nhận âm thanh môi trường hoặc dữ liệu âm thanh phục vụ Seminar Practice | 45,000 - 80,000 |
-| Breadboard / PCB Prototype | 1 | Kết nối và cố định các linh kiện trong giai đoạn thử nghiệm | 30,000 - 80,000 |
-| Jumper Wires | 1 set | Kết nối tín hiệu giữa ESP32-6288 và các module | 15,000 - 30,000 |
-| USB Cable / Power Cable | 1 | Cấp nguồn và nạp chương trình cho thiết bị | 20,000 - 50,000 |
-| Case / Enclosure | 1 | Bảo vệ linh kiện và tạo hình dáng sản phẩm | 50,000 - 150,000 |
+| Component | Quantity | Availability | Interface | Purpose | Estimated Price (VND) |
+| --------- | -------- | ------------ | --------- | ------- | --------------------- |
+| ESP32-S3 DevKitC-1 (N8R8) | 1 | Mua thêm | Wi-Fi, I2S, SPI, I2C | MCU chính, TinyML/Edge AI, đồng bộ Firebase và điều phối các module I2S/SPI | 150,000 - 220,000 |
+| TFT LCD 2.4" ILI9341 | 1 | Có sẵn | SPI | Hiển thị toàn bộ UI cho HOME, STUDY, SLEEP và RELAX | 80,000 - 120,000 |
+| INMP441 MEMS Microphone | 1 | Có sẵn | I2S | Đo âm thanh môi trường, ghi âm Seminar Practice và theo dõi noise khi ngủ | 40,000 - 55,000 |
+| Cảm biến ánh sáng BH1750 | 1 | Có sẵn | I2C hoặc ADC | Đo light level/quality và kiểm tra phòng tối trước khi ngủ | 15,000 - 30,000 |
+| Nút nhấn tactile 12x12mm | 5 | Có sẵn 3 nút, mua thêm 2 nút | GPIO Digital | Điều hướng toàn bộ state machine và cấu hình các chức năng | 5,000/nút; mua thêm khoảng 10,000 |
+| Buzzer passive 5V | 1 | Mua thêm | GPIO PWM | Báo Pomodoro, báo thức Sleep và âm thanh game | 8,000 |
+| MAX98357A I2S Amp + Loa 0.5W | 1 set | Mua thêm | I2S | Phát nhạc MP3/WAV trong RELAX Music Player | 35,000 - 60,000 |
+| DS3231 RTC Module (kèm pin) | 1 | Mua thêm | I2C | Kích hoạt báo thức, timestamp Pomodoro và đồng bộ thời gian | 35,000 |
+| MicroSD Card Module | 1 | Mua thêm | SPI | Lưu file nhạc MP3/WAV cho Music Player | 25,000 |
+| Pin LiPo 3.7V 1000mAh + TP4056 | 1 | Mua thêm | Power | Nguồn di động tùy chọn cho toàn thiết bị | 60,000 |
 
 ### Estimated Total Cost
 
 | Cost Type | Estimated Range |
 | --------- | --------------- |
-| Minimum prototype cost | 485,000 VND |
-| Maximum prototype cost | 920,000 VND |
+| Required additional components | Approximately 418,000 VND |
 
 Giá trên chỉ mang tính ước lượng cho phiên bản prototype. Chi phí thực tế có thể thay đổi tùy theo nhà cung cấp, chất lượng linh kiện, kích thước màn hình TFT, loại vỏ thiết bị và số lượng sản xuất.
 
