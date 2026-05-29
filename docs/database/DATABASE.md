@@ -21,13 +21,6 @@ FastAPI Server
 Database
 ```
 
-Database có thể là một trong hai hướng:
-
-- **SQLite local**: file `aiot.db`, tiện cho mock test nhanh trên máy.
-- **PostgreSQL/Supabase**: database server thật, xem được bằng pgAdmin hoặc Supabase Table Editor.
-
-Điểm dễ nhầm: nếu `.env` đang là `DATABASE_URL=sqlite:///./aiot.db`, thì dữ liệu nằm trong file SQLite, **pgAdmin sẽ không thấy bảng nào** vì pgAdmin chỉ nhìn PostgreSQL.
-
 ## 2. Server structure
 
 Các file server chính:
@@ -68,28 +61,6 @@ Các endpoint chính:
 | `POST /visiondrive/trips/{id}/distraction-events` | Ghi event mất tập trung |
 | `POST /visiondrive/trips/{id}/end` | Kết thúc trip |
 
-## 3. Schema là gì?
-
-**Schema** là bản thiết kế database:
-
-- Có bảng nào.
-- Mỗi bảng có cột nào.
-- Kiểu dữ liệu từng cột.
-- Quan hệ giữa bảng.
-- Unique, foreign key, index.
-
-Trong project này, schema được mô tả bằng SQLAlchemy models trong `app/models`.
-
-## 4. Migration là gì?
-
-**Migration** là lịch sử thay đổi schema theo từng bước.
-
-Ví dụ:
-
-- Migration đầu tiên tạo bảng `devices`, `sleep_sessions`, `trips`.
-- Migration sau thêm bảng `sleep_quality_reports`.
-
-Project dùng **Alembic** để chạy migration. Không dùng `Base.metadata.create_all()` trong startup nữa, vì server không nên âm thầm sửa database khi khởi động.
 
 Các file Alembic:
 
@@ -381,8 +352,6 @@ Authorization: Bearer dev-smartclock-token
 
 ## 12. Setup PostgreSQL để xem trong pgAdmin
 
-Nếu bạn muốn pgAdmin có bảng, phải chạy project bằng PostgreSQL thay vì SQLite.
-
 Bước chuẩn:
 
 1. Tạo database trong PostgreSQL, ví dụ `aiot_db`.
@@ -430,23 +399,6 @@ Nếu không thấy bảng:
 - Kiểm tra `.env` có thật sự dùng PostgreSQL chưa.
 - Chạy `alembic current`, nếu không hiện revision `bc260fe3aabc` thì migration chưa chạy vào database đó.
 
-## 13. Vì sao pgAdmin hiện chưa có bảng?
-
-Trong tình trạng hiện tại của project:
-
-```env
-DATABASE_URL=sqlite:///./aiot.db
-MIGRATION_DATABASE_URL=sqlite:///./aiot.db
-```
-
-Nghĩa là:
-
-- `alembic upgrade head` tạo bảng trong `aiot.db`.
-- `python -m app.seed` insert mock data vào `aiot.db`.
-- `uvicorn app.main:app --reload` đọc dữ liệu từ `aiot.db`.
-- pgAdmin đang nhìn PostgreSQL, nên không thấy bảng.
-
-Đây không phải lỗi server. Đây là hai database khác nhau.
 
 ## 14. Quy tắc làm việc
 
