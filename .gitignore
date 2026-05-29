@@ -1,1 +1,10 @@
 *.zip
+
+.env
+*.env
+aiot.db
+*.db
+*.db-journal
+
+__pycache__/
+*.py[cod]
