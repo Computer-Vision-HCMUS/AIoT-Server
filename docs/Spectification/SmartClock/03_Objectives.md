@@ -208,6 +208,8 @@ flowchart LR
 
 SmartClock có thể hỗ trợ người dùng quan sát thói quen ngủ thông qua việc ghi nhận thời gian đi ngủ, thời gian thức dậy và tổng thời lượng nghỉ ngơi. Dựa trên dữ liệu được ghi nhận, hệ thống hiển thị đánh giá cơ bản để người dùng nhận biết xu hướng giấc ngủ của mình theo từng ngày.
 
+Đây là một tính năng Edge AI của SmartClock. Thiết bị có thể sử dụng một kỹ thuật Machine Learning để xây dựng mô hình đánh giá chất lượng ngủ ngay trên edge device hoặc kết hợp với server khi cần đồng bộ. Input của mô hình bao gồm thời gian ngủ, chất lượng ánh sáng theo thời gian, chất lượng môi trường ngủ theo thời gian, chất lượng âm thanh theo thời gian và các dữ liệu cảm biến liên quan khác. Output của mô hình là điểm số đánh giá chất lượng ngủ, nhận định giấc ngủ có tốt hay không, phân tích nguyên nhân khiến người dùng ngủ không ngon như phòng quá sáng, môi trường quá ồn hoặc thời lượng ngủ chưa phù hợp, đồng thời đưa ra gợi ý cải thiện cho các lần ngủ tiếp theo.
+
 Tính năng này hướng đến việc giúp người dùng hình thành thói quen ngủ lành mạnh hơn, đồng thời tạo nền tảng để mở rộng các chức năng AIoT như phân tích môi trường phòng ngủ, nhắc nhở giờ đi ngủ hoặc đề xuất lịch nghỉ ngơi phù hợp.
 
 ### Main Features
