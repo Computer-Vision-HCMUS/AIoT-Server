@@ -177,3 +177,55 @@ Method:
 
 Kết luận của tôi:
     near-real_time được đánhh giá là không nặng lắm, nhưng có cài được trên esp8266 thỏa ý Đức không thì phải tìm hiểu tiếp, việc nó nhanh hay chậm có vẻ là vì Edge Impulse, tôi kêu chatgpt liệt kê phương pháp thay thế cho edge impulse với quy mô nhỏ hơn thì chỉ có decision tree là được thôi.
+
+Về phần data:
+
+
+
+kết luận có cái này là hợp nhất: https://www.kaggle.com/datasets/karthikiye/wearable-tech-sleep-quality
+
+bao gồm:
+    Heart Rate: nhịp tim.
+    Body Temperature: nhiệt độ cơ thể.
+    Room Temperature: nhiệt độ phòng.
+    Humidity: độ ẩm.
+    Sleep Stage: giai đoạn giấc ngủ.
+        Biến Sleep Stage là biến phân loại, gồm 4 nhãn:
+        Awake: trạng thái thức.
+        Light: giấc ngủ nông.
+        Deep: giấc ngủ sâu.
+        REM: giai đoạn ngủ chuyển động mắt nhanh.
+
+Tôi tự viết báo cáo văn phong lủng củng nên nhờ AI viết lại như sau:
+
+
+Về mặt trình bày, nên bắt đầu bằng phần dataset, vì chính bộ dữ liệu sẽ cho thấy các biến nào có thể được sử dụng làm input cho mô hình. Từ bảng mô tả dataset, ta có thể rút ra các thông tin đầu vào như nhịp tim, nhiệt độ cơ thể, nhiệt độ phòng, độ ẩm và các nhãn phân loại giấc ngủ.
+
+
+https://physionet.org/content/sleep-accel/1.0.0/
+Đối với bài báo “Sleep Pattern Analysis…” của Wen-Hsun, phần mô tả dataset chưa thật sự rõ ràng. Vì vậy, cần tìm thêm một nguồn dữ liệu tương tự nhưng có mô tả dataset cụ thể hơn để làm cơ sở trình bày. Một nguồn có thể tham khảo là dataset “Motion and heart rate from a wrist-worn wearable and labeled sleep from polysomnography” của Olivia Walch. Tuy nhiên, dataset này có vẻ không được tổ chức dưới dạng một bảng duy nhất, mà được lưu thành nhiều file riêng biệt. 
+
+Theo phần Data Description của Olivia Walch, ví dụ dữ liệu motion được lưu trong file có định dạng tên là:
+
+[subject-id-number]_acceleration.txt
+
+Mỗi dòng trong file này gồm các thông tin: thời gian tính bằng giây từ lúc bắt đầu , gia tốc theo trục x, gia tốc theo trục y và gia tốc theo trục z. Như vậy, bộ dữ liệu này mô tả khá rõ cấu trúc từng loại dữ liệu cảm biến, nhưng không  được trình bày sẵn dưới dạng một bảng tổng hợp duy nhất.
+
+Bảng này sẽ gồm các cột tương ứng với các biến đầu vào và một cột đầu ra là nhãn giấc ngủ.
+
+Tuy nhiên, dataset cần được lựa chọn sao cho tương đồng với các loại cảm biến được đề cập trong bài nghiên cứu . Nếu cần một nguồn đầy đủ hơn, có thể xem xét dữ liệu từ thiết bị DREamt, vì nguồn này có khả năng cung cấp nhiều thông tin sinh lý liên quan đến giấc ngủ.
+https://physionet.org/content/dreamt/2.0.0/
+Nhưng chưa tải được, cần xin quyền.
+
+Ngoài ra, trên Kaggle có dataset “Wearable Tech Sleep Quality” của Karthik Iyer.
+https://www.kaggle.com/datasets/karthikiye/wearable-tech-sleep-quality
+ Mặc dù độ uy tín học thuật của nguồn này chưa thật sự rõ ràng, dataset này có ưu điểm là trình bày thông tin đầu vào khá trực quan. Dataset gồm một file CSV với các cột như:
+
+Heart Rate, Body Temperature, Room Temperature, Humidity và Sleep Stage.
+
+Trong đó, Sleep Stage là biến đầu ra, dùng để phân loại trạng thái giấc ngủ, gồm các nhãn: Awake, Light, Deep và REM. Dataset nhỏ.
+
+
+
+Ngoài dataset trên, vẫn có thể tham khảo thêm các bộ dữ liệu như Sleep and Health Metrics. 
+Tuy nhiên, các bộ dữ liệu này thường tập trung vào những biến như stress level, bedtime hoặc các chỉ số sức khỏe tổng quát, chứ không trực tiếp phân loại các giai đoạn giấc ngủ như REM, Light hay Deep. Vì vậy, nếu mục tiêu là xây dựng mô hình phân loại giai đoạn giấc ngủ, cần ưu tiên các dataset có nhãn sleep stage rõ ràng.
