@@ -10,6 +10,7 @@
 \usepackage{xcolor}
 \usepackage{ragged2e}
 \usepackage{grffile}
+\usetikzlibrary{positioning}
 
 \usetheme{Madrid}
 \usecolortheme{default}
@@ -49,7 +50,7 @@
   \begin{columns}
     \column{0.48\textwidth}
     \begin{enumerate}
-      \item Problem and Opportunity
+      \item Motivation and Opportunity
       \item Product Vision
       \item Architecture and Hardware
       \item Objectives and Use Cases
@@ -57,24 +58,31 @@
     \column{0.48\textwidth}
     \begin{enumerate}
       \setcounter{enumi}{4}
+      \item AI Sleep Inference
       \item User Flow
       \item Prototype Cost
-      \item Limitations
-      \item Roadmap
+      \item Limitations and Roadmap
     \end{enumerate}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Problem}
-  \begin{block}{Modern work and study environments are noisy}
-    Người dùng dễ mất tập trung do điện thoại, mạng xã hội, thông báo và thói quen sinh hoạt thiếu ổn định.
-  \end{block}
-  \begin{itemize}
-    \item Smartphone apps tiện lợi nhưng cũng là nguồn gây xao nhãng.
-    \item Pomodoro clocks truyền thống đơn giản nhưng ít cá nhân hóa.
-    \item Smartwatches nhiều tính năng nhưng chi phí cao và vẫn gây phân tâm.
-    \item Người dùng cần một thiết bị nhỏ gọn, tối giản, hỗ trợ tập trung và nghỉ ngơi.
-  \end{itemize}
+\begin{frame}{Motivation}
+  \begin{columns}
+    \column{0.56\textwidth}
+    \begin{block}{Pomodoro plus a mini smart robot}
+      SmartClock được lấy cảm hứng từ Pomodoro: chia thời gian thành các phiên tập trung ngắn, có nghỉ ngơi rõ ràng và giảm phụ thuộc vào điện thoại.
+    \end{block}
+    \begin{itemize}
+      \item Một thiết bị để bàn nhỏ gọn giúp nhắc nhở, đồng hành và tạo cảm giác gần gũi hơn timer truyền thống.
+      \item Hình mẫu robot thông minh mini giúp sản phẩm có cá tính, dễ đặt ở góc học tập/làm việc.
+      \item AIoT mở rộng từ focus sang sleep và relax, kết nối dữ liệu cảm biến với trải nghiệm hằng ngày.
+    \end{itemize}
+    \column{0.38\textwidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{images.jpg}
+    \end{figure}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{Product Vision}
@@ -105,23 +113,37 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{Hardware Prototype}
-  \small
-  \begin{tabularx}{\textwidth}{@{}lLr@{}}
+\begin{frame}{Hardware Price Table (1/2)}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{@{}p{3.15cm}p{0.85cm}p{2.3cm}Lr@{}}
     \toprule
-    \textbf{Component} & \textbf{Purpose} & \textbf{Estimated Price} \\
+    \textbf{Component} & \textbf{Qty} & \textbf{Availability} & \textbf{Purpose} & \textbf{Price} \\
     \midrule
-    ESP32-6288 & Main controller, Wi-Fi, UI logic, sensor integration & 180k--250k \\
-    TFT Display & Menu, timer, sleep report, game, music UI & 120k--220k \\
-    5 Buttons & Physical controls without smartphone distraction & 10k--25k \\
-    Light Sensor & Environment sensing for sleep/study context & 15k--35k \\
-    INMP441 & Audio sensing for ambient sound/seminar practice & 45k--80k \\
-    Prototype parts & Wires, power cable, enclosure, breadboard/PCB & 115k--310k \\
+    ESP32-S3 DevKitC-1 (N8R8) & 1 & Mua thêm & MCU chính, TinyML/Edge AI, Firebase sync, I2S/SPI control & 150k--220k \\
+    TFT LCD 2.4'' ILI9341 & 1 & Có sẵn & UI cho HOME, STUDY, SLEEP và RELAX & 80k--120k \\
+    INMP441 MEMS Microphone & 1 & Có sẵn & Âm thanh môi trường, Seminar Practice và sleep noise & 40k--55k \\
+    Cảm biến ánh sáng BH1750 & 1 & Có sẵn & Light level/quality và kiểm tra phòng tối trước khi ngủ & 15k--30k \\
+    Nút nhấn tactile 12x12mm & 5 & Có sẵn 3, mua thêm 2 & Điều hướng state machine và cấu hình chức năng & 10k \\
     \bottomrule
   \end{tabularx}
-  \vspace{0.35cm}
-  \begin{block}{Estimated cost}
-    Prototype cost range: \textbf{485,000 -- 920,000 VND}
+\end{frame}
+
+\begin{frame}{Hardware Price Table (2/2)}
+  \scriptsize
+  \begin{tabularx}{\textwidth}{@{}p{3.15cm}p{0.85cm}p{2.3cm}Lr@{}}
+    \toprule
+    \textbf{Component} & \textbf{Qty} & \textbf{Availability} & \textbf{Purpose} & \textbf{Price} \\
+    \midrule
+    Buzzer passive 5V & 1 & Mua thêm & Báo Pomodoro, báo thức Sleep và âm thanh game & 8k \\
+    MAX98357A I2S Amp + Loa 0.5W & 1 set & Mua thêm & Phát nhạc MP3/WAV trong RELAX Music Player & 35k--60k \\
+    DS3231 RTC Module (kèm pin) & 1 & Mua thêm & Báo thức, timestamp Pomodoro và đồng bộ thời gian & 35k \\
+    MicroSD Card Module & 1 & Mua thêm & Lưu file nhạc MP3/WAV cho Music Player & 25k \\
+    Pin LiPo 3.7V 1000mAh + TP4056 & 1 & Mua thêm & Nguồn di động tùy chọn cho toàn thiết bị & 60k \\
+    \bottomrule
+  \end{tabularx}
+  \vspace{0.25cm}
+  \begin{block}{Estimated total cost}
+    Required additional components: \textbf{approximately 418,000 VND}
   \end{block}
 \end{frame}
 
@@ -171,6 +193,10 @@
       \item Seminar Practice giúp luyện trình bày và quản lý thời lượng nói.
       \item Mục tiêu là giảm phụ thuộc điện thoại trong lúc học/làm việc.
     \end{itemize}
+    \vspace{-0.15cm}
+    \begin{block}{target}
+      \scriptsize SmartClock giúp người dùng hoàn thành các phiên Pomodoro 25 phút và luyện Seminar Practice trên thiết bị vật lý, đo bằng số phiên hoàn thành và thời lượng luyện nói, khả thi với 5 nút/TFT/timer cục bộ, phù hợp mục tiêu giảm xao nhãng khi học/làm việc.
+    \end{block}
   \end{columns}
 \end{frame}
 
@@ -184,6 +210,51 @@
       \item Báo thức giúp duy trì nhịp sinh hoạt ổn định.
       \item Có thể mở rộng bằng phân tích ánh sáng/âm thanh phòng ngủ.
     \end{itemize}
+    \vspace{-0.15cm}
+    \begin{block}{target}
+      \scriptsize SmartClock ghi nhận Sleep Monitoring và Alarm Settings cho từng đêm, đo bằng thời gian ngủ/thời điểm thức/đánh giá cơ bản, khả thi với timer, cảm biến ánh sáng/âm thanh và báo thức, nhằm hỗ trợ thói quen ngủ đều hơn sau mỗi phiên ngủ.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Bài toán AI: Suy luận trạng thái REM/NREM}
+  \begin{block}{Câu hỏi bài toán}
+    Làm thế nào SmartClock có thể ước lượng trạng thái giấc ngủ REM/NREM của người dùng từ các tín hiệu gián tiếp được thu thập bởi gối thông minh, microphone, cảm biến nhiệt độ và các cảm biến môi trường trong phòng?
+  \end{block}
+  \begin{itemize}
+    \item Đầu ra: một nhãn giai đoạn giấc ngủ cho mỗi khoảng thời gian, gồm \textbf{REM} hoặc \textbf{NREM}.
+    \item Đầu vào: áp lực/tư thế từ cảm biến FSR, các lần trở mình, tiếng ngáy/tín hiệu âm thanh, nhiệt độ cơ thể và phòng, nồng độ CO\textsubscript{2}, ánh sáng và độ ẩm.
+    \item Mô-đun hỗ trợ theo dõi giấc ngủ tại nhà, nhưng không thay thế phương pháp đa ký giấc ngủ (PSG) hoặc chẩn đoán y khoa.
+    \item Nếu có dữ liệu nhịp tim, hệ thống có thể sử dụng như một tín hiệu hỗ trợ để kiểm chứng kết quả suy luận.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{AI Approach: Rule-based Sleep Stage Inference}
+  \begin{columns}
+    \column{0.42\textwidth}
+    \begin{block}{Nhóm đặc trưng}
+      \begin{itemize}
+        \item Tư thế và thay đổi áp lực
+        \item Tần suất trở mình
+        \item Mẫu tiếng ngáy/âm thanh
+        \item Nhiệt độ và ngữ cảnh phòng
+      \end{itemize}
+    \end{block}
+    \column{0.54\textwidth}
+    \begin{tikzpicture}[node distance=0.52cm]
+      \tikzstyle{stage}=[draw=smartblue, rounded corners=4pt, fill=blue!4, align=center, minimum width=4.7cm, minimum height=0.55cm]
+      \node[stage] (input) {Dữ liệu cảm biến};
+      \node[stage, below=of input] (feature) {Trích xuất đặc trưng};
+      \node[stage, below=of feature] (posture) {Tư thế / Trở mình};
+      \node[stage, below=of posture] (sound) {Âm thanh + Môi trường};
+      \node[stage, below=of sound] (rule) {Suy luận rule-based};
+      \node[stage, below=of rule, fill=green!8, draw=smartgreen] (out) {Dự đoán REM / NREM};
+      \draw[->, smartblue, thick] (input) -- (feature);
+      \draw[->, smartblue, thick] (feature) -- (posture);
+      \draw[->, smartblue, thick] (posture) -- (sound);
+      \draw[->, smartblue, thick] (sound) -- (rule);
+      \draw[->, smartgreen, thick] (rule) -- (out);
+    \end{tikzpicture}
   \end{columns}
 \end{frame}
 
@@ -197,6 +268,10 @@
       \item Music Player hỗ trợ thư giãn hoặc tạo nền tập trung.
       \item Tăng tính gần gũi và thẩm mỹ cho góc làm việc.
     \end{itemize}
+    \vspace{-0.15cm}
+    \begin{block}{target}
+      \scriptsize SmartClock cung cấp Flappy Bird và Music Player cho các phiên nghỉ 5 phút giữa Pomodoro, đo bằng lượt chơi/thời lượng nghe nhạc/số phiên nghỉ, khả thi trên TFT, nút bấm và loa, giúp hồi phục nhẹ mà không cần smartphone.
+    \end{block}
   \end{columns}
 \end{frame}
 
