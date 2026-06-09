@@ -229,3 +229,39 @@ Trong đó, Sleep Stage là biến đầu ra, dùng để phân loại trạng t
 
 Ngoài dataset trên, vẫn có thể tham khảo thêm các bộ dữ liệu như Sleep and Health Metrics. 
 Tuy nhiên, các bộ dữ liệu này thường tập trung vào những biến như stress level, bedtime hoặc các chỉ số sức khỏe tổng quát, chứ không trực tiếp phân loại các giai đoạn giấc ngủ như REM, Light hay Deep. Vì vậy, nếu mục tiêu là xây dựng mô hình phân loại giai đoạn giấc ngủ, cần ưu tiên các dataset có nhãn sleep stage rõ ràng.
+
+
+
+Research TinyML (Tiny Machine Learning – học máy siêu nhỏ), Edge Pulse.
+
+- Edge AI (Edge Artificial Intelligence – trí tuệ nhân tạo biên).
+
+- Edge Computing (điện toán biên).
+
+- Network boundary (ranh giới mạng).
+
+- Vì nếu dữ liệu nào cũng gửi lên cloud (đám mây) thì lượng dữ liệu sẽ quá nhiều, nên cần dùng Edge Computing (điện toán biên).
+
+- Dữ liệu sẽ được tính toán trước ở edge (thiết bị biên/vùng biên mạng), sau đó chỉ gửi result (kết quả) đi. Nhờ vậy có thể giảm lượng data transmitted (dữ liệu được truyền đi).
+
+- Latency (độ trễ): Edge Computing giúp giảm độ trễ trong một số tình huống cần phản hồi nhanh.
+
+- Có những tối ưu liên quan đến việc làm cho độ trễ nhỏ hơn, ví dụ như shutdown (tắt hệ thống) hoặc các hệ thống khẩn cấp. Đây là phần trả lời cho câu hỏi của Chiến.
+
+- Edge Computing cũng giúp giảm sự phụ thuộc vào network (mạng), ví dụ như trong xe tự hành. Nếu xe tự hành phải phụ thuộc quá nhiều vào mạng để gửi dữ liệu lên cloud rồi chờ kết quả trả về, hệ thống có thể bị chậm hoặc không ổn định.
+
+- Bởi vì thiết bị chỉ gửi result (kết quả) đi, nên raw data (dữ liệu thô) như hình ảnh khuôn mặt hoặc thói quen cá nhân không nhất thiết bị collect (thu thập) vào database (cơ sở dữ liệu).
+
+- Như vậy, Edge Computing giúp bảo vệ privacy (quyền riêng tư) tốt hơn.
+
+- Tóm lại, Edge Computing có lợi ở các điểm chính: bandwidth (băng thông), latency (độ trễ), energy usage (mức tiêu thụ năng lượng), reliability (độ tin cậy) và privacy (quyền riêng tư).
+
+- Edge AI (Edge Artificial Intelligence – trí tuệ nhân tạo biên).
+
+- Hai ý quan trọng liên quan đến Edge AI là network (mạng) và privacy (quyền riêng tư).
+
+- Ví dụ cho Edge AI (Edge Artificial Intelligence – trí tuệ nhân tạo biên) là home smart speaker (loa thông minh trong nhà).
+
+- Edge AI (Edge Artificial Intelligence – trí tuệ nhân tạo biên) càng ngày càng được dùng nhiều vì AI (Artificial Intelligence – trí tuệ nhân tạo) chạy trên cloud thường tốn quá nhiều bandwidth (băng thông).
+
+Ghi chú: Chỗ “Edge Pulse” có thể là “Edge Impulse”, nhưng nội dung này đang giữ đúng theo ghi chú ban đầu.
