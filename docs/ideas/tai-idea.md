@@ -264,4 +264,19 @@ Research TinyML (Tiny Machine Learning – học máy siêu nhỏ), Edge Pulse.
 
 - Edge AI (Edge Artificial Intelligence – trí tuệ nhân tạo biên) càng ngày càng được dùng nhiều vì AI (Artificial Intelligence – trí tuệ nhân tạo) chạy trên cloud thường tốn quá nhiều bandwidth (băng thông).
 
-Ghi chú: Chỗ “Edge Pulse” có thể là “Edge Impulse”, nhưng nội dung này đang giữ đúng theo ghi chú ban đầu.
+
+Chọn Edge AI device
+
+Khi chọn thiết bị cho Edge AI, trước hết cần cân nhắc theo use case. Sample rate càng cao thì thiết bị càng cần năng lực tính toán lớn hơn. Ví dụ, nếu dùng cảm biến nhiệt độ để theo dõi thời tiết thì có thể chỉ cần lấy mẫu 1 lần/giây, thậm chí 1 lần/giờ. Một số ví dụ về sample rate: temperature khoảng 1 Hz, flow rate khoảng 1000 Hz, heart rate khoảng 1000 Hz, motion khoảng 4000 Hz, còn audio có thể lên đến 200 kHz. Riêng computer vision là tác vụ rất nặng về mặt tính toán.
+
+Ngoài năng lực xử lý, cũng cần cân nhắc thêm về interface, tức khả năng kết nối với cảm biến hoặc thiết bị khác, và code portability, tức khả năng chuyển code giữa các nền tảng khác nhau. Những yếu tố này đều giúp lựa chọn nền tảng Edge AI phù hợp.
+
+Một câu hỏi khác là nên mua sẵn hay tự làm. Với các low-end microcontrollers, ví dụ như trong lò vi sóng, TV remote…, tốc độ xung nhịp thường khoảng 10–100 MHz, RAM khoảng 100 KB. Chúng không được thiết kế chuyên cho machine learning, nhưng vẫn có thể chạy các thuật toán ML đơn giản như classification hoặc anomaly detection, thậm chí một số bài toán audio đơn giản.
+
+Với high-end microcontrollers, thiết bị có thể xử lý các tác vụ nặng hơn, ví dụ image processing. Nếu làm basic object detection thì nên cân nhắc dùng loại này. Cao hơn nữa là microprocessors, thường có trong smartphone và laptop; ngoài ra còn có GPU và NPU để xử lý các tác vụ AI phức tạp hơn.
+
+Trong Edge AI lifecycle, trước hết cần xem bài toán có thật sự cần dùng AI hay không, vì đôi khi phương pháp classic/traditional lại hợp lý hơn. Sau đó cần cân nhắc scope, time, budget, khả năng connectivity như internet hoặc user’s phone, mức tiêu thụ energy.
+
+
+
+
