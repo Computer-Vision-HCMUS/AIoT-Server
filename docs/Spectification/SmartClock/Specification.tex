@@ -1,4 +1,5 @@
-﻿\documentclass[12pt,a4paper]{article}
+﻿% !TEX encoding = UTF-8 Unicode
+\documentclass[12pt,a4paper]{article}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[T5]{fontenc}
@@ -14,8 +15,6 @@
 \usepackage{float}
 \usepackage{makecell}
 \usepackage{tabularx}
-\usepackage{algpseudocode}
-\usepackage{algorithm}
 \usepackage{amsmath}
 \usepackage{caption}
 \usepackage{placeins}
@@ -38,20 +37,26 @@
 \pagenumbering{arabic}
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{SmartClock Specification}
+\fancyhead[L]{SomniLearnAI Specification}
 \fancyhead[C]{AIoT Project}
-\fancyhead[R]{SmartClock}
+\fancyhead[R]{SomniLearnAI}
 \renewcommand{\footrulewidth}{0.4pt}
-\fancyfoot[L]{University of Science}
-\fancyfoot[C]{Faculty of Information Technology}
-\fancyfoot[R]{Page \thepage}
+\fancyfoot[L]{Đại học Khoa học Tự nhiên}
+\fancyfoot[C]{Khoa Công nghệ Thông tin}
+\fancyfoot[R]{Trang \thepage}
 
-\renewcommand{\thealgorithm}{}
 \renewcommand{\arraystretch}{1.25}
 \setlength{\parindent}{1.2cm}
 \setlength{\parskip}{0.2cm}
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\specfigure}[3]{
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=#2\textwidth,height=0.58\textheight,keepaspectratio]{#1}
+    \caption{#3}
+\end{figure}
+}
 
 \titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
@@ -72,9 +77,9 @@
 
 \begin{center}
     \vspace{-1cm}
-    \textbf{\large VIETNAM NATIONAL UNIVERSITY, HO CHI MINH CITY} \\ [0.3cm]
-    \textbf{\Large UNIVERSITY OF SCIENCE} \\ [0.3cm]
-    \textit{Faculty of Information Technology} \\
+    \textbf{\large ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH} \\ [0.3cm]
+    \textbf{\Large TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN} \\ [0.3cm]
+    \textit{Khoa Công nghệ Thông tin} \\
     \vspace{1.5cm}
 
     \IfFileExists{logo.png}{
@@ -82,1105 +87,1369 @@
     }{
       \begin{tikzpicture}
         \draw[blue, line width=1.5pt, rounded corners=8pt] (0,0) rectangle (6,3);
-        \node[blue, font=\Large\bfseries] at (3,1.5) {SmartClock};
+        \node[blue, font=\Large\bfseries] at (3,1.5) {SomniLearnAI};
       \end{tikzpicture}
     } \\
     \vspace{1cm}
 
-    {\LARGE \textbf{SMARTCLOCK SPECIFICATION}} \\[0.5cm]
-    {\Large \textbf{AIoT PERSONAL ASSISTANT CLOCK}} \\[0.7cm]
-    {\Large Course: Introduction to Smart Device
-Programming} \\
+    {\LARGE \textbf{ĐẶC TẢ HỆ THỐNG SOMNILEARNAI}} \\[0.5cm]
+    {\Large \textbf{ĐỒNG HỒ THÔNG MINH AIOT HỖ TRỢ HỌC TẬP VÀ GIẤC NGỦ}} \\[0.7cm]
+    {\Large Môn học: Lập trình Thiết bị Thông minh} \\
     \vspace{1cm}
 
     \begin{flushleft}
-        \textbf{CLASS:} 23CLC02 \\[0.4cm]
-
-        \textbf{PROJECT:} SmartClock - Tập trung hơn, ngủ sâu hơn, sống thông minh hơn. \\[0.5cm]
-
-        \textbf{MEMBER INFORMATION:}
+        \textbf{LỚP:} 23CLC02 \\[0.4cm]
+        \textbf{DỰ ÁN:} SomniLearnAI --- Learn better, sleep smarter, improve with data. \\[0.5cm]
+        \textbf{THÀNH VIÊN:}
     \end{flushleft}
 
     \small
     \begin{tabularx}{\textwidth}{|c|P{3cm}|P{1.8cm}|P{2.2cm}|X|}
     \hline
-    \textbf{STT} & \textbf{Member} & \textbf{Student ID} & \textbf{Phone Number} & \textbf{Email} \\
+    \textbf{STT} & \textbf{Họ và tên} & \textbf{MSSV} & \textbf{Số điện thoại} & \textbf{Email} \\
     \hline
     1 & Trần Hải Đức & 23127173 & 0916821170 & thduc23@clc.fitus.edu.vn \\
     \hline
-    2 & Nguyễn Trọng Tài & 23127008 & 0377425510 & nttai23@clc.fitus.edu.vn  \\
+    2 & Nguyễn Trọng Tài & 23127008 & 0377425510 & nttai23@clc.fitus.edu.vn \\
     \hline
     3 & Nguyễn Công Chiến & 23127331 & 0369314655 & ncchien23@clc.fitus.edu.vn \\
     \hline
-    4 & Phạm Nguyễn Gia Bảo & 20127119 & 926127333 & pngbao20@clc.fitus.edu.vn  \\
+    4 & Phạm Nguyễn Gia Bảo & 20127119 & 0926127333 & pngbao20@clc.fitus.edu.vn \\
     \hline
     \end{tabularx}
     \normalsize
 
     \vfill
-    \textit{TP.HCM, May 26, 2026.}
+    \textit{TP.HCM, tháng 6 năm 2026.}
 \end{center}
+
+\newpage
+
+%-----------------------------------------------------------------
+\section*{Thông tin tài liệu}
+\addcontentsline{toc}{section}{Thông tin tài liệu}
+
+\begin{longtable}{|P{4.5cm}|P{9.5cm}|}
+\hline
+\textbf{Trường} & \textbf{Giá trị} \\
+\hline
+Tên sản phẩm & SomniLearnAI \\
+\hline
+Tên cũ & SmartClock \\
+\hline
+Loại tài liệu & AIoT Product Specification \\
+\hline
+Môn học & Lập trình Thiết bị Thông minh \\
+\hline
+Lớp & 23CLC02 \\
+\hline
+Phiên bản & 2.1 \\
+\hline
+Cập nhật lần cuối & 11/06/2026 \\
+\hline
+\caption{Thông tin tài liệu}
+\end{longtable}
+
+\subsection*{Lịch sử phiên bản}
+
+\begin{longtable}{|c|P{2.5cm}|P{3cm}|P{7.5cm}|}
+\hline
+\textbf{Phiên bản} & \textbf{Ngày} & \textbf{Người thực hiện} & \textbf{Mô tả} \\
+\hline
+1.0 & 26/05/2026 & Nhóm dự án & Khởi tạo đặc tả SmartClock với các mục tiêu Pomodoro, giấc ngủ và giải trí \\
+\hline
+1.1 & 05/06/2026 & Nhóm dự án & Bổ sung Edge AI cho quan sát giấc ngủ và hướng dẫn sử dụng thiết bị \\
+\hline
+2.0 & 08/06/2026 & Nhóm dự án & Đổi tên thành SomniLearnAI, cập nhật objective theo SMART và thêm dashboard quản lý phiên \\
+\hline
+2.1 & 11/06/2026 & Nhóm dự án & Bổ sung lại use case đặt báo thức trong Objective 2 \\
+\hline
+\caption{Lịch sử phiên bản}
+\end{longtable}
 
 \newpage
 \tableofcontents
 \newpage
 
-\section{Background}
+%-----------------------------------------------------------------
+\section{Bối cảnh}
 
-\subsection{Product Overview}
+\subsection{Tổng quan sản phẩm}
 
-Trong môi trường học tập và làm việc hiện đại, khả năng tập trung đang trở thành một trong những yếu tố quan trọng nhất quyết định hiệu quả công việc và chất lượng cuộc sống. Đặc biệt đối với sinh viên và nhân viên văn phòng, việc duy trì sự tập trung trong thời gian dài ngày càng khó khăn bởi sự xuất hiện liên tục của các yếu tố gây xao nhãng như điện thoại thông minh, mạng xã hội hay thông báo từ các ứng dụng.
+Trong môi trường học tập hiện đại, khả năng tập trung đang trở thành một trong những yếu tố quan trọng quyết định hiệu quả học tập, chất lượng làm việc và thói quen sinh hoạt cá nhân. Đặc biệt đối với sinh viên, việc duy trì sự tập trung trong thời gian dài ngày càng khó khăn bởi sự xuất hiện liên tục của điện thoại thông minh, mạng xã hội, tin nhắn và các nội dung gây xao nhãng.
 
-Một trong những phương pháp quản lý thời gian phổ biến và hiệu quả hiện nay là phương pháp Pomodoro \cite{pomodoro}. Phương pháp này chia thời gian làm việc thành các khoảng 25 phút tập trung và 5 phút nghỉ ngắn nhằm giúp não bộ duy trì trạng thái làm việc hiệu quả trong thời gian dài. Tuy nhiên, phần lớn các sản phẩm hiện tại chỉ dừng lại ở chức năng đếm thời gian cơ bản, thiếu khả năng cá nhân hóa trải nghiệm người dùng cũng như chưa hỗ trợ các nhu cầu khác liên quan đến học tập và sinh hoạt hằng ngày.
+Một trong những phương pháp quản lý thời gian phổ biến và hiệu quả hiện nay là phương pháp Pomodoro \cite{pomodoro}. Phương pháp này chia thời gian học hoặc làm việc thành các khoảng tập trung ngắn, thường là 25 phút tập trung và 5 phút nghỉ, nhằm giúp người dùng duy trì nhịp học ổn định hơn. Tuy nhiên, phần lớn sản phẩm Pomodoro hiện tại chỉ dừng lại ở chức năng đếm thời gian, chưa ghi nhận dữ liệu học tập dài hạn và chưa hỗ trợ các nhu cầu liên quan như luyện tập thuyết trình hoặc cải thiện giấc ngủ.
 
-Xuất phát từ ý tưởng đó, nhóm phát triển SmartClock, một thiết bị đồng hồ thông minh không chỉ hỗ trợ tập trung theo phương pháp Pomodoro mà còn được mở rộng với các tính năng hỗ trợ giấc ngủ, giải trí và trang trí không gian làm việc. SmartClock hướng đến trải nghiệm tối giản nhưng hữu ích, giúp người dùng xây dựng thói quen học tập và làm việc hiệu quả hơn.
+Xuất phát từ nhu cầu đó, nhóm phát triển \textbf{SomniLearnAI}, một thiết bị đồng hồ thông minh AIoT đặt tại bàn học hoặc phòng ngủ. Sản phẩm kết hợp giữa thiết bị Edge, cảm biến, màn hình hiển thị realtime và dashboard web để hỗ trợ 3 nhóm nhu cầu chính:
 
-Sản phẩm được định hướng là một thiết bị nhỏ gọn, thân thiện, dễ sử dụng và phù hợp với nhiều không gian cá nhân như bàn học, bàn làm việc hoặc phòng ngủ.
+\begin{itemize}
+    \item Học tập tập trung hơn theo phương pháp Pomodoro.
+    \item Luyện tập thuyết trình và nhận điểm đánh giá sau mỗi phiên.
+    \item Quan sát giấc ngủ, đặt báo thức, phát hiện tác nhân môi trường ảnh hưởng đến giấc ngủ và xem lại lịch sử trên dashboard.
+\end{itemize}
+
+SomniLearnAI không được định hướng như một thiết bị giải trí đa năng. Thay vào đó, sản phẩm tập trung vào vai trò trợ lý học tập và giấc ngủ nhỏ gọn, giúp người dùng xây dựng thói quen tốt hơn dựa trên dữ liệu.
 
 \begin{center}
-\textbf{SmartClock - Tập trung hơn, ngủ sâu hơn, sống thông minh hơn.}
+\textbf{SomniLearnAI --- Learn better, sleep smarter, improve with data.}
 \end{center}
 
-\subsection{Motivation}
+\subsection{Động lực phát triển}
 
-Động lực phát triển SmartClock không chỉ đến từ nhu cầu cải thiện hiệu quả học tập và làm việc mà còn xuất phát từ mong muốn tạo ra một sản phẩm công nghệ mang tính thực tiễn cao và có khả năng ứng dụng trong đời sống hằng ngày.
+Động lực phát triển SomniLearnAI đến từ nhu cầu tạo ra một thiết bị chuyên biệt cho học tập và sinh hoạt cá nhân, hạn chế sự phụ thuộc vào điện thoại thông minh. Người dùng có thể dùng điện thoại để đặt Pomodoro hoặc ghi chú lịch học, nhưng điện thoại cũng là nguồn gây mất tập trung lớn nhất do thông báo, mạng xã hội và các ứng dụng giải trí.
 
-Hiện nay, đa số người dùng sử dụng điện thoại thông minh để quản lý thời gian học tập hoặc đặt nhắc nhở công việc. Tuy nhiên, chính các thiết bị này lại là nguồn gây mất tập trung lớn nhất do sự xuất hiện liên tục của thông báo, mạng xã hội và các nội dung giải trí. Điều này tạo ra nhu cầu về một thiết bị chuyên biệt, tối giản và tập trung vào trải nghiệm hỗ trợ năng suất cá nhân.
+Bên cạnh đó, sinh viên thường không chỉ cần học tập trung mà còn cần luyện tập thuyết trình, trình bày seminar và duy trì giấc ngủ ổn định. Các hoạt động này có liên hệ chặt chẽ với nhau: học tập thiếu tập trung làm giảm hiệu quả ôn luyện, thuyết trình thiếu luyện tập làm giảm sự tự tin, còn giấc ngủ kém khiến khả năng tập trung ngày hôm sau suy giảm.
 
-Bên cạnh đó, xu hướng phát triển các thiết bị AIoT và Smart Home đang ngày càng phổ biến, mở ra cơ hội cho các sản phẩm thông minh có khả năng tương tác và hỗ trợ người dùng tốt hơn trong cuộc sống hằng ngày. Nhóm phát triển mong muốn tận dụng xu hướng công nghệ này để xây dựng một sản phẩm vừa có giá trị sử dụng thực tế vừa mang tính sáng tạo và hiện đại.
+SomniLearnAI được đề xuất như một thiết bị AIoT có mặt trực tiếp trong không gian học tập và nghỉ ngơi. Thiết bị hiển thị giờ hiện tại, thời gian Pomodoro, trạng thái phiên học, báo thức và môi trường phòng ngủ theo realtime. Khi có Internet, dữ liệu phiên được đồng bộ lên dashboard để người dùng xem lại số Pomodoro, điểm thuyết trình và chất lượng giấc ngủ theo ngày hoặc tháng.
 
-\subsection{Intended Audience}
+\subsection{Cảm hứng: EMO Desktop AIoT Companion}
 
-SmartClock hướng đến các nhóm người dùng có nhu cầu nâng cao khả năng tập trung và tối ưu hiệu quả sinh hoạt cá nhân, bao gồm:
+Một nguồn cảm hứng quan trọng cho SomniLearnAI là các thiết bị AIoT companion để bàn như \textbf{EMO}. EMO cho thấy một thiết bị nhỏ gọn đặt trên bàn có thể tạo cảm giác thân thiện, dễ tiếp cận và gắn bó hơn so với các ứng dụng thuần phần mềm.
+
+\specfigure{images/emo.jpg}{0.45}{EMO desktop AIoT companion}
+
+Từ góc nhìn thiết kế sản phẩm, EMO gợi ý một số hướng đáng học hỏi:
+
+\begin{itemize}
+    \item \textbf{Hiện diện vật lý trên bàn học:} thiết bị luôn nằm trong tầm nhìn của người dùng mà không cần mở điện thoại.
+    \item \textbf{Giao diện trực quan:} màn hình nhỏ có thể truyền tải trạng thái hệ thống một cách nhanh, thân thiện và dễ hiểu.
+    \item \textbf{Tương tác tối giản:} người dùng thao tác trực tiếp với thiết bị thay vì đi qua nhiều lớp ứng dụng.
+    \item \textbf{Cảm giác companion:} thiết bị không chỉ là công cụ đo đếm, mà còn là một vật thể công nghệ gần gũi trong không gian cá nhân.
+\end{itemize}
+
+SomniLearnAI lấy cảm hứng từ tinh thần này, nhưng định hướng chức năng khác EMO. Thay vì tập trung vào tương tác companion hoặc giải trí, SomniLearnAI tập trung vào học tập, luyện thuyết trình, quan sát giấc ngủ và dashboard dữ liệu dài hạn.
+
+\subsection{Đối tượng người dùng}
+
+SomniLearnAI hướng đến các nhóm người dùng có nhu cầu nâng cao khả năng tập trung, cải thiện kỹ năng trình bày và theo dõi thói quen nghỉ ngơi cá nhân, bao gồm:
 
 \begin{itemize}
     \item Sinh viên cần cải thiện khả năng tập trung khi học tập và ôn luyện.
-    \item Nhân viên văn phòng mong muốn quản lý thời gian làm việc hiệu quả hơn.
-    \item Người làm việc tại nhà cần duy trì thói quen làm việc khoa học.
-    \item Người muốn cải thiện chất lượng giấc ngủ và xây dựng thời gian sinh hoạt hợp lý.
-    \item Người yêu thích các thiết bị công nghệ nhỏ gọn, hiện đại và có tính thẩm mỹ.
+    \item Sinh viên thường xuyên phải thuyết trình seminar, báo cáo môn học hoặc pitching ý tưởng.
+    \item Người làm việc tại nhà cần duy trì phiên làm việc tập trung và hạn chế xao nhãng.
+    \item Người muốn quan sát chất lượng giấc ngủ và các tác nhân môi trường ảnh hưởng đến giấc ngủ.
+    \item Người yêu thích các thiết bị AIoT nhỏ gọn, có màn hình trực quan và có thể đặt trên bàn học hoặc đầu giường.
 \end{itemize}
 
-\subsection{Similar Products and Comparison}
+\subsection{So sánh với sản phẩm hiện có}
 
-\subsubsection{Smartphone Applications}
+Hiện nay có nhiều sản phẩm và giải pháp liên quan đến quản lý thời gian, thiết bị companion để bàn, theo dõi sức khỏe hoặc dashboard cá nhân. Tuy nhiên, mỗi nhóm giải pháp vẫn có giới hạn riêng khi đặt trong bối cảnh học tập, thuyết trình và giấc ngủ.
 
-Các ứng dụng trên điện thoại như Pomodoro Timer, Forest hoặc Focus To-Do mang lại sự tiện lợi do người dùng có thể dễ dàng cài đặt và sử dụng. Tuy nhiên, điện thoại thông minh cũng chính là nguồn gây xao nhãng lớn nhất bởi thông báo từ mạng xã hội, tin nhắn và nội dung giải trí.
+\subsubsection{Ứng dụng trên điện thoại}
 
-\subsubsection{Smart Watches}
+Các ứng dụng như Pomodoro Timer, Forest hoặc Focus To-Do mang lại sự tiện lợi, nhưng điện thoại thông minh cũng chính là nguồn gây xao nhãng lớn bởi thông báo từ mạng xã hội, tin nhắn và các ứng dụng giải trí. Do đó, mặc dù hỗ trợ quản lý thời gian, các ứng dụng này vẫn khó giúp người dùng tách khỏi môi trường gây phân tâm trong thời gian học.
 
-Các thiết bị như Apple Watch hoặc Samsung Galaxy Watch hỗ trợ theo dõi sức khỏe, nhắc nhở công việc và quản lý thời gian khá hiệu quả. Tuy nhiên, đây là các thiết bị đa chức năng với mức giá tương đối cao và vẫn tích hợp nhiều tính năng có khả năng gây phân tâm.
+\subsubsection{Đồng hồ thông minh}
 
-\subsubsection{Traditional Pomodoro Clocks}
+Các thiết bị như Apple Watch hoặc Samsung Galaxy Watch hỗ trợ theo dõi sức khỏe và quản lý thời gian khá hiệu quả. Tuy nhiên, smartwatch thường là thiết bị đeo đa chức năng, có mức giá cao và vẫn tích hợp nhiều thông báo có thể gây phân tâm. Bên cạnh đó, smartwatch không tối ưu cho bối cảnh đặt tại bàn học để hiển thị Pomodoro, điểm thuyết trình hoặc môi trường phòng ngủ theo realtime.
 
-Các đồng hồ Pomodoro truyền thống có ưu điểm là đơn giản, dễ sử dụng và giúp hạn chế sự phụ thuộc vào điện thoại. Tuy nhiên, phần lớn các sản phẩm hiện tại chỉ có chức năng hẹn giờ cơ bản và thiếu khả năng mở rộng hoặc cá nhân hóa trải nghiệm người dùng.
+\subsubsection{Đồng hồ Pomodoro truyền thống}
 
-\subsubsection{SmartClock Advantages}
+Các đồng hồ Pomodoro truyền thống có ưu điểm là đơn giản, dễ sử dụng và giúp hạn chế sự phụ thuộc vào điện thoại. Tuy nhiên, phần lớn sản phẩm chỉ có chức năng đếm thời gian cơ bản, thiếu khả năng lưu lịch sử phiên học, thiếu liên kết với giấc ngủ, không hỗ trợ luyện tập thuyết trình và không có dashboard theo dõi tiến độ dài hạn.
+
+\subsubsection{Thiết bị AIoT companion để bàn}
+
+Các thiết bị như EMO tạo ra trải nghiệm thân thiện nhờ hình dáng nhỏ gọn và cảm giác hiện diện trong không gian cá nhân. Tuy nhiên, companion devices thường tập trung vào tương tác cảm xúc hoặc giải trí nhẹ. SomniLearnAI khác ở chỗ sản phẩm được thiết kế xoay quanh các phiên dữ liệu cụ thể: phiên Pomodoro, phiên luyện thuyết trình và phiên ngủ.
+
+\subsubsection{Ứng dụng theo dõi giấc ngủ}
+
+Nhiều giải pháp theo dõi giấc ngủ phụ thuộc vào điện thoại hoặc hệ sinh thái đóng. SomniLearnAI đặt thiết bị trong phòng ngủ, đọc dữ liệu môi trường xung quanh và hiển thị realtime các yếu tố có thể ảnh hưởng đến giấc ngủ như ánh sáng, tiếng ồn, nhiệt độ, độ ẩm hoặc CO2.
+
+\subsubsection{Ưu điểm của SomniLearnAI}
 
 \begin{itemize}
-    \item Hỗ trợ phương pháp Pomodoro nhằm nâng cao khả năng tập trung.
-    \item Hạn chế tối đa các yếu tố gây xao nhãng.
-    \item Tích hợp thêm các chức năng hỗ trợ giấc ngủ và giải trí.
-    \item Thiết kế nhỏ gọn, phù hợp với không gian học tập và làm việc.
-    \item Chi phí tiếp cận hợp lý hơn so với các thiết bị smartwatch cao cấp.
-    \item Có khả năng mở rộng thêm các tính năng AIoT trong tương lai.
+    \item Hỗ trợ Pomodoro ngay trên thiết bị vật lý để giảm phụ thuộc vào điện thoại.
+    \item Hiển thị giờ hiện tại, thời gian còn lại và trạng thái phiên học theo realtime.
+    \item Hỗ trợ luyện tập thuyết trình và ghi nhận điểm sau mỗi phiên.
+    \item Quan sát giấc ngủ bằng Edge AI, đặt báo thức và phát hiện tác nhân môi trường làm giấc ngủ không ngon.
+    \item Đồng bộ dữ liệu lên dashboard để xem số Pomodoro, tổng kết giấc ngủ theo tháng và danh sách điểm thuyết trình.
+    \item Có form factor nhỏ gọn, thân thiện, lấy cảm hứng từ các thiết bị AIoT companion để bàn như EMO.
 \end{itemize}
 
 \newpage
-\section{Architecture and Hardware}
+%-----------------------------------------------------------------
+\section{Kiến trúc và Phần cứng}
 
-\subsection{Architecture}
+\subsection{Kiến trúc hệ thống}
 
-SmartClock được thiết kế theo mô hình AIoT gồm hai thành phần chính: Edge Device và Server. Edge Device là thiết bị SmartClock đặt tại bàn học, bàn làm việc hoặc phòng ngủ của người dùng. Server là hệ thống xử lý, lưu trữ và mở rộng các chức năng thông minh trong tương lai.
-
-Trong mô hình này, Edge Device chịu trách nhiệm tương tác trực tiếp với người dùng thông qua màn hình TFT, năm nút vật lý và các cảm biến. Server đóng vai trò tiếp nhận dữ liệu, lưu lịch sử, hỗ trợ phân tích và cung cấp khả năng mở rộng cho các chức năng AIoT.
-
-\subsubsection{Edge-Server Communication}
-
-SmartClock có thể kết nối với Server thông qua Internet. Vì Edge Device không phải lúc nào cũng được đặt trong môi trường có Wi-Fi cố định, thiết bị có thể truy cập Internet thông qua điện thoại hoặc laptop bằng cách sử dụng hotspot.
-
-Quá trình kết nối có thể chia thành hai pha:
+SomniLearnAI được thiết kế theo mô hình AIoT gồm 3 thành phần chính:
 
 \begin{itemize}
-    \item \textbf{Setup / Provisioning Mode:} SmartClock Edge Device phát một Wi-Fi tạm thời, ví dụ \texttt{SmartClock\_Setup}. Người dùng dùng điện thoại hoặc laptop kết nối vào Wi-Fi này để nhập thông tin mạng.
-    \item \textbf{Online Mode:} Sau khi nhận cấu hình, SmartClock ngắt mạng setup và kết nối vào Wi-Fi hoặc hotspot của điện thoại/laptop để truy cập Internet và giao tiếp với Server.
+    \item \textbf{Edge Device:} thiết bị SomniLearnAI đặt tại bàn học, bàn làm việc hoặc phòng ngủ của người dùng.
+    \item \textbf{Server:} hệ thống API tiếp nhận, lưu trữ và xử lý dữ liệu phiên.
+    \item \textbf{Dashboard:} giao diện web giúp người dùng quản lý phiên học, phiên ngủ và phiên thuyết trình.
 \end{itemize}
 
-\begin{center}
-\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SmartClock\_Setup AP}
+Trong mô hình này, Edge Device chịu trách nhiệm tương tác trực tiếp với người dùng thông qua màn hình TFT, 5 nút vật lý và các cảm biến. Server đóng vai trò tiếp nhận dữ liệu, lưu lịch sử, hỗ trợ phân tích và cung cấp API cho dashboard. Dashboard là thành phần chính của Objective 3, giúp người dùng quan sát dữ liệu dài hạn.
 
-\texttt{SmartClock Edge Device} $\leftrightarrow$ \texttt{Phone/Laptop Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SmartClock Server}
+\subsubsection{Kết nối Edge--Server--Dashboard}
+
+SomniLearnAI có thể kết nối với Server thông qua Internet. Vì Edge Device không phải lúc nào cũng được đặt trong môi trường có Wi-Fi cố định, thiết bị có thể truy cập Internet thông qua điện thoại hoặc laptop bằng cách sử dụng hotspot.
+
+Quá trình kết nối có thể chia thành 2 pha:
+
+\begin{itemize}
+    \item \textbf{Setup / Provisioning Mode:} SomniLearnAI Edge Device phát một Wi-Fi tạm thời, ví dụ \texttt{SomniLearnAI\_Setup}. Người dùng dùng điện thoại hoặc laptop kết nối vào Wi-Fi này để nhập thông tin mạng.
+    \item \textbf{Online Mode:} Sau khi nhận cấu hình, SomniLearnAI ngắt mạng setup và kết nối vào Wi-Fi hoặc hotspot của điện thoại/laptop để truy cập Internet, đồng bộ dữ liệu phiên và giao tiếp với Server.
+\end{itemize}
+
+Luồng kết nối tổng quát:
+
+\begin{center}
+\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SomniLearnAI\_Setup AP}
+
+\texttt{SomniLearnAI Edge Device} $\leftrightarrow$ \texttt{Phone/Laptop Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SomniLearnAI Server} $\leftrightarrow$ \texttt{Dashboard}
 \end{center}
 
-\subsubsection{Architecture Diagram}
+Khi chưa có Internet, Pomodoro, báo thức, Sleep Monitoring và hiển thị realtime môi trường vẫn có thể hoạt động cục bộ. Seminar Practice chỉ ghi nhận/lưu tạm phiên và cần Server để chấm điểm đầy đủ.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{images/architecture.png}
-\caption{SmartClock Edge-Server Architecture}
-\label{fig:architecture}
-\end{figure}
+\specfigure{images/Architecture.png}{0.98}{Sơ đồ kiến trúc Edge--Server--Dashboard}
 
-\subsubsection{Data Flow}
+\subsubsection{Luồng dữ liệu}
 
 \begin{longtable}{|c|P{12.5cm}|}
 \hline
-\textbf{Step} & \textbf{Description} \\
+\textbf{Bước} & \textbf{Mô tả} \\
 \hline
-1 & Người dùng thao tác bằng 5 nút vật lý trên SmartClock. \\
+1 & Người dùng thao tác bằng 5 nút vật lý trên SomniLearnAI. \\
 \hline
-2 & ESP32-6288 xử lý thao tác, cập nhật giao diện TFT và điều khiển chức năng cục bộ. \\
+2 & ESP32-S3 xử lý thao tác, cập nhật giao diện TFT và điều khiển chức năng cục bộ. \\
 \hline
-3 & Cảm biến ánh sáng và INMP441 ghi nhận dữ liệu môi trường khi cần. \\
+3 & Cảm biến ánh sáng, microphone và cảm biến môi trường ghi nhận dữ liệu khi dùng Study Mode hoặc Sleep Mode. \\
 \hline
-4 & Nếu chưa có cấu hình mạng, SmartClock bật Wi-Fi setup để điện thoại hoặc laptop kết nối vào và nhập thông tin Wi-Fi. \\
+4 & Thiết bị tạo dữ liệu phiên học, phiên ngủ hoặc phiên thuyết trình sau khi phiên kết thúc. \\
 \hline
-5 & SmartClock kết nối Internet thông qua Wi-Fi hotspot từ điện thoại hoặc laptop. \\
+5 & Nếu chưa có cấu hình mạng, SomniLearnAI bật Wi-Fi setup để điện thoại hoặc laptop kết nối vào và nhập thông tin Wi-Fi. \\
 \hline
-6 & Edge Device gửi dữ liệu hoặc nhận cấu hình từ Server. \\
+6 & Khi online, Edge Device gửi dữ liệu phiên lên Server. \\
 \hline
-7 & Server lưu trữ, phân tích và cung cấp nền tảng mở rộng cho các tính năng AIoT. \\
+7 & Server validate dữ liệu, lưu vào Session Database và tạo dữ liệu tổng hợp cho dashboard. \\
 \hline
-\caption{SmartClock Data Flow}
+8 & Dashboard lấy dữ liệu từ API để hiển thị số Pomodoro, tổng kết giấc ngủ theo tháng và điểm các lần thuyết trình. \\
+\hline
+\caption{Luồng dữ liệu SomniLearnAI}
 \end{longtable}
 
-\subsubsection{Offline and Online Behavior}
+\subsubsection{Hành vi online và offline}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Mode} & \textbf{Behavior} \\
+\textbf{Trạng thái} & \textbf{Hành vi} \\
 \hline
-Offline & Pomodoro, báo thức, điều hướng menu, Flappy Bird và một số chức năng hiển thị vẫn hoạt động cục bộ. \\
+Offline & Pomodoro, báo thức, Sleep Monitoring, hiển thị giờ và realtime môi trường vẫn hoạt động cục bộ; Seminar Practice có thể ghi nhận/lưu tạm phiên nhưng chưa chấm điểm đầy đủ. \\
 \hline
-Online & Thiết bị có thể đồng bộ cấu hình, gửi dữ liệu theo dõi, lưu lịch sử và mở rộng các chức năng phân tích. \\
+Online & Thiết bị có thể đồng bộ phiên học, ngủ, thuyết trình lên Server; dashboard cập nhật lịch sử, biểu đồ và tổng kết. \\
 \hline
-\caption{Online and Offline Behavior}
+Kết nối lại & Thiết bị gửi các phiên chưa đồng bộ lên Server theo thứ tự thời gian. \\
+\hline
+\caption{Hành vi online và offline}
 \end{longtable}
 
-\subsection{Hardware}
+\subsection{Phần cứng}
 
-SmartClock sử dụng các thành phần phần cứng phổ biến, chi phí tương đối thấp và dễ tìm trên thị trường linh kiện điện tử. Bảng dưới đây mô tả các thành phần chính và giá ước lượng.
+SomniLearnAI sử dụng các thành phần phần cứng phổ biến, chi phí tương đối thấp và dễ tìm trên thị trường linh kiện điện tử.
 
-\begin{longtable}{|P{3cm}|c|P{2.3cm}|P{2cm}|P{4cm}|P{2.3cm}|}
+\begin{longtable}{|P{2.8cm}|c|P{1.8cm}|P{1.8cm}|P{4cm}|P{2.3cm}|}
 \hline
-\textbf{Component} & \textbf{Quantity} & \textbf{Availability} & \textbf{Interface} & \textbf{Purpose} & \textbf{Estimated Price (VND)} \\
+\textbf{Linh kiện} & \textbf{SL} & \textbf{Tình trạng} & \textbf{Giao tiếp} & \textbf{Mục đích} & \textbf{Giá ước tính (VNĐ)} \\
 \hline
-ESP32-S3 DevKitC-1 (N8R8) & 1 & Mua thêm & Wi-Fi, I2S, SPI, I2C & MCU chính, TinyML/Edge AI, đồng bộ Firebase và điều phối các module I2S/SPI. & 150,000 - 220,000 \\
+ESP32-S3 DevKitC-1 (N8R8) & 1 & Mua thêm & Wi-Fi, I2S, SPI, I2C & MCU chính, chạy UI, quản lý phiên, Edge AI cơ bản và đồng bộ dữ liệu lên Server & 150.000--220.000 \\
 \hline
-TFT LCD 2.4'' ILI9341 & 1 & Có sẵn & SPI & Hiển thị toàn bộ UI cho HOME, STUDY, SLEEP và RELAX. & 80,000 - 120,000 \\
+TFT LCD 2.4'' ILI9341 & 1 & Có sẵn & SPI & Hiển thị HOME, STUDY, SLEEP, STATUS, giờ hiện tại, Pomodoro, trạng thái chấm điểm thuyết trình và môi trường realtime & 80.000--120.000 \\
 \hline
-INMP441 MEMS Microphone & 1 & Có sẵn & I2S & Đo âm thanh môi trường, ghi âm Seminar Practice và theo dõi noise khi ngủ. & 40,000 - 55,000 \\
+INMP441 MEMS Microphone & 1 & Có sẵn & I2S & Đo tiếng ồn môi trường khi ngủ và ghi dữ liệu âm thanh cho Seminar Practice & 40.000--55.000 \\
 \hline
-Cảm biến ánh sáng BH1750 & 1 & Có sẵn & I2C hoặc ADC & Đo light level/quality và kiểm tra phòng tối trước khi ngủ. & 15,000 - 30,000 \\
+Cảm biến ánh sáng BH1750 & 1 & Có sẵn & I2C / ADC & Đo mức ánh sáng khi học hoặc ngủ, hỗ trợ phát hiện phòng quá sáng & 15.000--30.000 \\
 \hline
-Nút nhấn tactile 12x12mm & 5 & Có sẵn 3 nút, mua thêm 2 nút & GPIO Digital & Điều hướng toàn bộ state machine và cấu hình các chức năng. & 5,000/nút; mua thêm khoảng 10,000 \\
+Cảm biến môi trường DHT22/SHT31/BME280 & 1 & Tùy chọn & I2C / GPIO & Đo nhiệt độ, độ ẩm và hỗ trợ phân tích tác nhân ảnh hưởng giấc ngủ & 40.000--120.000 \\
 \hline
-Buzzer passive 5V & 1 & Mua thêm & GPIO PWM & Báo Pomodoro, báo thức Sleep và âm thanh game. & 8,000 \\
+Cảm biến CO2 SCD40/MH-Z19B & 1 & Tùy chọn & I2C / UART & Đo CO2 phòng ngủ nếu prototype mở rộng môi trường ngủ & 180.000--450.000 \\
 \hline
-MAX98357A I2S Amp + Loa 0.5W & 1 set & Mua thêm & I2S & Phát nhạc MP3/WAV trong RELAX Music Player. & 35,000 - 60,000 \\
+Nút nhấn tactile 12x12mm & 5 & Có sẵn 3, mua thêm 2 & GPIO Digital & Điều hướng Home, Study, Sleep, Status và cấu hình phiên & 5.000/nút; mua thêm khoảng 10.000 \\
 \hline
-DS3231 RTC Module (kèm pin) & 1 & Mua thêm & I2C & Kích hoạt báo thức, timestamp Pomodoro và đồng bộ thời gian. & 35,000 \\
+Buzzer passive 5V & 1 & Mua thêm & GPIO PWM & Thông báo kết thúc Pomodoro, kết thúc phiên nghỉ hoặc cảnh báo môi trường & 8.000 \\
 \hline
-MicroSD Card Module & 1 & Mua thêm & SPI & Lưu file nhạc MP3/WAV cho Music Player. & 25,000 \\
+DS3231 RTC Module (kèm pin) & 1 & Mua thêm & I2C & Cung cấp thời gian ổn định, timestamp phiên và đồng bộ thời gian khi offline & 35.000 \\
 \hline
-Pin LiPo 3.7V 1000mAh + TP4056 & 1 & Mua thêm & Power & Nguồn di động tùy chọn cho toàn thiết bị. & 60,000 \\
+MicroSD Card Module / Flash & 1 & Tùy chọn & SPI / flash & Lưu tạm dữ liệu phiên khi offline trước khi đồng bộ Server & 0--25.000 \\
 \hline
-\caption{Hardware Components and Estimated Cost}
-\label{tab:hardware-cost}
+Pin LiPo 3.7V 1000mAh + TP4056 & 1 & Mua thêm & Power & Nguồn di động tùy chọn cho toàn thiết bị & 60.000 \\
+\hline
+\caption{Linh kiện phần cứng và chi phí ước tính}
 \end{longtable}
 
-\begin{longtable}{|P{5cm}|P{7cm}|}
+\begin{longtable}{|P{6cm}|P{7.5cm}|}
 \hline
-\textbf{Cost Type} & \textbf{Estimated Range} \\
+\textbf{Loại chi phí} & \textbf{Ước tính} \\
 \hline
-Required additional components & Approximately 418,000 VND \\
+Linh kiện lõi prototype & Khoảng 388.000 -- 508.000 VNĐ \\
 \hline
-\caption{Estimated Total Cost}
+Mở rộng cảm biến môi trường & Khoảng 220.000 -- 570.000 VNĐ \\
+\hline
+\caption{Chi phí ước tính tổng thể}
 \end{longtable}
 
 Giá trên chỉ mang tính ước lượng cho phiên bản prototype. Chi phí thực tế có thể thay đổi tùy theo nhà cung cấp, chất lượng linh kiện, kích thước màn hình TFT, loại vỏ thiết bị và số lượng sản xuất.
 
-\subsection{Hardware Roles}
+\subsection{Vai trò phần cứng}
 
 \begin{longtable}{|P{3.5cm}|P{11cm}|}
 \hline
-\textbf{Hardware} & \textbf{Role in SmartClock} \\
+\textbf{Phần cứng} & \textbf{Vai trò trong SomniLearnAI} \\
 \hline
-ESP32-6288 & Bộ xử lý trung tâm của Edge Device, chịu trách nhiệm chạy luồng giao diện, đọc nút bấm, đọc cảm biến và kết nối Internet. \\
+ESP32-S3 & Bộ xử lý trung tâm của Edge Device, chịu trách nhiệm chạy giao diện, đọc nút bấm, đọc cảm biến, quản lý phiên, chạy Edge AI cơ bản và kết nối Internet. \\
 \hline
-TFT Display & Cung cấp giao diện trực quan cho người dùng, bao gồm Home, Study, Sleep và Relax Mode. \\
+TFT Display & Cung cấp giao diện trực quan cho người dùng, bao gồm Home, Study, Sleep và Status Screen. \\
 \hline
-5 Buttons & Cho phép người dùng điều khiển thiết bị mà không cần điện thoại, giúp giảm xao nhãng. \\
+5 Nút bấm & Cho phép người dùng điều khiển thiết bị mà không cần điện thoại, giúp giảm xao nhãng trong lúc học. \\
 \hline
-Light Sensor & Hỗ trợ ghi nhận điều kiện ánh sáng trong môi trường học tập hoặc nghỉ ngơi. \\
+Cảm biến ánh sáng & Hỗ trợ ghi nhận điều kiện ánh sáng trong môi trường học tập hoặc phòng ngủ. \\
 \hline
-INMP441 & Hỗ trợ ghi nhận âm thanh môi trường và có thể mở rộng cho chức năng luyện tập thuyết trình. \\
+INMP441 & Hỗ trợ ghi nhận âm thanh môi trường khi ngủ và dữ liệu luyện thuyết trình để gửi Server khi cần chấm điểm. \\
 \hline
-\caption{Hardware Roles}
+Cảm biến môi trường & Hỗ trợ phát hiện tác nhân làm giấc ngủ không ngon như nhiệt độ, độ ẩm hoặc CO2 chưa phù hợp. \\
+\hline
+DS3231 RTC & Giữ thời gian ổn định khi offline và cung cấp timestamp cho các phiên. \\
+\hline
+Local Storage & Lưu tạm session khi thiết bị chưa có Internet. \\
+\hline
+Buzzer & Phát tín hiệu thông báo Pomodoro hoặc cảnh báo trạng thái đơn giản. \\
+\hline
+\caption{Vai trò phần cứng}
 \end{longtable}
 
-\subsection{Design Considerations}
+\subsection{Cân nhắc thiết kế}
+
+Thiết kế phần cứng của SomniLearnAI ưu tiên các yếu tố sau:
 
 \begin{itemize}
-    \item \textbf{Tối giản:} Người dùng thao tác bằng 5 nút vật lý, không cần mở điện thoại trong quá trình sử dụng.
-    \item \textbf{Chi phí hợp lý:} Các linh kiện được chọn theo tiêu chí phổ biến, dễ mua và phù hợp với prototype.
-    \item \textbf{Khả năng mở rộng:} ESP32-6288 có thể kết nối Wi-Fi và giao tiếp với nhiều module cảm biến khác.
-    \item \textbf{Tính thực tiễn:} Thiết bị có thể đặt trên bàn học, bàn làm việc hoặc đầu giường.
-    \item \textbf{Hoạt động linh hoạt:} SmartClock vẫn dùng được các chức năng cơ bản khi offline và có thể mở rộng khi online.
+    \item \textbf{Tối giản:} Người dùng thao tác bằng 5 nút vật lý, không cần mở điện thoại trong quá trình học hoặc ngủ.
+    \item \textbf{Hiển thị realtime:} Màn hình TFT phải hiển thị giờ hiện tại, thời gian Pomodoro, trạng thái phiên và môi trường xung quanh.
+    \item \textbf{Chi phí hợp lý:} Các linh kiện lõi được chọn theo tiêu chí phổ biến, dễ mua và phù hợp với prototype.
+    \item \textbf{Khả năng mở rộng:} ESP32-S3 có thể kết nối Wi-Fi và giao tiếp với nhiều module cảm biến môi trường.
+    \item \textbf{Hoạt động linh hoạt:} SomniLearnAI vẫn dùng được các chức năng cơ bản khi offline và có thể đồng bộ dữ liệu khi online.
+    \item \textbf{Dữ liệu dài hạn:} Thiết kế cần hỗ trợ lưu tạm và đồng bộ các phiên lên dashboard để phục vụ Objective 3.
 \end{itemize}
 
 \newpage
-\section{Objectives}
+%-----------------------------------------------------------------
+\section{Mục tiêu}
 
-\subsection{Overview}
+\subsection{Tổng quan}
 
-SmartClock được phát triển với mục tiêu trở thành một thiết bị hỗ trợ cá nhân đa chức năng, hướng đến việc nâng cao chất lượng học tập, làm việc và sinh hoạt hằng ngày của người dùng. Thay vì chỉ hoạt động như một chiếc đồng hồ thông thường, SmartClock được định hướng là một thiết bị thông minh có khả năng hỗ trợ tập trung, cải thiện giấc ngủ và tạo trải nghiệm giải trí nhẹ nhàng trong không gian cá nhân.
-
-Các mục tiêu chính của dự án bao gồm:
+SomniLearnAI được phát triển với 3 nhóm mục tiêu chính:
 
 \begin{itemize}
-    \item Hỗ trợ người dùng nâng cao khả năng tập trung và tối ưu hiệu suất làm việc.
-    \item Hỗ trợ xây dựng thói quen nghỉ ngơi và cải thiện chất lượng giấc ngủ.
-    \item Tạo ra một thiết bị công nghệ nhỏ gọn có khả năng giải trí và trang trí góc học tập hoặc làm việc.
+    \item Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.
+    \item Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường như ánh sáng, nhiệt độ, độ ẩm, CO\textsubscript{2}, giúp người dùng đánh giá thói quen ngủ hằng ngày.
+    \item Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.
 \end{itemize}
 
-\subsection{Overall Use Case Diagram}
+\begin{longtable}{|P{2.8cm}|P{11.8cm}|}
+\hline
+\textbf{Objective} & \textbf{SMART Objective} \\
+\hline
+Objective 1 & \textbf{Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.} \\
+\hline
+Objective 2 & \textbf{Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường như ánh sáng, nhiệt độ, độ ẩm, CO\textsubscript{2}, giúp người dùng đánh giá thói quen ngủ hằng ngày.} \\
+\hline
+Objective 3 & \textbf{Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.} \\
+\hline
+\caption{SMART Objectives}
+\end{longtable}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{\detokenize{images/UseCase (0).png}}
-\caption{Overall SmartClock Use Cases}
-\end{figure}
+\specfigure{images/Architecture (1).png}{0.98}{Overall Use Case Diagram}
 
-\subsection{Objective 1: Supporting Focus}
+\subsection{Objective 1}
 
-Một trong những mục tiêu quan trọng nhất của SmartClock là hỗ trợ người dùng duy trì trạng thái tập trung trong quá trình học tập và làm việc. Hệ thống được thiết kế nhằm giảm thiểu sự phụ thuộc vào điện thoại thông minh và hạn chế các yếu tố gây xao nhãng trong môi trường làm việc.
+\textbf{SMART Objective:} Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{\detokenize{images/UseCase (1).png}}
-\caption{Objective 1 Use Case Diagram}
-\end{figure}
+Một trong những mục tiêu quan trọng nhất của SomniLearnAI là hỗ trợ người dùng duy trì trạng thái tập trung trong quá trình học tập và luyện tập kỹ năng trình bày. Hệ thống được thiết kế nhằm giảm thiểu sự phụ thuộc vào điện thoại thông minh và hạn chế các yếu tố gây xao nhãng.
+
+\specfigure{images/Architecture (2).png}{0.9}{Objective 1 Use Case Diagram}
 
 \subsubsection{Use Case 1: Pomodoro Timer}
 
-Pomodoro là một phương pháp quản lý thời gian nổi tiếng nhằm giúp người dùng duy trì sự tập trung trong thời gian dài. Phương pháp này chia thời gian làm việc thành các phiên ngắn, phổ biến nhất là 25 phút tập trung làm việc và 5 phút nghỉ ngơi.
+Pomodoro Timer giúp người dùng chia thời gian học thành các phiên tập trung và nghỉ ngơi. Cấu hình mặc định là 25 phút học và 5 phút nghỉ, nhưng người dùng có thể điều chỉnh theo nhu cầu.
 
-SmartClock tích hợp tính năng Pomodoro Timer nhằm hỗ trợ người dùng xây dựng thói quen học tập và làm việc hiệu quả hơn. Hệ thống cho phép người dùng tùy chỉnh thời gian tập trung và nghỉ ngơi phù hợp với nhu cầu cá nhân.
+Màn hình Pomodoro hiển thị: giờ hiện tại, trạng thái Study hoặc Break, thời gian còn lại theo realtime, số Pomodoro đã hoàn thành trong ngày.
 
-\textbf{Main Features}
-\begin{itemize}
-    \item Bắt đầu hoặc tạm dừng phiên Pomodoro.
-    \item Tùy chỉnh thời gian tập trung và nghỉ ngơi.
-    \item Hiển thị thời gian còn lại theo thời gian thực.
-    \item Phát tín hiệu thông báo khi kết thúc phiên làm việc hoặc nghỉ ngơi.
-    \item Theo dõi số lượng phiên Pomodoro đã hoàn thành.
-\end{itemize}
+\specfigure{images/Architecture (3).png}{0.88}{Pomodoro Timer Use Case Diagram}
 
 \begin{longtable}{|P{3.5cm}|P{11cm}|}
 \hline
-\textbf{Actor} & User \\
+\textbf{Actor} & Người dùng \\
 \hline
-\textbf{Goal} & Tập trung học tập hoặc làm việc hiệu quả hơn. \\
+\textbf{Mục tiêu} & Học tập tập trung theo phương pháp Pomodoro. \\
 \hline
-\textbf{Preconditions} & Thiết bị đã được bật. \\
+\textbf{Điều kiện trước} & Thiết bị đã được bật và người dùng vào Study Mode. \\
 \hline
-\textbf{Main Flow} & Người dùng chọn chế độ Pomodoro, thiết lập thời gian, bắt đầu phiên tập trung, hệ thống đếm thời gian và phát thông báo khi hoàn thành. \\
+\textbf{Luồng chính} & Người dùng cấu hình thời gian, bắt đầu phiên, hệ thống đếm ngược và thông báo khi kết thúc; dữ liệu phiên được lưu để đồng bộ dashboard. \\
 \hline
-\textbf{Expected Result} & Người dùng duy trì được trạng thái tập trung trong thời gian làm việc. \\
+\textbf{Kết quả mong đợi} & Người dùng hoàn thành phiên học có cấu trúc, biết số Pomodoro trong ngày và có dữ liệu để xem lại trên dashboard. \\
 \hline
-\caption{Pomodoro Timer Use Case}
+\caption{Use Case: Pomodoro Timer}
 \end{longtable}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (2).png}}
-\caption{Pomodoro Timer Use Case Diagram}
-\end{figure}
 
 \subsubsection{Use Case 2: Seminar Practice}
 
-Seminar Practice cho phép người dùng luyện tập thuyết trình trước thiết bị. Hệ thống hỗ trợ ghi nhận thời gian trình bày và có thể mở rộng thêm khả năng đánh giá tốc độ nói, độ rõ ràng hoặc mức độ tự tin khi thuyết trình.
+Seminar Practice hỗ trợ người dùng luyện tập thuyết trình và quản lý thời lượng trình bày. Điểm đánh giá đầy đủ cần Wi-Fi và Server; nếu thiết bị offline, phiên luyện tập có thể được lưu tạm và chấm điểm sau khi đồng bộ.
 
-\textbf{Main Features}
-\begin{itemize}
-    \item Hỗ trợ đo thời gian thuyết trình.
-    \item Ghi nhận thời lượng trình bày.
-    \item Hỗ trợ đánh giá cơ bản về bài nói.
-    \item Hỗ trợ luyện tập cá nhân.
-\end{itemize}
+Khi thiết bị online và Server xử lý xong, kết quả đánh giá bao gồm: thời lượng trình bày, tốc độ nói ước tính, độ rõ ràng, điểm tổng quan và nhận xét ngắn để cải thiện lần nói tiếp theo.
+
+\specfigure{images/Architecture (4).png}{0.9}{Seminar Practice Use Case Diagram}
 
 \begin{longtable}{|P{3.5cm}|P{11cm}|}
 \hline
-\textbf{Actor} & User \\
+\textbf{Actor} & Người dùng \\
 \hline
-\textbf{Goal} & Luyện tập kỹ năng thuyết trình. \\
+\textbf{Mục tiêu} & Luyện tập kỹ năng thuyết trình và nhận điểm đánh giá. \\
 \hline
-\textbf{Preconditions} & Thiết bị hoạt động bình thường. \\
+\textbf{Điều kiện trước} & Thiết bị hoạt động bình thường. \\
 \hline
-\textbf{Main Flow} & Người dùng chọn chế độ Seminar Practice, bắt đầu trình bày, hệ thống ghi nhận dữ liệu và hiển thị đánh giá sau khi hoàn thành. \\
+\textbf{Luồng chính} & Người dùng bắt đầu ghi nhận phần trình bày, kết thúc phiên; thiết bị gửi dữ liệu lên Server để chấm điểm; kết quả hiển thị trên dashboard. \\
 \hline
-\textbf{Expected Result} & Người dùng cải thiện khả năng trình bày và quản lý thời gian nói. \\
+\textbf{Kết quả mong đợi} & Người dùng ghi nhận phiên luyện tập và xem điểm số sau khi Server chấm điểm. \\
 \hline
-\caption{Seminar Practice Use Case}
+\caption{Use Case: Seminar Practice}
 \end{longtable}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (3).png}}
-\caption{Seminar Practice Use Case Diagram}
-\end{figure}
+\subsection{Objective 2}
 
-\subsection{Objective 2: Supporting Better Sleep}
+\textbf{SMART Objective:} Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường như ánh sáng, nhiệt độ, độ ẩm, CO\textsubscript{2}, giúp người dùng đánh giá thói quen ngủ hằng ngày.
 
-Ngoài việc hỗ trợ năng suất làm việc, SmartClock còn hướng đến việc cải thiện chất lượng nghỉ ngơi và giấc ngủ của người dùng. Một giấc ngủ tốt giúp nâng cao sức khỏe tinh thần, khả năng tập trung và hiệu suất học tập hoặc làm việc trong ngày hôm sau.
+SomniLearnAI hỗ trợ cải thiện giấc ngủ thông qua Sleep Monitoring Edge AI, báo thức cục bộ và hiển thị realtime môi trường phòng ngủ.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{\detokenize{images/UseCase (4).png}}
-\caption{Objective 2 Use Case Diagram}
-\end{figure}
+\specfigure{images/Architecture (5).png}{0.9}{Objective 2 Use Case Diagram}
 
-\subsubsection{Use Case 1: Sleep Monitoring}
+\subsubsection{Use Case 1: Sleep Monitoring Edge AI}
 
-SmartClock hỗ trợ người dùng quan sát thói quen ngủ thông qua việc ghi nhận thời gian đi ngủ, thời gian thức dậy và tổng thời lượng nghỉ ngơi. Dựa trên dữ liệu được ghi nhận, hệ thống hiển thị đánh giá cơ bản để người dùng nhận biết xu hướng giấc ngủ của mình theo từng ngày.
+Sleep Monitoring ghi nhận thời gian ngủ và dữ liệu môi trường xung quanh. Khi module Edge AI được bật, SomniLearnAI kết hợp dữ liệu âm thanh, ánh sáng, nhiệt độ, độ ẩm và CO2 để đánh giá chất lượng giấc ngủ.
 
-Đây là một tính năng Edge AI của SmartClock. Thiết bị có thể sử dụng một kỹ thuật Machine Learning để xây dựng mô hình đánh giá chất lượng ngủ ngay trên edge device hoặc kết hợp với server khi cần đồng bộ. Input của mô hình bao gồm thời gian ngủ, chất lượng ánh sáng theo thời gian, chất lượng môi trường ngủ theo thời gian, chất lượng âm thanh theo thời gian và các dữ liệu cảm biến liên quan khác. Output của mô hình là điểm số đánh giá chất lượng ngủ, nhận định giấc ngủ có tốt hay không, phân tích nguyên nhân khiến người dùng ngủ không ngon như phòng quá sáng, môi trường quá ồn hoặc thời lượng ngủ chưa phù hợp, đồng thời đưa ra gợi ý cải thiện cho các lần ngủ tiếp theo.
+Màn hình realtime có thể hiển thị: giờ hiện tại, mức ánh sáng, mức tiếng ồn, nhiệt độ phòng, độ ẩm hoặc CO2 nếu có cảm biến, và cảnh báo ngắn khi môi trường có khả năng ảnh hưởng xấu đến giấc ngủ.
 
-\textbf{Main Features}
-\begin{itemize}
-    \item Ghi nhận thời gian bắt đầu và kết thúc giấc ngủ.
-    \item Tính toán tổng thời lượng ngủ.
-    \item Hiển thị đánh giá cơ bản về chất lượng ngủ.
-    \item Theo dõi lịch sử giấc ngủ theo ngày.
-    \item Gợi ý điều chỉnh thói quen nghỉ ngơi.
-\end{itemize}
+Báo cáo sau phiên ngủ bao gồm: tổng thời lượng ngủ, điểm đánh giá chất lượng, nhận xét về các yếu tố môi trường, tác nhân có khả năng làm giấc ngủ không ngon và gợi ý cải thiện.
+
+\specfigure{images/Architecture (6).png}{0.9}{Sleep Monitoring Edge AI Use Case Diagram}
 
 \begin{longtable}{|P{3.5cm}|P{11cm}|}
 \hline
-\textbf{Actor} & User \\
+\textbf{Actor} & Người dùng \\
 \hline
-\textbf{Goal} & Theo dõi và cải thiện chất lượng giấc ngủ. \\
+\textbf{Mục tiêu} & Quan sát và cải thiện chất lượng giấc ngủ. \\
 \hline
-\textbf{Preconditions} & Thiết bị đang hoạt động và người dùng đã chọn chế độ theo dõi giấc ngủ. \\
+\textbf{Điều kiện trước} & Thiết bị đang hoạt động và người dùng đã vào Sleep Mode. \\
 \hline
-\textbf{Main Flow} & Người dùng bật chế độ theo dõi giấc ngủ, hệ thống ghi nhận thời gian ngủ, người dùng kết thúc phiên ngủ và hệ thống hiển thị kết quả. \\
+\textbf{Luồng chính} & Người dùng bật Sleep Monitoring, hệ thống ghi nhận môi trường và thời gian ngủ; sau khi thức dậy người dùng dừng phiên và xem báo cáo. \\
 \hline
-\textbf{Expected Result} & Người dùng nắm được thời lượng và đánh giá cơ bản về giấc ngủ để điều chỉnh thói quen sinh hoạt. \\
+\textbf{Kết quả mong đợi} & Người dùng biết chất lượng giấc ngủ và các yếu tố môi trường cần điều chỉnh. \\
 \hline
-\caption{Sleep Monitoring Use Case}
+\caption{Use Case: Sleep Monitoring Edge AI}
 \end{longtable}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (5).png}}
-\caption{Sleep Monitoring Use Case Diagram}
-\end{figure}
+\subsubsection{Use Case 2: Alarm Setting}
 
-\subsubsection{Use Case 2: Alarm Settings}
+Alarm Setting cho phép người dùng đặt giờ báo thức trực tiếp trên thiết bị. Chức năng này hoạt động cục bộ trên Edge Device nên vẫn có thể dùng khi thiết bị offline.
 
-SmartClock tích hợp chức năng báo thức tương tự như các thiết bị đồng hồ hoặc điện thoại thông minh hiện nay. Người dùng có thể thiết lập thời gian báo thức nhằm hỗ trợ quản lý lịch sinh hoạt và xây dựng thói quen thức dậy đúng giờ.
+Nếu Sleep Monitoring đang chạy, báo thức giúp người dùng thức dậy đúng giờ và có thể nhắc người dùng dừng phiên ngủ để tạo báo cáo.
 
-\textbf{Main Features}
-\begin{itemize}
-    \item Thiết lập thời gian báo thức.
-    \item Bật hoặc tắt báo thức.
-    \item Phát âm thanh thông báo khi đến giờ.
-    \item Hỗ trợ nhiều mốc báo thức khác nhau.
-\end{itemize}
+\specfigure{images/Architecture (7).png}{0.86}{Alarm Setting Use Case Diagram}
 
 \begin{longtable}{|P{3.5cm}|P{11cm}|}
 \hline
-\textbf{Actor} & User \\
+\textbf{Actor} & Người dùng \\
 \hline
-\textbf{Goal} & Thức dậy đúng giờ. \\
+\textbf{Mục tiêu} & Thức dậy đúng giờ đã thiết lập. \\
 \hline
-\textbf{Preconditions} & Thiết bị đang hoạt động. \\
+\textbf{Điều kiện trước} & Thiết bị đang hoạt động. \\
 \hline
-\textbf{Main Flow} & Người dùng thiết lập thời gian báo thức, hệ thống lưu cấu hình, đến thời gian cài đặt, thiết bị phát âm thanh báo thức. \\
+\textbf{Luồng chính} & Người dùng thiết lập giờ báo thức, hệ thống lưu cấu hình; đến giờ, thiết bị phát tín hiệu báo thức; người dùng tắt báo thức. \\
 \hline
-\textbf{Expected Result} & Người dùng nhận được thông báo đúng thời gian mong muốn. \\
+\textbf{Kết quả mong đợi} & Người dùng đặt được báo thức và thiết bị phát tín hiệu đúng giờ. \\
 \hline
-\caption{Alarm Settings Use Case}
+\caption{Use Case: Alarm Setting}
 \end{longtable}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (6).png}}
-\caption{Alarm Settings Use Case Diagram}
-\end{figure}
+\subsection{Objective 3}
 
-\subsection{Objective 3: Entertainment and Decoration}
+\textbf{SMART Objective:} Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.
 
-Bên cạnh các chức năng hỗ trợ học tập và sinh hoạt, SmartClock còn được định hướng trở thành một thiết bị có tính giải trí và tính thẩm mỹ, giúp không gian học tập hoặc làm việc trở nên sinh động hơn.
+Dashboard là thành phần giúp SomniLearnAI mở rộng từ một thiết bị Edge thành một hệ thống AIoT có khả năng theo dõi dài hạn. Người dùng có thể xem hôm đó đã học bao nhiêu Pomodoro, quan sát giấc ngủ theo tháng và xem danh sách điểm các lần luyện thuyết trình.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\textwidth]{\detokenize{images/UseCase (7).png}}
-\caption{Objective 3 Use Case Diagram}
-\end{figure}
+\specfigure{images/Architecture (8).png}{0.92}{Objective 3 Use Case Diagram}
 
-\subsubsection{Use Case 1: Flappy Bird}
-
-SmartClock tích hợp một trò chơi mini lấy cảm hứng từ các thiết bị chơi game cầm tay đời cũ. Trò chơi Flappy Bird được xây dựng nhằm tạo ra các khoảng giải trí ngắn sau thời gian học tập hoặc làm việc căng thẳng.
-
-\textbf{Main Features}
-\begin{itemize}
-    \item Điều khiển nhân vật đơn giản.
-    \item Hiển thị điểm số.
-    \item Tạo trải nghiệm giải trí nhanh.
-    \item Giao diện mang phong cách retro.
-\end{itemize}
-
-\begin{longtable}{|P{3.5cm}|P{11cm}|}
+\begin{longtable}{|P{3.5cm}|P{4.5cm}|P{6.5cm}|}
 \hline
-\textbf{Actor} & User \\
+\textbf{Khu vực quan sát} & \textbf{Câu hỏi chính} & \textbf{Đầu ra dashboard} \\
 \hline
-\textbf{Goal} & Giải trí trong thời gian nghỉ ngơi. \\
+Study Sessions & Hôm nay đã học bao nhiêu Pomodoro? & Số Pomodoro, tổng phút học, lịch sử phiên \\
 \hline
-\textbf{Preconditions} & Thiết bị đang hoạt động. \\
+Sleep Sessions & Tháng này ngủ có tốt hơn không? & Điểm ngủ, thời lượng ngủ, tác nhân ảnh hưởng, tổng kết cuối tháng \\
 \hline
-\textbf{Main Flow} & Người dùng mở trò chơi, điều khiển nhân vật, hệ thống cập nhật điểm số và kết thúc khi va chạm. \\
+Presentation Sessions & Các lần luyện nói có tiến bộ không? & Danh sách điểm, thời lượng nói, feedback, xu hướng điểm số \\
 \hline
-\textbf{Expected Result} & Người dùng có trải nghiệm giải trí nhẹ nhàng. \\
-\hline
-\caption{Flappy Bird Use Case}
+\caption{Phạm vi Objective 3}
 \end{longtable}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (8).png}}
-\caption{Flappy Bird Use Case Diagram}
-\end{figure}
+\specfigure{images/Architecture (9).png}{0.86}{Study Sessions Dashboard Use Case Diagram}
 
-\subsubsection{Use Case 2: Music Player}
+\specfigure{images/Architecture (10).png}{0.86}{Sleep Sessions Dashboard Use Case Diagram}
 
-SmartClock hỗ trợ phát nhạc nhằm tạo không gian thư giãn hoặc hỗ trợ tập trung khi học tập và làm việc. Trong tương lai, tính năng này có thể được mở rộng để hỗ trợ nhiều chế độ âm thanh hoặc kết nối với các nền tảng phát nhạc trực tuyến.
+\specfigure{images/Architecture (11).png}{0.86}{Presentation Sessions Dashboard Use Case Diagram}
 
-\textbf{Main Features}
-\begin{itemize}
-    \item Phát nhạc cơ bản.
-    \item Điều chỉnh âm lượng.
-    \item Chuyển bài hát.
-    \item Hỗ trợ âm thanh thư giãn hoặc nhạc tập trung.
-\end{itemize}
-
-\begin{longtable}{|P{3.5cm}|P{11cm}|}
-\hline
-\textbf{Actor} & User \\
-\hline
-\textbf{Goal} & Nghe nhạc để thư giãn hoặc tập trung. \\
-\hline
-\textbf{Preconditions} & Thiết bị hoạt động bình thường. \\
-\hline
-\textbf{Main Flow} & Người dùng chọn chế độ nghe nhạc, chọn bài hát và hệ thống phát âm thanh. \\
-\hline
-\textbf{Expected Result} & Người dùng có trải nghiệm thư giãn tốt hơn. \\
-\hline
-\caption{Music Player Use Case}
-\end{longtable}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.88\textwidth]{\detokenize{images/UseCase (9).png}}
-\caption{Music Player Use Case Diagram}
-\end{figure}
-
-\subsection{Use Case Summary}
+\subsection{Tóm tắt use case}
 
 \begin{longtable}{|P{3.3cm}|P{3cm}|P{3.3cm}|P{4.2cm}|}
 \hline
-\textbf{Objective} & \textbf{Use Case} & \textbf{Main Purpose} & \textbf{Expected Result} \\
+\textbf{Objective} & \textbf{Use Case} & \textbf{Mục đích chính} & \textbf{Kết quả mong đợi} \\
 \hline
-Hỗ trợ tập trung & Pomodoro Timer & Quản lý phiên tập trung và nghỉ ngơi & Người dùng duy trì nhịp học tập hoặc làm việc hiệu quả hơn. \\
+Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình & Pomodoro Timer & Quản lý phiên tập trung và nghỉ ngơi & Người dùng duy trì nhịp học hiệu quả và có dữ liệu trên dashboard. \\
 \hline
-Hỗ trợ tập trung & Seminar Practice & Luyện tập thuyết trình và quản lý thời lượng nói & Người dùng cải thiện kỹ năng trình bày. \\
+Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình & Seminar Practice & Luyện tập thuyết trình và nhận điểm đánh giá & Người dùng cải thiện kỹ năng trình bày và theo dõi tiến bộ. \\
 \hline
-Hỗ trợ giấc ngủ & Sleep Monitoring & Theo dõi thời lượng ngủ và nhận đánh giá cơ bản & Người dùng hiểu rõ hơn về thói quen nghỉ ngơi. \\
+Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường & Sleep Monitoring & Quan sát thời lượng ngủ và môi trường phòng ngủ & Người dùng biết chất lượng giấc ngủ và các yếu tố cần điều chỉnh. \\
 \hline
-Hỗ trợ giấc ngủ & Alarm Settings & Thiết lập và quản lý thời gian báo thức & Người dùng thức dậy đúng thời gian mong muốn. \\
+Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường & Alarm Setting & Đặt giờ báo thức cục bộ & Người dùng thức dậy đúng thời gian mong muốn. \\
 \hline
-Giải trí và trang trí & Flappy Bird & Giải trí ngắn trong thời gian nghỉ & Người dùng có trải nghiệm thư giãn nhẹ nhàng. \\
+Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên & Study Observation & Quan sát lịch sử phiên học & Người dùng theo dõi số Pomodoro và tổng thời gian học theo ngày/tháng. \\
 \hline
-Giải trí và trang trí & Music Player & Phát nhạc thư giãn hoặc nhạc tập trung & Người dùng tạo được không gian phù hợp hơn. \\
+Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên & Sleep Observation & Quan sát giấc ngủ theo tháng & Người dùng theo dõi xu hướng giấc ngủ và tổng kết cuối tháng. \\
 \hline
-\caption{Use Case Summary}
+Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên & Presentation Observation & Quan sát điểm và tiến bộ thuyết trình & Người dùng theo dõi cải thiện qua từng lần luyện tập. \\
+\hline
+\caption{Tóm tắt use case SomniLearnAI}
 \end{longtable}
 
 \newpage
-\section{Edge AI}
+%-----------------------------------------------------------------
+\section{Edge AI: Quan sát giấc ngủ}
 
-\subsection{Overview}
+\subsection{Tổng quan}
 
-Từ các mục tiêu đã trình bày ở phần trước, SmartClock không chỉ là một thiết bị hiển thị thời gian hoặc hỗ trợ Pomodoro, mà còn được định hướng trở thành một thiết bị AIoT có khả năng quan sát ngữ cảnh sinh hoạt của người dùng. Trong đó, nhóm chức năng liên quan đến giấc ngủ là phần thể hiện rõ nhất vai trò của Edge AI.
+Chương này tập trung vào \textbf{use case Edge AI duy nhất của SomniLearnAI: quan sát giấc ngủ}. Edge AI không được dùng để thay thế Server, dashboard hoặc chức năng chấm điểm thuyết trình. Vai trò chính của Edge AI là đọc dữ liệu cảm biến gần người dùng, hiển thị môi trường phòng ngủ theo realtime và tạo đánh giá giấc ngủ cơ bản ngay trên thiết bị.
 
-Edge AI trong SmartClock được dùng để xử lý dữ liệu gần người dùng, giảm phụ thuộc hoàn toàn vào Server và cho phép thiết bị đưa ra nhận định cơ bản ngay tại Edge Device. Đối với tính năng Sleep Monitoring, hệ thống có thể thu thập dữ liệu từ cảm biến ánh sáng, microphone, nhiệt độ, môi trường phòng ngủ và gối thông minh FSR để suy luận trạng thái ngủ của người dùng.
+\begin{longtable}{|P{3.5cm}|P{5cm}|P{5.5cm}|}
+\hline
+\textbf{Module} & \textbf{Mục đích chính} & \textbf{Đầu ra} \\
+\hline
+Sleep Monitoring Edge AI & Quan sát giấc ngủ và môi trường phòng ngủ & Sleep score, tác nhân ảnh hưởng, gợi ý cải thiện \\
+\hline
+Environment Realtime Monitor & Theo dõi ánh sáng, tiếng ồn, nhiệt độ, độ ẩm hoặc CO2 & Trạng thái môi trường realtime trên màn hình \\
+\hline
+Sleep Feature Extraction & Tạo đặc trưng gọn nhẹ từ cảm biến ngủ & Feature summary cho báo cáo ngủ \\
+\hline
+\caption{Phạm vi Edge AI}
+\end{longtable}
 
-Mục tiêu của phần này là mô tả cách SmartClock có thể mở rộng từ chức năng theo dõi thời lượng ngủ đơn giản thành một module phân tích giấc ngủ có khả năng ước lượng trạng thái REM/NREM.
+\subsection{Bài toán quan sát giấc ngủ}
 
-\subsection{Sleep Stage Inference Problem}
-
-Giấc ngủ của con người thường được chia thành hai trạng thái chính:
+Bài toán chính của Sleep Monitoring là hỗ trợ người dùng quan sát giấc ngủ tại nhà. Hệ thống không chẩn đoán y khoa, mà trả lời 3 câu hỏi thực tế:
 
 \begin{itemize}
-    \item \textbf{NREM (Non-Rapid Eye Movement):} Giai đoạn ngủ không có chuyển động mắt nhanh, cơ thể thường ổn định và thư giãn hơn, liên quan nhiều đến phục hồi thể chất.
-    \item \textbf{REM (Rapid Eye Movement):} Giai đoạn ngủ có chuyển động mắt nhanh, não hoạt động mạnh hơn, thường liên quan đến giấc mơ, xử lý trí nhớ và cảm xúc.
+    \item Người dùng đã ngủ trong bao lâu?
+    \item Môi trường xung quanh trong phiên ngủ có phù hợp không?
+    \item Tác nhân nào có khả năng làm giấc ngủ không ngon?
 \end{itemize}
 
-Phương pháp chuyên nghiệp để phân tích giấc ngủ là PSG (Polysomnography), sử dụng nhiều tín hiệu sinh lý như EEG, EOG, EMG, ECG và hô hấp. Tuy nhiên, PSG cần thiết bị chuyên dụng, khó sử dụng trong môi trường nhà ở hằng ngày và không phù hợp với mục tiêu prototype nhỏ gọn của SmartClock.
+\subsection{Dữ liệu đầu vào}
 
-Vì vậy, bài toán của SmartClock được đặt ra là ước lượng trạng thái ngủ REM/NREM của người dùng bằng các tín hiệu thu được từ gối thông minh FSR, âm thanh, nhiệt độ và môi trường phòng ngủ. Hệ thống không nhằm thay thế thiết bị y tế hoặc PSG chuyên nghiệp, mà cung cấp một ước lượng có tính hỗ trợ để người dùng hiểu rõ hơn về thói quen nghỉ ngơi.
-
-\subsection{Input Data}
-
-\begin{longtable}{|P{3.5cm}|P{4.5cm}|P{7cm}|}
+\begin{longtable}{|P{3.3cm}|P{4.5cm}|P{6.5cm}|}
 \hline
 \textbf{Nguồn dữ liệu} & \textbf{Tín hiệu thu thập} & \textbf{Ý nghĩa đối với bài toán} \\
 \hline
-Gối thông minh FSR & Tư thế ngủ, áp lực đầu/cổ, số lần trở mình & Phát hiện tư thế, mức độ vận động và thay đổi tư thế trong đêm. \\
+Microphone INMP441 & Tiếng ngáy, tiếng ồn môi trường khi ngủ & Phát hiện môi trường quá ồn, biến động âm thanh hoặc dấu hiệu ngáy \\
 \hline
-Microphone INMP441 & Tiếng ngáy, âm thanh môi trường khi ngủ & Phân tích hiện tượng ngáy, tiếng ồn và biến động âm thanh. \\
+Cảm biến ánh sáng & Mức sáng theo thời gian & Phát hiện phòng quá sáng hoặc ánh sáng thay đổi trong phiên ngủ \\
 \hline
-Cảm biến nhiệt độ & Nhiệt độ cơ thể, nhiệt độ phòng & Theo dõi thay đổi thân nhiệt và điều kiện phòng ngủ. \\
+Cảm biến nhiệt độ & Nhiệt độ phòng & Đánh giá điều kiện nhiệt độ có phù hợp cho giấc ngủ không \\
 \hline
-Cảm biến môi trường & CO2, ánh sáng, độ ẩm & Đánh giá chất lượng môi trường ngủ và các yếu tố ảnh hưởng đến giấc ngủ. \\
+Cảm biến độ ẩm & Độ ẩm phòng & Phát hiện môi trường quá khô hoặc quá ẩm \\
 \hline
-Dữ liệu thời gian & Giờ bắt đầu ngủ, giờ thức dậy, tổng thời lượng ngủ & Cung cấp ngữ cảnh theo phiên ngủ và hỗ trợ tính điểm chất lượng ngủ. \\
+Cảm biến CO2 & Nồng độ CO2 nếu có & Phát hiện phòng bí, thông khí kém \\
 \hline
-\caption{Edge AI Input Data for Sleep Monitoring}
+Dữ liệu thời gian & Giờ bắt đầu ngủ, giờ thức dậy, tổng thời lượng ngủ & Cung cấp ngữ cảnh theo phiên ngủ và hỗ trợ tính điểm chất lượng ngủ \\
+\hline
+Gối thông minh FSR & Tư thế ngủ, áp lực đầu/cổ, số lần trở mình & Nguồn dữ liệu mở rộng để phát hiện trở mình và độ ổn định giấc ngủ \\
+\hline
+\caption{Dữ liệu đầu vào cho Sleep Edge AI}
 \end{longtable}
 
-Trong phiên bản prototype, SmartClock có thể bắt đầu với các dữ liệu dễ thu thập hơn như ánh sáng, âm thanh và thời lượng ngủ. Các nguồn dữ liệu như FSR, CO2, độ ẩm hoặc nhiệt độ cơ thể có thể được bổ sung ở các phiên bản mở rộng.
+\subsection{Đầu ra mong đợi}
 
-\subsection{Expected Output}
-
-Đầu ra của module Edge AI bao gồm:
+Đầu ra của module Sleep Edge AI bao gồm:
 
 \begin{itemize}
-    \item Nhãn trạng thái ngủ theo từng khoảng thời gian: REM hoặc NREM.
-    \item Điểm đánh giá chất lượng giấc ngủ.
     \item Tổng thời lượng ngủ.
-    \item Mức độ ổn định của giấc ngủ dựa trên số lần trở mình và biến động âm thanh.
-    \item Ghi nhận các yếu tố môi trường bất lợi như phòng quá sáng, quá ồn, CO2 cao hoặc độ ẩm không phù hợp.
+    \item Điểm đánh giá chất lượng giấc ngủ.
+    \item Realtime environment status khi người dùng quan sát trước hoặc trong phiên ngủ.
+    \item Ghi nhận các yếu tố môi trường bất lợi như phòng quá sáng, quá ồn, nhiệt độ chưa phù hợp, CO2 cao hoặc độ ẩm không phù hợp.
+    \item Tác nhân có khả năng làm giấc ngủ không ngon.
     \item Gợi ý cải thiện cho các lần ngủ tiếp theo.
+    \item Feature summary để dashboard tổng hợp theo ngày hoặc tháng.
 \end{itemize}
 
-\subsection{Edge AI Processing Pipeline}
-
-Quy trình xử lý tổng quát của module Sleep Edge AI:
+\subsection{Pipeline xử lý Sleep Edge AI}
 
 \begin{center}
 \begin{tabular}{c}
-\texttt{FSR Pillow / Microphone / Temperature / CO2 / Light / Humidity} \\
+\texttt{Microphone / Light Sensor / Temperature / Humidity / CO2 / Optional FSR} \\
 $\downarrow$ \\
-\texttt{Feature Extraction} \\
+\texttt{Sensor Preprocessing} \\
 $\downarrow$ \\
-\texttt{Posture Detection} \\
+\texttt{Feature Extraction by Time Window} \\
 $\downarrow$ \\
-\texttt{Toss and Turn Detection} \\
+\texttt{Noise / Light / Environment Analysis} \\
 $\downarrow$ \\
-\texttt{Snoring Analysis} \\
+\texttt{Sleep Quality Scoring} \\
 $\downarrow$ \\
-\texttt{Temperature and Environment Analysis} \\
+\texttt{Factor Detection} \\
 $\downarrow$ \\
-\texttt{Rule-based Sleep Stage Inference} \\
+\texttt{Sleep Report Generation} \\
 $\downarrow$ \\
-\texttt{REM / NREM Prediction} \\
+\texttt{Local Sleep Report} \\
 $\downarrow$ \\
-\texttt{Heart Rate Comparison / Validation}
+\texttt{Optional Server Synchronization}
 \end{tabular}
 \end{center}
 
-Trong pipeline này, dữ liệu FSR được dùng để xác định tư thế ngủ và phát hiện thay đổi tư thế; dữ liệu âm thanh được dùng để phát hiện tiếng ngáy, tiếng ồn và các thay đổi bất thường; dữ liệu ánh sáng, nhiệt độ, CO2 và độ ẩm được dùng để đánh giá điều kiện phòng ngủ. Các đặc trưng được trích xuất theo từng cửa sổ thời gian và đưa vào bộ luật suy luận hoặc mô hình Machine Learning nhẹ chạy trên Edge Device.
+\subsection{Thiết kế suy luận rule-based}
 
-\subsection{Rule-based Inference Design}
-
-Ở giai đoạn prototype, SmartClock có thể ưu tiên cách tiếp cận rule-based trước khi huấn luyện mô hình phức tạp. Cách này phù hợp với thiết bị nhúng vì dễ triển khai, dễ giải thích và không yêu cầu tài nguyên tính toán lớn.
+Ở giai đoạn prototype, SomniLearnAI ưu tiên cách tiếp cận rule-based trước khi huấn luyện mô hình phức tạp. Cách này phù hợp với thiết bị nhúng vì dễ triển khai, dễ giải thích và không yêu cầu tài nguyên tính toán lớn.
 
 \begin{longtable}{|P{6cm}|P{8.5cm}|}
 \hline
 \textbf{Dấu hiệu quan sát} & \textbf{Ý nghĩa suy luận} \\
 \hline
-Ít thay đổi tư thế, âm thanh ổn định, môi trường tối & Giấc ngủ có xu hướng ổn định hơn, có thể thuộc NREM. \\
+Thời lượng ngủ quá ngắn & Giấc ngủ có thể chưa đủ để phục hồi \\
 \hline
-Nhiều biến động âm thanh, nhịp thở hoặc tiếng ngáy thay đổi, cơ thể ít vận động & Có thể là giai đoạn REM hoặc giai đoạn ngủ không ổn định. \\
+Phòng quá sáng trong thời gian dài & Ánh sáng có thể ảnh hưởng đến chất lượng ngủ \\
 \hline
-Nhiều lần trở mình liên tục & Chất lượng ngủ giảm hoặc người dùng đang ở trạng thái ngủ nông. \\
+Tiếng ồn cao hoặc biến động âm thanh nhiều & Môi trường ngủ có khả năng gây gián đoạn \\
 \hline
-Phòng quá sáng hoặc quá ồn & Điều kiện môi trường có thể làm giảm chất lượng giấc ngủ. \\
+Nhiệt độ quá cao hoặc quá thấp & Điều kiện phòng ngủ chưa phù hợp \\
 \hline
-CO2 cao, độ ẩm không phù hợp & Môi trường phòng ngủ cần được cải thiện. \\
+CO2 cao hoặc độ ẩm không phù hợp & Phòng ngủ cần cải thiện thông khí hoặc điều chỉnh môi trường \\
 \hline
-\caption{Rule-based Sleep Inference Examples}
+Nhiều lần trở mình nếu có FSR & Giấc ngủ có thể không ổn định \\
+\hline
+\caption{Ví dụ luật suy luận giấc ngủ}
 \end{longtable}
 
-Trong tương lai, các luật này có thể được thay thế hoặc bổ sung bằng mô hình Machine Learning như Decision Tree, SVM hoặc TinyML model tùy theo tài nguyên của ESP32 và lượng dữ liệu huấn luyện thu thập được.
+Trong tương lai, các luật này có thể được thay thế hoặc bổ sung bằng mô hình Machine Learning nhẹ như Decision Tree, Random Forest nhỏ, SVM hoặc TinyML model tùy theo tài nguyên của ESP32 và lượng dữ liệu huấn luyện thu thập được.
 
-\subsection{Edge-Server Collaboration}
+\subsection{Hướng mở rộng REM/NREM}
 
-Edge Device và Server phối hợp theo nguyên tắc:
+REM/NREM không phải trọng tâm của prototype, nhưng có thể là hướng mở rộng sau khi hệ thống có thêm dữ liệu:
 
 \begin{itemize}
-    \item \textbf{Edge Device} xử lý dữ liệu thời gian thực, đọc cảm biến, trích xuất đặc trưng và đưa ra đánh giá cơ bản ngay tại thiết bị.
-    \item \textbf{Server} lưu lịch sử giấc ngủ, tổng hợp dữ liệu theo ngày/tuần, hỗ trợ dashboard và có thể chạy các phân tích nặng hơn.
+    \item \textbf{NREM (Non-Rapid Eye Movement):} giai đoạn ngủ không có chuyển động mắt nhanh, cơ thể thường ổn định và thư giãn hơn.
+    \item \textbf{REM (Rapid Eye Movement):} giai đoạn ngủ có chuyển động mắt nhanh, não hoạt động mạnh hơn và thường liên quan đến giấc mơ.
 \end{itemize}
 
-Khi SmartClock offline, thiết bị vẫn có thể ghi nhận phiên ngủ, tính thời lượng ngủ và đưa ra đánh giá cơ bản. Khi online, thiết bị đồng bộ dữ liệu lên Server để người dùng xem lịch sử, biểu đồ hoặc nhận gợi ý cá nhân hóa tốt hơn.
+Phương pháp chuyên nghiệp để phân tích giấc ngủ là PSG, sử dụng nhiều tín hiệu sinh lý như EEG, EOG, EMG, ECG và hô hấp. SomniLearnAI không có đầy đủ các tín hiệu này, vì vậy REM/NREM chỉ nên được xem là hướng mở rộng và là ước lượng hỗ trợ. Kết quả này cần được trình bày rõ là tham khảo, không phải kết luận y khoa.
 
-\subsection{Limitations}
+\subsection{Ranh giới Edge--Server}
+
+\begin{longtable}{|P{3cm}|P{11.5cm}|}
+\hline
+\textbf{Thành phần} & \textbf{Trách nhiệm} \\
+\hline
+Edge Device & Quan sát giấc ngủ realtime, trích xuất đặc trưng, tính sleep score cơ bản và hiển thị báo cáo ngủ tại thiết bị \\
+\hline
+Server & Lưu sleep session, study session, presentation session và cung cấp API cho dashboard \\
+\hline
+Dashboard & Quan sát lịch sử theo ngày/tháng, so sánh xu hướng và hiển thị tổng kết \\
+\hline
+\caption{Ranh giới Edge--Server}
+\end{longtable}
+
+\subsection{Giới hạn}
 
 \begin{itemize}
-    \item Kết quả REM/NREM chỉ là ước lượng hỗ trợ, không phải chẩn đoán y khoa.
-    \item Hệ thống không phân tách chi tiết N1, N2, N3 như PSG.
+    \item Kết quả đánh giá giấc ngủ chỉ là thông tin hỗ trợ, không phải chẩn đoán y khoa.
+    \item Kết quả REM/NREM nếu có chỉ là ước lượng tham khảo, không thay thế PSG.
+    \item Edge Device không thực hiện chấm điểm thuyết trình đầy đủ; chức năng đó thuộc Internet Service.
     \item Độ chính xác phụ thuộc vào vị trí cảm biến, chất lượng microphone, nhiễu môi trường và thói quen ngủ của từng người.
-    \item Một số cảm biến như FSR, CO2, độ ẩm hoặc nhiệt độ cơ thể có thể chưa có trong phiên bản prototype đầu tiên.
-    \item Nếu không có dữ liệu nhịp tim hoặc tín hiệu sinh lý trực tiếp, việc kiểm chứng kết quả REM/NREM sẽ còn hạn chế.
+    \item Một số cảm biến như FSR, CO2, độ ẩm hoặc nhiệt độ có thể chưa có trong phiên bản prototype đầu tiên.
 \end{itemize}
 
 \newpage
-\section{User Manual}
+%-----------------------------------------------------------------
+\section{Internet Service: Dashboard Quan sát}
 
-\subsection{Overview}
+\subsection{Tổng quan}
 
-Tài liệu này hướng dẫn người dùng thao tác với SmartClock thông qua màn hình TFT và 5 nút vật lý. Các chức năng được tổ chức theo ba nhóm mục tiêu chính: hỗ trợ tập trung, hỗ trợ giấc ngủ, và giải trí/trang trí.
+Chương này mô tả \textbf{Objective 3: đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên}. Nếu chương Edge AI tập trung vào quan sát giấc ngủ ngay trên Edge Device, thì chương này tập trung vào quan sát dữ liệu dài hạn sau khi các phiên được đồng bộ lên Server.
 
-SmartClock sử dụng một nút chuyển chế độ và các nút hành động theo từng màn hình. Người dùng có thể đi qua các chế độ theo vòng lặp:
+Internet Service của SomniLearnAI gồm 3 thành phần:
+
+\begin{itemize}
+    \item \textbf{API Server:} nhận dữ liệu phiên từ Edge Device và cung cấp dữ liệu cho dashboard.
+    \item \textbf{Session Database:} lưu lịch sử phiên học, phiên ngủ và phiên thuyết trình.
+    \item \textbf{Web Dashboard:} hiển thị dữ liệu để người dùng quan sát tiến độ và xu hướng.
+\end{itemize}
+
+Dashboard không thay thế chức năng realtime trên thiết bị. Vai trò của dashboard là giúp người dùng nhìn lại dữ liệu đã xảy ra, so sánh theo thời gian và rút ra xu hướng.
+
+\specfigure{images/Architecture (12).png}{0.86}{Dashboard Observation Context Diagram}
+
+\subsection{Mô hình dữ liệu phiên}
+
+\subsubsection{Study Session}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Trường} & \textbf{Mô tả} \\
+\hline
+sessionId & Mã phiên học \\
+\hline
+userId & Mã người dùng \\
+\hline
+startedAt & Thời gian bắt đầu \\
+\hline
+endedAt & Thời gian kết thúc \\
+\hline
+focusMinutes & Số phút tập trung \\
+\hline
+breakMinutes & Số phút nghỉ \\
+\hline
+pomodoroCount & Số Pomodoro được tính trong phiên \\
+\hline
+completed & Trạng thái hoàn thành \\
+\hline
+\caption{Mô hình dữ liệu Study Session}
+\end{longtable}
+
+\subsubsection{Sleep Session}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Trường} & \textbf{Mô tả} \\
+\hline
+sessionId & Mã phiên ngủ \\
+\hline
+userId & Mã người dùng \\
+\hline
+startedAt & Thời gian bắt đầu ngủ \\
+\hline
+endedAt & Thời gian kết thúc ngủ \\
+\hline
+durationMinutes & Tổng thời lượng ngủ \\
+\hline
+sleepScore & Điểm chất lượng giấc ngủ \\
+\hline
+environmentSummary & Tóm tắt môi trường ngủ \\
+\hline
+detectedFactors & Tác nhân ảnh hưởng như sáng, ồn, nóng, ẩm hoặc CO2 cao \\
+\hline
+recommendation & Gợi ý cải thiện \\
+\hline
+\caption{Mô hình dữ liệu Sleep Session}
+\end{longtable}
+
+\subsubsection{Presentation Session}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Trường} & \textbf{Mô tả} \\
+\hline
+sessionId & Mã phiên thuyết trình \\
+\hline
+userId & Mã người dùng \\
+\hline
+startedAt & Thời gian bắt đầu \\
+\hline
+endedAt & Thời gian kết thúc \\
+\hline
+durationSeconds & Thời lượng nói \\
+\hline
+presentationScore & Điểm đánh giá từ Server \\
+\hline
+speechRate & Tốc độ nói ước tính \\
+\hline
+clarityScore & Điểm độ rõ ràng \\
+\hline
+serverAnalysisStatus & Trạng thái chấm điểm: pending, scored hoặc failed \\
+\hline
+feedback & Nhận xét ngắn \\
+\hline
+\caption{Mô hình dữ liệu Presentation Session}
+\end{longtable}
+
+\subsection{Các khu vực quan sát trên dashboard}
+
+\specfigure{images/Architecture (13).png}{0.72}{Dashboard Observation Views Diagram}
+
+\subsubsection{Study Observation}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Tính năng} & \textbf{Mô tả} \\
+\hline
+Today Pomodoro count & Hiển thị số Pomodoro hoàn thành trong ngày \\
+\hline
+Focus minutes & Hiển thị tổng phút tập trung \\
+\hline
+Session list & Hiển thị danh sách phiên học \\
+\hline
+Trend chart & Biểu đồ số Pomodoro theo ngày \\
+\hline
+Date filter & Lọc theo ngày, tuần hoặc tháng \\
+\hline
+\caption{Study Observation}
+\end{longtable}
+
+\subsubsection{Sleep Observation}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Tính năng} & \textbf{Mô tả} \\
+\hline
+Monthly sleep score & Điểm ngủ trung bình theo tháng \\
+\hline
+Sleep duration chart & Biểu đồ thời lượng ngủ \\
+\hline
+Factor analysis & Thống kê tác nhân ảnh hưởng thường gặp \\
+\hline
+Session detail & Chi tiết từng phiên ngủ \\
+\hline
+Monthly summary & Đánh giá tổng kết cuối tháng và gợi ý cải thiện \\
+\hline
+\caption{Sleep Observation}
+\end{longtable}
+
+\subsubsection{Presentation Observation}
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Tính năng} & \textbf{Mô tả} \\
+\hline
+Session list & Danh sách các lần thuyết trình \\
+\hline
+Score history & Điểm từng phiên \\
+\hline
+Duration & Thời lượng nói \\
+\hline
+Feedback & Nhận xét ngắn sau phiên \\
+\hline
+Progress chart & Biểu đồ xu hướng điểm số \\
+\hline
+\caption{Presentation Observation}
+\end{longtable}
+
+\subsection{Chấm điểm thuyết trình qua Server}
+
+Seminar Practice cần Wi-Fi và sự hỗ trợ của Server để chấm điểm đầy đủ hơn. Edge Device chịu trách nhiệm bắt đầu/kết thúc phiên, ghi nhận thời lượng và gửi dữ liệu âm thanh hoặc feature summary lên Server. Server xử lý dữ liệu, tạo điểm thuyết trình và trả kết quả về dashboard.
+
+\specfigure{images/Architecture (14).png}{0.9}{Server-assisted Presentation Scoring Sequence Diagram}
+
+Nếu thiết bị offline, phiên thuyết trình có thể được lưu tạm với trạng thái \texttt{pending}. Khi thiết bị online lại, dữ liệu được gửi lên Server để chấm điểm và dashboard cập nhật kết quả sau.
+
+\clearpage
+\subsection{Luồng đồng bộ}
+
+\specfigure{images/Architecture (15).png}{0.72}{Synchronization Flow Diagram}
+
+\subsection{Lưu ý bảo mật và riêng tư}
+
+\begin{itemize}
+    \item Dữ liệu phiên cần gắn với \texttt{userId} để tách dữ liệu giữa các người dùng.
+    \item Dữ liệu âm thanh thuyết trình cần được gửi qua kết nối an toàn; Server nên lưu feature summary và kết quả điểm thay vì raw audio nếu không cần thiết.
+    \item Dữ liệu giấc ngủ và môi trường phòng ngủ là dữ liệu cá nhân, cần có cơ chế xác thực dashboard.
+    \item API cần validate dữ liệu đầu vào để tránh phiên thiếu thời gian bắt đầu, thời gian kết thúc hoặc điểm số không hợp lệ.
+\end{itemize}
+
+\newpage
+%-----------------------------------------------------------------
+\section{Hướng dẫn sử dụng}
+
+\subsection{Tổng quan}
+
+Tài liệu này hướng dẫn người dùng thao tác với \textbf{SomniLearnAI} thông qua màn hình TFT, 5 nút vật lý trên thiết bị Edge và dashboard web. Các chức năng được tổ chức theo 3 nhóm mục tiêu chính:
+
+\begin{itemize}
+    \item \textbf{Objective 1 --- Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình:} Pomodoro Timer và Seminar Practice.
+    \item \textbf{Objective 2 --- Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường:} Sleep Monitoring Edge AI, đặt báo thức và hiển thị realtime môi trường xung quanh.
+    \item \textbf{Objective 3 --- Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên:} xem lại phiên học, phiên ngủ và phiên thuyết trình.
+\end{itemize}
+
+Trên thiết bị Edge, người dùng có thể đi qua các màn hình theo vòng lặp:
 
 \begin{center}
-\texttt{HOME $\rightarrow$ STUDY $\rightarrow$ SLEEP $\rightarrow$ RELAX $\rightarrow$ HOME}
+\texttt{HOME $\rightarrow$ STUDY $\rightarrow$ SLEEP $\rightarrow$ STATUS $\rightarrow$ HOME}
 \end{center}
 
-\subsection{Button Layout}
+Dashboard web được dùng để xem lịch sử dài hạn sau khi thiết bị đồng bộ dữ liệu lên Server.
+
+\subsection{Bố trí nút bấm}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Chức năng chung} \\
+\textbf{Nút} & \textbf{Chức năng chung} \\
 \hline
-Button 1 & Chuyển sang chế độ tiếp theo. \\
+Button 1 & Chuyển sang màn hình hoặc chế độ tiếp theo \\
 \hline
-Button 2 & Mở chức năng chính hoặc quay lại menu. \\
+Button 2 & Mở chức năng chính, lưu cấu hình hoặc quay lại menu \\
 \hline
-Button 3 & Thực hiện hành động phụ như bắt đầu, tạm dừng hoặc chọn mục. \\
+Button 3 & Bắt đầu, tạm dừng, tiếp tục hoặc chọn mục \\
 \hline
-Button 4 & Tăng giá trị, chuyển bài hoặc mở chức năng bổ sung. \\
+Button 4 & Tăng giá trị, xem kết quả hoặc chuyển mục tiếp theo \\
 \hline
-Button 5 & Giảm giá trị, quay bài hoặc mở cấu hình tùy theo màn hình. \\
+Button 5 & Giảm giá trị, mở cấu hình hoặc chuyển mục trước \\
 \hline
-\caption{Button Layout}
+\caption{Bố trí nút bấm}
 \end{longtable}
 
-\subsection{Internet Connection Setup}
+Chức năng cụ thể có thể thay đổi theo màn hình hiện tại. Người dùng nên quan sát phần nhãn nút hiển thị trên màn hình TFT trước khi thao tác.
 
-SmartClock là Edge Device có thể hoạt động cục bộ và có thể kết nối Server khi có Internet. Trong trường hợp không có Wi-Fi cố định, người dùng có thể dùng điện thoại hoặc laptop làm điểm phát Wi-Fi để SmartClock truy cập Internet.
+\subsection{Cài đặt kết nối Internet}
+
+SomniLearnAI là Edge Device có thể hoạt động cục bộ và có thể kết nối Server khi có Internet. Khi không có Wi-Fi cố định, người dùng có thể dùng điện thoại hoặc laptop làm hotspot để thiết bị đồng bộ dữ liệu phiên.
 
 \begin{center}
-\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SmartClock\_Setup AP}
+\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SomniLearnAI\_Setup AP}
 
-\texttt{SmartClock Edge Device} $\leftrightarrow$ \texttt{Phone/Laptop Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SmartClock Server}
+\texttt{SomniLearnAI} $\leftrightarrow$ \texttt{Wi-Fi/Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SomniLearnAI Server} $\leftrightarrow$ \texttt{Dashboard}
 \end{center}
 
-\subsubsection{Open SmartClock Setup Network}
+\textbf{Các bước cài đặt:}
 
 \begin{enumerate}
-    \item Bật SmartClock.
-    \item Nếu thiết bị chưa có cấu hình Wi-Fi, SmartClock sẽ bật mạng setup tạm thời, ví dụ \texttt{SmartClock\_Setup}.
-    \item Trên điện thoại hoặc laptop, mở danh sách Wi-Fi.
-    \item Kết nối vào mạng \texttt{SmartClock\_Setup}.
-    \item Mở trang cấu hình của SmartClock nếu thiết bị yêu cầu.
-    \item Nhập tên Wi-Fi và mật khẩu mạng sẽ dùng cho SmartClock.
-    \item Lưu cấu hình và chờ SmartClock khởi động lại kết nối.
-\end{enumerate}
-
-\subsubsection{Connect Through Phone Hotspot}
-
-\begin{enumerate}
-    \item Mở phần cài đặt mạng trên điện thoại.
-    \item Bật Personal Hotspot hoặc Mobile Hotspot.
-    \item Đặt tên Wi-Fi và mật khẩu dễ nhận biết.
-    \item Nhập tên hotspot và mật khẩu này vào trang cấu hình SmartClock.
-    \item Chờ thiết bị kết nối.
-    \item Khi kết nối thành công, SmartClock có thể gửi dữ liệu hoặc nhận cấu hình từ Server.
-\end{enumerate}
-
-\subsubsection{Connect Through Laptop Hotspot}
-
-\begin{enumerate}
-    \item Kết nối laptop với Internet.
-    \item Bật tính năng Mobile Hotspot hoặc Internet Sharing trên laptop.
-    \item Kiểm tra tên Wi-Fi và mật khẩu hotspot.
-    \item Nhập tên hotspot và mật khẩu này vào trang cấu hình SmartClock.
-    \item Chờ trạng thái kết nối thành công.
+    \item Bật SomniLearnAI.
+    \item Nếu thiết bị chưa có cấu hình Wi-Fi, thiết bị sẽ bật mạng setup tạm thời \texttt{SomniLearnAI\_Setup}.
+    \item Trên điện thoại hoặc laptop, kết nối vào mạng setup này.
+    \item Mở trang cấu hình của thiết bị.
+    \item Nhập tên Wi-Fi hoặc hotspot và mật khẩu.
+    \item Lưu cấu hình và chờ thiết bị kết nối lại.
+    \item Khi trạng thái Online hiển thị, thiết bị có thể đồng bộ phiên học, phiên ngủ và phiên thuyết trình.
 \end{enumerate}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Status} & \textbf{Behavior} \\
+\textbf{Trạng thái} & \textbf{Hành vi} \\
 \hline
-Online & SmartClock có thể đồng bộ cấu hình, gửi dữ liệu theo dõi và mở rộng các chức năng phân tích qua Server. \\
+Online & Thiết bị đồng bộ dữ liệu phiên lên Server; dashboard cập nhật lịch sử và biểu đồ. \\
 \hline
-Offline & Pomodoro, báo thức, điều hướng menu, Flappy Bird và một số chức năng cục bộ vẫn có thể hoạt động. \\
+Offline & Pomodoro, báo thức và Sleep Monitoring vẫn hoạt động cục bộ; Seminar Practice có thể ghi nhận thời lượng hoặc lưu tạm phiên nhưng chưa chấm điểm đầy đủ. \\
 \hline
-\caption{Online and Offline Usage}
+Kết nối lại & Thiết bị gửi các phiên chưa đồng bộ lên Server. \\
+\hline
+\caption{Hành vi online và offline}
 \end{longtable}
 
-\subsection{Home Screen}
+\subsection{Màn hình Home}
 
-Màn hình Home hiển thị tổng quan các nhóm chức năng của SmartClock. Đây là điểm bắt đầu khi thiết bị được bật.
+Home Screen hiển thị giờ hiện tại, trạng thái kết nối và lối vào các chế độ chính.
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Action} \\
+\textbf{Nút} & \textbf{Hành động} \\
 \hline
-Button 1 & Chuyển sang chế độ STUDY. \\
+Button 1 & Chuyển sang Study Mode \\
 \hline
-Button 2-5 & Không sử dụng trên màn hình Home. \\
+Button 2 & Xem trạng thái thiết bị \\
 \hline
-\caption{Home Screen Actions}
+Button 3--5 & Không sử dụng trên Home Screen \\
+\hline
+\caption{Hành động trên Home Screen}
 \end{longtable}
 
-\subsection{Study Mode}
+\subsection{Study Mode for Objective 1}
 
-Study Mode hỗ trợ người dùng học tập và làm việc tập trung hơn. Chế độ này gồm Pomodoro Timer và Seminar Practice.
+Study Mode hỗ trợ người dùng học tập tập trung và luyện tập thuyết trình. Chế độ này gồm 2 chức năng chính: Pomodoro Timer và Seminar Practice.
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Action} \\
+\textbf{Nút} & \textbf{Hành động} \\
 \hline
-Button 1 & Chuyển sang Sleep Mode. \\
+Button 1 & Chuyển sang Sleep Mode \\
 \hline
-Button 2 & Mở Pomodoro Timer. \\
+Button 2 & Mở Pomodoro Timer \\
 \hline
-Button 3 & Mở Seminar Practice. \\
+Button 3 & Mở Seminar Practice \\
 \hline
-\caption{Study Menu Actions}
+Button 4 & Xem nhanh số Pomodoro hôm nay \\
+\hline
+Button 5 & Quay lại Home Screen \\
+\hline
+\caption{Study Menu}
 \end{longtable}
 
 \subsubsection{Pomodoro Timer}
 
 \begin{enumerate}
-    \item Vào Study Mode.
-    \item Nhấn Button 2 để mở Pomodoro Timer.
-    \item Nhấn Button 3 để bắt đầu hoặc tạm dừng bộ đếm.
-    \item Nhấn Button 4 để reset bộ đếm về thời gian ban đầu.
-    \item Nhấn Button 5 để mở màn hình cấu hình thời gian.
+    \item Vào \textbf{Study Mode}.
+    \item Nhấn \textbf{Button 2} để mở \textbf{Pomodoro Timer}.
+    \item Nhấn \textbf{Button 3} để bắt đầu hoặc tạm dừng bộ đếm.
+    \item Nhấn \textbf{Button 4} để reset phiên hiện tại.
+    \item Nhấn \textbf{Button 5} để mở cấu hình thời gian.
+    \item Khi phiên kết thúc, xem thông báo trên màn hình và chờ thiết bị lưu phiên học.
 \end{enumerate}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Pomodoro Configuration Action} \\
+\textbf{Nút} & \textbf{Hành động trong cấu hình Pomodoro} \\
 \hline
-Button 2 & Lưu cấu hình và quay lại Pomodoro Timer. \\
+Button 2 & Lưu cấu hình và quay lại Pomodoro Timer \\
 \hline
-Button 3 & Chọn trường cần chỉnh: Study Time hoặc Break Time. \\
+Button 3 & Chọn trường cần chỉnh: Study Time hoặc Break Time \\
 \hline
-Button 4 & Tăng giá trị thêm 1 phút. \\
+Button 4 & Tăng giá trị thêm 1 phút \\
 \hline
-Button 5 & Giảm giá trị 1 phút. \\
+Button 5 & Giảm giá trị 1 phút \\
 \hline
-\caption{Pomodoro Configuration}
+\caption{Cấu hình Pomodoro Timer}
 \end{longtable}
 
 \subsubsection{Seminar Practice}
 
 \begin{enumerate}
-    \item Vào Study Mode.
-    \item Nhấn Button 3 để mở Seminar Practice.
-    \item Nhấn Button 3 để bắt đầu ghi nhận phần trình bày.
-    \item Nhấn Button 3 lần nữa để kết thúc phần trình bày.
-    \item Nhấn Button 4 để xem đánh giá luyện tập.
-    \item Nhấn Button 2 để quay lại Study Menu.
+    \item Vào \textbf{Study Mode}.
+    \item Nhấn \textbf{Button 3} để mở \textbf{Seminar Practice}.
+    \item Nhấn \textbf{Button 5} để cấu hình thời lượng mục tiêu nếu cần.
+    \item Nhấn \textbf{Button 3} để bắt đầu ghi nhận phần trình bày.
+    \item Trình bày bài nói trước thiết bị.
+    \item Nhấn \textbf{Button 3} lần nữa để kết thúc phiên.
+    \item Nhấn \textbf{Button 4} để xem trạng thái chấm điểm, điểm số và nhận xét nếu phiên đã được Server xử lý.
+    \item Nhấn \textbf{Button 2} để quay lại Study Menu.
 \end{enumerate}
 
-\subsection{Sleep Mode}
+\subsection{Sleep Mode for Objective 2}
 
-Sleep Mode hỗ trợ người dùng xây dựng thói quen nghỉ ngơi hợp lý hơn. Chế độ này gồm theo dõi chất lượng ngủ và đặt báo thức.
+Sleep Mode hỗ trợ người dùng quan sát giấc ngủ, đặt báo thức và theo dõi môi trường phòng ngủ.
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Action} \\
+\textbf{Nút} & \textbf{Hành động} \\
 \hline
-Button 1 & Chuyển sang Relax Mode. \\
+Button 1 & Chuyển sang Status Screen \\
 \hline
-Button 2 & Bắt đầu theo dõi giấc ngủ. \\
+Button 2 & Bắt đầu hoặc dừng Sleep Monitoring \\
 \hline
-Button 3 & Mở cài đặt báo thức. \\
+Button 3 & Xem realtime môi trường xung quanh \\
 \hline
-Button 4 & Mở cấu hình thời lượng ngủ. \\
+Button 4 & Mở Alarm Setting; nhấn giữ để xem báo cáo phiên ngủ gần nhất \\
 \hline
-\caption{Sleep Menu Actions}
+Button 5 & Quay lại Study Mode \\
+\hline
+\caption{Sleep Menu}
 \end{longtable}
 
-\subsubsection{Sleep Monitoring}
-
-Sleep Monitoring ghi nhận thời gian ngủ và tạo đánh giá cơ bản sau khi người dùng kết thúc phiên theo dõi. Khi module Edge AI được bật, SmartClock có thể kết hợp thêm dữ liệu âm thanh, ánh sáng, nhiệt độ, môi trường phòng ngủ và gối thông minh FSR để ước lượng trạng thái ngủ REM/NREM.
-
-Kết quả REM/NREM chỉ mang tính hỗ trợ theo dõi thói quen nghỉ ngơi, không phải kết luận y khoa. Người dùng nên xem đây là thông tin tham khảo để điều chỉnh môi trường ngủ và lịch sinh hoạt.
+\subsubsection{Sleep Monitoring Edge AI}
 
 \begin{enumerate}
-    \item Vào Sleep Mode.
-    \item Nhấn Button 2 để bắt đầu theo dõi giấc ngủ.
-    \item Để thiết bị hoạt động trong suốt thời gian nghỉ ngơi.
-    \item Sau khi thức dậy, nhấn Button 2 để dừng theo dõi.
+    \item Vào \textbf{Sleep Mode}.
+    \item Nhấn \textbf{Button 3} để xem nhanh môi trường xung quanh trước khi ngủ.
+    \item Nhấn \textbf{Button 2} để bắt đầu theo dõi giấc ngủ.
+    \item Đặt thiết bị ở vị trí ổn định trong phòng.
+    \item Sau khi thức dậy, nhấn \textbf{Button 2} để dừng theo dõi.
     \item Xem báo cáo chất lượng ngủ trên màn hình.
-    \item Nhấn Button 2 để xác nhận và quay lại Sleep Menu.
+    \item Khi có Internet, thiết bị đồng bộ phiên ngủ lên dashboard.
 \end{enumerate}
 
-\textbf{Sleep Report Information}
-
-Báo cáo sau phiên ngủ có thể bao gồm:
+\textbf{Thông tin báo cáo giấc ngủ:}
 
 \begin{itemize}
     \item Tổng thời lượng ngủ.
     \item Điểm đánh giá chất lượng giấc ngủ.
-    \item Ước lượng tỷ lệ hoặc khoảng thời gian REM/NREM.
-    \item Số lần trở mình nếu có dữ liệu từ gối FSR.
-    \item Mức độ ngáy hoặc tiếng ồn môi trường nếu có dữ liệu microphone.
-    \item Nhận xét về ánh sáng, nhiệt độ, CO2 hoặc độ ẩm phòng ngủ nếu có cảm biến tương ứng.
-    \item Gợi ý cải thiện như giảm ánh sáng, giảm tiếng ồn hoặc điều chỉnh thời lượng ngủ.
+    \item Nhận xét về ánh sáng, tiếng ồn, nhiệt độ, CO2 hoặc độ ẩm.
+    \item Tác nhân có khả năng làm giấc ngủ không ngon.
+    \item Gợi ý cải thiện cho lần ngủ tiếp theo.
 \end{itemize}
 
-\subsubsection{Alarm Settings}
+\subsubsection{Alarm Setting}
 
 \begin{enumerate}
-    \item Vào Sleep Mode.
-    \item Nhấn Button 3 để mở Alarm Settings.
-    \item Nhấn Button 3 để bật hoặc tắt báo thức.
-    \item Nhấn Button 4 để mở màn hình chỉnh thời lượng ngủ và giờ báo thức.
-    \item Nhấn Button 2 để lưu cài đặt và quay lại Sleep Menu.
+    \item Vào \textbf{Sleep Mode}.
+    \item Nhấn \textbf{Button 4} để mở \textbf{Alarm Setting}.
+    \item Dùng \textbf{Button 2} để tăng giờ báo thức.
+    \item Dùng \textbf{Button 3} để tăng phút báo thức.
+    \item Dùng \textbf{Button 4} để bật hoặc tắt báo thức.
+    \item Nhấn \textbf{Button 5} để lưu và quay lại Sleep Menu.
+    \item Khi đến giờ, thiết bị phát tín hiệu báo thức.
+    \item Nhấn \textbf{Button 5} để tắt báo thức.
 \end{enumerate}
+
+\subsection{Status Screen}
+
+Status Screen hiển thị trạng thái kết nối và đồng bộ dữ liệu.
+
+\begin{longtable}{|P{4cm}|P{10cm}|}
+\hline
+\textbf{Thông tin} & \textbf{Mô tả} \\
+\hline
+Wi-Fi status & Online hoặc Offline \\
+\hline
+Server sync & Trạng thái đồng bộ dữ liệu \\
+\hline
+Unsynced sessions & Số phiên chưa đồng bộ \\
+\hline
+Device time & Giờ hiện tại của thiết bị \\
+\hline
+\caption{Thông tin Status Screen}
+\end{longtable}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Button} & \textbf{Sleep Duration / Alarm Configuration Action} \\
+\textbf{Nút} & \textbf{Hành động} \\
 \hline
-Button 2 & Lưu cấu hình và quay lại Alarm Settings. \\
+Button 1 & Quay về Home Screen \\
 \hline
-Button 3 & Chọn trường cần chỉnh: Sleep Duration hoặc Alarm Hour. \\
+Button 2 & Thử đồng bộ lại \\
 \hline
-Button 4 & Tăng giá trị. \\
+Button 3 & Xem số phiên chưa đồng bộ \\
 \hline
-Button 5 & Giảm giá trị. \\
+Button 4 & Xem thông tin Wi-Fi \\
 \hline
-\caption{Sleep and Alarm Configuration}
+Button 5 & Quay lại Sleep Mode \\
+\hline
+\caption{Hành động trên Status Screen}
 \end{longtable}
 
-\subsection{Relax Mode}
+\subsection{Dashboard for Objective 3}
 
-Relax Mode hỗ trợ người dùng giải trí nhẹ nhàng trong thời gian nghỉ và tăng tính sinh động cho góc học tập hoặc làm việc. Chế độ này gồm Flappy Bird và Music Player.
+Dashboard là giao diện web dùng để xem lại dữ liệu đã đồng bộ từ SomniLearnAI. Người dùng truy cập dashboard bằng trình duyệt trên điện thoại hoặc laptop.
 
-\begin{longtable}{|P{3cm}|P{11.5cm}|}
+\begin{longtable}{|P{4cm}|P{10cm}|}
 \hline
-\textbf{Button} & \textbf{Action} \\
+\textbf{Tab} & \textbf{Mục đích} \\
 \hline
-Button 1 & Chuyển về Home Screen. \\
+Overview & Xem tổng quan học tập, giấc ngủ và thuyết trình \\
 \hline
-Button 2 & Mở Flappy Bird. \\
+Study Sessions & Xem số Pomodoro hôm nay và lịch sử phiên học \\
 \hline
-Button 3 & Mở Music Player. \\
+Sleep Sessions & Xem giấc ngủ theo tháng và tổng kết cuối tháng \\
 \hline
-\caption{Relax Menu Actions}
+Presentation Sessions & Xem điểm và danh sách các lần luyện nói \\
+\hline
+\caption{Các tab chính của dashboard}
 \end{longtable}
 
-\subsubsection{Flappy Bird}
-
-\begin{enumerate}
-    \item Vào Relax Mode.
-    \item Nhấn Button 2 để mở Flappy Bird.
-    \item Nhấn Button 3 để điều khiển nhân vật nhảy.
-    \item Trò chơi kết thúc khi nhân vật va chạm hoặc rơi khỏi vùng chơi.
-    \item Nhấn Button 2 để thoát về Relax Menu.
-\end{enumerate}
-
-\subsubsection{Music Player}
-
-\begin{enumerate}
-    \item Vào Relax Mode.
-    \item Nhấn Button 3 để mở Music Player.
-    \item Nhấn Button 3 để phát hoặc tạm dừng nhạc.
-    \item Nhấn Button 4 để chuyển sang bài tiếp theo.
-    \item Nhấn Button 5 để quay lại bài trước.
-    \item Nhấn Button 2 để quay lại Relax Menu.
-\end{enumerate}
-
-\subsection{Notes}
+\subsection{Lưu ý sử dụng}
 
 \begin{itemize}
-    \item Trước khi sử dụng, cần đảm bảo SmartClock đã được cấp nguồn và màn hình hiển thị bình thường.
-    \item Khi đang cấu hình thời gian, nên kiểm tra kỹ giá trị trước khi nhấn lưu.
-    \item Các chức năng đánh giá giấc ngủ, ước lượng REM/NREM và luyện tập seminar trong phiên bản hiện tại mang tính hỗ trợ cơ bản, có thể được mở rộng trong các phiên bản tiếp theo.
-    \item Khi dùng Sleep Monitoring, nên đặt SmartClock và các cảm biến liên quan ở vị trí ổn định, hạn chế nguồn tiếng ồn hoặc ánh sáng bất thường để dữ liệu đáng tin cậy hơn.
-    \item Kết quả REM/NREM không thay thế thiết bị y tế hoặc phân tích PSG chuyên nghiệp.
-    \item Nếu muốn quay lại màn hình chính, tiếp tục nhấn Button 1 để chuyển qua các chế độ theo vòng lặp.
+    \item Trước khi sử dụng, cần đảm bảo SomniLearnAI đã được cấp nguồn và màn hình hiển thị bình thường.
+    \item Khi đang cấu hình thời gian Pomodoro, nên kiểm tra kỹ giá trị trước khi lưu.
+    \item Đánh giá giấc ngủ trên Edge Device mang tính hỗ trợ, có thể được mở rộng ở các phiên bản tiếp theo.
+    \item Báo thức phụ thuộc vào thời gian hệ thống của thiết bị, vì vậy nên kiểm tra đồng bộ thời gian khi có Internet.
+    \item Chấm điểm thuyết trình cần Wi-Fi và Server; khi offline, thiết bị chỉ lưu tạm phiên hoặc ghi nhận thời lượng.
+    \item Khi dùng Sleep Monitoring, nên đặt thiết bị ở vị trí ổn định và hạn chế nguồn tiếng ồn hoặc ánh sáng bất thường.
+    \item Kết quả giấc ngủ không thay thế thiết bị y tế hoặc phân tích chuyên nghiệp.
+    \item Nếu thiết bị Offline, dữ liệu phiên vẫn có thể được lưu tạm và đồng bộ sau khi có Internet.
 \end{itemize}
 
 \newpage
-\section{Conclusion}
+%-----------------------------------------------------------------
+\section{Tổng kết}
 
-\subsection{Project Summary}
+\subsection{Tóm tắt dự án}
 
-SmartClock được xây dựng với định hướng trở thành một thiết bị đồng hồ thông minh nhỏ gọn, dễ sử dụng và phù hợp với không gian học tập, làm việc hoặc nghỉ ngơi cá nhân. Xuất phát từ nhu cầu giảm sự phụ thuộc vào điện thoại thông minh trong quá trình quản lý thời gian, dự án tập trung vào việc tạo ra một thiết bị chuyên biệt có khả năng hỗ trợ người dùng duy trì thói quen sinh hoạt hiệu quả hơn.
+SomniLearnAI được xây dựng với định hướng trở thành một đồng hồ thông minh AIoT hỗ trợ học tập, luyện tập thuyết trình, quan sát giấc ngủ, đặt báo thức và quản lý lịch sử phiên cá nhân. So với định hướng SmartClock ban đầu, phiên bản đặc tả mới tập trung rõ hơn vào dữ liệu học tập và sức khỏe sinh hoạt thay vì các chức năng giải trí.
 
-Về kiến trúc, SmartClock được thiết kế theo mô hình Edge Device - Server. Thiết bị Edge xử lý tương tác trực tiếp với người dùng, đọc dữ liệu từ cảm biến và hiển thị thông tin trên màn hình TFT. Server đóng vai trò lưu trữ, phân tích và mở rộng các chức năng AIoT trong tương lai. Khi không có Wi-Fi cố định, SmartClock có thể được cấu hình qua mạng setup tạm thời và kết nối Internet thông qua hotspot từ điện thoại hoặc laptop.
+Về kiến trúc, SomniLearnAI sử dụng mô hình \textbf{Edge Device $\leftrightarrow$ Server}. Thiết bị Edge đảm nhiệm tương tác trực tiếp với người dùng, đọc dữ liệu cảm biến, hiển thị giờ và trạng thái realtime trên màn hình TFT. Server và dashboard đảm nhiệm lưu trữ, tổng hợp và hiển thị lịch sử các phiên học, phiên ngủ và phiên thuyết trình.
 
-Bên cạnh các chức năng như Pomodoro Timer, Seminar Practice, Sleep Monitoring, Alarm Settings, Flappy Bird và Music Player, phần Edge AI giúp SmartClock mở rộng khả năng theo dõi giấc ngủ từ mức ghi nhận thời lượng đơn giản sang hướng phân tích dữ liệu cảm biến, ước lượng REM/NREM và đưa ra gợi ý cải thiện môi trường ngủ.
+\subsection{Mục tiêu đã đạt được}
 
-\subsection{Achieved Objectives}
+\subsubsection{Objective 1: Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình}
 
-\subsubsection{Objective 1: Supporting Focus and Productivity}
+SomniLearnAI hỗ trợ người dùng học tập tập trung hơn thông qua Pomodoro Timer. Thiết bị hiển thị giờ hiện tại, trạng thái phiên học, thời gian còn lại và số Pomodoro đã hoàn thành. Cách tiếp cận này giúp người dùng quản lý thời gian học mà không cần phụ thuộc vào điện thoại.
 
-SmartClock hỗ trợ người dùng làm việc tập trung hơn thông qua Pomodoro Timer. Tính năng này cho phép chia thời gian làm việc thành các phiên tập trung và nghỉ ngơi rõ ràng, giúp người dùng quản lý thời gian hiệu quả mà không cần phụ thuộc vào điện thoại. Seminar Practice mở rộng phạm vi hỗ trợ học tập bằng cách giúp người dùng luyện tập thuyết trình, ghi nhận thời lượng trình bày và xem đánh giá cơ bản sau khi hoàn thành.
+Bên cạnh đó, Seminar Practice giúp người dùng luyện tập thuyết trình và ghi nhận thời lượng nói trên thiết bị. Điểm đánh giá thuyết trình được xử lý bởi Server khi có Wi-Fi, sau đó hiển thị trên dashboard để người dùng xem lại danh sách các lần nói và theo dõi xu hướng cải thiện.
 
-\subsubsection{Objective 2: Supporting Better Sleep Habits}
+\subsubsection{Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường}
 
-SmartClock hướng đến việc cải thiện chất lượng nghỉ ngơi thông qua chức năng theo dõi giấc ngủ và báo thức. Người dùng có thể bắt đầu phiên theo dõi giấc ngủ, kết thúc phiên khi thức dậy và xem báo cáo đánh giá cơ bản. Khi kết hợp với module Edge AI, hệ thống có thể khai thác dữ liệu âm thanh, ánh sáng, nhiệt độ, môi trường phòng ngủ và gối thông minh FSR để ước lượng trạng thái REM/NREM theo từng khoảng thời gian.
+SomniLearnAI hỗ trợ quan sát giấc ngủ bằng cách ghi nhận thời gian ngủ, dữ liệu âm thanh, ánh sáng và các chỉ số môi trường xung quanh. Trước khi ngủ, người dùng có thể đặt báo thức trực tiếp trên thiết bị để thức dậy đúng giờ mà không cần phụ thuộc vào điện thoại hoặc Internet. Trong quá trình sử dụng, thiết bị có thể hiển thị realtime môi trường phòng ngủ để người dùng nhận biết sớm các điều kiện chưa phù hợp.
 
-Chức năng báo thức giúp người dùng duy trì thời gian thức dậy ổn định. Khi kết hợp với việc theo dõi thời lượng ngủ, đánh giá điều kiện môi trường và nhận diện các dấu hiệu như tiếng ngáy hoặc số lần trở mình, SmartClock có thể hỗ trợ người dùng hình thành thói quen sinh hoạt điều độ hơn.
+Sau khi phiên ngủ kết thúc, Edge AI đánh giá chất lượng giấc ngủ, tạo điểm số và phát hiện các tác nhân có khả năng làm giấc ngủ không ngon như phòng quá sáng, tiếng ồn cao, nhiệt độ hoặc độ ẩm chưa phù hợp.
 
-\subsubsection{Objective 3: Supporting Relaxation and Workspace Decoration}
+\subsubsection{Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên}
 
-Ngoài các chức năng hỗ trợ học tập và nghỉ ngơi, SmartClock còn tích hợp các tính năng giải trí nhẹ như Flappy Bird và Music Player. Các chức năng này giúp thiết bị trở nên sinh động hơn, đồng thời tạo ra khoảng nghỉ ngắn phù hợp sau thời gian học tập hoặc làm việc căng thẳng.
+Dashboard là thành phần giúp SomniLearnAI mở rộng từ một thiết bị Edge thành một hệ thống AIoT có khả năng theo dõi dài hạn. Người dùng có thể xem hôm đó đã học bao nhiêu Pomodoro, quan sát giấc ngủ theo tháng và xem danh sách điểm các lần luyện thuyết trình.
 
-\subsection{User Experience}
+Việc bổ sung dashboard giúp dữ liệu không chỉ dừng ở màn hình thiết bị tại thời điểm sử dụng, mà còn trở thành lịch sử có thể phân tích, so sánh và tổng kết.
 
-SmartClock được thiết kế với luồng sử dụng đơn giản, xoay quanh bốn màn hình chính: Home, Study, Sleep và Relax. Cách tổ chức này giúp người dùng dễ ghi nhớ vị trí của từng chức năng. Việc sử dụng 5 nút vật lý giúp thao tác trở nên trực tiếp và hạn chế sự xao nhãng so với việc sử dụng ứng dụng trên điện thoại.
+\subsection{Trải nghiệm người dùng}
 
-\subsection{Architecture and Hardware Value}
-
-SmartClock sử dụng các thành phần phần cứng phổ biến như ESP32-6288, TFT Display, 5 nút vật lý, cảm biến ánh sáng và microphone INMP441. Cách lựa chọn linh kiện này giúp sản phẩm có chi phí tiếp cận hợp lý, phù hợp với giai đoạn prototype và vẫn có khả năng mở rộng.
-
-Mô hình Edge-Server giúp SmartClock cân bằng giữa khả năng hoạt động cục bộ và khả năng kết nối thông minh:
-
-\begin{itemize}
-    \item Khi offline, thiết bị vẫn có thể sử dụng các chức năng cơ bản như Pomodoro, báo thức, menu, game và một số màn hình hiển thị.
-    \item Khi online, thiết bị có thể gửi dữ liệu, nhận cấu hình, lưu lịch sử và mở rộng các chức năng phân tích như dashboard giấc ngủ, tổng hợp REM/NREM hoặc gợi ý cá nhân hóa.
-    \item Việc dùng SmartClock làm setup access point tạm thời giúp người dùng cấu hình mạng bằng điện thoại hoặc laptop.
-    \item Việc dùng điện thoại hoặc laptop làm hotspot giúp SmartClock linh hoạt hơn trong môi trường học tập, làm việc hoặc thử nghiệm.
-\end{itemize}
-
-\subsection{Limitations}
-
-\begin{itemize}
-    \item Các chức năng đánh giá giấc ngủ, ước lượng REM/NREM và luyện tập seminar hiện mới dừng ở mức hỗ trợ cơ bản.
-    \item Kết quả REM/NREM chỉ là ước lượng dựa trên tín hiệu gián tiếp, không thay thế PSG hoặc chẩn đoán y khoa.
-    \item Một số nguồn dữ liệu như gối thông minh FSR, CO2, độ ẩm, nhiệt độ cơ thể hoặc nhịp tim có thể chưa được triển khai đầy đủ trong phiên bản prototype đầu tiên.
-    \item Music Player và Flappy Bird chủ yếu phục vụ trải nghiệm mô phỏng hoặc giải trí nhẹ, chưa phải hệ thống giải trí hoàn chỉnh.
-    \item Việc kết nối Internet thông qua hotspot phụ thuộc vào chất lượng mạng của điện thoại hoặc laptop.
-    \item Cơ chế setup Wi-Fi cần được thiết kế cẩn thận để người dùng nhập thông tin mạng dễ dàng và an toàn.
-    \item Chi phí phần cứng hiện mới là ước lượng cho prototype, có thể thay đổi theo thị trường linh kiện.
-    \item Chưa có phần đánh giá thực nghiệm với người dùng thực tế để đo mức độ cải thiện tập trung hoặc chất lượng sinh hoạt.
-\end{itemize}
-
-\subsection{Future Development}
-
-\begin{itemize}
-    \item Hoàn thiện thiết kế mạch, vỏ thiết bị và bố trí linh kiện cho phiên bản prototype ổn định hơn.
-    \item Cải thiện thuật toán đánh giá giấc ngủ dựa trên nhiều dữ liệu hơn như ánh sáng, âm thanh, nhiệt độ, CO2, độ ẩm, FSR pillow hoặc thói quen sử dụng.
-    \item Mở rộng module Edge AI để phân tích REM/NREM theo từng cửa sổ thời gian và đồng bộ kết quả lên dashboard.
-    \item Mở rộng Seminar Practice với khả năng phân tích tốc độ nói, độ rõ ràng, ngữ điệu và mức độ tự tin.
-    \item Bổ sung khả năng lưu lịch sử Pomodoro, lịch sử giấc ngủ và kết quả luyện tập.
-    \item Cá nhân hóa giao diện và cấu hình theo từng người dùng.
-    \item Kết nối với các nền tảng AIoT hoặc Smart Home để tăng khả năng tự động hóa.
-    \item Tối ưu cơ chế kết nối Internet, cấu hình Wi-Fi và đồng bộ Edge-Server.
-\end{itemize}
-
-\subsection{Final Conclusion}
-
-SmartClock là một dự án có tính thực tiễn cao, xuất phát từ nhu cầu rất phổ biến trong đời sống hiện đại: duy trì sự tập trung, quản lý thời gian, cải thiện giấc ngủ và tạo không gian cá nhân cân bằng hơn. So với các ứng dụng điện thoại hoặc thiết bị đa chức năng dễ gây xao nhãng, SmartClock hướng đến trải nghiệm tối giản, trực tiếp và tập trung vào những nhu cầu thiết yếu.
-
-Với kiến trúc Edge-Server, khả năng cấu hình mạng qua setup access point, kết nối Internet linh hoạt qua điện thoại hoặc laptop, cùng bộ phần cứng prototype có chi phí hợp lý, SmartClock có nền tảng rõ ràng để tiếp tục phát triển thành một sản phẩm AIoT hoàn chỉnh hơn.
+SomniLearnAI được thiết kế với luồng sử dụng đơn giản trên thiết bị:
 
 \begin{center}
-\textbf{SmartClock - Tập trung hơn, ngủ sâu hơn, sống thông minh hơn.}
+\texttt{HOME $\rightarrow$ STUDY $\rightarrow$ SLEEP $\rightarrow$ STATUS $\rightarrow$ HOME}
+\end{center}
+
+Mỗi màn hình phục vụ một nhu cầu cụ thể:
+
+\begin{itemize}
+    \item \textbf{HOME:} xem giờ hiện tại, trạng thái kết nối và điểm bắt đầu hệ thống.
+    \item \textbf{STUDY:} sử dụng Pomodoro Timer và Seminar Practice.
+    \item \textbf{SLEEP:} quan sát giấc ngủ, đặt báo thức, xem realtime môi trường và báo cáo giấc ngủ.
+    \item \textbf{STATUS:} kiểm tra kết nối, số phiên chưa đồng bộ và trạng thái Server.
+\end{itemize}
+
+Dashboard web bổ sung trải nghiệm xem lại dữ liệu dài hạn: Study Sessions, Sleep Sessions và Presentation Sessions.
+
+\subsection{Giá trị kiến trúc và phần cứng}
+
+SomniLearnAI tận dụng các thành phần phần cứng phổ biến như ESP32-S3, màn hình TFT, nút vật lý, microphone, cảm biến ánh sáng và các cảm biến môi trường có thể mở rộng. Cách lựa chọn này phù hợp với giai đoạn prototype và vẫn đủ nền tảng để triển khai các chức năng AIoT.
+
+Mô hình Edge-Server mang lại các giá trị chính:
+
+\begin{itemize}
+    \item Khi offline, thiết bị vẫn có thể chạy Pomodoro, đặt báo thức và Sleep Monitoring; Seminar Practice có thể ghi nhận phiên nhưng chưa chấm điểm đầy đủ.
+    \item Khi online, thiết bị có thể đồng bộ dữ liệu phiên lên Server.
+    \item Dashboard giúp người dùng xem lại dữ liệu học tập, giấc ngủ và thuyết trình theo thời gian.
+    \item Edge AI giúp xử lý một phần dữ liệu ngay trên thiết bị, giảm phụ thuộc vào Server trong các tác vụ quan sát cơ bản.
+\end{itemize}
+
+\subsection{Giới hạn}
+
+\begin{itemize}
+    \item Điểm thuyết trình phụ thuộc Wi-Fi và Server; khi offline, kết quả có thể ở trạng thái chờ xử lý.
+    \item Đánh giá giấc ngủ từ cảm biến môi trường chỉ mang tính hỗ trợ, không thay thế thiết bị y tế.
+    \item Báo thức phụ thuộc vào thời gian hệ thống của Edge Device, vì vậy cần đảm bảo đồng hồ thiết bị được thiết lập hoặc đồng bộ chính xác.
+    \item Một số cảm biến như CO2, độ ẩm hoặc nhiệt độ có thể chưa được triển khai đầy đủ trong prototype đầu tiên.
+    \item Dashboard phụ thuộc vào khả năng đồng bộ dữ liệu qua Internet.
+    \item Cơ chế lưu tạm khi offline cần được kiểm thử kỹ để tránh mất dữ liệu phiên.
+    \item Chưa có đánh giá thực nghiệm với nhiều người dùng để chứng minh mức cải thiện tập trung hoặc chất lượng giấc ngủ.
+\end{itemize}
+
+\subsection{Hướng phát triển}
+
+\begin{itemize}
+    \item Cải thiện dịch vụ chấm điểm thuyết trình trên Server dựa trên tốc độ nói, độ rõ ràng, ngữ điệu và độ ổn định.
+    \item Cải thiện mô hình Sleep Monitoring bằng cách kết hợp thêm nhiều cảm biến môi trường.
+    \item Bổ sung tùy chọn báo thức nâng cao như lặp theo ngày hoặc báo thức thông minh dựa trên trạng thái ngủ.
+    \item Bổ sung báo cáo học tập theo tuần, tháng và mục tiêu cá nhân.
+    \item Bổ sung tổng kết giấc ngủ cuối tháng với gợi ý cá nhân hóa hơn.
+    \item Tối ưu dashboard để so sánh xu hướng giữa phiên học, phiên ngủ và hiệu suất thuyết trình.
+    \item Hoàn thiện cơ chế đồng bộ offline-first giữa Edge Device và Server.
+    \item Cải thiện thiết kế vỏ, bố trí nút và trải nghiệm hiển thị trên màn hình TFT.
+    \item Bổ sung xác thực người dùng và bảo vệ dữ liệu cá nhân trên dashboard.
+\end{itemize}
+
+\subsection{Kết luận}
+
+SomniLearnAI là phiên bản đặc tả có định hướng rõ ràng cho một thiết bị đồng hồ thông minh AIoT phục vụ học tập và sinh hoạt cá nhân. Sản phẩm kết hợp Pomodoro, luyện tập thuyết trình, báo thức, quan sát giấc ngủ Edge AI và dashboard quản lý phiên để giúp người dùng không chỉ thực hiện hoạt động hằng ngày tốt hơn, mà còn nhìn lại tiến bộ của mình qua dữ liệu.
+
+\begin{center}
+\textbf{SomniLearnAI --- Learn better, sleep smarter, improve with data.}
 \end{center}
 
 \newpage
-\section{Appendix and Reference}
+%-----------------------------------------------------------------
+\section{Phụ lục và Tài liệu tham khảo}
 
-\subsection{Appendix}
-
-\subsubsection{Key Terms}
+\subsection{Thuật ngữ chính}
 
 \begin{longtable}{|P{3.2cm}|P{11.2cm}|}
 \hline
-\textbf{Term} & \textbf{Description} \\
+\textbf{Thuật ngữ} & \textbf{Mô tả} \\
 \hline
-SmartClock & Thiết bị đồng hồ thông minh hỗ trợ tập trung, giấc ngủ và giải trí cá nhân. \\
+SomniLearnAI & Đồng hồ thông minh AIoT hỗ trợ Pomodoro, luyện thuyết trình, báo thức, quan sát giấc ngủ và dashboard quan sát dữ liệu phiên. \\
 \hline
-Edge Device & Thiết bị xử lý gần người dùng, trực tiếp đọc cảm biến, hiển thị giao diện và nhận thao tác nút bấm. \\
+Edge Device & Thiết bị đặt gần người dùng, trực tiếp đọc cảm biến, hiển thị giao diện và nhận thao tác nút bấm. \\
 \hline
-Server & Thành phần xử lý, lưu trữ và mở rộng các chức năng phân tích hoặc AIoT. \\
+Edge AI & Phần xử lý tại thiết bị cho use case quan sát giấc ngủ, gồm đọc cảm biến, tính sleep score cơ bản và phát hiện tác nhân môi trường. \\
 \hline
-Hotspot & Điểm phát Wi-Fi từ điện thoại hoặc laptop để SmartClock truy cập Internet. \\
+Internet Service & Server, database và API phục vụ đồng bộ dữ liệu, dashboard quan sát và chấm điểm thuyết trình. \\
 \hline
-Setup AP & Mạng Wi-Fi tạm thời do SmartClock phát ra để điện thoại hoặc laptop kết nối vào và cấu hình Internet. \\
+Dashboard Observation & Giao diện web để quan sát phiên học, phiên ngủ và phiên thuyết trình theo thời gian. \\
 \hline
-Pomodoro & Phương pháp quản lý thời gian bằng cách chia phiên làm việc và nghỉ ngơi. \\
+Study Session & Dữ liệu một phiên học Pomodoro. \\
+\hline
+Sleep Session & Dữ liệu một phiên quan sát giấc ngủ Edge AI. \\
+\hline
+Alarm Setting & Chức năng đặt giờ báo thức cục bộ trên Edge Device. \\
+\hline
+Presentation Session & Dữ liệu một phiên luyện thuyết trình, có thể chờ Server chấm điểm. \\
+\hline
+Hotspot & Điểm phát Wi-Fi từ điện thoại hoặc laptop để SomniLearnAI truy cập Internet. \\
+\hline
+Setup AP & Mạng Wi-Fi tạm thời do SomniLearnAI phát ra để người dùng cấu hình Internet. \\
+\hline
+Pomodoro & Phương pháp quản lý thời gian bằng cách chia phiên học/làm việc và nghỉ ngơi. \\
 \hline
 TFT Display & Màn hình màu dùng để hiển thị giao diện thiết bị. \\
 \hline
-INMP441 & Microphone digital giao tiếp I2S, dùng để ghi nhận âm thanh. \\
+INMP441 & Microphone digital giao tiếp I2S, dùng để ghi nhận âm thanh môi trường hoặc dữ liệu luyện thuyết trình. \\
 \hline
-\caption{Key Terms}
+\caption{Thuật ngữ chính}
 \end{longtable}
 
-\subsection{Screen Flow Summary}
+\subsection{Tóm tắt luồng màn hình}
 
 \begin{center}
-\texttt{HOME $\rightarrow$ STUDY $\rightarrow$ SLEEP $\rightarrow$ RELAX $\rightarrow$ HOME}
+\texttt{HOME $\rightarrow$ STUDY $\rightarrow$ SLEEP $\rightarrow$ STATUS $\rightarrow$ HOME}
 \end{center}
 
 \begin{longtable}{|P{3cm}|P{11.5cm}|}
 \hline
-\textbf{Mode} & \textbf{Main Use Cases} \\
+\textbf{Chế độ} & \textbf{Use case chính} \\
 \hline
-HOME & Hiển thị tổng quan và chuyển chế độ. \\
+HOME & Hiển thị giờ hiện tại, trạng thái kết nối và điểm bắt đầu \\
 \hline
-STUDY & Pomodoro Timer, Seminar Practice. \\
+STUDY & Pomodoro Timer, Seminar Practice \\
 \hline
-SLEEP & Sleep Monitoring, Alarm Settings. \\
+SLEEP & Alarm Setting, Sleep Monitoring Edge AI, hiển thị realtime môi trường \\
 \hline
-RELAX & Flappy Bird, Music Player. \\
+STATUS & Kiểm tra Wi-Fi, trạng thái Server và số phiên chưa đồng bộ \\
 \hline
-\caption{Screen Flow Summary}
+\caption{Tóm tắt luồng màn hình}
 \end{longtable}
 
-\subsection{Hardware Reference Table}
+\subsection{Tóm tắt dashboard}
+
+\begin{longtable}{|P{4.5cm}|P{9.5cm}|}
+\hline
+\textbf{Khu vực dashboard} & \textbf{Mục đích quan sát} \\
+\hline
+Study Observation & Quan sát số Pomodoro, tổng phút học và lịch sử phiên học \\
+\hline
+Sleep Observation & Quan sát điểm ngủ, thời lượng ngủ, tác nhân môi trường và tổng kết tháng \\
+\hline
+Presentation Observation & Quan sát danh sách các lần luyện nói, điểm thuyết trình và xu hướng cải thiện \\
+\hline
+\caption{Tóm tắt dashboard}
+\end{longtable}
+
+\subsection{Bảng tham chiếu phần cứng}
 
 \begin{longtable}{|P{3.5cm}|P{4.5cm}|P{6.2cm}|}
 \hline
-\textbf{Component} & \textbf{Role} & \textbf{Notes} \\
+\textbf{Linh kiện} & \textbf{Vai trò} & \textbf{Ghi chú} \\
 \hline
-ESP32-6288 & Main controller and Wi-Fi connection & Điều khiển giao diện, đọc nút bấm, đọc cảm biến và kết nối Internet. \\
+ESP32-S3 & Bộ điều khiển chính và kết nối Wi-Fi & Điều khiển giao diện, đọc nút bấm, đọc cảm biến và kết nối Internet \\
 \hline
-TFT Display & User interface & Hiển thị menu, timer, báo cáo và trò chơi. \\
+TFT Display & Giao diện người dùng & Hiển thị menu, timer, realtime environment và báo cáo ngắn \\
 \hline
-5 Buttons & User input & Điều hướng các chế độ và chức năng. \\
+5 Nút bấm & Đầu vào người dùng & Điều hướng các chế độ và chức năng \\
 \hline
-Light Sensor & Environment sensing & Ghi nhận ánh sáng môi trường. \\
+Cảm biến ánh sáng & Cảm biến môi trường & Ghi nhận ánh sáng môi trường \\
 \hline
-INMP441 & Audio sensing & Ghi nhận âm thanh môi trường hoặc bài luyện tập. \\
+INMP441 & Cảm biến âm thanh & Ghi nhận âm thanh môi trường hoặc dữ liệu luyện thuyết trình \\
 \hline
-\caption{Hardware Reference Table}
+Cảm biến môi trường & Cảm biến tùy chọn & Đo nhiệt độ, độ ẩm hoặc CO2 nếu prototype mở rộng \\
+\hline
+DS3231 RTC & Duy trì thời gian & Giữ thời gian và timestamp phiên khi offline \\
+\hline
+\caption{Bảng tham chiếu phần cứng}
 \end{longtable}
 
-\subsection{Internet Connection Reference}
-
-SmartClock có thể kết nối Internet theo mô hình:
+\subsection{Tham chiếu kết nối Internet}
 
 \begin{center}
-\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SmartClock\_Setup AP}
+\texttt{Phone/Laptop} $\leftrightarrow$ \texttt{SomniLearnAI\_Setup AP}
 
-\texttt{SmartClock Edge Device} $\leftrightarrow$ \texttt{Phone/Laptop Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SmartClock Server}
+\texttt{SomniLearnAI Edge Device} $\leftrightarrow$ \texttt{Phone/Laptop Hotspot} $\leftrightarrow$ \texttt{Internet} $\leftrightarrow$ \texttt{SomniLearnAI Server} $\leftrightarrow$ \texttt{Dashboard}
 \end{center}
 
 Khi dùng hotspot, người dùng cần đảm bảo:
 
 \begin{itemize}
     \item Điện thoại hoặc laptop đã bật chia sẻ Internet.
-    \item Nếu SmartClock chưa có cấu hình mạng, người dùng kết nối điện thoại hoặc laptop vào \texttt{SmartClock\_Setup} trước.
-    \item SmartClock được cấu hình đúng tên Wi-Fi và mật khẩu.
-    \item Thiết bị phát hotspot ở đủ gần SmartClock.
-    \item Kết nối Internet ổn định nếu cần đồng bộ hoặc phân tích dữ liệu.
+    \item Nếu SomniLearnAI chưa có cấu hình mạng, người dùng kết nối điện thoại hoặc laptop vào \texttt{SomniLearnAI\_Setup} trước.
+    \item SomniLearnAI được cấu hình đúng tên Wi-Fi và mật khẩu.
+    \item Thiết bị phát hotspot ở đủ gần SomniLearnAI.
+    \item Kết nối Internet ổn định nếu cần đồng bộ dashboard hoặc chấm điểm thuyết trình.
 \end{itemize}
 
 \begin{thebibliography}{9}
@@ -1191,7 +1460,7 @@ Pomodoro Technique, Wikipedia. \url{https://en.wikipedia.org/wiki/Pomodoro_Techn
 ESP32 Series, Espressif Systems. \url{https://www.espressif.com/en/products/socs/esp32}
 
 \bibitem{inmp441}
-INMP441 MEMS Microphone Module, InvenSense / TDK product information. \url{https://invensense.tdk.com/products/digital/inmp441/}
+INMP441 MEMS Microphone Module, InvenSense / TDK. \url{https://invensense.tdk.com/products/digital/inmp441/}
 
 \bibitem{tft}
 TFT LCD, Wikipedia. \url{https://en.wikipedia.org/wiki/Thin-film-transistor_liquid-crystal_display}
@@ -1209,8 +1478,7 @@ Cảm biến âm thanh INMP441 MEMS I2S, Nshop. \url{https://nshopvn.com/product
 Cảm biến cường độ ánh sáng quang trở, Nshop. \url{https://nshopvn.com/product/cam-bien-cuong-do-anh-sang-quang-tro/}
 
 \bibitem{linhkienviet-light}
-Cảm biến ánh sáng, Linh Kiện Việt. \url{https://linhkienviet.vn/ca-m-bie-n-anh-sang}
+Cảm biến ánh sáng, Linh Kiện Việt. \url{https://linhkienviet.vn/ca-mie-n-anh-sang}
 \end{thebibliography}
 
 \end{document}
-

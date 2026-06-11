@@ -2,7 +2,7 @@
 
 ## 0.1. Document Information
 
-Tài liệu này mô tả đặc tả hệ thống **SomniLearnAI**, một sản phẩm đồng hồ thông minh AIoT hỗ trợ học tập, luyện tập thuyết trình, quan sát giấc ngủ và dashboard quản lý dữ liệu cá nhân. Tài liệu được dùng làm cơ sở thống nhất giữa nhóm phát triển, phần cứng Edge Device, server và giao diện dashboard.
+Tài liệu này mô tả đặc tả hệ thống **SomniLearnAI**, một sản phẩm đồng hồ thông minh AIoT hỗ trợ học tập, luyện tập thuyết trình, quan sát giấc ngủ, đặt báo thức và dashboard quản lý dữ liệu cá nhân. Tài liệu được dùng làm cơ sở thống nhất giữa nhóm phát triển, phần cứng Edge Device, server và giao diện dashboard.
 
 | Field | Value |
 | ----- | ----- |
@@ -16,7 +16,7 @@ Tài liệu này mô tả đặc tả hệ thống **SomniLearnAI**, một sản
 
 ## 0.2. Product Identity
 
-**SomniLearnAI** được định hướng là một thiết bị đồng hồ thông minh đặt tại bàn học hoặc phòng ngủ, kết hợp giữa Edge AI và Internet Service để hỗ trợ người dùng cải thiện khả năng tập trung, luyện tập thuyết trình và theo dõi giấc ngủ.
+**SomniLearnAI** được định hướng là một thiết bị đồng hồ thông minh đặt tại bàn học hoặc phòng ngủ, kết hợp giữa Edge AI và Internet Service để hỗ trợ người dùng cải thiện khả năng tập trung, luyện tập thuyết trình, đặt báo thức và theo dõi giấc ngủ.
 
 Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thông thường, mà còn ghi nhận các phiên học Pomodoro, phiên luyện tập thuyết trình và phiên ngủ. Dữ liệu được hiển thị trực tiếp trên màn hình thiết bị khi người dùng đang sử dụng, đồng thời có thể đồng bộ lên dashboard để xem lại theo ngày, tháng hoặc từng loại phiên.
 
@@ -37,9 +37,9 @@ Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thôn
 | ---- | ---------------------- | --------------------- |
 | Product name | SmartClock | SomniLearnAI |
 | Objective 1 | Hỗ trợ tập trung và làm việc hiệu quả | Hỗ trợ cải thiện khả năng tập trung khi học theo Pomodoro, kết hợp luyện tập và chấm điểm thuyết trình |
-| Objective 2 | Hỗ trợ giấc ngủ và đặt báo thức | Hỗ trợ cải thiện giấc ngủ, quan sát Edge AI và phát hiện tác nhân môi trường làm giấc ngủ không ngon |
+| Objective 2 | Hỗ trợ giấc ngủ và đặt báo thức | Hỗ trợ cải thiện giấc ngủ, quan sát Edge AI, đặt báo thức và phát hiện tác nhân môi trường làm giấc ngủ không ngon |
 | Objective 3 | Giải trí và trang trí góc làm việc | Dashboard quản lý phiên học, phiên thuyết trình và phiên ngủ |
-| Sleep use case | Theo dõi giấc ngủ và đặt báo thức | Giữ use case quan sát giấc ngủ Edge AI, bỏ use case đặt báo thức |
+| Sleep use case | Theo dõi giấc ngủ và đặt báo thức | Giữ use case quan sát giấc ngủ Edge AI và bổ sung lại use case đặt báo thức |
 | Internet Service | Chưa có nội dung chi tiết | Bổ sung dashboard theo Objective 3 |
 | Data history | Chưa nhấn mạnh lịch sử phiên | Bổ sung lịch sử phiên học, phiên ngủ, phiên thuyết trình và tổng kết theo tháng |
 
@@ -49,7 +49,8 @@ Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thôn
 | ------- | ---- | ---------- | ----------- |
 | 1.0 | 26/05/2026 | Project team | Khởi tạo đặc tả SmartClock với các mục tiêu Pomodoro, giấc ngủ và giải trí |
 | 1.1 | 05/06/2026 | Project team | Bổ sung Edge AI cho quan sát giấc ngủ và hướng dẫn sử dụng thiết bị |
-| 2.0 | 08/06/2026 | Project team | Đổi tên sản phẩm thành SomniLearnAI, cập nhật objective theo SMART, bỏ báo thức khỏi sleep use case và thêm dashboard quản lý phiên |
+| 2.0 | 08/06/2026 | Project team | Đổi tên sản phẩm thành SomniLearnAI, cập nhật objective theo SMART và thêm dashboard quản lý phiên |
+| 2.1 | 11/06/2026 | Project team | Bổ sung lại use case đặt báo thức trong Objective 2 |
 
 ## 0.6. Document Structure
 

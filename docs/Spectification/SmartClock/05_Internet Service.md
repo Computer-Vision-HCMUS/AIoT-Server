@@ -197,34 +197,17 @@ flowchart TD
 
 ---
 
-## 5.7. API Overview
-
-| Method | Endpoint | Purpose |
-| ------ | -------- | ------- |
-| POST | `/api/study-sessions` | Tạo phiên học mới |
-| GET | `/api/study-sessions` | Lấy danh sách phiên học |
-| GET | `/api/study-sessions/summary` | Lấy tổng quan Pomodoro theo ngày/tháng |
-| POST | `/api/sleep-sessions` | Tạo phiên ngủ mới |
-| GET | `/api/sleep-sessions` | Lấy danh sách phiên ngủ |
-| GET | `/api/sleep-sessions/monthly-summary` | Lấy tổng kết giấc ngủ theo tháng |
-| POST | `/api/presentation-sessions` | Tạo phiên thuyết trình mới |
-| GET | `/api/presentation-sessions` | Lấy danh sách phiên thuyết trình |
-| GET | `/api/presentation-sessions/summary` | Lấy xu hướng điểm thuyết trình |
-| POST | `/api/presentation-sessions/{id}/score` | Yêu cầu Server chấm điểm phiên thuyết trình |
-
----
-
-## 5.8. Online and Offline Behavior
+## 5.7. Online and Offline Behavior
 
 | Status | Behavior |
 | ------ | -------- |
 | Online | Thiết bị gửi phiên học, ngủ và thuyết trình lên Server; dashboard cập nhật dữ liệu quan sát |
-| Offline | Thiết bị vẫn chạy Pomodoro và Sleep Monitoring; Seminar Practice có thể ghi nhận thời lượng hoặc lưu tạm dữ liệu nhưng chưa chấm điểm đầy đủ |
+| Offline | Thiết bị vẫn chạy Pomodoro, báo thức và Sleep Monitoring; Seminar Practice có thể ghi nhận thời lượng hoặc lưu tạm dữ liệu nhưng chưa chấm điểm đầy đủ |
 | Reconnected | Thiết bị gửi các phiên chưa đồng bộ lên Server theo thứ tự thời gian |
 
 ---
 
-## 5.9. Security and Privacy Notes
+## 5.8. Security and Privacy Notes
 
 * Dữ liệu phiên cần gắn với `userId` để tách dữ liệu giữa các người dùng.
 * Dữ liệu âm thanh thuyết trình cần được gửi qua kết nối an toàn; nếu không cần thiết, Server nên lưu feature summary và kết quả điểm thay vì raw audio.
@@ -233,6 +216,6 @@ flowchart TD
 
 ---
 
-## 5.10. Conclusion
+## 5.9. Conclusion
 
 Internet Service là phần hiện thực hóa Objective 3 của SomniLearnAI. Trọng tâm của chương này là **dashboard quan sát**: người dùng nhìn lại phiên học, phiên ngủ và phiên thuyết trình theo thời gian để hiểu tiến độ, xu hướng và các điểm cần cải thiện.

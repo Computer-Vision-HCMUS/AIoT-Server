@@ -2,14 +2,14 @@
 
 ## 7.1. Project Summary
 
-SomniLearnAI được xây dựng với định hướng trở thành một đồng hồ thông minh AIoT hỗ trợ học tập, luyện tập thuyết trình, quan sát giấc ngủ và quản lý lịch sử phiên cá nhân. So với định hướng SmartClock ban đầu, phiên bản đặc tả mới tập trung rõ hơn vào dữ liệu học tập và sức khỏe sinh hoạt thay vì các chức năng giải trí.
+SomniLearnAI được xây dựng với định hướng trở thành một đồng hồ thông minh AIoT hỗ trợ học tập, luyện tập thuyết trình, quan sát giấc ngủ, đặt báo thức và quản lý lịch sử phiên cá nhân. So với định hướng SmartClock ban đầu, phiên bản đặc tả mới tập trung rõ hơn vào dữ liệu học tập và sức khỏe sinh hoạt thay vì các chức năng giải trí.
 
 Về kiến trúc, SomniLearnAI vẫn sử dụng mô hình **Edge Device <-> Server**. Thiết bị Edge đảm nhiệm tương tác trực tiếp với người dùng, đọc dữ liệu cảm biến, hiển thị giờ và trạng thái realtime trên màn hình TFT. Server và dashboard đảm nhiệm lưu trữ, tổng hợp và hiển thị lịch sử các phiên học, phiên ngủ và phiên thuyết trình.
 
 Ba nhóm mục tiêu chính của sản phẩm gồm:
 
 * Hỗ trợ cải thiện khả năng tập trung khi học theo Pomodoro và luyện tập thuyết trình có chấm điểm.
-* Hỗ trợ cải thiện giấc ngủ thông qua Sleep Monitoring Edge AI và phát hiện tác nhân môi trường ảnh hưởng đến giấc ngủ.
+* Hỗ trợ cải thiện giấc ngủ thông qua Sleep Monitoring Edge AI, báo thức cục bộ và phát hiện tác nhân môi trường ảnh hưởng đến giấc ngủ.
 * Cung cấp dashboard quản lý phiên học, phiên ngủ và phiên thuyết trình để người dùng theo dõi tiến bộ dài hạn.
 
 ---
@@ -24,7 +24,7 @@ Bên cạnh đó, Seminar Practice giúp người dùng luyện tập thuyết t
 
 ### Objective 2: Supporting Better Sleep with Edge AI
 
-SomniLearnAI hỗ trợ quan sát giấc ngủ bằng cách ghi nhận thời gian ngủ, dữ liệu âm thanh, ánh sáng và các chỉ số môi trường xung quanh. Trong quá trình sử dụng, thiết bị có thể hiển thị realtime môi trường phòng ngủ để người dùng nhận biết sớm các điều kiện chưa phù hợp.
+SomniLearnAI hỗ trợ quan sát giấc ngủ bằng cách ghi nhận thời gian ngủ, dữ liệu âm thanh, ánh sáng và các chỉ số môi trường xung quanh. Trước khi ngủ, người dùng có thể đặt báo thức trực tiếp trên thiết bị để thức dậy đúng giờ mà không cần phụ thuộc vào điện thoại hoặc Internet. Trong quá trình sử dụng, thiết bị có thể hiển thị realtime môi trường phòng ngủ để người dùng nhận biết sớm các điều kiện chưa phù hợp.
 
 Sau khi phiên ngủ kết thúc, Edge AI đánh giá chất lượng giấc ngủ, tạo điểm số và phát hiện các tác nhân có khả năng làm giấc ngủ không ngon như phòng quá sáng, tiếng ồn cao, nhiệt độ hoặc độ ẩm chưa phù hợp. Kết quả này giúp người dùng điều chỉnh môi trường ngủ trong các lần tiếp theo.
 
@@ -48,7 +48,7 @@ Mỗi màn hình phục vụ một nhu cầu cụ thể:
 
 * **HOME:** xem giờ hiện tại, trạng thái kết nối và điểm bắt đầu hệ thống.
 * **STUDY:** sử dụng Pomodoro Timer và Seminar Practice.
-* **SLEEP:** quan sát giấc ngủ, xem realtime môi trường và báo cáo giấc ngủ.
+* **SLEEP:** quan sát giấc ngủ, đặt báo thức, xem realtime môi trường và báo cáo giấc ngủ.
 * **STATUS:** kiểm tra kết nối, số phiên chưa đồng bộ và trạng thái server.
 
 Dashboard web bổ sung trải nghiệm xem lại dữ liệu dài hạn:
@@ -65,7 +65,7 @@ SomniLearnAI tận dụng các thành phần phần cứng phổ biến như ESP
 
 Mô hình Edge-Server mang lại các giá trị chính:
 
-* Khi offline, thiết bị vẫn có thể chạy Pomodoro và Sleep Monitoring; Seminar Practice có thể ghi nhận phiên nhưng chưa chấm điểm đầy đủ.
+* Khi offline, thiết bị vẫn có thể chạy Pomodoro, đặt báo thức và Sleep Monitoring; Seminar Practice có thể ghi nhận phiên nhưng chưa chấm điểm đầy đủ.
 * Khi online, thiết bị có thể đồng bộ dữ liệu phiên lên server.
 * Dashboard giúp người dùng xem lại dữ liệu học tập, giấc ngủ và thuyết trình theo thời gian.
 * Edge AI giúp xử lý một phần dữ liệu ngay trên thiết bị, giảm phụ thuộc vào server trong các tác vụ quan sát cơ bản.
@@ -78,6 +78,7 @@ Dự án vẫn còn một số giới hạn cần được cải thiện trong c
 
 * Điểm thuyết trình phụ thuộc Wi-Fi và Server; khi offline, kết quả có thể ở trạng thái chờ xử lý.
 * Đánh giá giấc ngủ từ cảm biến môi trường chỉ mang tính hỗ trợ, không thay thế thiết bị y tế.
+* Báo thức phụ thuộc vào thời gian hệ thống của Edge Device, vì vậy cần đảm bảo đồng hồ thiết bị được thiết lập hoặc đồng bộ chính xác.
 * Một số cảm biến như CO2, độ ẩm hoặc nhiệt độ có thể chưa được triển khai đầy đủ trong prototype đầu tiên.
 * Dashboard phụ thuộc vào khả năng đồng bộ dữ liệu qua Internet.
 * Cơ chế lưu tạm khi offline cần được kiểm thử kỹ để tránh mất dữ liệu phiên.
@@ -91,6 +92,7 @@ Trong tương lai, SomniLearnAI có thể được mở rộng theo các hướn
 
 * Cải thiện dịch vụ chấm điểm thuyết trình trên Server dựa trên tốc độ nói, độ rõ ràng, ngữ điệu và độ ổn định.
 * Cải thiện mô hình Sleep Monitoring bằng cách kết hợp thêm nhiều cảm biến môi trường.
+* Bổ sung tùy chọn báo thức nâng cao như lặp theo ngày, âm báo khác nhau hoặc báo thức thông minh dựa trên trạng thái ngủ.
 * Bổ sung báo cáo học tập theo tuần, tháng và mục tiêu cá nhân.
 * Bổ sung tổng kết giấc ngủ cuối tháng với gợi ý cá nhân hóa hơn.
 * Tối ưu dashboard để so sánh xu hướng giữa phiên học, phiên ngủ và hiệu suất thuyết trình.
@@ -102,7 +104,7 @@ Trong tương lai, SomniLearnAI có thể được mở rộng theo các hướn
 
 ## 7.7. Final Conclusion
 
-SomniLearnAI là phiên bản đặc tả có định hướng rõ ràng hơn cho một thiết bị đồng hồ thông minh AIoT phục vụ học tập và sinh hoạt cá nhân. Sản phẩm kết hợp Pomodoro, luyện tập thuyết trình, quan sát giấc ngủ Edge AI và dashboard quản lý phiên để giúp người dùng không chỉ thực hiện hoạt động hằng ngày tốt hơn, mà còn nhìn lại tiến bộ của mình qua dữ liệu.
+SomniLearnAI là phiên bản đặc tả có định hướng rõ ràng hơn cho một thiết bị đồng hồ thông minh AIoT phục vụ học tập và sinh hoạt cá nhân. Sản phẩm kết hợp Pomodoro, luyện tập thuyết trình, báo thức, quan sát giấc ngủ Edge AI và dashboard quản lý phiên để giúp người dùng không chỉ thực hiện hoạt động hằng ngày tốt hơn, mà còn nhìn lại tiến bộ của mình qua dữ liệu.
 
 Với kiến trúc Edge-Server, khả năng hoạt động cục bộ, đồng bộ Internet và dashboard phân tích dài hạn, SomniLearnAI có nền tảng phù hợp để tiếp tục phát triển thành một trợ lý học tập và giấc ngủ nhỏ gọn, dễ sử dụng và có giá trị thực tiễn.
 

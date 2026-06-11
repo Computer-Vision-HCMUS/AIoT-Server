@@ -4,13 +4,14 @@
 
 | Term | Description |
 | ---- | ----------- |
-| SomniLearnAI | Đồng hồ thông minh AIoT hỗ trợ Pomodoro, luyện thuyết trình, quan sát giấc ngủ và dashboard quan sát dữ liệu phiên. |
+| SomniLearnAI | Đồng hồ thông minh AIoT hỗ trợ Pomodoro, luyện thuyết trình, báo thức, quan sát giấc ngủ và dashboard quan sát dữ liệu phiên. |
 | Edge Device | Thiết bị đặt gần người dùng, trực tiếp đọc cảm biến, hiển thị giao diện và nhận thao tác nút bấm. |
 | Edge AI | Phần xử lý tại thiết bị cho use case quan sát giấc ngủ, gồm đọc cảm biến, tính sleep score cơ bản và phát hiện tác nhân môi trường. |
 | Internet Service | Server, database và API phục vụ đồng bộ dữ liệu, dashboard quan sát và chấm điểm thuyết trình. |
 | Dashboard Observation | Giao diện web để quan sát phiên học, phiên ngủ và phiên thuyết trình theo thời gian. |
 | Study Session | Dữ liệu một phiên học Pomodoro. |
 | Sleep Session | Dữ liệu một phiên quan sát giấc ngủ Edge AI. |
+| Alarm Setting | Chức năng đặt giờ báo thức cục bộ trên Edge Device. |
 | Presentation Session | Dữ liệu một phiên luyện thuyết trình, có thể chờ Server chấm điểm. |
 | Hotspot | Điểm phát Wi-Fi từ điện thoại hoặc laptop để SomniLearnAI truy cập Internet. |
 | Setup AP | Mạng Wi-Fi tạm thời do SomniLearnAI phát ra để người dùng cấu hình Internet. |
@@ -32,7 +33,7 @@ HOME -> STUDY -> SLEEP -> STATUS -> HOME
 | ---- | -------------- |
 | HOME | Hiển thị giờ hiện tại, trạng thái kết nối và điểm bắt đầu |
 | STUDY | Pomodoro Timer, Seminar Practice |
-| SLEEP | Sleep Monitoring Edge AI, realtime environment display |
+| SLEEP | Alarm Setting, Sleep Monitoring Edge AI, realtime environment display |
 | STATUS | Kiểm tra Wi-Fi, trạng thái server và số phiên chưa đồng bộ |
 
 ---

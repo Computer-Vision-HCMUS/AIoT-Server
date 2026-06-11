@@ -32,7 +32,7 @@ Trong đó:
 * SomniLearnAI có thể tự phát Wi-Fi setup để người dùng cấu hình tên mạng và mật khẩu.
 * SomniLearnAI kết nối vào mạng Wi-Fi đó như một thiết bị client.
 * Khi đã có Internet, SomniLearnAI có thể gửi dữ liệu phiên học, phiên ngủ và phiên thuyết trình lên Server.
-* Nếu không có Internet, Pomodoro, Sleep Monitoring và hiển thị realtime môi trường vẫn có thể hoạt động cục bộ; Seminar Practice chỉ ghi nhận/lưu tạm phiên và cần Server để chấm điểm đầy đủ.
+* Nếu không có Internet, Pomodoro, báo thức, Sleep Monitoring và hiển thị realtime môi trường vẫn có thể hoạt động cục bộ; Seminar Practice chỉ ghi nhận/lưu tạm phiên và cần Server để chấm điểm đầy đủ.
 
 ### 2.1.2. Architecture Diagram
 
@@ -142,7 +142,7 @@ flowchart TD
 
 | Mode | Behavior |
 | ---- | -------- |
-| Offline | Pomodoro, Sleep Monitoring, hiển thị giờ và realtime môi trường vẫn hoạt động cục bộ; Seminar Practice có thể ghi nhận/lưu tạm phiên nhưng chưa chấm điểm đầy đủ. |
+| Offline | Pomodoro, báo thức, Sleep Monitoring, hiển thị giờ và realtime môi trường vẫn hoạt động cục bộ; Seminar Practice có thể ghi nhận/lưu tạm phiên nhưng chưa chấm điểm đầy đủ. |
 | Online | Thiết bị có thể đồng bộ phiên học, ngủ, thuyết trình lên Server; dashboard cập nhật lịch sử, biểu đồ và tổng kết. |
 
 ---

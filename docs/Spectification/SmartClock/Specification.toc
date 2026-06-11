@@ -1,0 +1,85 @@
+\contentsline {section}{Thông tin tài liệu}{2}{Doc-Start}%
+\contentsline {section}{\numberline {1}Bối cảnh}{4}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Tổng quan sản phẩm}{4}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Động lực phát triển}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Cảm hứng: EMO Desktop AIoT Companion}{5}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Đối tượng người dùng}{6}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}So sánh với sản phẩm hiện có}{6}{subsection.1.5}%
+\contentsline {subsubsection}{\numberline {1.5.1}Ứng dụng trên điện thoại}{6}{subsubsection.1.5.1}%
+\contentsline {subsubsection}{\numberline {1.5.2}Đồng hồ thông minh}{6}{subsubsection.1.5.2}%
+\contentsline {subsubsection}{\numberline {1.5.3}Đồng hồ Pomodoro truyền thống}{6}{subsubsection.1.5.3}%
+\contentsline {subsubsection}{\numberline {1.5.4}Thiết bị AIoT companion để bàn}{7}{subsubsection.1.5.4}%
+\contentsline {subsubsection}{\numberline {1.5.5}Ứng dụng theo dõi giấc ngủ}{7}{subsubsection.1.5.5}%
+\contentsline {subsubsection}{\numberline {1.5.6}Ưu điểm của SomniLearnAI}{7}{subsubsection.1.5.6}%
+\contentsline {section}{\numberline {2}Kiến trúc và Phần cứng}{8}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Kiến trúc hệ thống}{8}{subsection.2.1}%
+\contentsline {subsubsection}{\numberline {2.1.1}Kết nối Edge--Server--Dashboard}{8}{subsubsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Luồng dữ liệu}{9}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Hành vi online và offline}{9}{subsubsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.2}Phần cứng}{10}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Vai trò phần cứng}{11}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Cân nhắc thiết kế}{12}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Mục tiêu}{13}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Tổng quan}{13}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Objective 1}{13}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Use Case 1: Pomodoro Timer}{15}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Use Case 2: Seminar Practice}{15}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Objective 2}{16}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Use Case 1: Sleep Monitoring Edge AI}{16}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Use Case 2: Alarm Setting}{16}{subsubsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.4}Objective 3}{19}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.5}Tóm tắt use case}{20}{subsection.3.5}%
+\contentsline {section}{\numberline {4}Edge AI: Quan sát giấc ngủ}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Tổng quan}{23}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Bài toán quan sát giấc ngủ}{23}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Dữ liệu đầu vào}{23}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Đầu ra mong đợi}{24}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Pipeline xử lý Sleep Edge AI}{25}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Thiết kế suy luận rule-based}{25}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Hướng mở rộng REM/NREM}{26}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Ranh giới Edge--Server}{26}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Giới hạn}{26}{subsection.4.9}%
+\contentsline {section}{\numberline {5}Internet Service: Dashboard Quan sát}{27}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Tổng quan}{27}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Mô hình dữ liệu phiên}{27}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}Study Session}{27}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}Sleep Session}{28}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Presentation Session}{28}{subsubsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.3}Các khu vực quan sát trên dashboard}{29}{subsection.5.3}%
+\contentsline {subsubsection}{\numberline {5.3.1}Study Observation}{29}{subsubsection.5.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.2}Sleep Observation}{29}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Presentation Observation}{29}{subsubsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.4}Chấm điểm thuyết trình qua Server}{30}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Luồng đồng bộ}{31}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Lưu ý bảo mật và riêng tư}{31}{subsection.5.6}%
+\contentsline {section}{\numberline {6}Hướng dẫn sử dụng}{32}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Tổng quan}{32}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Bố trí nút bấm}{32}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Cài đặt kết nối Internet}{32}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Màn hình Home}{33}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Study Mode for Objective 1}{34}{subsection.6.5}%
+\contentsline {subsubsection}{\numberline {6.5.1}Pomodoro Timer}{34}{subsubsection.6.5.1}%
+\contentsline {subsubsection}{\numberline {6.5.2}Seminar Practice}{34}{subsubsection.6.5.2}%
+\contentsline {subsection}{\numberline {6.6}Sleep Mode for Objective 2}{35}{subsection.6.6}%
+\contentsline {subsubsection}{\numberline {6.6.1}Sleep Monitoring Edge AI}{35}{subsubsection.6.6.1}%
+\contentsline {subsubsection}{\numberline {6.6.2}Alarm Setting}{36}{subsubsection.6.6.2}%
+\contentsline {subsection}{\numberline {6.7}Status Screen}{36}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.8}Dashboard for Objective 3}{36}{subsection.6.8}%
+\contentsline {subsection}{\numberline {6.9}Lưu ý sử dụng}{37}{subsection.6.9}%
+\contentsline {section}{\numberline {7}Tổng kết}{38}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Tóm tắt dự án}{38}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Mục tiêu đã đạt được}{38}{subsection.7.2}%
+\contentsline {subsubsection}{\numberline {7.2.1}Objective 1: Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình}{38}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.2}Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường}{38}{subsubsection.7.2.2}%
+\contentsline {subsubsection}{\numberline {7.2.3}Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên}{38}{subsubsection.7.2.3}%
+\contentsline {subsection}{\numberline {7.3}Trải nghiệm người dùng}{39}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Giá trị kiến trúc và phần cứng}{39}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Giới hạn}{40}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Hướng phát triển}{40}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}Kết luận}{40}{subsection.7.7}%
+\contentsline {section}{\numberline {8}Phụ lục và Tài liệu tham khảo}{42}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Thuật ngữ chính}{42}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Tóm tắt luồng màn hình}{42}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Tóm tắt dashboard}{43}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}Bảng tham chiếu phần cứng}{43}{subsection.8.4}%
+\contentsline {subsection}{\numberline {8.5}Tham chiếu kết nối Internet}{44}{subsection.8.5}%

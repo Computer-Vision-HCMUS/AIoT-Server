@@ -6,9 +6,9 @@ SomniLearnAI được phát triển với mục tiêu trở thành một đồng
 
 Sản phẩm tập trung vào 3 objective chính:
 
-* **Objective 1 - Hỗ trợ học tập:** cải thiện khả năng tập trung khi học theo phương pháp Pomodoro, kết hợp luyện tập thuyết trình và nhận điểm chấm từ Server.
-* **Objective 2 - Hỗ trợ giấc ngủ:** quan sát giấc ngủ bằng Edge AI, hiển thị realtime môi trường xung quanh và phát hiện các tác nhân làm giấc ngủ không ngon.
-* **Objective 3 - Dashboard quản lý phiên:** quản lý lịch sử phiên học, phiên thuyết trình và phiên ngủ để người dùng theo dõi tiến độ dài hạn.
+* **Objective 1 - Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.**
+* **Objective 2 - Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường (ánh sáng, nhiệt độ, độ ẩm, CO₂), giúp người dùng đánh giá thói quen ngủ hằng ngày.**
+* **Objective 3 - Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.**
 
 ### Overall Use Case Diagram
 
@@ -19,15 +19,16 @@ flowchart TD
 
     subgraph System["SomniLearnAI System"]
         direction TB
-        subgraph OBJ1["Objective 1 – Học tập"]
+        subgraph OBJ1["Objective 1 – Ghi nhận học tập"]
             UC1("Sử dụng Pomodoro Timer")
             UC2("Luyện tập thuyết trình")
         end
-        subgraph OBJ2["Objective 2 – Giấc ngủ"]
+        subgraph OBJ2["Objective 2 – Báo cáo giấc ngủ"]
             UC3("Quan sát giấc ngủ Edge AI")
             UC4("Xem realtime thời gian và môi trường")
+            UC9("Đặt báo thức")
         end
-        subgraph OBJ3["Objective 3 – Dashboard"]
+        subgraph OBJ3["Objective 3 – Dashboard đồng bộ"]
             UC5("Quản lý phiên học")
             UC6("Quản lý phiên ngủ")
             UC7("Quản lý phiên thuyết trình")
@@ -39,6 +40,7 @@ flowchart TD
     User --- UC2
     User --- UC3
     User --- UC4
+    User --- UC9
     User --- UC5
     User --- UC6
     User --- UC7
@@ -51,7 +53,7 @@ flowchart TD
 
 ---
 
-## 3.2. Objective 1: Hỗ trợ học tập theo Pomodoro và luyện tập thuyết trình
+## 3.2. Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình
 
 ## 3.2.1. SMART Objective
 
@@ -205,16 +207,16 @@ flowchart TD
 
 ---
 
-## 3.3. Objective 2: Hỗ trợ cải thiện giấc ngủ bằng Edge AI
+## 3.3. Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường
 
 ## 3.3.1. SMART Objective
 
-SomniLearnAI hỗ trợ cải thiện giấc ngủ bằng cách ghi nhận phiên ngủ, hiển thị realtime các chỉ số môi trường xung quanh như ánh sáng, tiếng ồn, nhiệt độ, độ ẩm hoặc CO2 nếu có cảm biến, sau đó dùng Edge AI để đánh giá chất lượng giấc ngủ và phát hiện tác nhân khiến người dùng ngủ không ngon.
+SomniLearnAI hỗ trợ cải thiện giấc ngủ bằng cách ghi nhận phiên ngủ, cho phép người dùng đặt báo thức trước khi ngủ, hiển thị realtime các chỉ số môi trường xung quanh như ánh sáng, tiếng ồn, nhiệt độ, độ ẩm hoặc CO2 nếu có cảm biến, sau đó dùng Edge AI để đánh giá chất lượng giấc ngủ và phát hiện tác nhân khiến người dùng ngủ không ngon.
 
 | SMART factor | Specification |
 | ------------ | ------------- |
-| Specific | Quan sát giấc ngủ và môi trường phòng ngủ bằng cảm biến trên Edge Device |
-| Measurable | Ghi nhận thời lượng ngủ, điểm chất lượng ngủ, mức ánh sáng, tiếng ồn và các chỉ số môi trường theo thời gian |
+| Specific | Quan sát giấc ngủ, đặt báo thức và theo dõi môi trường phòng ngủ bằng cảm biến trên Edge Device |
+| Measurable | Ghi nhận thời lượng ngủ, thời điểm báo thức, điểm chất lượng ngủ, mức ánh sáng, tiếng ồn và các chỉ số môi trường theo thời gian |
 | Achievable | Thiết bị dùng cảm biến, microphone, màn hình TFT và mô hình Edge AI để phân tích dữ liệu tại chỗ |
 | Relevant | Giúp người dùng hiểu nguyên nhân làm giấc ngủ không tốt và điều chỉnh môi trường ngủ |
 | Time-bound | Mỗi phiên ngủ phải tạo báo cáo sau khi kết thúc; dashboard có thể tổng hợp theo tháng |
@@ -232,6 +234,11 @@ flowchart TD
             UC2("Ghi nhận thời gian ngủ")
             UC3("Hiển thị realtime môi trường")
         end
+        subgraph GRP_ALARM["Báo thức"]
+            UC8("Đặt báo thức")
+            UC9("Bật/tắt báo thức")
+            UC10("Phát báo thức khi đến giờ")
+        end
         subgraph GRP_ANALYZE["Phân tích"]
             UC4("Phân tích Edge AI")
             UC5("Phát hiện tác nhân ảnh hưởng")
@@ -243,11 +250,15 @@ flowchart TD
     User --- UC1
     User --- UC3
     User --- UC6
+    User --- UC8
+    User --- UC9
 
     UC1 -. "«include»" .-> UC2
     UC1 -. "«include»" .-> UC4
     UC1 -. "«include»" .-> UC7
     UC3 -. "«extend»" .-> UC1
+    UC8 -. "«include»" .-> UC9
+    UC8 -. "«include»" .-> UC10
     UC4 -. "«include»" .-> UC5
     UC4 -. "«include»" .-> UC6
 ```
@@ -316,7 +327,63 @@ flowchart TD
 
 ---
 
-## 3.4. Objective 3: Dashboard quản lý phiên học, phiên thuyết trình và phiên ngủ
+## 3.3.3. Use-Case 2: Đặt báo thức
+
+Use case đặt báo thức giúp SomniLearnAI giữ lại vai trò cơ bản của một smart clock trong Objective 2. Trước khi ngủ, người dùng có thể thiết lập giờ báo thức, bật hoặc tắt báo thức và xem trạng thái báo thức hiện tại trên màn hình. Khi đến giờ, thiết bị phát âm báo hoặc tín hiệu rung/âm thanh tùy phần cứng được triển khai.
+
+Báo thức có thể hoạt động cục bộ trên Edge Device, không phụ thuộc Internet. Nếu người dùng đang bật Sleep Monitoring, thời điểm báo thức cũng có thể được dùng làm mốc kết thúc phiên ngủ hoặc gợi ý nhắc người dùng dừng phiên sau khi thức dậy.
+
+### Main Features
+
+* Thiết lập giờ và phút báo thức trên thiết bị.
+* Bật hoặc tắt báo thức.
+* Hiển thị giờ báo thức hiện tại và trạng thái On/Off.
+* Phát tín hiệu báo thức khi đến giờ đã đặt.
+* Cho phép tắt báo thức sau khi báo.
+* Có thể kết hợp với Sleep Monitoring để nhắc người dùng kết thúc phiên ngủ.
+
+### Use Case
+
+| Actor | User |
+| ----- | ---- |
+| Goal | Đặt báo thức để thức dậy đúng giờ sau phiên ngủ |
+| Preconditions | Thiết bị đang hoạt động, thời gian hệ thống đã được thiết lập và người dùng đang ở Sleep Mode |
+| Main Flow | Người dùng chọn Alarm Setting → chỉnh giờ và phút báo thức → bật báo thức → thiết bị lưu cấu hình cục bộ → đến giờ đã đặt, thiết bị phát tín hiệu báo thức → người dùng tắt báo thức |
+| Expected Result | Người dùng có báo thức hoạt động đúng giờ và có thể quản lý báo thức trực tiếp trên thiết bị |
+
+### Use Case Diagram
+
+```mermaid
+flowchart TD
+    User(["Người dùng"])
+
+    subgraph Alarm["Alarm Setting"]
+        direction TB
+        UC1("Mở Alarm Setting")
+        UC2("Chỉnh giờ báo thức")
+        UC3("Chỉnh phút báo thức")
+        UC4("Bật/tắt báo thức")
+        UC5("Lưu cấu hình báo thức")
+        UC6("Phát báo thức khi đến giờ")
+        UC7("Tắt báo thức")
+    end
+
+    User --- UC1
+    User --- UC2
+    User --- UC3
+    User --- UC4
+    User --- UC7
+
+    UC1 -. "«include»" .-> UC2
+    UC1 -. "«include»" .-> UC3
+    UC4 -. "«include»" .-> UC5
+    UC5 -. "«include»" .-> UC6
+    UC6 -. "«include»" .-> UC7
+```
+
+---
+
+## 3.4. Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên
 
 ## 3.4.1. SMART Objective
 
@@ -528,15 +595,16 @@ flowchart TD
 
 ## 3.5. Conclusion
 
-Các objective mới giúp SomniLearnAI có định hướng rõ ràng hơn: thiết bị Edge tập trung vào trải nghiệm học tập, luyện nói và quan sát giấc ngủ trực tiếp; Internet Service tập trung vào dashboard lưu trữ và phân tích lịch sử phiên.
+Các objective mới giúp SomniLearnAI có định hướng rõ ràng hơn: thiết bị Edge tập trung vào trải nghiệm học tập, luyện nói, quan sát giấc ngủ trực tiếp và báo thức hằng ngày; Internet Service tập trung vào dashboard lưu trữ và phân tích lịch sử phiên.
 
 ## 3.5.1. Use Case Summary
 
 | Objective | Use Case | Main Actor | Main Purpose | Expected Result |
 | --------- | -------- | ---------- | ------------ | --------------- |
-| Objective 1: Hỗ trợ học tập | Pomodoro Timer | User | Quản lý phiên học theo Pomodoro | Người dùng biết số Pomodoro, thời gian học và duy trì tập trung tốt hơn |
-| Objective 1: Hỗ trợ học tập | Seminar Practice | User | Luyện tập thuyết trình và nhận điểm từ Server | Người dùng nhận điểm số và phản hồi sau khi Server xử lý |
-| Objective 2: Hỗ trợ giấc ngủ | Quan sát giấc ngủ Edge AI | User | Theo dõi giấc ngủ và môi trường realtime | Người dùng biết chất lượng ngủ và tác nhân làm ngủ không ngon |
-| Objective 3: Dashboard | Phiên học | User | Quan sát số Pomodoro trong ngày | Người dùng theo dõi tiến độ học tập |
-| Objective 3: Dashboard | Phiên ngủ | User | Quan sát giấc ngủ theo tháng | Người dùng nhận tổng kết cuối tháng và gợi ý cải thiện |
-| Objective 3: Dashboard | Phiên thuyết trình | User | Quan sát danh sách điểm các lần nói | Người dùng theo dõi tiến bộ thuyết trình |
+| Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Pomodoro Timer | User | Quản lý phiên học theo Pomodoro | Người dùng biết số Pomodoro, thời gian học và duy trì tập trung tốt hơn |
+| Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Seminar Practice | User | Luyện tập thuyết trình và nhận điểm từ Server | Người dùng nhận điểm số và phản hồi sau khi Server xử lý |
+| Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Quan sát giấc ngủ Edge AI | User | Theo dõi giấc ngủ và môi trường realtime | Người dùng biết chất lượng ngủ và tác nhân làm ngủ không ngon |
+| Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Đặt báo thức | User | Thiết lập giờ báo thức trên thiết bị | Người dùng thức dậy đúng giờ và quản lý báo thức trực tiếp trên Edge Device |
+| Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên học | User | Quan sát số Pomodoro trong ngày | Người dùng theo dõi tiến độ học tập |
+| Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên ngủ | User | Quan sát giấc ngủ theo tháng | Người dùng nhận tổng kết cuối tháng và gợi ý cải thiện |
+| Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên thuyết trình | User | Quan sát danh sách điểm các lần nói | Người dùng theo dõi tiến bộ thuyết trình |
