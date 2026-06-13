@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SomniLearnAI - Dashboard Prototype</title>
+  <style>
+    :root {
+      --bg: #f4f7fb; --surface: #ffffff; --surface-2: #eef4fb; --border: #d7e1ee;
+      --text: #122033; --muted: #66758a; --blue: #2563eb; --cyan: #0891b2;
+      --green: #16a34a; --amber: #d97706; --red: #dc2626; --ink: #1f2937;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text); font-family: "Segoe UI", system-ui, sans-serif; }
+    .shell { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+    aside { background: #132033; color: #dce9f7; padding: 22px 18px; border-right: 1px solid #0b1422; }
+    .brand { font-weight: 800; font-size: 1.08rem; margin-bottom: 4px; }
+    .subtitle { color: #98abc4; font-size: .8rem; margin-bottom: 26px; }
+    nav { display: grid; gap: 8px; }
+    .tab {
+      width: 100%; border: 0; text-align: left; border-radius: 8px; padding: 11px 12px;
+      background: transparent; color: #bfd1e7; cursor: pointer; font-weight: 650;
+    }
+    .tab.active { background: #243750; color: #ffffff; }
+    .side-card { margin-top: 24px; border: 1px solid #2d405a; background: rgba(255,255,255,.04); border-radius: 8px; padding: 12px; font-size: .82rem; color: #b8c8dc; }
+    main { padding: 22px 28px 32px; }
+    header { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 20px; }
+    h1 { margin: 0 0 4px; font-size: 1.35rem; }
+    p { margin: 0; color: var(--muted); font-size: .92rem; }
+    a { color: var(--blue); text-decoration: none; }
+    .sync-pill { border: 1px solid #bbf7d0; color: #166534; background: #dcfce7; border-radius: 999px; padding: 8px 12px; font-size: .82rem; font-weight: 700; white-space: nowrap; }
+    .grid { display: grid; gap: 14px; }
+    .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 14px; }
+    .two { grid-template-columns: 1.25fr .75fr; }
+    .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    @media (max-width: 920px) { .shell { grid-template-columns: 1fr; } aside { position: static; } .kpis, .two, .three { grid-template-columns: 1fr; } }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; box-shadow: 0 8px 20px rgba(18,32,51,.04); }
+    .card h2 { margin: 0 0 12px; font-size: .98rem; }
+    .kpi label { display: block; color: var(--muted); font-size: .76rem; margin-bottom: 7px; }
+    .kpi strong { display: block; font-size: 1.55rem; line-height: 1; }
+    .kpi span { color: var(--muted); font-size: .78rem; }
+    .bars { display: grid; gap: 10px; }
+    .bar-row { display: grid; grid-template-columns: 60px 1fr 48px; gap: 10px; align-items: center; font-size: .82rem; color: var(--muted); }
+    .bar-track { height: 10px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 999px; background: var(--blue); }
+    table { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+    .badge { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 8px; font-size: .74rem; font-weight: 700; }
+    .ok { background: #dcfce7; color: #166534; }
+    .wait { background: #fef3c7; color: #92400e; }
+    .bad { background: #fee2e2; color: #991b1b; }
+    .note { color: var(--muted); font-size: .84rem; line-height: 1.55; }
+    .hidden { display: none; }
+    .score { font-weight: 800; color: var(--green); }
+    .warn { color: var(--amber); font-weight: 750; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">SomniLearnAI</div>
+      <div class="subtitle">Session Dashboard Prototype</div>
+      <nav>
+        <button class="tab active" data-view="overview">Overview</button>
+        <button class="tab" data-view="study">Study Sessions</button>
+        <button class="tab" data-view="sleep">Sleep Sessions</button>
+        <button class="tab" data-view="presentation">Presentation Sessions</button>
+      </nav>
+      <div class="side-card">
+        Objective 3: dashboard cập nhật trong vòng 60 giây sau phiên học, ngủ hoặc thuyết trình.
+      </div>
+      <div class="side-card">
+        <a href="./screen-flow.html">Quay lại hardware simulator</a>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <h1 id="pageTitle">Overview</h1>
+          <p id="pageDesc">Quan sát tổng quan phiên học, phiên ngủ và phiên thuyết trình đã đồng bộ.</p>
+        </div>
+        <div class="sync-pill">API Sync: 38s ago · Online</div>
+      </header>
+
+      <section id="overview" class="view">
+        <div class="grid kpis">
+          <div class="card kpi"><label>Pomodoro hôm nay</label><strong>6</strong><span>150 phút tập trung</span></div>
+          <div class="card kpi"><label>Sleep score gần nhất</label><strong>84</strong><span>7h 35m · tốt</span></div>
+          <div class="card kpi"><label>Presentation score</label><strong>82</strong><span>+9 điểm so với phiên đầu</span></div>
+          <div class="card kpi"><label>Pending sync</label><strong>0</strong><span>Tất cả phiên đã đồng bộ</span></div>
+        </div>
+        <div class="grid two">
+          <div class="card">
+            <h2>Weekly Study Trend</h2>
+            <div class="bars" data-chart="study"></div>
+          </div>
+          <div class="card">
+            <h2>Monthly Sleep Summary</h2>
+            <p class="note">Điểm ngủ trung bình tháng này là <strong>81/100</strong>. Yếu tố ảnh hưởng thường gặp: ánh sáng cao sau 23:00 và độ ẩm thấp.</p>
+          </div>
+        </div>
+        <div class="grid three" style="margin-top:14px">
+          <div class="card"><h2>Study</h2><p class="note">6 Pomodoro hôm nay, cao hơn trung bình tuần 2 phiên.</p></div>
+          <div class="card"><h2>Sleep</h2><p class="note">4/7 đêm đạt score trên 80, báo thức trung bình 07:05.</p></div>
+          <div class="card"><h2>Presentation</h2><p class="note">Tốc độ nói ổn định hơn, feedback gần nhất: giảm filler words.</p></div>
+        </div>
+      </section>
+
+      <section id="study" class="view hidden">
+        <div class="grid kpis">
+          <div class="card kpi"><label>Total sessions</label><strong>18</strong><span>7 ngày gần nhất</span></div>
+          <div class="card kpi"><label>Focus minutes</label><strong>445</strong><span>theo tuần</span></div>
+          <div class="card kpi"><label>Best day</label><strong>Sat</strong><span>6 Pomodoro</span></div>
+          <div class="card kpi"><label>Completion</label><strong>92%</strong><span>phiên hoàn thành</span></div>
+        </div>
+        <div class="grid two">
+          <div class="card"><h2>Daily Pomodoro Count</h2><div class="bars" data-chart="study"></div></div>
+          <div class="card">
+            <h2>Recent Study Sessions</h2>
+            <table>
+              <thead><tr><th>Time</th><th>Focus</th><th>Break</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>08:30</td><td>25m</td><td>5m</td><td><span class="badge ok">synced</span></td></tr>
+                <tr><td>09:05</td><td>25m</td><td>5m</td><td><span class="badge ok">synced</span></td></tr>
+                <tr><td>10:10</td><td>50m</td><td>10m</td><td><span class="badge ok">synced</span></td></tr>
+                <tr><td>14:20</td><td>25m</td><td>5m</td><td><span class="badge ok">synced</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="sleep" class="view hidden">
+        <div class="grid kpis">
+          <div class="card kpi"><label>Average score</label><strong>81</strong><span>tháng này</span></div>
+          <div class="card kpi"><label>Average duration</label><strong>7h 18m</strong><span>mỗi đêm</span></div>
+          <div class="card kpi"><label>Alarm time</label><strong>07:00</strong><span>local alarm</span></div>
+          <div class="card kpi"><label>Main factor</label><strong>Light</strong><span>xuất hiện 4 lần</span></div>
+        </div>
+        <div class="grid two">
+          <div class="card"><h2>Sleep Score Trend</h2><div class="bars" data-chart="sleep"></div></div>
+          <div class="card">
+            <h2>Environment Factors</h2>
+            <table>
+              <thead><tr><th>Date</th><th>Score</th><th>Factors</th><th>Recommendation</th></tr></thead>
+              <tbody>
+                <tr><td>Jun 13</td><td class="score">84</td><td>CO2 780ppm</td><td>Giữ thông gió nhẹ</td></tr>
+                <tr><td>Jun 12</td><td class="score">76</td><td class="warn">Light high</td><td>Giảm ánh sáng sau 23:00</td></tr>
+                <tr><td>Jun 11</td><td class="score">82</td><td>Noise 43dB</td><td>Duy trì môi trường hiện tại</td></tr>
+                <tr><td>Jun 10</td><td class="score">71</td><td class="warn">Humidity low</td><td>Tăng độ ẩm phòng</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="presentation" class="view hidden">
+        <div class="grid kpis">
+          <div class="card kpi"><label>Latest score</label><strong>82</strong><span>server-assisted</span></div>
+          <div class="card kpi"><label>Average WPM</label><strong>126</strong><span>ổn định</span></div>
+          <div class="card kpi"><label>Practice count</label><strong>9</strong><span>tháng này</span></div>
+          <div class="card kpi"><label>Pending scoring</label><strong>1</strong><span>đợi Wi-Fi/API</span></div>
+        </div>
+        <div class="grid two">
+          <div class="card"><h2>Presentation Score Trend</h2><div class="bars" data-chart="presentation"></div></div>
+          <div class="card">
+            <h2>Recent Presentation Sessions</h2>
+            <table>
+              <thead><tr><th>Date</th><th>Duration</th><th>Score</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Jun 13</td><td>03:45</td><td class="score">82</td><td><span class="badge ok">scored</span></td></tr>
+                <tr><td>Jun 12</td><td>02:58</td><td class="score">78</td><td><span class="badge ok">scored</span></td></tr>
+                <tr><td>Jun 11</td><td>04:10</td><td>-</td><td><span class="badge wait">pending</span></td></tr>
+                <tr><td>Jun 09</td><td>03:21</td><td class="score">73</td><td><span class="badge ok">scored</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const titles = {
+      overview: ["Overview", "Quan sát tổng quan phiên học, phiên ngủ và phiên thuyết trình đã đồng bộ."],
+      study: ["Study Sessions", "Theo dõi số Pomodoro, tổng phút tập trung và lịch sử phiên học."],
+      sleep: ["Sleep Sessions", "Xem điểm ngủ, thời lượng ngủ, báo thức và yếu tố môi trường."],
+      presentation: ["Presentation Sessions", "Theo dõi điểm thuyết trình, thời lượng nói và trạng thái chấm điểm."],
+    };
+    const charts = {
+      study: [["Mon", 3], ["Tue", 2], ["Wed", 4], ["Thu", 3], ["Fri", 5], ["Sat", 6], ["Sun", 2]],
+      sleep: [["Jun 7", 78], ["Jun 8", 80], ["Jun 9", 83], ["Jun 10", 71], ["Jun 11", 82], ["Jun 12", 76], ["Jun 13", 84]],
+      presentation: [["S1", 64], ["S2", 70], ["S3", 73], ["S4", 78], ["S5", 82]],
+    };
+    function drawCharts() {
+      document.querySelectorAll("[data-chart]").forEach((el) => {
+        const name = el.dataset.chart;
+        const max = Math.max(...charts[name].map(([, v]) => v));
+        el.innerHTML = charts[name].map(([label, value]) => `
+          <div class="bar-row">
+            <span>${label}</span>
+            <div class="bar-track"><div class="bar-fill" style="width:${Math.max(8, value / max * 100)}%"></div></div>
+            <strong>${value}</strong>
+          </div>
+        `).join("");
+      });
+    }
+    function setView(id) {
+      document.querySelectorAll(".view").forEach((view) => view.classList.toggle("hidden", view.id !== id));
+      document.querySelectorAll(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.view === id));
+      document.getElementById("pageTitle").textContent = titles[id][0];
+      document.getElementById("pageDesc").textContent = titles[id][1];
+    }
+    document.querySelectorAll(".tab").forEach((tab) => tab.addEventListener("click", () => setView(tab.dataset.view)));
+    drawCharts();
+  </script>
+</body>
+</html>

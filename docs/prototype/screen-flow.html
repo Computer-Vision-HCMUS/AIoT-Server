@@ -3,571 +3,452 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SmartClock — Screen Flow Simulator</title>
+  <title>SomniLearnAI - Hardware Simulator</title>
   <style>
     :root {
-      --bg: #0f1419; --panel: #1a2332; --border: #2d3a4f;
-      --lcd-bg: #0a1628; --lcd-text: #7dd3fc; --lcd-dim: #4a7a9b;
-      --lcd-accent: #fbbf24; --lcd-good: #4ade80; --lcd-bad: #f87171;
-      --btn-idle: #334155; --btn-active: #3b82f6; --hint: #94a3b8;
+      --bg: #10151d; --panel: #192230; --panel-2: #111827; --border: #2b384d;
+      --lcd: #071526; --lcd-line: #1f3b60; --text: #e5edf7; --muted: #91a2b8;
+      --cyan: #67e8f9; --amber: #fbbf24; --green: #4ade80; --red: #fb7185;
+      --blue: #3b82f6; --btn: #334155;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: "Segoe UI", system-ui, sans-serif; background: var(--bg); color: #e2e8f0; min-height: 100vh; padding: 24px; }
-    header { max-width: 1100px; margin: 0 auto 24px; }
-    header h1 { font-size: 1.4rem; font-weight: 600; margin-bottom: 4px; }
-    header p { color: var(--hint); font-size: 0.9rem; }
-    .layout { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 380px 1fr; gap: 24px; align-items: start; }
-    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
-    .device { background: linear-gradient(145deg, #1e293b, #0f172a); border: 2px solid var(--border); border-radius: 20px; padding: 20px; box-shadow: 0 20px 50px rgba(0,0,0,.45); }
-    .device-label { text-align: center; font-size: 0.75rem; color: var(--hint); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
-    .tft { background: var(--lcd-bg); border: 3px solid #1e3a5f; border-radius: 8px; aspect-ratio: 4/3; padding: 14px; font-family: Consolas, monospace; overflow: hidden; position: relative; box-shadow: inset 0 0 30px rgba(0,120,200,.08); }
-    .tft::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px); pointer-events: none; }
-    .screen-title { color: var(--lcd-accent); font-size: 0.7rem; letter-spacing: .15em; border-bottom: 1px solid #1e3a5f; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; }
-    .mode-badge { color: var(--lcd-dim); font-size: 0.65rem; }
-    .screen-body { font-size: 0.78rem; line-height: 1.55; color: var(--lcd-text); }
-    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
-    .metric { background: rgba(30,58,95,.35); border: 1px solid #1e3a5f; border-radius: 4px; padding: 8px; }
-    .metric label { display: block; font-size: 0.6rem; color: var(--lcd-dim); margin-bottom: 2px; }
-    .metric .val { font-size: 0.95rem; font-weight: 700; }
-    .good { color: var(--lcd-good); } .bad { color: var(--lcd-bad); } .warn { color: var(--lcd-accent); }
-    .timer-display { text-align: center; font-size: 2.2rem; font-weight: 700; margin: 16px 0 8px; color: var(--lcd-accent); }
-    .timer-phase { text-align: center; color: var(--lcd-dim); font-size: 0.7rem; margin-bottom: 12px; }
-    .menu-item { padding: 6px 8px; border-left: 3px solid transparent; margin-bottom: 4px; color: var(--lcd-dim); }
-    .menu-item.active { border-left-color: var(--lcd-accent); color: var(--lcd-text); background: rgba(251,191,36,.06); }
-    .config-row { display: flex; justify-content: space-between; padding: 8px 10px; margin: 4px 0; border: 1px solid #1e3a5f; border-radius: 4px; color: var(--lcd-dim); }
-    .config-row.selected { border-color: var(--lcd-accent); color: var(--lcd-text); background: rgba(251,191,36,.08); }
-    .status-bar { margin-top: 10px; padding: 6px 8px; background: rgba(30,58,95,.5); border-radius: 4px; font-size: 0.65rem; color: var(--lcd-dim); text-align: center; }
-    .recording-dot { display: inline-block; width: 8px; height: 8px; background: var(--lcd-bad); border-radius: 50%; animation: blink 1s infinite; margin-right: 6px; vertical-align: middle; }
-    @keyframes blink { 50% { opacity: .3; } }
-    .game-area { background: #071018; border: 1px solid #1e3a5f; border-radius: 4px; height: 120px; position: relative; overflow: hidden; margin: 8px 0; }
-    .bird { position: absolute; width: 14px; height: 14px; background: var(--lcd-accent); border-radius: 50%; left: 40px; }
-    .pipe { position: absolute; width: 28px; background: var(--lcd-good); opacity: .7; }
-    .buttons { display: flex; gap: 10px; margin-top: 18px; justify-content: center; }
-    .btn { flex: 1; max-width: 58px; aspect-ratio: 1; border: none; border-radius: 50%; background: var(--btn-idle); color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 0 #1e293b; transition: transform .08s, background .08s; user-select: none; }
-    .btn:hover { background: #475569; }
-    .btn:active, .btn.pressed { transform: translateY(3px); box-shadow: 0 1px 0 #1e293b; background: var(--btn-active); }
-    .btn-labels { display: flex; gap: 10px; margin-top: 6px; justify-content: center; }
-    .btn-labels span { flex: 1; max-width: 58px; text-align: center; font-size: 0.6rem; color: var(--hint); }
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-    .panel h2 { font-size: 1rem; margin-bottom: 14px; color: #f1f5f9; }
-    .hint-list { list-style: none; margin-bottom: 20px; }
-    .hint-list li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; color: #cbd5e1; }
-    .hint-list li:last-child { border-bottom: none; }
-    .key-badge { flex-shrink: 0; width: 26px; height: 26px; background: var(--btn-idle); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; }
-    .key-badge.primary { background: #2563eb; }
-    .breadcrumb { font-size: 0.8rem; color: var(--hint); margin-bottom: 16px; padding: 8px 12px; background: rgba(0,0,0,.2); border-radius: 6px; font-family: monospace; }
-    .log { max-height: 180px; overflow-y: auto; font-size: 0.75rem; font-family: monospace; color: var(--hint); border-top: 1px solid var(--border); padding-top: 12px; }
-    .log .evt { color: #7dd3fc; }
-    .objective-grid { display: grid; gap: 8px; margin: 0 0 18px; }
-    .objective-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; background: rgba(15,23,42,.45); color: #cbd5e1; font-size: .78rem; }
-    .objective-card.active { border-color: var(--lcd-accent); background: rgba(251,191,36,.08); color: #f8fafc; }
-    .objective-card strong { display: block; margin-bottom: 3px; color: #f1f5f9; }
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1e40af; color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; opacity: 0; transition: all .25s; z-index: 100; pointer-events: none; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      padding: 24px;
+    }
+    header, .layout { max-width: 1160px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; gap: 18px; align-items: end; margin-bottom: 22px; }
+    h1 { font-size: 1.35rem; margin: 0 0 4px; }
+    p { margin: 0; color: var(--muted); font-size: .9rem; }
+    a { color: var(--cyan); text-decoration: none; }
+    .layout { display: grid; grid-template-columns: 390px 1fr; gap: 22px; align-items: start; }
+    @media (max-width: 900px) { .layout, header { grid-template-columns: 1fr; display: grid; } }
+    .device {
+      background: linear-gradient(145deg, #1f2937, #0f172a);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 22px 50px rgba(0,0,0,.35);
+    }
+    .device-label { text-align: center; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-size: .72rem; margin-bottom: 12px; }
+    .tft {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      border: 3px solid var(--lcd-line);
+      border-radius: 10px;
+      background: var(--lcd);
+      padding: 14px;
+      font-family: Consolas, "Courier New", monospace;
+      box-shadow: inset 0 0 28px rgba(103,232,249,.07);
+    }
+    .tft::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.025) 2px, rgba(255,255,255,.025) 4px);
+      pointer-events: none;
+    }
+    .screen-title {
+      display: flex; justify-content: space-between; align-items: center;
+      color: var(--amber);
+      border-bottom: 1px solid var(--lcd-line);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      font-size: .72rem;
+      letter-spacing: .12em;
+    }
+    .mode-badge { color: #5c7698; font-size: .64rem; }
+    .screen-body { color: var(--cyan); font-size: .77rem; line-height: 1.5; }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+    .metric, .config-row, .menu-item {
+      border: 1px solid var(--lcd-line);
+      background: rgba(31,59,96,.34);
+      border-radius: 5px;
+      padding: 8px;
+    }
+    .metric label { display: block; color: #5c7698; font-size: .58rem; margin-bottom: 2px; }
+    .metric .val { font-weight: 700; font-size: .92rem; color: var(--text); }
+    .menu-item { margin-bottom: 6px; color: var(--cyan); border-left: 4px solid var(--amber); }
+    .config-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: var(--muted); }
+    .config-row.selected { border-color: var(--amber); color: var(--text); background: rgba(251,191,36,.09); }
+    .status-bar { margin-top: 10px; padding: 6px 8px; border-radius: 5px; background: rgba(31,59,96,.45); color: #7894b5; text-align: center; font-size: .64rem; }
+    .timer { text-align: center; font-size: 2.15rem; color: var(--amber); font-weight: 800; margin: 14px 0 6px; }
+    .center { text-align: center; }
+    .good { color: var(--green) !important; } .bad { color: var(--red) !important; } .warn { color: var(--amber) !important; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: blink 1s infinite; margin-right: 6px; }
+    @keyframes blink { 50% { opacity: .25; } }
+    .buttons { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
+    .btn {
+      border: 0; border-radius: 999px; width: 58px; height: 58px;
+      background: var(--btn); color: white; font-weight: 800; cursor: pointer;
+      box-shadow: 0 4px 0 #172033; transition: transform .08s, background .08s;
+    }
+    .btn:hover, .btn.pressed { background: var(--blue); transform: translateY(3px); box-shadow: 0 1px 0 #172033; }
+    .labels { display: flex; gap: 10px; justify-content: center; margin-top: 7px; }
+    .labels span { width: 58px; color: var(--muted); font-size: .6rem; text-align: center; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .panel + .panel { margin-top: 14px; }
+    .panel h2 { font-size: .98rem; margin: 0 0 12px; }
+    .breadcrumb { background: rgba(0,0,0,.22); color: var(--muted); border-radius: 7px; padding: 9px 11px; font-family: Consolas, monospace; font-size: .78rem; margin-bottom: 14px; }
+    .objective-grid { display: grid; gap: 8px; margin-bottom: 16px; }
+    .objective-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: #c9d5e4; background: rgba(15,23,42,.45); font-size: .8rem; }
+    .objective-card.active { border-color: var(--amber); background: rgba(251,191,36,.08); color: white; }
+    .objective-card strong { display: block; margin-bottom: 4px; }
+    .hint-list { list-style: none; padding: 0; margin: 0; }
+    .hint-list li { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); color: #cbd5e1; font-size: .84rem; }
+    .hint-list li:last-child { border-bottom: 0; }
+    .key { width: 26px; height: 26px; border-radius: 6px; background: var(--btn); display: grid; place-items: center; font-weight: 800; flex: 0 0 auto; }
+    .key.primary { background: var(--blue); }
+    .log { max-height: 180px; overflow: auto; color: var(--muted); font-family: Consolas, monospace; font-size: .74rem; border-top: 1px solid var(--border); padding-top: 10px; }
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(70px); opacity: 0; background: #1d4ed8; color: white; border-radius: 8px; padding: 10px 16px; transition: .2s; pointer-events: none; z-index: 20; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .loading-overlay { position: absolute; inset: 0; background: rgba(10,22,40,.92); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; font-size: 0.75rem; color: var(--lcd-accent); z-index: 5; }
-    .spinner { width: 24px; height: 24px; border: 2px solid #1e3a5f; border-top-color: var(--lcd-accent); border-radius: 50%; animation: spin .8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
   <header>
-    <h1>SmartClock — Screen Flow Simulator</h1>
-    <p>Mô phỏng luồng màn hình theo 3 objective: tập trung, giấc ngủ, giải trí · Bấm phím <strong>1–5</strong> hoặc click nút trên thiết bị</p>
+    <div>
+      <h1>SomniLearnAI - Hardware Simulator</h1>
+      <p>Mô phỏng Edge Device theo objective mới: Study, Sleep, Status và đồng bộ Dashboard. Dùng phím <strong>1-5</strong> hoặc click nút.</p>
+    </div>
+    <p><a href="./dashboard.html">Mở prototype dashboard</a></p>
   </header>
 
-  <div class="layout">
-    <div class="device">
-      <div class="device-label">SmartClock · TFT Display</div>
+  <main class="layout">
+    <section class="device">
+      <div class="device-label">SomniLearnAI Edge Device · TFT 2.4"</div>
       <div id="tft" class="tft"></div>
-      <div class="buttons" id="btnRow">
+      <div id="btnRow" class="buttons">
         <button class="btn" data-key="1">1</button>
         <button class="btn" data-key="2">2</button>
         <button class="btn" data-key="3">3</button>
         <button class="btn" data-key="4">4</button>
         <button class="btn" data-key="5">5</button>
       </div>
-      <div class="btn-labels">
-        <span>Mode</span><span>Act 2</span><span>Act 3</span><span>Act 4</span><span>Act 5</span>
+      <div class="labels"><span>Mode</span><span>Action</span><span>Start</span><span>Next/+</span><span>Back/-</span></div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <div id="breadcrumb" class="breadcrumb">HOME</div>
+        <h2>Objective Map</h2>
+        <div id="objectiveMap" class="objective-grid"></div>
+        <h2>Hướng dẫn màn hình hiện tại</h2>
+        <ul id="hints" class="hint-list"></ul>
       </div>
-    </div>
+      <div class="panel">
+        <h2>Session Cache / Sync Log</h2>
+        <div id="log" class="log"></div>
+      </div>
+    </section>
+  </main>
 
-    <div class="panel">
-      <div class="breadcrumb" id="breadcrumb">HOME</div>
-      <h2>Objective Map</h2>
-      <div class="objective-grid" id="objectiveMap"></div>
-      <h2>Hướng dẫn màn hình hiện tại</h2>
-      <ul class="hint-list" id="hints"></ul>
-      <h2 style="font-size:.85rem;color:var(--hint);margin-bottom:8px">Nhật ký sự kiện</h2>
-      <div class="log" id="log"></div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
+  <div id="toast" class="toast"></div>
 
   <script>
-    const MODES = ["HOME", "STUDY", "SLEEP", "RELAX"];
-    const MUSIC = ["Lo-fi Study", "Rain Ambient", "Piano Focus", "Nature Sounds"];
-
+    const MODES = ["HOME", "STUDY", "SLEEP", "STATUS"];
     const state = {
-      mode: "HOME", screen: "home", loading: false,
-      soundLevel: 42, soundQuality: "Quiet", lightLevel: 320, lightQuality: "Suitable",
-      studyMin: 25, breakMin: 5, timerRunning: false, timerPhase: "study", timerSec: 1500, configField: "study",
-      recording: false, recordSec: 0, seminarResult: null,
-      sleepDurationH: 8, alarmEnabled: false, alarmTime: "07:00",
-      monitoring: false, sleepElapsed: 0, sleepScore: null, sleepConfigField: "duration",
-      flappyY: 60, flappyVel: 0, flappyScore: 0, flappyGameOver: false, pipeX: 280,
-      trackIdx: 0, playing: false,
+      mode: "HOME", screen: "home",
+      online: true, pending: 0,
+      pomodoroToday: 3, studyMinutes: 75, studyMin: 25, breakMin: 5,
+      timerRunning: false, timerPhase: "study", timerSec: 1500, configField: "study",
+      recording: false, recordSec: 0, seminarTarget: 180, seminarResult: null,
+      soundLevel: 42, lightLevel: 260, temp: 27, humidity: 62, co2: 780,
+      monitoring: false, sleepElapsed: 0, sleepScore: null, alarmEnabled: true, alarmTime: "07:00", alarmField: "hour",
+      statusPage: "summary"
     };
 
-    const SCREEN_META = {
-      home: {
-        breadcrumb: "HOME",
-        hints: [
-          { key: 1, text: "Chuyển mode: HOME → STUDY → SLEEP → RELAX", primary: true },
-          { key: 2, text: "(Không dùng trên màn hình này)" },
-          { key: 3, text: "(Không dùng trên màn hình này)" },
-          { key: 4, text: "(Không dùng trên màn hình này)" },
-          { key: 5, text: "(Không dùng trên màn hình này)" },
-        ],
-      },
-      study_menu: {
-        breadcrumb: "STUDY › Menu",
-        hints: [
-          { key: 1, text: "Chuyển sang Objective 2: SLEEP", primary: true },
-          { key: 2, text: "Mở Pomodoro Timer", primary: true },
-          { key: 3, text: "Mở Seminar Practice", primary: true },
-        ],
-      },
-      pomodoro: {
-        breadcrumb: "STUDY › Pomodoro",
-        hints: [
-          { key: 1, text: "Chuyển mode (thoát STUDY)" },
-          { key: 2, text: "Quay về STUDY Menu", primary: true },
-          { key: 3, text: "Start / Stop timer", primary: true },
-          { key: 4, text: "Reset timer", primary: true },
-          { key: 5, text: "Mở cấu hình thời gian Pomodoro", primary: true },
-        ],
-      },
-      study_timer: {
-        breadcrumb: "STUDY › Pomodoro › Config",
-        hints: [
-          { key: 2, text: "Lưu cấu hình → quay Pomodoro", primary: true },
-          { key: 3, text: "Chọn field chỉnh (Study / Break)", primary: true },
-          { key: 4, text: "Tăng giá trị (+1 phút)", primary: true },
-          { key: 5, text: "Giảm giá trị (−1 phút)", primary: true },
-        ],
-      },
-      seminar: {
-        breadcrumb: "STUDY › Seminar Practice",
-        hints: [
-          { key: 2, text: "Quay về STUDY Menu", primary: true },
-          { key: 3, text: "Start / Stop ghi âm", primary: true },
-          { key: 4, text: "Xem đánh giá bài luyện tập", primary: true },
-        ],
-      },
-      sleep_menu: {
-        breadcrumb: "SLEEP › Menu",
-        hints: [
-          { key: 1, text: "Chuyển sang Objective 3: RELAX", primary: true },
-          { key: 2, text: "Bắt đầu theo dõi giấc ngủ", primary: true },
-          { key: 3, text: "Mở cài đặt báo thức", primary: true },
-          { key: 4, text: "Mở cấu hình thời lượng ngủ", primary: true },
-        ],
-      },
-      start_sleep: {
-        breadcrumb: "SLEEP › Monitoring",
-        hints: [
-          { key: 2, text: "Dừng theo dõi → xem đánh giá giấc ngủ", primary: true },
-          { key: 3, text: "(Đang theo dõi — không dùng)" },
-        ],
-      },
-      sleep_score: {
-        breadcrumb: "SLEEP › Sleep Report",
-        hints: [{ key: 2, text: "Xác nhận kết quả → quay SLEEP Menu", primary: true }],
-      },
-      sleep_settings: {
-        breadcrumb: "SLEEP › Settings",
-        hints: [
-          { key: 2, text: "Lưu cài đặt → SLEEP Menu", primary: true },
-          { key: 3, text: "Bật / tắt báo thức (mặc định 07:00)", primary: true },
-          { key: 4, text: "Mở cấu hình thời lượng ngủ / báo thức", primary: true },
-        ],
-      },
-      sleep_timer: {
-        breadcrumb: "SLEEP › Timer Config",
-        hints: [
-          { key: 2, text: "Lưu cấu hình → quay Settings", primary: true },
-          { key: 3, text: "Chọn field (Duration / Alarm hour)", primary: true },
-          { key: 4, text: "Tăng giá trị", primary: true },
-          { key: 5, text: "Giảm giá trị", primary: true },
-        ],
-      },
-      relax_menu: {
-        breadcrumb: "RELAX › Menu",
-        hints: [
-          { key: 1, text: "Chuyển về HOME", primary: true },
-          { key: 2, text: "Mở Flappy Bird", primary: true },
-          { key: 3, text: "Mở Music Player", primary: true },
-        ],
-      },
-      flappy: {
-        breadcrumb: "RELAX › Flappy Bird",
-        hints: [
-          { key: 2, text: "Thoát game → RELAX Menu", primary: true },
-          { key: 3, text: "Jump / Flap", primary: true },
-        ],
-      },
-      music: {
-        breadcrumb: "RELAX › Music Player",
-        hints: [
-          { key: 2, text: "Quay RELAX Menu", primary: true },
-          { key: 3, text: "Play / Pause", primary: true },
-          { key: 4, text: "Bài tiếp theo", primary: true },
-          { key: 5, text: "Bài trước", primary: true },
-        ],
-      },
+    const META = {
+      home: { path: "HOME", hints: [[1, "Chuyển sang STUDY", true], [2, "Xem nhanh trạng thái thiết bị", true], [3, "Không dùng"], [4, "Không dùng"], [5, "Không dùng"]] },
+      study_menu: { path: "STUDY > Menu", hints: [[1, "Chuyển sang SLEEP", true], [2, "Mở Pomodoro Timer", true], [3, "Mở Seminar Practice", true], [4, "Xem nhanh thống kê học hôm nay", true], [5, "Quay HOME", true]] },
+      pomodoro: { path: "STUDY > Pomodoro", hints: [[2, "Quay Study Menu", true], [3, "Start/Pause", true], [4, "Reset phiên", true], [5, "Cấu hình Study/Break", true]] },
+      pomodoro_config: { path: "STUDY > Pomodoro Config", hints: [[2, "Lưu cấu hình", true], [3, "Chọn Study/Break", true], [4, "Tăng 1 phút", true], [5, "Giảm 1 phút", true]] },
+      seminar: { path: "STUDY > Seminar Practice", hints: [[2, "Quay Study Menu", true], [3, "Bắt đầu/Kết thúc ghi nhận", true], [4, "Xem trạng thái chấm điểm", true], [5, "Đổi target duration", true]] },
+      sleep_menu: { path: "SLEEP > Menu", hints: [[1, "Chuyển sang STATUS", true], [2, "Bắt đầu/dừng Sleep Monitoring", true], [3, "Xem realtime environment", true], [4, "Mở Alarm Setting", true], [5, "Quay Study Mode", true]] },
+      environment: { path: "SLEEP > Realtime Environment", hints: [[2, "Bắt đầu Sleep Monitoring", true], [4, "Mở Alarm Setting", true], [5, "Quay Sleep Menu", true]] },
+      monitoring: { path: "SLEEP > Monitoring", hints: [[2, "Dừng và tạo báo cáo ngủ", true], [4, "Xem báo thức hiện tại", true]] },
+      sleep_report: { path: "SLEEP > Report", hints: [[2, "Lưu report và quay Sleep Menu", true], [4, "Mở Alarm Setting", true]] },
+      alarm: { path: "SLEEP > Alarm Setting", hints: [[2, "Tăng giờ", true], [3, "Tăng phút", true], [4, "Bật/tắt alarm", true], [5, "Lưu và quay Sleep Menu", true]] },
+      status: { path: "STATUS > Sync", hints: [[1, "Quay HOME", true], [2, "Thử đồng bộ lại", true], [3, "Xem phiên chưa đồng bộ", true], [4, "Xem Wi-Fi/API", true], [5, "Quay Sleep Mode", true]] },
     };
 
+    function fmt(sec) { return `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`; }
+    function elapsed(sec) { return `${Math.floor(sec / 3600)}h ${String(Math.floor(sec % 3600 / 60)).padStart(2, "0")}m`; }
+    function resetTimer() { state.timerSec = (state.timerPhase === "study" ? state.studyMin : state.breakMin) * 60; }
+    function pushSession(type, label) {
+      state.pending += state.online ? 0 : 1;
+      log(`${type}: ${label} ${state.online ? "-> synced to API Server" : "-> saved to Local Session Cache"}`);
+    }
+    function toast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg; t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1700);
+    }
     function log(msg) {
       const el = document.getElementById("log");
       const line = document.createElement("div");
-      line.className = "evt";
       line.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
       el.prepend(line);
-      while (el.children.length > 40) el.lastChild.remove();
+      while (el.children.length > 50) el.lastChild.remove();
     }
-
-    function toast(msg) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 1800);
-    }
-
-    function fmtTime(sec) {
-      const m = Math.floor(sec / 60), s = sec % 60;
-      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    }
-
-    function fmtElapsed(sec) {
-      const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
-      return `${h}h ${String(m).padStart(2, "0")}m ${String(s).padStart(2, "0")}s`;
-    }
-
-    function resetPomodoroTimer() {
-      state.timerSec = (state.timerPhase === "study" ? state.studyMin : state.breakMin) * 60;
-    }
-
-    function resetSubStates() {
-      state.timerRunning = false;
-      state.recording = false;
-      state.monitoring = false;
-      state.flappyGameOver = false;
-      state.seminarResult = null;
-      state.sleepScore = null;
-      state.loading = false;
-      resetPomodoroTimer();
-    }
-
     function nextMode() {
-      state.mode = MODES[(MODES.indexOf(state.mode) + 1) % MODES.length];
-      state.screen = state.mode === "HOME" ? "home" : state.mode.toLowerCase() + "_menu";
-      resetSubStates();
-      log(`Btn1 → chuyển mode: ${state.mode}`);
+      const next = MODES[(MODES.indexOf(state.mode) + 1) % MODES.length];
+      state.mode = next;
+      state.screen = next === "HOME" ? "home" : next === "STATUS" ? "status" : `${next.toLowerCase()}_menu`;
+      state.timerRunning = state.recording = state.monitoring = false;
+      state.seminarResult = state.sleepScore = null;
+      log(`Mode -> ${next}`);
       render();
-    }
-
-    function showLoading(ms, then) {
-      state.loading = true;
-      render();
-      setTimeout(() => { state.loading = false; then(); render(); }, ms);
     }
 
     function renderTFT() {
-      const tft = document.getElementById("tft");
-      const { mode, screen } = state;
-      let body = "", status = "";
-
-      if (state.loading) {
-        tft.innerHTML = `<div class="screen-title"><span>${mode}</span><span class="mode-badge">${screen}</span></div>
-          <div class="loading-overlay"><div class="spinner"></div><span>Đang lưu cấu hình...</span></div>`;
-        return;
-      }
-
-      switch (screen) {
+      let body = "";
+      switch (state.screen) {
         case "home":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">SmartClock Objective Overview</div>
+          body = `<div class="center warn">SomniLearnAI</div>
             <div class="metric-grid">
-              <div class="metric"><label>Objective 1</label><div class="val">Focus</div></div>
-              <div class="metric"><label>Objective 2</label><div class="val good">Sleep</div></div>
-              <div class="metric"><label>Objective 3</label><div class="val warn">Relax</div></div>
-              <div class="metric"><label>Controls</label><div class="val">5 keys</div></div>
-            </div><div class="status-bar">Pomodoro · Seminar · Sleep · Alarm · Game · Music</div>`;
-          status = "Nhấn [1] để chuyển sang STUDY";
+              <div class="metric"><label>Time</label><div class="val">${new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</div></div>
+              <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
+              <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
+              <div class="metric"><label>Alarm</label><div class="val">${state.alarmEnabled ? state.alarmTime : "OFF"}</div></div>
+            </div>
+            <div class="status-bar">HOME -> STUDY -> SLEEP -> STATUS</div>`;
           break;
         case "study_menu":
-          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Objective 1 · Hỗ trợ tập trung:</div>
-            <div class="menu-item active">[2] Pomodoro Timer</div>
-            <div class="menu-item active">[3] Seminar Practice</div>
-            <div class="status-bar">Pomodoro: ${state.studyMin}/${state.breakMin} min</div>`;
+          body = `<div class="warn">Objective 1: Study Support</div>
+            <div class="menu-item">[2] Pomodoro Timer</div>
+            <div class="menu-item">[3] Seminar Practice</div>
+            <div class="menu-item">[4] Today Study Summary</div>
+            <div class="status-bar">${state.pomodoroToday} Pomodoro · ${state.studyMinutes} focus min</div>`;
           break;
         case "pomodoro":
-          body = `<div class="timer-phase">${state.timerPhase === "study" ? "◉ STUDY SESSION" : "◉ BREAK TIME"}</div>
-            <div class="timer-display">${fmtTime(state.timerSec)}</div>
-            <div style="text-align:center;font-size:.65rem;color:var(--lcd-dim)">${state.timerRunning ? "▶ Đang chạy" : "⏸ Tạm dừng"}</div>
-            <div class="status-bar">Study ${state.studyMin}m · Break ${state.breakMin}m</div>`;
+          body = `<div class="center">${state.timerPhase === "study" ? "STUDY SESSION" : "BREAK TIME"}</div>
+            <div class="timer">${fmt(state.timerSec)}</div>
+            <div class="center ${state.timerRunning ? "good" : "warn"}">${state.timerRunning ? "RUNNING" : "PAUSED"}</div>
+            <div class="status-bar">Study ${state.studyMin}m · Break ${state.breakMin}m · Done ${state.pomodoroToday}</div>`;
           break;
-        case "study_timer":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Pomodoro Config — chỉnh cấu hình</div>
-            <div class="config-row ${state.configField === "study" ? "selected" : ""}"><span>Study Time</span><span>${state.studyMin} min</span></div>
+        case "pomodoro_config":
+          body = `<div class="config-row ${state.configField === "study" ? "selected" : ""}"><span>Study Time</span><span>${state.studyMin} min</span></div>
             <div class="config-row ${state.configField === "break" ? "selected" : ""}"><span>Break Time</span><span>${state.breakMin} min</span></div>
-            <div class="status-bar">[2] Lưu · [3] Đổi field · [4/5] ±1</div>`;
+            <div class="status-bar">[2] Save · [3] Field · [4/5] +/-</div>`;
           break;
         case "seminar":
-          if (state.seminarResult) {
-            const r = state.seminarResult;
-            body = `<div style="color:var(--lcd-accent);margin-bottom:8px">AI Evaluation Result</div>
-              <div class="metric-grid">
-                <div class="metric"><label>Clarity</label><div class="val good">${r.clarity}%</div></div>
-                <div class="metric"><label>Speed</label><div class="val">${r.speed} WPM</div></div>
-                <div class="metric"><label>Noise</label><div class="val">${r.noise} dB</div></div>
-                <div class="metric"><label>Confidence</label><div class="val good">${r.confidence}%</div></div>
-              </div><div class="status-bar">[2] Quay STUDY Menu</div>`;
-          } else {
-            body = `<div style="margin-bottom:10px">${state.recording ? '<span class="recording-dot"></span>REC ' + fmtTime(state.recordSec) : "⏺ Sẵn sàng ghi"}</div>
-            <div style="font-size:.65rem;color:var(--lcd-dim);line-height:1.6">1. [3] Bắt đầu trình bày<br>2. [3] Kết thúc trình bày<br>3. [4] Xem đánh giá</div>
-              <div class="status-bar">Đo thời lượng · đánh giá cơ bản</div>`;
-          }
+          body = state.seminarResult ? `<div class="warn">Presentation Score</div>
+            <div class="metric-grid">
+              <div class="metric"><label>Score</label><div class="val good">${state.seminarResult.score}/100</div></div>
+              <div class="metric"><label>Duration</label><div class="val">${fmt(state.recordSec)}</div></div>
+              <div class="metric"><label>Speech Rate</label><div class="val">${state.seminarResult.wpm} WPM</div></div>
+              <div class="metric"><label>Status</label><div class="val ${state.online ? "good" : "warn"}">${state.online ? "SCORED" : "PENDING"}</div></div>
+            </div>` :
+            `<div>${state.recording ? '<span class="dot"></span>RECORDING ' + fmt(state.recordSec) : "Ready to record seminar"}</div>
+            <div class="metric-grid">
+              <div class="metric"><label>Target</label><div class="val">${fmt(state.seminarTarget)}</div></div>
+              <div class="metric"><label>Server</label><div class="val ${state.online ? "good" : "warn"}">${state.online ? "READY" : "OFFLINE"}</div></div>
+            </div>
+            <div class="status-bar">[3] Start/Stop · [4] Score status</div>`;
           break;
         case "sleep_menu":
-          body = `<div style="margin-bottom:8px;font-size:.65rem;color:var(--lcd-dim)">Objective 2 · Hỗ trợ giấc ngủ</div>
-            <div class="menu-item active">[2] Theo dõi giấc ngủ</div>
-            <div class="menu-item active">[3] Cài đặt báo thức</div>
-            <div class="menu-item active">[4] Cấu hình thời lượng ngủ</div>
-            <div class="status-bar">Duration: ${state.sleepDurationH}h · Alarm: ${state.alarmEnabled ? state.alarmTime : "OFF"}</div>`;
+          body = `<div class="warn">Objective 2: Sleep Management</div>
+            <div class="menu-item">[2] Sleep Monitoring Edge AI</div>
+            <div class="menu-item">[3] Realtime Environment</div>
+            <div class="menu-item">[4] Alarm Setting</div>
+            <div class="status-bar">Alarm ${state.alarmEnabled ? state.alarmTime : "OFF"} · CO2 ${state.co2} ppm</div>`;
           break;
-        case "start_sleep":
-          body = `<div style="color:var(--lcd-accent);margin-bottom:6px">● MONITORING</div>
+        case "environment":
+          body = `<div class="metric-grid">
+              <div class="metric"><label>Light</label><div class="val">${state.lightLevel} lux</div></div>
+              <div class="metric"><label>Noise</label><div class="val">${state.soundLevel} dB</div></div>
+              <div class="metric"><label>Temp</label><div class="val">${state.temp} C</div></div>
+              <div class="metric"><label>Humidity/CO2</label><div class="val">${state.humidity}% · ${state.co2}</div></div>
+            </div>
+            <div class="status-bar ${state.soundLevel > 52 || state.lightLevel > 330 ? "warn" : "good"}">${state.soundLevel > 52 || state.lightLevel > 330 ? "Environment may affect sleep" : "Environment looks suitable"}</div>`;
+          break;
+        case "monitoring":
+          body = `<div class="warn"><span class="dot"></span>SLEEP MONITORING</div>
+            <div class="timer" style="font-size:1.6rem">${elapsed(state.sleepElapsed)}</div>
             <div class="metric-grid">
-              <div class="metric"><label>Sound</label><div class="val">${state.soundLevel} dB · ${state.soundQuality}</div></div>
+              <div class="metric"><label>Noise</label><div class="val">${state.soundLevel} dB</div></div>
               <div class="metric"><label>Light</label><div class="val">${state.lightLevel} lux</div></div>
             </div>
-            <div style="text-align:center;margin-top:12px;font-size:1.1rem;color:var(--lcd-accent)">${fmtElapsed(state.sleepElapsed)}</div>
-            <div class="status-bar">Ghi nhận thời gian ngủ · [2] Stop</div>`;
+            <div class="status-bar">[2] Stop and generate report</div>`;
           break;
-        case "sleep_score":
-          body = `<div style="color:var(--lcd-accent);margin-bottom:10px">Sleep Quality Report</div>
-            <div style="text-align:center;font-size:2rem;color:var(--lcd-good);margin:10px 0">${state.sleepScore}/100</div>
-            <div style="font-size:.65rem;color:var(--lcd-dim);text-align:center">Đánh giá dựa trên thời lượng và môi trường nghỉ ngơi</div>
-            <div class="status-bar">[2] Xác nhận → SLEEP Menu</div>`;
+        case "sleep_report":
+          body = `<div class="center warn">Sleep Report</div>
+            <div class="timer good">${state.sleepScore}/100</div>
+            <div class="metric-grid">
+              <div class="metric"><label>Duration</label><div class="val">${elapsed(state.sleepElapsed)}</div></div>
+              <div class="metric"><label>Main Factor</label><div class="val">${state.soundLevel > 52 ? "Noise" : "Light"}</div></div>
+            </div>
+            <div class="status-bar">Saved for dashboard monthly summary</div>`;
           break;
-        case "sleep_settings":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Alarm Settings</div>
-            <div class="config-row"><span>Alarm</span><span class="${state.alarmEnabled ? "good" : ""}">${state.alarmEnabled ? "ON " + state.alarmTime : "OFF"}</span></div>
-            <div class="config-row"><span>Target Duration</span><span>${state.sleepDurationH} hours</span></div>
-            <div class="status-bar">[3] Bật/tắt báo thức · [4] chỉnh giờ · [2] lưu</div>`;
+        case "alarm":
+          body = `<div class="center warn">Alarm Setting</div>
+            <div class="timer">${state.alarmTime}</div>
+            <div class="config-row"><span>Status</span><span class="${state.alarmEnabled ? "good" : "bad"}">${state.alarmEnabled ? "ON" : "OFF"}</span></div>
+            <div class="status-bar">[2] +Hour · [3] +Min · [4] On/Off · [5] Save</div>`;
           break;
-        case "sleep_timer":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim);margin-bottom:8px">Sleep Duration / Alarm Config</div>
-            <div class="config-row ${state.sleepConfigField === "duration" ? "selected" : ""}"><span>Sleep Duration</span><span>${state.sleepDurationH} h</span></div>
-            <div class="config-row ${state.sleepConfigField === "alarm" ? "selected" : ""}"><span>Alarm Hour</span><span>${state.alarmTime}</span></div>
-            <div class="status-bar">[2] Lưu · [3] Đổi field · [4/5] ±</div>`;
-          break;
-        case "relax_menu":
-          body = `<div style="margin-bottom:10px;color:var(--lcd-dim);font-size:.7rem">Objective 3 · Giải trí và trang trí:</div>
-            <div class="menu-item active">[2] Flappy Bird</div>
-            <div class="menu-item active">[3] Music Player</div>`;
-          break;
-        case "flappy":
-          body = state.flappyGameOver
-            ? `<div style="text-align:center;color:var(--lcd-bad);margin:20px 0">GAME OVER</div>
-               <div style="text-align:center;font-size:1.5rem;color:var(--lcd-accent)">Score: ${state.flappyScore}</div>
-               <div class="status-bar">[2] Thoát về RELAX Menu</div>`
-            : `<div class="game-area">
-                 <div class="bird" style="top:${state.flappyY}px"></div>
-                 <div class="pipe" style="left:${state.pipeX}px;top:0;height:50px"></div>
-                 <div class="pipe" style="left:${state.pipeX}px;bottom:0;height:70px"></div>
-               </div>
-               <div class="score-line">Score: ${state.flappyScore} · [3] Jump · [2] Exit</div>`;
-          break;
-        case "music":
-          body = `<div style="font-size:.65rem;color:var(--lcd-dim)">Now Playing</div>
-            <div style="margin:14px 0;font-size:.9rem;color:var(--lcd-accent)">${MUSIC[state.trackIdx]}</div>
-            <div style="text-align:center;font-size:1.4rem">${state.playing ? "▶" : "⏸"}</div>
-            <div style="margin-top:12px;font-size:.65rem;color:var(--lcd-dim)">${MUSIC.map((t, i) => (i === state.trackIdx ? "▸ " : "  ") + t).join("<br>")}</div>`;
+        case "status":
+          body = `<div class="warn">Objective 3: Session Dashboard</div>
+            <div class="metric-grid">
+              <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
+              <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
+              <div class="metric"><label>API</label><div class="val">${state.online ? "<60s sync" : "waiting"}</div></div>
+              <div class="metric"><label>Dashboard</label><div class="val">Study/Sleep/Presentation</div></div>
+            </div>
+            <div class="status-bar">[2] Sync · [3] Pending · [4] Toggle Wi-Fi</div>`;
           break;
       }
-
-      tft.innerHTML = `<div class="screen-title"><span>${mode}</span><span class="mode-badge">${screen.replace(/_/g, " ").toUpperCase()}</span></div>
-        <div class="screen-body">${body}</div>${status ? `<div class="status-bar">${status}</div>` : ""}`;
+      document.getElementById("tft").innerHTML = `<div class="screen-title"><span>${state.mode}</span><span class="mode-badge">${state.screen.replaceAll("_", " ").toUpperCase()}</span></div><div class="screen-body">${body}</div>`;
     }
 
-    function currentObjective() {
-      if (state.mode === "STUDY") return "focus";
-      if (state.mode === "SLEEP") return "sleep";
-      if (state.mode === "RELAX") return "relax";
-      return "home";
+    function objective() {
+      if (state.mode === "STUDY") return "o1";
+      if (state.mode === "SLEEP") return "o2";
+      if (state.mode === "STATUS") return "o3";
+      return "";
     }
-
-    function renderObjectiveMap() {
-      const active = currentObjective();
+    function renderSide() {
+      const active = objective();
       const items = [
-        { id: "focus", title: "Objective 1", text: "Pomodoro Timer · Seminar Practice" },
-        { id: "sleep", title: "Objective 2", text: "Theo dõi giấc ngủ · Báo thức" },
-        { id: "relax", title: "Objective 3", text: "Flappy Bird · Music Player" },
+        ["o1", "Objective 1", "Pomodoro, focus minutes, seminar score"],
+        ["o2", "Objective 2", "Sleep report, alarm, light/noise/temp/humidity/CO2"],
+        ["o3", "Objective 3", "Sync within 60 seconds and dashboard statistics"]
       ];
-      document.getElementById("objectiveMap").innerHTML = items.map(item =>
-        `<div class="objective-card ${active === item.id ? "active" : ""}"><strong>${item.title}</strong>${item.text}</div>`
-      ).join("");
+      document.getElementById("objectiveMap").innerHTML = items.map(([id, title, text]) => `<div class="objective-card ${active === id ? "active" : ""}"><strong>${title}</strong>${text}</div>`).join("");
+      const meta = META[state.screen] || META.home;
+      document.getElementById("breadcrumb").textContent = meta.path;
+      document.getElementById("hints").innerHTML = meta.hints.map(([k, text, primary]) => `<li><span class="key ${primary ? "primary" : ""}">${k}</span><span>${text}</span></li>`).join("");
     }
+    function render() { renderTFT(); renderSide(); }
 
-    function renderHints() {
-      const meta = SCREEN_META[state.screen] || SCREEN_META.home;
-      document.getElementById("breadcrumb").textContent = meta.breadcrumb;
-      document.getElementById("hints").innerHTML = meta.hints.map(h =>
-        `<li><span class="key-badge ${h.primary ? "primary" : ""}">${h.key}</span><span>${h.text}</span></li>`
-      ).join("");
-    }
-
-    function render() { renderTFT(); renderObjectiveMap(); renderHints(); }
-
-    function handleKey(key) {
-      if (state.loading) return;
-      const k = String(key);
-      log(`Btn${k} @ ${state.screen}`);
-      if (k === "1") { nextMode(); return; }
-
+    function handleKey(k) {
+      k = String(k);
+      if (k === "1") return nextMode();
+      log(`Button ${k} @ ${state.screen}`);
       switch (state.screen) {
-        case "home": toast("HOME: chỉ dùng nút [1] để chuyển mode"); break;
+        case "home":
+          if (k === "2") { state.mode = "STATUS"; state.screen = "status"; }
+          break;
         case "study_menu":
-          if (k === "2") { state.screen = "pomodoro"; resetPomodoroTimer(); }
-          if (k === "3") { state.screen = "seminar"; state.seminarResult = null; state.recordSec = 0; state.recording = false; }
+          if (k === "2") { state.screen = "pomodoro"; resetTimer(); }
+          if (k === "3") { state.screen = "seminar"; state.recordSec = 0; state.recording = false; state.seminarResult = null; }
+          if (k === "4") toast(`${state.pomodoroToday} Pomodoro, ${state.studyMinutes} focus minutes today`);
+          if (k === "5") { state.mode = "HOME"; state.screen = "home"; }
           break;
         case "pomodoro":
           if (k === "2") { state.screen = "study_menu"; state.timerRunning = false; }
-          if (k === "3") { state.timerRunning = !state.timerRunning; toast(state.timerRunning ? "Timer started" : "Timer paused"); }
-          if (k === "4") { state.timerRunning = false; resetPomodoroTimer(); toast("Timer reset"); }
-          if (k === "5") { state.screen = "study_timer"; state.configField = "study"; }
+          if (k === "3") state.timerRunning = !state.timerRunning;
+          if (k === "4") { state.timerRunning = false; resetTimer(); }
+          if (k === "5") state.screen = "pomodoro_config";
           break;
-        case "study_timer":
-          if (k === "2") { showLoading(900, () => { state.screen = "pomodoro"; resetPomodoroTimer(); toast("Timer config synced"); }); return; }
+        case "pomodoro_config":
+          if (k === "2") { state.screen = "pomodoro"; resetTimer(); toast("Pomodoro config saved"); }
           if (k === "3") state.configField = state.configField === "study" ? "break" : "study";
-          if (k === "4") { if (state.configField === "study") state.studyMin = Math.min(120, state.studyMin + 1); else state.breakMin = Math.min(60, state.breakMin + 1); }
-          if (k === "5") { if (state.configField === "study") state.studyMin = Math.max(1, state.studyMin - 1); else state.breakMin = Math.max(1, state.breakMin - 1); }
+          if (k === "4") state.configField === "study" ? state.studyMin++ : state.breakMin++;
+          if (k === "5") state.configField === "study" ? state.studyMin = Math.max(1, state.studyMin - 1) : state.breakMin = Math.max(1, state.breakMin - 1);
           break;
         case "seminar":
-          if (k === "2") { state.screen = "study_menu"; state.recording = false; state.seminarResult = null; state.recordSec = 0; }
-          if (k === "3" && !state.seminarResult) state.recording = !state.recording;
-          if (k === "4" && !state.recording && state.recordSec > 0) {
-            showLoading(1200, () => {
-              state.seminarResult = { clarity: 78 + Math.floor(Math.random() * 15), speed: 110 + Math.floor(Math.random() * 30), noise: 38 + Math.floor(Math.random() * 10), confidence: 72 + Math.floor(Math.random() * 20) };
-              toast("Đã tạo đánh giá luyện tập");
-            }); return;
+          if (k === "2") { state.screen = "study_menu"; state.recording = false; }
+          if (k === "3") state.recording = !state.recording;
+          if (k === "4") {
+            if (state.recordSec === 0) toast("Record first");
+            else {
+              state.recording = false;
+              state.seminarResult = { score: 78 + Math.floor(Math.random() * 16), wpm: 112 + Math.floor(Math.random() * 28) };
+              pushSession("Presentation Session", `score ${state.seminarResult.score}/100`);
+            }
           }
-          if (k === "4" && state.recordSec === 0) toast("Cần ghi âm trước khi đánh giá");
+          if (k === "5") { state.seminarTarget += 60; if (state.seminarTarget > 600) state.seminarTarget = 120; }
           break;
         case "sleep_menu":
-          if (k === "2") { state.screen = "start_sleep"; state.monitoring = true; state.sleepElapsed = 0; }
-          if (k === "3") state.screen = "sleep_settings";
-          if (k === "4") { state.screen = "sleep_timer"; state.sleepConfigField = "duration"; }
+          if (k === "2") { state.screen = "monitoring"; state.monitoring = true; state.sleepElapsed = 0; }
+          if (k === "3") state.screen = "environment";
+          if (k === "4") state.screen = "alarm";
+          if (k === "5") { state.mode = "STUDY"; state.screen = "study_menu"; }
           break;
-        case "start_sleep":
+        case "environment":
+          if (k === "2") { state.screen = "monitoring"; state.monitoring = true; state.sleepElapsed = 0; }
+          if (k === "4") state.screen = "alarm";
+          if (k === "5") state.screen = "sleep_menu";
+          break;
+        case "monitoring":
           if (k === "2") {
             state.monitoring = false;
-            showLoading(1500, () => { state.sleepScore = 65 + Math.floor(Math.random() * 28); state.screen = "sleep_score"; toast("Đã tạo báo cáo giấc ngủ"); });
-            return;
+            state.sleepScore = 68 + Math.floor(Math.random() * 25);
+            state.screen = "sleep_report";
+            pushSession("Sleep Session", `score ${state.sleepScore}/100`);
           }
+          if (k === "4") state.screen = "alarm";
           break;
-        case "sleep_score":
+        case "sleep_report":
           if (k === "2") { state.screen = "sleep_menu"; state.sleepScore = null; }
+          if (k === "4") state.screen = "alarm";
           break;
-        case "sleep_settings":
-          if (k === "2") { showLoading(700, () => { state.screen = "sleep_menu"; toast("Settings saved"); }); return; }
-          if (k === "3") { state.alarmEnabled = !state.alarmEnabled; toast(state.alarmEnabled ? "Alarm ON 07:00" : "Alarm OFF"); }
-          if (k === "4") { state.screen = "sleep_timer"; state.sleepConfigField = "duration"; }
-          break;
-        case "sleep_timer":
-          if (k === "2") { showLoading(700, () => { state.screen = "sleep_settings"; toast("Sleep timer synced"); }); return; }
-          if (k === "3") state.sleepConfigField = state.sleepConfigField === "duration" ? "alarm" : "duration";
-          if (k === "4") {
-            if (state.sleepConfigField === "duration") state.sleepDurationH = Math.min(12, state.sleepDurationH + 1);
-            else { const h = +state.alarmTime.split(":")[0]; state.alarmTime = `${String(Math.min(23, h + 1)).padStart(2, "0")}:00`; }
+        case "alarm":
+          if (k === "2") {
+            const h = (Number(state.alarmTime.slice(0,2)) + 1) % 24;
+            state.alarmTime = `${String(h).padStart(2, "0")}:${state.alarmTime.slice(3)}`;
           }
-          if (k === "5") {
-            if (state.sleepConfigField === "duration") state.sleepDurationH = Math.max(4, state.sleepDurationH - 1);
-            else { const h = +state.alarmTime.split(":")[0]; state.alarmTime = `${String(Math.max(0, h - 1)).padStart(2, "0")}:00`; }
+          if (k === "3") {
+            const m = (Number(state.alarmTime.slice(3)) + 5) % 60;
+            state.alarmTime = `${state.alarmTime.slice(0,2)}:${String(m).padStart(2, "0")}`;
           }
+          if (k === "4") state.alarmEnabled = !state.alarmEnabled;
+          if (k === "5") { state.screen = "sleep_menu"; toast("Alarm saved locally"); }
           break;
-        case "relax_menu":
-          if (k === "2") { state.screen = "flappy"; state.flappyY = 60; state.flappyVel = 0; state.flappyScore = 0; state.flappyGameOver = false; state.pipeX = 280; }
-          if (k === "3") { state.screen = "music"; state.playing = false; }
-          break;
-        case "flappy":
-          if (k === "2") { if (state.flappyGameOver) log(`Flappy score saved locally: ${state.flappyScore}`); state.screen = "relax_menu"; }
-          if (k === "3" && !state.flappyGameOver) { state.flappyVel = -6; state.flappyScore++; }
-          break;
-        case "music":
-          if (k === "2") state.screen = "relax_menu";
-          if (k === "3") { state.playing = !state.playing; toast(state.playing ? "Playing" : "Paused"); }
-          if (k === "4") { state.trackIdx = (state.trackIdx + 1) % MUSIC.length; toast("Next track"); }
-          if (k === "5") { state.trackIdx = (state.trackIdx - 1 + MUSIC.length) % MUSIC.length; toast("Previous track"); }
+        case "status":
+          if (k === "2") {
+            if (!state.online) toast("Offline - cannot sync");
+            else { log(`Synced ${state.pending} pending session(s) to dashboard`); state.pending = 0; toast("Dashboard updated"); }
+          }
+          if (k === "3") toast(`${state.pending} pending session(s)`);
+          if (k === "4") { state.online = !state.online; toast(state.online ? "Wi-Fi connected" : "Wi-Fi disconnected"); }
+          if (k === "5") { state.mode = "SLEEP"; state.screen = "sleep_menu"; }
           break;
       }
       render();
     }
 
-    function gameTick() {
-      if (state.screen === "pomodoro" && state.timerRunning && state.timerSec > 0) {
+    function tick() {
+      if (state.timerRunning && state.screen === "pomodoro") {
         state.timerSec--;
-        if (state.timerSec === 0) {
+        if (state.timerSec <= 0) {
           state.timerRunning = false;
-          toast("🔔 Beep ×3 — Hoàn thành phiên Pomodoro");
-          log(`Pomodoro ${state.timerPhase} complete`);
+          if (state.timerPhase === "study") { state.pomodoroToday++; state.studyMinutes += state.studyMin; pushSession("Study Session", `${state.studyMin} focus minutes`); }
           state.timerPhase = state.timerPhase === "study" ? "break" : "study";
-          resetPomodoroTimer();
+          resetTimer();
+          toast("Session complete");
         }
       }
-      if (state.screen === "seminar" && state.recording) state.recordSec++;
-      if (state.screen === "start_sleep" && state.monitoring) {
-        state.sleepElapsed++;
-        if (state.sleepElapsed > 0 && state.sleepElapsed % 240 === 0) log("Sleep monitoring checkpoint (240s)");
-      }
-      if (state.screen === "flappy" && !state.flappyGameOver) {
-        state.flappyVel += 0.4;
-        state.flappyY = Math.min(106, Math.max(0, state.flappyY + state.flappyVel));
-        state.pipeX -= 2;
-        if (state.pipeX < -30) state.pipeX = 280;
-        if (state.flappyY >= 106 || state.flappyY <= 0) { state.flappyGameOver = true; log(`Flappy Game Over — score ${state.flappyScore}`); }
-      }
-      if (state.screen === "home" || state.screen === "start_sleep") {
-        state.soundLevel = 35 + Math.floor(Math.random() * 25);
-        state.lightLevel = 280 + Math.floor(Math.random() * 80);
-        state.soundQuality = state.soundLevel < 50 ? "Quiet" : "Noisy";
-      }
+      if (state.recording && state.screen === "seminar") state.recordSec++;
+      if (state.monitoring && state.screen === "monitoring") state.sleepElapsed += 60;
+      state.soundLevel = 36 + Math.floor(Math.random() * 24);
+      state.lightLevel = 230 + Math.floor(Math.random() * 140);
+      state.temp = 25 + Math.floor(Math.random() * 5);
+      state.humidity = 55 + Math.floor(Math.random() * 18);
+      state.co2 = 650 + Math.floor(Math.random() * 360);
       renderTFT();
     }
 
-    document.getElementById("btnRow").addEventListener("click", e => {
-      const btn = e.target.closest(".btn");
-      if (!btn) return;
-      btn.classList.add("pressed");
-      setTimeout(() => btn.classList.remove("pressed"), 120);
+    document.getElementById("btnRow").addEventListener("click", (e) => {
+      const btn = e.target.closest(".btn"); if (!btn) return;
+      btn.classList.add("pressed"); setTimeout(() => btn.classList.remove("pressed"), 120);
       handleKey(btn.dataset.key);
     });
-
-    document.addEventListener("keydown", e => {
+    document.addEventListener("keydown", (e) => {
       if (e.key >= "1" && e.key <= "5") {
         e.preventDefault();
         const btn = document.querySelector(`.btn[data-key="${e.key}"]`);
-        btn?.classList.add("pressed");
-        setTimeout(() => btn?.classList.remove("pressed"), 120);
+        btn?.classList.add("pressed"); setTimeout(() => btn?.classList.remove("pressed"), 120);
         handleKey(e.key);
       }
     });
-
-    setInterval(gameTick, 1000);
+    setInterval(tick, 1000);
     render();
-    log("Simulator ready — press 1–5 to navigate");
+    log("SomniLearnAI simulator ready");
   </script>
 </body>
 </html>
