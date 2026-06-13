@@ -14,7 +14,7 @@ Ba nhóm mục tiêu chính của sản phẩm gồm:
 
 ---
 
-## 7.2. Achieved Objectives
+## 7.2. Mục tiêu muốn đạt được
 
 ### Objective 1: Supporting Study Focus and Presentation Practice
 

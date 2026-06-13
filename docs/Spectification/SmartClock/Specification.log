@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  11 JUN 2026 11:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  13 JUN 2026 08:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -978,36 +978,35 @@ y)
 Package grffile Info: This package is an empty stub for compatibility on input 
 line 40.
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 35.
+Package hyperref Info: Option `colorlinks' set `true' on input line 36.
 
 (C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdft
 ex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count348
-)
-No file Specification.aux.
+) (Specification.aux)
 \openout1 = `Specification.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 65.
-LaTeX Font Info:    ... okay on input line 65.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
 
 (C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mki
 i
@@ -1051,7 +1050,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \oddsidemargin=-1.1381pt
 * \evensidemargin=-1.1381pt
 * \topmargin=-38.1381pt
-* \headheight=12.0pt
+* \headheight=15.0pt
 * \headsep=25.0pt
 * \topskip=12.0pt
 * \footskip=30.0pt
@@ -1068,566 +1067,186 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 65.
+Package hyperref Info: Link coloring ON on input line 67.
+(Specification.out) (Specification.out)
 \@outlinefile=\write4
 \openout4 = `Specification.out'.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: longtable package is loaded.
+
 (C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-<logo.png, id=6, 1204.7409pt x 982.872pt>
+<logo.png, id=350, 1204.7409pt x 982.872pt>
 File: logo.png Graphic file (type png)
 <use logo.png>
-Package pdftex.def Info: logo.png  used on input line 92.
-(pdftex.def)             Requested size: 170.71652pt x 139.26585pt.
+Package pdftex.def Info: logo.png  used on input line 94.
+(pdftex.def)             Requested size: 147.95424pt x 120.69907pt.
 
 [1
 
-{C:/Users/Duck/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./logo.png>]
-Overfull \hbox (10.59502pt too wide) in alignment at lines 155--168
- [] [] [] [] 
- []
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[2]
-No file Specification.toc.
+{C:/Users/Duck/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./logo.png>] 
+[2] (Specification.toc [3])
 \tf@toc=\write5
 \openout5 = `Specification.toc'.
 
-[3]
-
-LaTeX Warning: Citation `pomodoro' on page 4 undefined on input line 181.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[4]
-<images/emo.jpg, id=38, 225.84375pt x 225.84375pt>
+ [4] [5] [6]
+<images/emo.jpg, id=477, 225.84375pt x 225.84375pt>
 File: images/emo.jpg Graphic file (type jpg)
 <use images/emo.jpg>
-Package pdftex.def Info: images/emo.jpg  used on input line 209.
+Package pdftex.def Info: images/emo.jpg  used on input line 213.
 (pdftex.def)             Requested size: 211.2731pt x 211.2731pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[5 <./images/emo.jpg>]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[6]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[7]
+ [7 <./images/emo.jpg>] [8] [9]
 LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 2
-92.
- (C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/latex/vntex\t5cmtt.fd
+96.
+
+(C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/latex/vntex\t5cmtt.fd
 File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-<images/Architecture.png, id=62, 3858.415pt x 2485.285pt>
+<images/Architecture.png, id=492, 3858.415pt x 2485.285pt>
 File: images/Architecture.png Graphic file (type png)
 <use images/Architecture.png>
-Package pdftex.def Info: images/Architecture.png  used on input line 306.
+Package pdftex.def Info: images/Architecture.png  used on input line 310.
 (pdftex.def)             Requested size: 460.0461pt x 296.32521pt.
 
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[8]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[9 <./images/Architecture.png>]
-Overfull \hbox (50.34767pt too wide) in paragraph at lines 364--364
-\T5/cmr/m/n/12 DHT22/SHT31/BME280|  
- []
-
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
 [10]
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[11]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[12]
-<images/Architecture (1).png, id=100, 1274.7625pt x 2396.955pt>
-File: images/Architecture (1).png Graphic file (type png)
-<use images/Architecture (1).png>
-Package pdftex.def Info: images/Architecture (1).png  used on input line 461.
+<images/Session Synchronization Flow.png, id=499, 1274.7625pt x 2396.955pt>
+File: images/Session Synchronization Flow.png Graphic file (type png)
+<use images/Session Synchronization Flow.png>
+Package pdftex.def Info: images/Session Synchronization Flow.png  used on input
+ line 339.
 (pdftex.def)             Requested size: 216.7651pt x 407.58669pt.
-<images/Architecture (2).png, id=101, 4462.6725pt x 825.0825pt>
-File: images/Architecture (2).png Graphic file (type png)
-<use images/Architecture (2).png>
-Package pdftex.def Info: images/Architecture (2).png  used on input line 469.
-(pdftex.def)             Requested size: 422.46022pt x 78.10667pt.
+ [11 <./images/Architecture.png>] [12 <./images/Session Synchronization Flow.pn
+g>]
+ignored error: Infinite glue shrinkage found in box being split [13]
+ignored error: Infinite glue shrinkage found in box being split [14] [15]
+<images/overall system.png, id=530, 4462.6725pt x 825.0825pt>
+File: images/overall system.png Graphic file (type png)
+<use images/overall system.png>
+Package pdftex.def Info: images/overall system.png  used on input line 465.
+(pdftex.def)             Requested size: 460.04855pt x 85.0562pt.
+<images/overall obj1.png, id=531, 2770.35pt x 951.555pt>
+File: images/overall obj1.png Graphic file (type png)
+<use images/overall obj1.png>
+Package pdftex.def Info: images/overall obj1.png  used on input line 473.
+(pdftex.def)             Requested size: 422.50948pt x 145.1228pt.
 
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[13]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[14 <./images/Architecture (1).png> <./images/Architecture (2).png>]
-<images/Architecture (3).png, id=121, 2770.35pt x 951.555pt>
-File: images/Architecture (3).png Graphic file (type png)
-<use images/Architecture (3).png>
-Package pdftex.def Info: images/Architecture (3).png  used on input line 477.
-(pdftex.def)             Requested size: 413.12506pt x 141.89948pt.
-<images/Architecture (4).png, id=122, 2186.1675pt x 772.8875pt>
-File: images/Architecture (4).png Graphic file (type png)
-<use images/Architecture (4).png>
-Package pdftex.def Info: images/Architecture (4).png  used on input line 500.
-(pdftex.def)             Requested size: 422.5148pt x 149.37392pt.
-
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[15 <./images/Architecture (3).png>]
-<images/Architecture (5).png, id=133, 2252.415pt x 1286.8075pt>
-File: images/Architecture (5).png Graphic file (type png)
-<use images/Architecture (5).png>
-Package pdftex.def Info: images/Architecture (5).png  used on input line 523.
+[16 <./images/overall system.png>]
+<images/obj1 case1.png, id=539, 2186.1675pt x 772.8875pt>
+File: images/obj1 case1.png Graphic file (type png)
+<use images/obj1 case1.png>
+Package pdftex.def Info: images/obj1 case1.png  used on input line 481.
+(pdftex.def)             Requested size: 413.10779pt x 146.0482pt.
+ [17 <./images/overall obj1.png> <./images/obj1 case1.png>]
+<images/obj1 case2.png, id=549, 2252.415pt x 1286.8075pt>
+File: images/obj1 case2.png Graphic file (type png)
+<use images/obj1 case2.png>
+Package pdftex.def Info: images/obj1 case2.png  used on input line 504.
 (pdftex.def)             Requested size: 422.49863pt x 241.374pt.
-<images/Architecture (6).png, id=134, 2800.4625pt x 1537.745pt>
-File: images/Architecture (6).png Graphic file (type png)
-<use images/Architecture (6).png>
-Package pdftex.def Info: images/Architecture (6).png  used on input line 533.
+<images/overall obj2.png, id=550, 2800.4625pt x 1537.745pt>
+File: images/overall obj2.png Graphic file (type png)
+<use images/overall obj2.png>
+Package pdftex.def Info: images/overall obj2.png  used on input line 527.
 (pdftex.def)             Requested size: 422.48695pt x 231.98924pt.
+ [18 <./images/obj1 case2.png>]
+<images/obj2 case1.png, id=558, 2485.285pt x 1180.41pt>
+File: images/obj2 case1.png Graphic file (type png)
+<use images/obj2 case1.png>
+Package pdftex.def Info: images/obj2 case1.png  used on input line 537.
+(pdftex.def)             Requested size: 422.49287pt x 200.66704pt.
+ [19 <./images/overall obj2.png>]
+<images/obj2 case2.png, id=566, 1573.88pt x 1190.4475pt>
+File: images/obj2 case2.png Graphic file (type png)
+<use images/obj2 case2.png>
+Package pdftex.def Info: images/obj2 case2.png  used on input line 560.
+(pdftex.def)             Requested size: 403.72363pt x 305.3675pt.
 
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[16]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[17 <./images/Architecture (4).png> <./images/Architecture (5).png>]
-<images/Architecture (7).png, id=151, 2485.285pt x 1180.41pt>
-File: images/Architecture (7).png Graphic file (type png)
-<use images/Architecture (7).png>
-Package pdftex.def Info: images/Architecture (7).png  used on input line 556.
-(pdftex.def)             Requested size: 403.7213pt x 191.75131pt.
-
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[18 <./images/Architecture (6).png> <./images/Architecture (7).png>]
-<images/Architecture (8).png, id=161, 1573.88pt x 1190.4475pt>
-File: images/Architecture (8).png Graphic file (type png)
-<use images/Architecture (8).png>
-Package pdftex.def Info: images/Architecture (8).png  used on input line 579.
-(pdftex.def)             Requested size: 431.89375pt x 326.67473pt.
-
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[19 <./images/Architecture (8).png>]
-<images/Architecture (9).png, id=171, 3595.4325pt x 825.0825pt>
-File: images/Architecture (9).png Graphic file (type png)
-<use images/Architecture (9).png>
-Package pdftex.def Info: images/Architecture (9).png  used on input line 594.
-(pdftex.def)             Requested size: 403.72807pt x 92.64781pt.
-<images/Architecture (10).png, id=172, 1760.5775pt x 676.5275pt>
-File: images/Architecture (10).png Graphic file (type png)
-<use images/Architecture (10).png>
-Package pdftex.def Info: images/Architecture (10).png  used on input line 596.
+[20 <./images/obj2 case1.png>]
+<images/overall obj3.png, id=574, 3595.4325pt x 825.0825pt>
+File: images/overall obj3.png Graphic file (type png)
+<use images/overall obj3.png>
+Package pdftex.def Info: images/overall obj3.png  used on input line 583.
+(pdftex.def)             Requested size: 431.8722pt x 99.10634pt.
+ [21 <./images/obj2 case2.png>]
+<images/obj3 case1.png, id=582, 1760.5775pt x 676.5275pt>
+File: images/obj3 case1.png Graphic file (type png)
+<use images/obj3 case1.png>
+Package pdftex.def Info: images/obj3 case1.png  used on input line 598.
 (pdftex.def)             Requested size: 403.74228pt x 155.14383pt.
-<images/Architecture (11).png, id=173, 1840.8775pt x 933.4875pt>
-File: images/Architecture (11).png Graphic file (type png)
-<use images/Architecture (11).png>
-Package pdftex.def Info: images/Architecture (11).png  used on input line 598.
+<images/obj3 case2.png, id=583, 1840.8775pt x 933.4875pt>
+File: images/obj3 case2.png Graphic file (type png)
+<use images/obj3 case2.png>
+Package pdftex.def Info: images/obj3 case2.png  used on input line 600.
 (pdftex.def)             Requested size: 403.73029pt x 204.72691pt.
-
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[20]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[21]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[22 <./images/Architecture (9).png> <./images/Architecture (10).png> <./images/
-Architecture (11).png>]
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[23]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[24]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[25]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[26]
-<images/Architecture (12).png, id=225, 1852.9225pt x 981.6675pt>
-File: images/Architecture (12).png Graphic file (type png)
-<use images/Architecture (12).png>
-Package pdftex.def Info: images/Architecture (12).png  used on input line 794.
+ [22 <./images/overall obj3.png> <./images/obj3 case1.png>]
+<images/obj3 case3.png, id=593, 1852.9225pt x 981.6675pt>
+File: images/obj3 case3.png Graphic file (type png)
+<use images/obj3 case3.png>
+Package pdftex.def Info: images/obj3 case3.png  used on input line 602.
 (pdftex.def)             Requested size: 403.7425pt x 213.9004pt.
 
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[27 <./images/Architecture (12).png>]
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[28]
-<images/Architecture (13).png, id=245, 1479.5275pt x 349.305pt>
-File: images/Architecture (13).png Graphic file (type png)
-<use images/Architecture (13).png>
-Package pdftex.def Info: images/Architecture (13).png  used on input line 881.
+ignored error: Infinite glue shrinkage found in box being split [23 <./images/o
+bj3 case2.png> <./images/obj3 case3.png>] [24]
+ignored error: Infinite glue shrinkage found in box being split [25] [26]
+[27] [28]
+ignored error: Infinite glue shrinkage found in box being split [29]
+<images/internet overview.png, id=634, 1479.5275pt x 349.305pt>
+File: images/internet overview.png Graphic file (type png)
+<use images/internet overview.png>
+Package pdftex.def Info: images/internet overview.png  used on input line 883.
 (pdftex.def)             Requested size: 338.00401pt x 79.80013pt.
 
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[29 <./images/Architecture (13).png>]
-<images/Architecture (14).png, id=259, 3089.5425pt x 1102.1175pt>
-File: images/Architecture (14).png Graphic file (type png)
-<use images/Architecture (14).png>
-Package pdftex.def Info: images/Architecture (14).png  used on input line 944.
+ignored error: Infinite glue shrinkage found in box being split [30 <./images/i
+nternet overview.png>]
+<images/internet workflow.png, id=643, 3089.5425pt x 1102.1175pt>
+File: images/internet workflow.png Graphic file (type png)
+<use images/internet workflow.png>
+Package pdftex.def Info: images/internet workflow.png  used on input line 946.
 (pdftex.def)             Requested size: 422.49164pt x 150.71338pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[30 <./images/Architecture (14).png>]
-<images/Architecture (15).png, id=267, 684.5575pt x 1989.4325pt>
-File: images/Architecture (15).png Graphic file (type png)
-<use images/Architecture (15).png>
-Package pdftex.def Info: images/Architecture (15).png  used on input line 951.
+ [31]
+<images/Internet Synchronization Flow.png, id=651, 684.5575pt x 1989.4325pt>
+File: images/Internet Synchronization Flow.png Graphic file (type png)
+<use images/Internet Synchronization Flow.png>
+Package pdftex.def Info: images/Internet Synchronization Flow.png  used on inpu
+t line 952.
 (pdftex.def)             Requested size: 140.25162pt x 407.59346pt.
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[31
-
- <./images/Architecture (15).png>]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[32]
-Overfull \hbox (36.38513pt too wide) in paragraph at lines 1019--1020
-[]\T5/cmr/m/n/12 N¸u thi¸t bà ch÷a câ c§u h¼nh Wi-Fi, thi¸t bà s³ bªt m¤ng setu
-p t¤m thíi \T5/cmtt/m/n/12 SomniLearnAI_Setup\T5/cmr/m/n/12 . 
- []
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[33]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[34]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[35]
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[36]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[37]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[38]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[39]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[40]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[41]
-ignored error: Infinite glue shrinkage found in box being split
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[42]
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[43]
-Underfull \hbox (badness 10000) in paragraph at lines 1457--1458
-[]\T5/cmr/m/n/12 Pomodoro Tech-nique, Wikipedia. [][]$\T5/cmtt/m/n/12 https : /
- / en . wikipedia . org / wiki / Pomodoro _
- []
-
-
-Underfull \hbox (badness 1701) in paragraph at lines 1466--1467
-[]\T5/cmr/m/n/12 TFT LCD, Wikipedia. [][]$\T5/cmtt/m/n/12 https : / / en . wiki
-pedia . org / wiki / Thin-[]film-[]transistor _
- []
-
-
-Underfull \hbox (badness 2980) in paragraph at lines 1469--1470
-[]\T5/cmr/m/n/12 Mobile hotspot overview, Mi-crosoft Sup-port. [][]$\T5/cmtt/m/
-n/12 https : / / support . microsoft . com /
- []
-
-
-Overfull \hbox (73.37753pt too wide) in paragraph at lines 1469--1470
-\T5/cmtt/m/n/12 windows / use-[]your-[]windows-[]pc-[]as-[]a-[]mobile-[]hotspot
--[]c89b0fad-[]72d5-[]41e8-[]f7ea-[]406ad9036b85$[][] 
- []
-
-
-Package fancyhdr Warning: \headheight is too small (12.0pt): 
-(fancyhdr)                Make it at least 14.49998pt, for example:
-(fancyhdr)                \setlength{\headheight}{14.49998pt}.
-(fancyhdr)                You might also make \topmargin smaller:
-(fancyhdr)                \addtolength{\topmargin}{-2.49998pt}.
-
-[44] (Specification.aux)
+ [32 <./images/internet workflow.png>] [33 <./images/Internet Synchronization F
+low.png>] [34] [35] [36] [37]
+ignored error: Infinite glue shrinkage found in box being split [38] [39]
+[40] [41] [42] [43]
+ignored error: Infinite glue shrinkage found in box being split [44] [45]
+[46] (Specification.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `Specification.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Specification.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  2E60166D2FB2C915D24DB8AFB976FEDB;16323.
+Package rerunfilecheck Info: File `Specification.out' has not changed.
+(rerunfilecheck)             Checksum: 89E20FD9E1420273EFEF44BB0D184401;16517.
  ) 
 Here is how much of TeX's memory you used:
- 24977 strings out of 467871
- 463793 string characters out of 5418860
- 870146 words of memory out of 5000000
- 53229 multiletter control sequences out of 15000+600000
- 645461 words of font info for 71 fonts, out of 8000000 for 9000
+ 25072 strings out of 467871
+ 465440 string characters out of 5418860
+ 870122 words of memory out of 5000000
+ 53315 multiletter control sequences out of 15000+600000
+ 642596 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,104p,705b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,104p,860b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Duck\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1
 200.pk><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/v
-nr/vnbx10.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vn
-r/vnbx12.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr
-/vnbx8.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/v
-nr10.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr
-12.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr17
-.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr8.pf
-b><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti12.pfb
-><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.pfb>
-
-Output written on Specification.pdf (44 pages, 2245769 bytes).
+nr/vnbx12.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vn
+r/vnbx8.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/
+vnr12.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vn
+r17.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr8
+.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti12.
+pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.p
+fb>
+Output written on Specification.pdf (46 pages, 2290112 bytes).
 PDF statistics:
- 534 PDF objects out of 1000 (max. 8388607)
- 228 named destinations out of 1000 (max. 500000)
- 103 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 883 PDF objects out of 1000 (max. 8388607)
+ 231 named destinations out of 1000 (max. 500000)
+ 791 words of extra memory for PDF output out of 10000 (max. 10000000)
 
