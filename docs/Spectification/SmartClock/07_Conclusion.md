@@ -22,11 +22,11 @@ SomniLearnAI hỗ trợ người dùng học tập tập trung hơn thông qua P
 
 Bên cạnh đó, Seminar Practice giúp người dùng luyện tập thuyết trình và ghi nhận thời lượng nói trên thiết bị. Điểm đánh giá thuyết trình được xử lý bởi Server khi có Wi-Fi, sau đó hiển thị trên dashboard để người dùng xem lại danh sách các lần nói và theo dõi xu hướng cải thiện.
 
-### Objective 2: Supporting Better Sleep with Edge AI
+### Objective 2: Sleep Report within 1 Minute and 30-day History
 
-SomniLearnAI hỗ trợ quan sát giấc ngủ bằng cách ghi nhận thời gian ngủ, dữ liệu âm thanh, ánh sáng và các chỉ số môi trường xung quanh. Trước khi ngủ, người dùng có thể đặt báo thức trực tiếp trên thiết bị để thức dậy đúng giờ mà không cần phụ thuộc vào điện thoại hoặc Internet. Trong quá trình sử dụng, thiết bị có thể hiển thị realtime môi trường phòng ngủ để người dùng nhận biết sớm các điều kiện chưa phù hợp.
+SomniLearnAI hỗ trợ quan sát giấc ngủ bằng cách ghi nhận thời gian ngủ, dữ liệu âm thanh, ánh sáng và các chỉ số môi trường xung quanh. Trước khi ngủ, người dùng có thể đặt báo thức trực tiếp trên thiết bị để thức dậy đúng giờ mà không cần phụ thuộc vào điện thoại hoặc Internet. Sau khi phiên ngủ kết thúc, hệ thống cần tự động tạo báo cáo trong vòng 1 phút và lưu trữ lịch sử tối thiểu 30 ngày để người dùng theo dõi thói quen ngủ.
 
-Sau khi phiên ngủ kết thúc, Edge AI đánh giá chất lượng giấc ngủ, tạo điểm số và phát hiện các tác nhân có khả năng làm giấc ngủ không ngon như phòng quá sáng, tiếng ồn cao, nhiệt độ hoặc độ ẩm chưa phù hợp. Kết quả này giúp người dùng điều chỉnh môi trường ngủ trong các lần tiếp theo.
+Edge AI đánh giá chất lượng giấc ngủ, tạo điểm số và phát hiện các tác nhân có khả năng làm giấc ngủ không ngon như phòng quá sáng, tiếng ồn cao, nhiệt độ hoặc độ ẩm chưa phù hợp. Kết quả này giúp người dùng điều chỉnh môi trường ngủ trong các lần tiếp theo.
 
 ### Objective 3: Supporting Session Management Dashboard
 

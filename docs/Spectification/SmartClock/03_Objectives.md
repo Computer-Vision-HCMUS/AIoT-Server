@@ -7,7 +7,7 @@ SomniLearnAI được phát triển với mục tiêu trở thành một đồng
 Sản phẩm tập trung vào 3 objective chính:
 
 * **Objective 1 - Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.**
-* **Objective 2 - Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường (ánh sáng, nhiệt độ, độ ẩm, CO₂), giúp người dùng đánh giá thói quen ngủ hằng ngày.**
+* **Objective 2 - Tự động tạo báo cáo trong vòng 1 phút sau mỗi phiên ngủ, bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường (ánh sáng, nhiệt độ, độ ẩm, CO₂), đồng thời lưu trữ lịch sử tối thiểu 30 ngày để hỗ trợ người dùng theo dõi và cải thiện thói quen ngủ.**
 * **Objective 3 - Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.**
 
 ### Overall Use Case Diagram
@@ -207,7 +207,7 @@ flowchart TD
 
 ---
 
-## 3.3. Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường
+## 3.3. Objective 2: Tự động tạo báo cáo trong vòng 1 phút sau mỗi phiên ngủ và lưu lịch sử tối thiểu 30 ngày
 
 ## 3.3.1. SMART Objective
 
@@ -219,7 +219,7 @@ SomniLearnAI hỗ trợ cải thiện giấc ngủ bằng cách ghi nhận phiê
 | Measurable | Ghi nhận thời lượng ngủ, thời điểm báo thức, điểm chất lượng ngủ, mức ánh sáng, tiếng ồn và các chỉ số môi trường theo thời gian |
 | Achievable | Thiết bị dùng cảm biến, microphone, màn hình TFT và mô hình Edge AI để phân tích dữ liệu tại chỗ |
 | Relevant | Giúp người dùng hiểu nguyên nhân làm giấc ngủ không tốt và điều chỉnh môi trường ngủ |
-| Time-bound | Mỗi phiên ngủ phải tạo báo cáo sau khi kết thúc; dashboard có thể tổng hợp theo tháng |
+| Time-bound | Mỗi phiên ngủ phải tạo báo cáo trong vòng 1 phút sau khi kết thúc; lịch sử phiên ngủ được lưu tối thiểu 30 ngày |
 
 ### Objective 2 Use Case Diagram
 
@@ -603,8 +603,8 @@ Các objective mới giúp SomniLearnAI có định hướng rõ ràng hơn: thi
 | --------- | -------- | ---------- | ------------ | --------------- |
 | Objective 1: Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Pomodoro Timer | User | Quản lý phiên học theo Pomodoro | Người dùng biết số Pomodoro, thời gian học và duy trì tập trung tốt hơn |
 | Objective 1: Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Seminar Practice | User | Luyện tập thuyết trình và nhận điểm từ Server | Người dùng nhận điểm số và phản hồi sau khi Server xử lý |
-| Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Quan sát giấc ngủ Edge AI | User | Theo dõi giấc ngủ và môi trường realtime | Người dùng biết chất lượng ngủ và tác nhân làm ngủ không ngon |
-| Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Đặt báo thức | User | Thiết lập giờ báo thức trên thiết bị | Người dùng thức dậy đúng giờ và quản lý báo thức trực tiếp trên Edge Device |
+| Objective 2: Tự động tạo báo cáo trong vòng 1 phút sau mỗi phiên ngủ và lưu lịch sử tối thiểu 30 ngày | Quan sát giấc ngủ Edge AI | User | Theo dõi giấc ngủ và môi trường realtime | Người dùng biết chất lượng ngủ và tác nhân làm ngủ không ngon |
+| Objective 2: Tự động tạo báo cáo trong vòng 1 phút sau mỗi phiên ngủ và lưu lịch sử tối thiểu 30 ngày | Đặt báo thức | User | Thiết lập giờ báo thức trên thiết bị | Người dùng thức dậy đúng giờ và quản lý báo thức trực tiếp trên Edge Device |
 | Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên học | User | Quan sát số Pomodoro trong ngày | Người dùng theo dõi tiến độ học tập |
 | Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên ngủ | User | Quan sát giấc ngủ theo tháng | Người dùng nhận tổng kết cuối tháng và gợi ý cải thiện |
 | Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên thuyết trình | User | Quan sát danh sách điểm các lần nói | Người dùng theo dõi tiến bộ thuyết trình |

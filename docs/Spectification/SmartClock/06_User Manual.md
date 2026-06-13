@@ -5,7 +5,7 @@
 Tài liệu này hướng dẫn người dùng thao tác với **SomniLearnAI** thông qua màn hình TFT, 5 nút vật lý trên thiết bị Edge và dashboard web. Các chức năng được tổ chức theo 3 nhóm mục tiêu chính:
 
 * **Objective 1 - Hỗ trợ học tập:** Pomodoro Timer và Seminar Practice.
-* **Objective 2 - Hỗ trợ giấc ngủ:** Sleep Monitoring Edge AI, đặt báo thức và hiển thị realtime môi trường xung quanh.
+* **Objective 2 - Tạo báo cáo ngủ trong 1 phút và lưu lịch sử 30 ngày:** Sleep Monitoring Edge AI, đặt báo thức và hiển thị realtime môi trường xung quanh.
 * **Objective 3 - Dashboard quản lý phiên:** xem lại phiên học, phiên ngủ và phiên thuyết trình.
 
 Trên thiết bị Edge, người dùng có thể đi qua các màn hình theo vòng lặp:
