@@ -27,7 +27,7 @@ class DeviceRegisterResponse(DeviceResponse):
 
 
 class TimerConfigRequest(BaseModel):
-    study_duration: int = Field(gt=0, le=240)
+    study_duration: int = Field(ge=1, le=120)
     break_duration: int = Field(gt=0, le=120)
 
 
@@ -41,7 +41,7 @@ class TimerConfigResponse(BaseModel):
 
 class PomodoroSessionRequest(BaseModel):
     timestamp: datetime
-    duration: int = Field(gt=0)
+    duration: int = Field(ge=1, le=1440)
     session_type: Literal["study", "break"]
 
 
@@ -173,7 +173,7 @@ class DistractionEventResponse(BaseModel):
 class SleepConfigRequest(BaseModel):
     alarm_enabled: bool
     alarm_time: str | None = Field(default=None, max_length=5)
-    sleep_duration: int = Field(gt=0, le=1440)
+    sleep_duration: int = Field(ge=30, le=720)
 
     @field_validator("alarm_time")
     @classmethod
@@ -195,3 +195,101 @@ class SleepConfigResponse(BaseModel):
     alarm_time: str | None
     sleep_duration: int
     updated_at: datetime
+
+
+class StudySessionCreateRequest(BaseModel):
+    start_time: datetime
+    end_time: datetime
+    status: Literal["completed", "interrupted"]
+    pomodoro_session_ids: list[int]
+
+
+class StudySessionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    start_time: datetime
+    end_time: datetime
+    status: Literal["completed", "interrupted"]
+    focus_minutes: float
+    break_minutes: float
+    pomodoro_count: int
+    created_at: datetime
+
+
+class StudySummaryResponse(BaseModel):
+    total_focus_minutes: float
+    total_pomodoro_count: int
+    data_points: list[dict]  # keys vary by period: date / week_start / month
+
+
+# ── Sleep Session GET schemas ──────────────────────────────────────────────────
+
+class SleepFactorAnalysis(BaseModel):
+    noise_issue_count: int
+    light_issue_count: int
+    duration_issue_count: int
+
+
+class SleepMonthlySummaryResponse(BaseModel):
+    avg_sleep_score: float | None
+    avg_duration_minutes: float | None
+    total_sessions: int
+    factor_analysis: SleepFactorAnalysis
+
+
+class SleepSessionDetailResponse(SleepSessionResponse):
+    model_config = ConfigDict(from_attributes=True)
+
+    quality_report: SleepQualityReportResponse | None
+
+
+# ── Presentation Session schemas ───────────────────────────────────────────────
+
+class PresentationSessionStartRequest(BaseModel):
+    start_time: datetime
+
+
+class PresentationSessionEndRequest(BaseModel):
+    end_time: datetime
+    clarity_score: float = Field(ge=0, le=100)
+    speed_score: float = Field(ge=0, le=100)
+    noise_score: float = Field(ge=0, le=100)
+    confidence_score: float = Field(ge=0, le=100)
+    speech_rate: float | None = Field(default=None, ge=0, le=1000)
+    feedback: str | None = Field(default=None, max_length=1000)
+
+
+class PresentationSessionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    start_time: datetime
+    end_time: datetime | None
+    status: Literal["pending", "processing", "completed", "failed"]
+    presentation_score: float | None
+    clarity_score: float | None
+    speed_score: float | None
+    noise_score: float | None
+    confidence_score: float | None
+    speech_rate: float | None
+    feedback: str | None
+    error_message: str | None
+    created_at: datetime
+
+
+# ── Dashboard schemas ──────────────────────────────────────────────────────────
+
+class DashboardOverviewResponse(BaseModel):
+    study_sessions_count: int
+    total_pomodoro_count: int
+    sleep_sessions_count: int
+    avg_sleep_score: float | None
+    presentation_sessions_count: int
+    avg_presentation_score: float | None
+
+
+class DashboardPresentationPoint(BaseModel):
+    session_id: int
+    start_time: datetime
+    presentation_score: float

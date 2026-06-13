@@ -44,7 +44,7 @@ class PomodoroSession(Base):
     )
     # ISO 8601 UTC timestamp of when the session completed
     timestamp: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    # Duration in seconds
+    # Duration in minutes
     duration: Mapped[int] = mapped_column(Integer, nullable=False)
     session_type: Mapped[str] = mapped_column(
         Enum("study", "break", name="pomodoro_type_enum"), nullable=False
@@ -246,6 +246,84 @@ class GameScore(Base):
 
     def __repr__(self) -> str:
         return f"<GameScore id={self.id} score={self.score}>"
+
+
+# ─── Study ────────────────────────────────────────────────────────────────────
+
+class StudySession(Base):
+    """Aggregated study session built from a set of PomodoroSession records."""
+
+    __tablename__ = "study_sessions"
+    __table_args__ = (
+        Index("ix_study_device_start", "device_id", "start_time"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    device_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("devices.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    status: Mapped[str] = mapped_column(
+        Enum("completed", "interrupted", name="study_status_enum"), nullable=False
+    )
+    focus_minutes: Mapped[float] = mapped_column(Float, nullable=False)
+    break_minutes: Mapped[float] = mapped_column(Float, nullable=False)
+    pomodoro_count: Mapped[int] = mapped_column(Integer, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_utcnow
+    )
+
+    device: Mapped["Device"] = relationship("Device", back_populates="study_sessions")  # noqa: F821
+
+    def __repr__(self) -> str:
+        return (
+            f"<StudySession id={self.id} status={self.status} "
+            f"focus={self.focus_minutes}m pomodoros={self.pomodoro_count}>"
+        )
+
+
+# ─── Presentation ──────────────────────────────────────────────────────────────
+
+class PresentationSession(Base):
+    """A live-speech presentation session with AI-evaluated scores."""
+
+    __tablename__ = "presentation_sessions"
+    __table_args__ = (
+        Index("ix_presentation_device_start", "device_id", "start_time"),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    device_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("devices.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    end_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    status: Mapped[str] = mapped_column(
+        Enum("pending", "processing", "completed", "failed",
+             name="presentation_status_enum"),
+        nullable=False,
+        default="pending",
+    )
+    presentation_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    clarity_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    speed_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    noise_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    confidence_score: Mapped[float | None] = mapped_column(Float, nullable=True)
+    speech_rate: Mapped[float | None] = mapped_column(Float, nullable=True)
+    feedback: Mapped[str | None] = mapped_column(Text, nullable=True)
+    error_message: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, default=_utcnow
+    )
+
+    device: Mapped["Device"] = relationship("Device", back_populates="presentation_sessions")  # noqa: F821
+
+    def __repr__(self) -> str:
+        return (
+            f"<PresentationSession id={self.id} status={self.status} "
+            f"score={self.presentation_score}>"
+        )
 
 
 # ── Deferred import to avoid circular reference ───────────────────────────────

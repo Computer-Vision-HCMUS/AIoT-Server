@@ -1,6 +1,26 @@
 version: "3.9"
 
 services:
+  api:
+    build: .
+    container_name: aiot-api
+    environment:
+      DATABASE_URL: postgresql://aiot_user:aiot_password@postgres:5432/aiot_db
+      MIGRATION_DATABASE_URL: postgresql://aiot_user:aiot_password@postgres:5432/aiot_db
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      APP_DEBUG: "false"
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000"
+    restart: unless-stopped
+
   # ─── PostgreSQL ────────────────────────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
