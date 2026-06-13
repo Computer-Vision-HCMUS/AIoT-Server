@@ -14,7 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 
-from app.routers import devices, health, smartclock, visiondrive
+from app.routers import dashboard, devices, health, smartclock, visiondrive
 
 # ─── FastAPI app ─────────────────────────────────────────────────────────────
 app = FastAPI(
@@ -58,4 +58,5 @@ def root():
 app.include_router(health.router)
 app.include_router(devices.router)
 app.include_router(smartclock.router)
+app.include_router(dashboard.router)
 app.include_router(visiondrive.router)

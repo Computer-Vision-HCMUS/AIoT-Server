@@ -60,6 +60,12 @@ class Device(Base):
     game_scores: Mapped[list["GameScore"]] = relationship(  # noqa: F821
         "GameScore", back_populates="device", cascade="all, delete-orphan"
     )
+    study_sessions: Mapped[list["StudySession"]] = relationship(  # noqa: F821
+        "StudySession", back_populates="device", cascade="all, delete-orphan"
+    )
+    presentation_sessions: Mapped[list["PresentationSession"]] = relationship(  # noqa: F821
+        "PresentationSession", back_populates="device", cascade="all, delete-orphan"
+    )
     trips: Mapped[list["Trip"]] = relationship(  # noqa: F821
         "Trip", back_populates="device", cascade="all, delete-orphan"
     )
@@ -121,5 +127,5 @@ class SleepConfig(Base):
 
 
 # ── Deferred imports to avoid circular references ─────────────────────────────
-from app.models.smartclock import PomodoroSession, SleepSession, SeminarRecording, GameScore  # noqa: E402, F401
+from app.models.smartclock import PomodoroSession, SleepSession, SeminarRecording, GameScore, StudySession, PresentationSession  # noqa: E402, F401
 from app.models.visiondrive import Trip  # noqa: E402, F401

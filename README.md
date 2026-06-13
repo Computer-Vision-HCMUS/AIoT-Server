@@ -2,7 +2,23 @@
 
 FastAPI backend for SmartClock and VisionDriveAI devices.
 
-## Setup
+## Docker Setup (recommended)
+
+```bash
+docker compose up --build
+```
+
+The API is available at `http://localhost:8000`, Swagger docs at
+`http://localhost:8000/docs`, PostgreSQL at `localhost:5432`, and pgAdmin at
+`http://localhost:5050`.
+
+To load mock data after the stack is running:
+
+```bash
+docker compose exec api python -m app.seed
+```
+
+## Local Setup (SQLite fallback or host Python)
 
 ```bash
 pip install -r requirements.txt
@@ -13,8 +29,9 @@ uvicorn app.main:app --reload
 
 API docs are available at `http://localhost:8000/docs`.
 
-This project now targets Supabase PostgreSQL for shared development and deployment.
-Fill `DATABASE_URL` and `MIGRATION_DATABASE_URL` in `.env` before running migrations.
+This project targets PostgreSQL for shared development, demos, and deployment.
+SQLite remains supported as a lightweight local fallback by setting
+`DATABASE_URL=sqlite:///./aiot.db`.
 
 ## Core Flow
 

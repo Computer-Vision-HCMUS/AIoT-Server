@@ -1,6 +1,7 @@
 from fastapi import Depends, Header, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
+from datetime import datetime, timezone
 
 from app.database import get_db
 from app.models.device import Device
@@ -26,4 +27,7 @@ def get_current_device(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid device token",
         )
+    device.last_seen_at = datetime.now(timezone.utc)
+    db.commit()
+    db.refresh(device)
     return device
