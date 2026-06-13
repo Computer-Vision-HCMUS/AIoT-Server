@@ -15,40 +15,27 @@ Sản phẩm tập trung vào 3 objective chính:
 ```mermaid
 flowchart TD
     User(["Người dùng"])
-    EdgeSystem(["SomniLearnAI Edge Device"])
 
     subgraph System["SomniLearnAI System"]
         direction TB
-        subgraph OBJ1["Objective 1 – Ghi nhận học tập"]
-            UC1("Sử dụng Pomodoro Timer")
-            UC2("Luyện tập thuyết trình")
+        subgraph Edge["Edge Device"]
+            UC1("Học tập và thuyết trình")
+            UC2("Theo dõi giấc ngủ và báo thức")
         end
-        subgraph OBJ2["Objective 2 – Báo cáo giấc ngủ"]
-            UC3("Quan sát giấc ngủ Edge AI")
-            UC4("Xem realtime thời gian và môi trường")
-            UC9("Đặt báo thức")
+
+        subgraph Internet["Internet Service"]
+            UC3("Đồng bộ và lưu dữ liệu phiên")
+            UC4("Dashboard theo dõi tiến độ")
         end
-        subgraph OBJ3["Objective 3 – Dashboard đồng bộ"]
-            UC5("Quản lý phiên học")
-            UC6("Quản lý phiên ngủ")
-            UC7("Quản lý phiên thuyết trình")
-        end
-        UC8("Đồng bộ dữ liệu phiên")
     end
 
     User --- UC1
     User --- UC2
-    User --- UC3
     User --- UC4
-    User --- UC9
-    User --- UC5
-    User --- UC6
-    User --- UC7
-    EdgeSystem --- UC8
 
-    UC8 -. "«extend»" .-> UC1
-    UC8 -. "«extend»" .-> UC2
-    UC8 -. "«extend»" .-> UC3
+    UC1 --> UC3
+    UC2 --> UC3
+    UC3 --> UC4
 ```
 
 ---
