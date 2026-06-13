@@ -70,7 +70,7 @@
 \contentsline {section}{\numberline {7}Tổng kết}{40}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Tóm tắt dự án}{40}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Mục tiêu muốn đạt được}{40}{subsection.7.2}%
-\contentsline {subsubsection}{\numberline {7.2.1}Objective 1: Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình}{40}{subsubsection.7.2.1}%
+\contentsline {subsubsection}{\numberline {7.2.1}Objective 1: Ghi nhận và hiển thị chính xác 80\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình}{40}{subsubsection.7.2.1}%
 \contentsline {subsubsection}{\numberline {7.2.2}Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường}{40}{subsubsection.7.2.2}%
 \contentsline {subsubsection}{\numberline {7.2.3}Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên}{40}{subsubsection.7.2.3}%
 \contentsline {subsection}{\numberline {7.3}Trải nghiệm người dùng}{41}{subsection.7.3}%

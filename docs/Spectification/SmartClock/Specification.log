@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  13 JUN 2026 08:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  13 JUN 2026 13:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1224,7 +1224,7 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `Specification.out' has not changed.
-(rerunfilecheck)             Checksum: 89E20FD9E1420273EFEF44BB0D184401;16517.
+(rerunfilecheck)             Checksum: BC85F83FCE7338A44EF02C08E85B4781;16512.
  ) 
 Here is how much of TeX's memory you used:
  25072 strings out of 467871
@@ -1233,7 +1233,7 @@ Here is how much of TeX's memory you used:
  53315 multiletter control sequences out of 15000+600000
  642596 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,12n,104p,860b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,104p,855b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Duck\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1
 200.pk><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/v
@@ -1244,7 +1244,7 @@ r17.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr8
 .pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti12.
 pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.p
 fb>
-Output written on Specification.pdf (46 pages, 2290112 bytes).
+Output written on Specification.pdf (46 pages, 2290097 bytes).
 PDF statistics:
  883 PDF objects out of 1000 (max. 8388607)
  231 named destinations out of 1000 (max. 500000)

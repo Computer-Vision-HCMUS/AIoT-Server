@@ -6,7 +6,7 @@ SomniLearnAI được phát triển với mục tiêu trở thành một đồng
 
 Sản phẩm tập trung vào 3 objective chính:
 
-* **Objective 1 - Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.**
+* **Objective 1 - Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.**
 * **Objective 2 - Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường (ánh sáng, nhiệt độ, độ ẩm, CO₂), giúp người dùng đánh giá thói quen ngủ hằng ngày.**
 * **Objective 3 - Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.**
 
@@ -53,7 +53,7 @@ flowchart TD
 
 ---
 
-## 3.2. Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình
+## 3.2. Objective 1: Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình
 
 ## 3.2.1. SMART Objective
 
@@ -601,8 +601,8 @@ Các objective mới giúp SomniLearnAI có định hướng rõ ràng hơn: thi
 
 | Objective | Use Case | Main Actor | Main Purpose | Expected Result |
 | --------- | -------- | ---------- | ------------ | --------------- |
-| Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Pomodoro Timer | User | Quản lý phiên học theo Pomodoro | Người dùng biết số Pomodoro, thời gian học và duy trì tập trung tốt hơn |
-| Objective 1: Ghi nhận và hiển thị chính xác 100% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Seminar Practice | User | Luyện tập thuyết trình và nhận điểm từ Server | Người dùng nhận điểm số và phản hồi sau khi Server xử lý |
+| Objective 1: Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Pomodoro Timer | User | Quản lý phiên học theo Pomodoro | Người dùng biết số Pomodoro, thời gian học và duy trì tập trung tốt hơn |
+| Objective 1: Ghi nhận và hiển thị chính xác 80% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình | Seminar Practice | User | Luyện tập thuyết trình và nhận điểm từ Server | Người dùng nhận điểm số và phản hồi sau khi Server xử lý |
 | Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Quan sát giấc ngủ Edge AI | User | Theo dõi giấc ngủ và môi trường realtime | Người dùng biết chất lượng ngủ và tác nhân làm ngủ không ngon |
 | Objective 2: Phân tích và tạo báo cáo sau mỗi phiên ngủ về thời lượng, điểm ngủ, báo thức và môi trường | Đặt báo thức | User | Thiết lập giờ báo thức trên thiết bị | Người dùng thức dậy đúng giờ và quản lý báo thức trực tiếp trên Edge Device |
 | Objective 3: Đồng bộ và cập nhật dashboard trong vòng 60 giây sau mỗi phiên | Phiên học | User | Quan sát số Pomodoro trong ngày | Người dùng theo dõi tiến độ học tập |
