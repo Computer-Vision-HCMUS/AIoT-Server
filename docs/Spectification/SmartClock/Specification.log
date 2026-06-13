@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  13 JUN 2026 14:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.17)  13 JUN 2026 15:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1080,7 +1080,7 @@ Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-<logo.png, id=350, 1204.7409pt x 982.872pt>
+<logo.png, id=406, 1204.7409pt x 982.872pt>
 File: logo.png Graphic file (type png)
 <use logo.png>
 Package pdftex.def Info: logo.png  used on input line 94.
@@ -1088,149 +1088,155 @@ Package pdftex.def Info: logo.png  used on input line 94.
 
 [1
 
-{C:/Users/Duck/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./logo.png>] 
-[2] (Specification.toc [3])
+{C:/Users/Duck/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./logo.png>]
+ignored error: Infinite glue shrinkage found in box being split [2] [3]
+(Specification.toc [4] [5])
 \tf@toc=\write5
 \openout5 = `Specification.toc'.
 
- [4] [5] [6]
-<images/emo.jpg, id=477, 225.84375pt x 225.84375pt>
+ [6] [7]
+<images/emo.jpg, id=553, 225.84375pt x 225.84375pt>
 File: images/emo.jpg Graphic file (type jpg)
 <use images/emo.jpg>
-Package pdftex.def Info: images/emo.jpg  used on input line 213.
+Package pdftex.def Info: images/emo.jpg  used on input line 244.
 (pdftex.def)             Requested size: 211.2731pt x 211.2731pt.
- [7 <./images/emo.jpg>] [8] [9]
-LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 2
-96.
+ [8 <./images/emo.jpg>] [9] [10]
+LaTeX Font Info:    Trying to load font information for T5+cmtt on input line 3
+27.
 
 (C:\Users\Duck\AppData\Local\Programs\MiKTeX\tex/latex/vntex\t5cmtt.fd
 File: t5cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-<images/Architecture.png, id=492, 3858.415pt x 2485.285pt>
+<images/Architecture.png, id=567, 3858.415pt x 2485.285pt>
 File: images/Architecture.png Graphic file (type png)
 <use images/Architecture.png>
-Package pdftex.def Info: images/Architecture.png  used on input line 310.
+Package pdftex.def Info: images/Architecture.png  used on input line 341.
 (pdftex.def)             Requested size: 460.0461pt x 296.32521pt.
 
-[10]
-<images/Session Synchronization Flow.png, id=499, 1274.7625pt x 2396.955pt>
+[11]
+<images/Session Synchronization Flow.png, id=574, 1274.7625pt x 2396.955pt>
 File: images/Session Synchronization Flow.png Graphic file (type png)
 <use images/Session Synchronization Flow.png>
 Package pdftex.def Info: images/Session Synchronization Flow.png  used on input
- line 339.
+ line 370.
 (pdftex.def)             Requested size: 216.7651pt x 407.58669pt.
- [11 <./images/Architecture.png>] [12 <./images/Session Synchronization Flow.pn
+ [12 <./images/Architecture.png>] [13 <./images/Session Synchronization Flow.pn
 g>]
-ignored error: Infinite glue shrinkage found in box being split [13]
-ignored error: Infinite glue shrinkage found in box being split [14] [15]
-<images/overall system.png, id=530, 4462.6725pt x 825.0825pt>
+ignored error: Infinite glue shrinkage found in box being split [14]
+ignored error: Infinite glue shrinkage found in box being split [15] [16]
+<images/overall system.png, id=605, 4462.6725pt x 825.0825pt>
 File: images/overall system.png Graphic file (type png)
 <use images/overall system.png>
-Package pdftex.def Info: images/overall system.png  used on input line 465.
+Package pdftex.def Info: images/overall system.png  used on input line 496.
 (pdftex.def)             Requested size: 460.04855pt x 85.0562pt.
-<images/overall obj1.png, id=531, 2770.35pt x 951.555pt>
+<images/overall obj1.png, id=606, 2770.35pt x 951.555pt>
 File: images/overall obj1.png Graphic file (type png)
 <use images/overall obj1.png>
-Package pdftex.def Info: images/overall obj1.png  used on input line 473.
+Package pdftex.def Info: images/overall obj1.png  used on input line 504.
 (pdftex.def)             Requested size: 422.50948pt x 145.1228pt.
 
-[16 <./images/overall system.png>]
-<images/obj1 case1.png, id=539, 2186.1675pt x 772.8875pt>
+[17 <./images/overall system.png>]
+<images/obj1 case1.png, id=614, 2186.1675pt x 772.8875pt>
 File: images/obj1 case1.png Graphic file (type png)
 <use images/obj1 case1.png>
-Package pdftex.def Info: images/obj1 case1.png  used on input line 481.
+Package pdftex.def Info: images/obj1 case1.png  used on input line 512.
 (pdftex.def)             Requested size: 413.10779pt x 146.0482pt.
- [17 <./images/overall obj1.png> <./images/obj1 case1.png>]
-<images/obj1 case2.png, id=549, 2252.415pt x 1286.8075pt>
+ [18 <./images/overall obj1.png> <./images/obj1 case1.png>]
+<images/obj1 case2.png, id=624, 2252.415pt x 1286.8075pt>
 File: images/obj1 case2.png Graphic file (type png)
 <use images/obj1 case2.png>
-Package pdftex.def Info: images/obj1 case2.png  used on input line 504.
+Package pdftex.def Info: images/obj1 case2.png  used on input line 535.
 (pdftex.def)             Requested size: 422.49863pt x 241.374pt.
- [18 <./images/obj1 case2.png>]
-<images/overall obj2.png, id=557, 2800.4625pt x 1537.745pt>
+ [19 <./images/obj1 case2.png>]
+<images/overall obj2.png, id=633, 2800.4625pt x 1537.745pt>
 File: images/overall obj2.png Graphic file (type png)
 <use images/overall obj2.png>
-Package pdftex.def Info: images/overall obj2.png  used on input line 527.
+Package pdftex.def Info: images/overall obj2.png  used on input line 558.
 (pdftex.def)             Requested size: 422.48695pt x 231.98924pt.
-<images/obj2 case1.png, id=558, 2485.285pt x 1180.41pt>
+<images/obj2 case1.png, id=634, 2485.285pt x 1180.41pt>
 File: images/obj2 case1.png Graphic file (type png)
 <use images/obj2 case1.png>
-Package pdftex.def Info: images/obj2 case1.png  used on input line 537.
+Package pdftex.def Info: images/obj2 case1.png  used on input line 568.
 (pdftex.def)             Requested size: 422.49287pt x 200.66704pt.
- [19 <./images/overall obj2.png>]
-<images/obj2 case2.png, id=566, 1573.88pt x 1190.4475pt>
+ [20 <./images/overall obj2.png>]
+<images/obj2 case2.png, id=641, 1573.88pt x 1190.4475pt>
 File: images/obj2 case2.png Graphic file (type png)
 <use images/obj2 case2.png>
-Package pdftex.def Info: images/obj2 case2.png  used on input line 560.
+Package pdftex.def Info: images/obj2 case2.png  used on input line 591.
 (pdftex.def)             Requested size: 403.72363pt x 305.3675pt.
 
-[20 <./images/obj2 case1.png>]
-<images/overall obj3.png, id=574, 3595.4325pt x 825.0825pt>
+[21 <./images/obj2 case1.png>]
+<images/overall obj3.png, id=649, 3595.4325pt x 825.0825pt>
 File: images/overall obj3.png Graphic file (type png)
 <use images/overall obj3.png>
-Package pdftex.def Info: images/overall obj3.png  used on input line 583.
+Package pdftex.def Info: images/overall obj3.png  used on input line 614.
 (pdftex.def)             Requested size: 431.8722pt x 99.10634pt.
- [21 <./images/obj2 case2.png>]
-<images/obj3 case1.png, id=582, 1760.5775pt x 676.5275pt>
+ [22 <./images/obj2 case2.png>]
+<images/obj3 case1.png, id=657, 1760.5775pt x 676.5275pt>
 File: images/obj3 case1.png Graphic file (type png)
 <use images/obj3 case1.png>
-Package pdftex.def Info: images/obj3 case1.png  used on input line 598.
+Package pdftex.def Info: images/obj3 case1.png  used on input line 629.
 (pdftex.def)             Requested size: 403.74228pt x 155.14383pt.
-<images/obj3 case2.png, id=583, 1840.8775pt x 933.4875pt>
+<images/obj3 case2.png, id=658, 1840.8775pt x 933.4875pt>
 File: images/obj3 case2.png Graphic file (type png)
 <use images/obj3 case2.png>
-Package pdftex.def Info: images/obj3 case2.png  used on input line 600.
+Package pdftex.def Info: images/obj3 case2.png  used on input line 631.
 (pdftex.def)             Requested size: 403.73029pt x 204.72691pt.
- [22 <./images/overall obj3.png> <./images/obj3 case1.png>]
-<images/obj3 case3.png, id=593, 1852.9225pt x 981.6675pt>
+ [23 <./images/overall obj3.png> <./images/obj3 case1.png>]
+<images/obj3 case3.png, id=668, 1852.9225pt x 981.6675pt>
 File: images/obj3 case3.png Graphic file (type png)
 <use images/obj3 case3.png>
-Package pdftex.def Info: images/obj3 case3.png  used on input line 602.
+Package pdftex.def Info: images/obj3 case3.png  used on input line 633.
 (pdftex.def)             Requested size: 403.7425pt x 213.9004pt.
 
-ignored error: Infinite glue shrinkage found in box being split [23 <./images/o
-bj3 case2.png> <./images/obj3 case3.png>] [24]
-ignored error: Infinite glue shrinkage found in box being split [25] [26]
-[27] [28]
-ignored error: Infinite glue shrinkage found in box being split [29]
-<images/internet overview.png, id=634, 1479.5275pt x 349.305pt>
+ignored error: Infinite glue shrinkage found in box being split [24 <./images/o
+bj3 case2.png> <./images/obj3 case3.png>] [25]
+ignored error: Infinite glue shrinkage found in box being split [26] [27]
+[28] [29]
+ignored error: Infinite glue shrinkage found in box being split [30]
+<images/internet overview.png, id=709, 1479.5275pt x 349.305pt>
 File: images/internet overview.png Graphic file (type png)
 <use images/internet overview.png>
-Package pdftex.def Info: images/internet overview.png  used on input line 883.
+Package pdftex.def Info: images/internet overview.png  used on input line 914.
 (pdftex.def)             Requested size: 338.00401pt x 79.80013pt.
 
-ignored error: Infinite glue shrinkage found in box being split [30 <./images/i
+ignored error: Infinite glue shrinkage found in box being split [31 <./images/i
 nternet overview.png>]
-<images/internet workflow.png, id=643, 3089.5425pt x 1102.1175pt>
+<images/internet workflow.png, id=719, 3089.5425pt x 1102.1175pt>
 File: images/internet workflow.png Graphic file (type png)
 <use images/internet workflow.png>
-Package pdftex.def Info: images/internet workflow.png  used on input line 946.
+Package pdftex.def Info: images/internet workflow.png  used on input line 977.
 (pdftex.def)             Requested size: 422.49164pt x 150.71338pt.
- [31]
-<images/Internet Synchronization Flow.png, id=651, 684.5575pt x 1989.4325pt>
+ [32]
+<images/Internet Synchronization Flow.png, id=726, 684.5575pt x 1989.4325pt>
 File: images/Internet Synchronization Flow.png Graphic file (type png)
 <use images/Internet Synchronization Flow.png>
 Package pdftex.def Info: images/Internet Synchronization Flow.png  used on inpu
-t line 952.
+t line 983.
 (pdftex.def)             Requested size: 140.25162pt x 407.59346pt.
- [32 <./images/internet workflow.png>] [33 <./images/Internet Synchronization F
-low.png>] [34] [35] [36] [37]
-ignored error: Infinite glue shrinkage found in box being split [38] [39]
-[40] [41] [42] [43]
-ignored error: Infinite glue shrinkage found in box being split [44] [45]
-[46] (Specification.aux)
+ [33 <./images/internet workflow.png>] [34 <./images/Internet Synchronization F
+low.png>]
+ignored error: Infinite glue shrinkage found in box being split [35]
+ignored error: Infinite glue shrinkage found in box being split [36]
+ignored error: Infinite glue shrinkage found in box being split [37] [38]
+ignored error: Infinite glue shrinkage found in box being split [39] [40]
+[41] [42] [43] [44] [45]
+ignored error: Infinite glue shrinkage found in box being split [46] [47]
+[48] [49] [50] [51]
+ignored error: Infinite glue shrinkage found in box being split [52] [53]
+[54] (Specification.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
 Package rerunfilecheck Info: File `Specification.out' has not changed.
-(rerunfilecheck)             Checksum: 6B84942ACE4BDE4773C4EAEB6C88A53D;16493.
+(rerunfilecheck)             Checksum: D7ED18288052D5ADDB6A6BAD629F213A;19138.
  ) 
 Here is how much of TeX's memory you used:
- 25072 strings out of 467871
- 465440 string characters out of 5418860
- 870122 words of memory out of 5000000
- 53315 multiletter control sequences out of 15000+600000
+ 25130 strings out of 467871
+ 466077 string characters out of 5418860
+ 871836 words of memory out of 5000000
+ 53340 multiletter control sequences out of 15000+600000
  642596 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,104p,855b,606s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1244,9 +1250,9 @@ r17.pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnr8
 .pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vnti12.
 pfb><C:/Users/Duck/AppData/Local/Programs/MiKTeX/fonts/type1/vntex/vnr/vntt12.p
 fb>
-Output written on Specification.pdf (46 pages, 2290237 bytes).
+Output written on Specification.pdf (54 pages, 2322867 bytes).
 PDF statistics:
- 883 PDF objects out of 1000 (max. 8388607)
- 231 named destinations out of 1000 (max. 500000)
- 791 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1003 PDF objects out of 1200 (max. 8388607)
+ 264 named destinations out of 1000 (max. 500000)
+ 903 words of extra memory for PDF output out of 10000 (max. 10000000)
 

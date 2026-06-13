@@ -11,8 +11,8 @@ Tài liệu này mô tả đặc tả hệ thống **SomniLearnAI**, một sản
 | Document type | AIoT Product Specification |
 | Course | Introduction to Smart Device Programming |
 | Class | 23CLC02 |
-| Version | 2.0 |
-| Last updated | 08/06/2026 |
+| Version | 2.2 |
+| Last updated | 13/06/2026 |
 
 ## 0.2. Product Identity
 
@@ -36,12 +36,13 @@ Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thôn
 | Area | Previous specification | Updated specification |
 | ---- | ---------------------- | --------------------- |
 | Product name | SmartClock | SomniLearnAI |
-| Objective 1 | Hỗ trợ tập trung và làm việc hiệu quả | Hỗ trợ cải thiện khả năng tập trung khi học theo Pomodoro, kết hợp luyện tập và chấm điểm thuyết trình |
-| Objective 2 | Hỗ trợ giấc ngủ và đặt báo thức | Hỗ trợ cải thiện giấc ngủ, quan sát Edge AI, đặt báo thức và phát hiện tác nhân môi trường làm giấc ngủ không ngon |
-| Objective 3 | Giải trí và trang trí góc làm việc | Dashboard quản lý phiên học, phiên thuyết trình và phiên ngủ |
+| Objective 1 | Hỗ trợ tập trung và làm việc hiệu quả | Ghi nhận và hiển thị tối thiểu 80% số phiên Pomodoro, tổng phút tập trung và điểm đánh giá thuyết trình |
+| Objective 2 | Hỗ trợ giấc ngủ và đặt báo thức | Tự động tạo báo cáo trong vòng 1 phút sau mỗi phiên ngủ, lưu lịch sử tối thiểu 30 ngày, kết hợp quan sát Edge AI và đặt báo thức |
+| Objective 3 | Giải trí và trang trí góc làm việc | Dashboard quản lý phiên học, phiên thuyết trình và phiên ngủ, cập nhật trong vòng 60 giây sau khi đồng bộ |
 | Sleep use case | Theo dõi giấc ngủ và đặt báo thức | Giữ use case quan sát giấc ngủ Edge AI và bổ sung lại use case đặt báo thức |
 | Internet Service | Chưa có nội dung chi tiết | Bổ sung dashboard theo Objective 3 |
 | Data history | Chưa nhấn mạnh lịch sử phiên | Bổ sung lịch sử phiên học, phiên ngủ, phiên thuyết trình và tổng kết theo tháng |
+| Requirements | Chưa tách functional/non-functional requirements | Bổ sung functional requirements và non-functional requirements dựa trên use case trong Objectives |
 
 ## 0.5. Revision History
 
@@ -51,6 +52,7 @@ Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thôn
 | 1.1 | 05/06/2026 | Project team | Bổ sung Edge AI cho quan sát giấc ngủ và hướng dẫn sử dụng thiết bị |
 | 2.0 | 08/06/2026 | Project team | Đổi tên sản phẩm thành SomniLearnAI, cập nhật objective theo SMART và thêm dashboard quản lý phiên |
 | 2.1 | 11/06/2026 | Project team | Bổ sung lại use case đặt báo thức trong Objective 2 |
+| 2.2 | 13/06/2026 | Project team | Cập nhật Objective 2 theo yêu cầu báo cáo ngủ trong 1 phút, lưu lịch sử tối thiểu 30 ngày và bổ sung functional/non-functional requirements |
 
 ## 0.6. Document Structure
 
@@ -61,6 +63,8 @@ Sản phẩm không chỉ hiển thị thời gian như một đồng hồ thôn
 | 03. Objectives | Mục tiêu SMART, use case và Mermaid diagram |
 | 04. EdgeAI | Mô hình Edge AI và dữ liệu cảm biến |
 | 05. Internet Service | Dashboard quản lý phiên học, ngủ và thuyết trình |
-| 06. User Manual | Hướng dẫn thao tác cho người dùng |
-| 07. Conclusion | Tổng kết, giới hạn và hướng phát triển |
-| 08. Appendix & Reference | Phụ lục và tài liệu tham khảo |
+| 06. Functional Requirement | Yêu cầu chức năng theo Objective 1, Objective 2, Objective 3 và hành vi offline |
+| 07. Non-Functional Requirement | Yêu cầu phi chức năng về hiệu năng, độ tin cậy, lưu trữ, bảo mật, usability và khả năng mở rộng |
+| 08. User Manual | Hướng dẫn thao tác cho người dùng |
+| 09. Conclusion | Tổng kết, giới hạn và hướng phát triển |
+| 10. Appendix & Reference | Phụ lục và tài liệu tham khảo |
