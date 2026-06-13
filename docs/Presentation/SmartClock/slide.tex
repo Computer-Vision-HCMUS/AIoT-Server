@@ -1,7 +1,7 @@
 \documentclass[aspectratio=169]{beamer}
 \usepackage[utf8]{inputenc}
 \usepackage[T5]{fontenc}
-\usepackage[vietnamese,english]{babel}
+\usepackage[english,vietnamese]{babel}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{tabularx}
@@ -19,10 +19,12 @@
 \definecolor{smartcyan}{HTML}{06B6D4}
 \definecolor{smartdark}{HTML}{0F172A}
 \definecolor{smartgreen}{HTML}{16A34A}
+\definecolor{smartlight}{HTML}{EFF6FF}
 
 \setbeamercolor{structure}{fg=smartblue}
 \setbeamercolor{frametitle}{fg=white,bg=smartblue}
 \setbeamercolor{title}{fg=white,bg=smartblue}
+\setbeamerfont{author}{size=\small}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{itemize item}{\color{smartblue}$\blacktriangleright$}
 \setbeamertemplate{itemize subitem}{\color{smartcyan}$\bullet$}
@@ -30,11 +32,16 @@
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 \graphicspath{{images/}}
 
-\title[SmartClock]{SmartClock}
-\subtitle{AIoT Personal Assistant Clock}
-\author{Trần Hải Đức \and Nguyễn Trọng Tài \and Nguyễn Công Chiến \and Phạm Nguyễn Gia Bảo}
+\title[SomniLearnAI]{SomniLearnAI}
+\subtitle{AIoT Smart Clock for Study, Sleep and Session Dashboard}
+\author[Nhóm SomniLearnAI]{
+  \begin{tabular}{c}
+    Trần Hải Đức \quad Nguyễn Trọng Tài \\
+    Nguyễn Công Chiến \quad Phạm Nguyễn Gia Bảo
+  \end{tabular}
+}
 \institute{Faculty of Information Technology \\ University of Science}
-\date{May 26, 2026}
+\date{June 2026}
 
 \begin{document}
 
@@ -42,7 +49,7 @@
   \titlepage
   \vspace{-0.4cm}
   \begin{center}
-    \textbf{Tập trung hơn, ngủ sâu hơn, sống thông minh hơn.}
+    \textbf{Learn better, sleep smarter, improve with data.}
   \end{center}
 \end{frame}
 
@@ -58,58 +65,61 @@
     \column{0.48\textwidth}
     \begin{enumerate}
       \setcounter{enumi}{4}
-      \item AI Sleep Inference
+      \item Edge AI Sleep Monitoring
+      \item Internet Service Dashboard
       \item User Flow
-      \item Prototype Cost
       \item Limitations and Roadmap
     \end{enumerate}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Motivation}
+\begin{frame}[shrink=4]{Motivation}
   \begin{columns}
     \column{0.56\textwidth}
-    \begin{block}{Pomodoro plus a mini smart robot}
-      SmartClock được lấy cảm hứng từ Pomodoro: chia thời gian thành các phiên tập trung ngắn, có nghỉ ngơi rõ ràng và giảm phụ thuộc vào điện thoại.
+    \begin{block}{Pomodoro plus a personal AIoT clock}
+      SomniLearnAI được lấy cảm hứng từ nhu cầu học tập tập trung, luyện thuyết trình và duy trì giấc ngủ ổn định mà không phụ thuộc quá nhiều vào điện thoại.
     \end{block}
     \begin{itemize}
-      \item Một thiết bị để bàn nhỏ gọn giúp nhắc nhở, đồng hành và tạo cảm giác gần gũi hơn timer truyền thống.
-      \item Hình mẫu robot thông minh mini giúp sản phẩm có cá tính, dễ đặt ở góc học tập/làm việc.
-      \item AIoT mở rộng từ focus sang sleep và relax, kết nối dữ liệu cảm biến với trải nghiệm hằng ngày.
-    \end{itemize}
-    \column{0.38\textwidth}
-    \begin{figure}
-      \centering
-      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{images.jpg}
-    \end{figure}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Product Vision}
-  \begin{columns}
-    \column{0.58\textwidth}
-    \textbf{SmartClock} là thiết bị AIoT đặt trên bàn học, bàn làm việc hoặc phòng ngủ.
-    \vspace{0.3cm}
-    \begin{itemize}
-      \item Hỗ trợ Pomodoro và luyện thuyết trình.
-      \item Theo dõi giấc ngủ và đặt báo thức.
-      \item Tạo trải nghiệm giải trí nhẹ bằng game và nhạc.
-      \item Hoạt động cục bộ, mở rộng online qua Edge-Server.
+      \item Thiết bị để bàn nhỏ gọn giúp người dùng theo dõi phiên học và trạng thái sinh hoạt ngay tại không gian cá nhân.
+      \item Edge Device hiển thị thời gian, Pomodoro, môi trường phòng ngủ và kết quả ngắn sau mỗi phiên.
+      \item Dashboard giúp dữ liệu học tập, giấc ngủ và thuyết trình trở thành lịch sử có thể theo dõi dài hạn.
     \end{itemize}
     \column{0.38\textwidth}
     \begin{tikzpicture}
       \draw[smartblue, line width=1.4pt, rounded corners=8pt, fill=blue!4] (0,0) rectangle (4.1,3.2);
-      \node[smartblue, font=\Large\bfseries] at (2.05,2.45) {SmartClock};
-      \node[align=center] at (2.05,1.55) {Focus\\Sleep\\Relax};
+      \node[smartblue, font=\Large\bfseries] at (2.05,2.45) {SomniLearnAI};
+      \node[align=center] at (2.05,1.55) {Study\\Sleep\\Dashboard};
       \node[smartgreen, font=\small\bfseries] at (2.05,0.55) {AIoT Edge Device};
     \end{tikzpicture}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=4]{Product Vision}
+  \begin{columns}
+    \column{0.58\textwidth}
+    \textbf{SomniLearnAI} là đồng hồ thông minh AIoT đặt tại bàn học hoặc phòng ngủ, kết hợp Edge Device, Server và Dashboard.
+    \vspace{0.3cm}
+    \begin{itemize}
+      \item Hỗ trợ Pomodoro Timer và Seminar Practice.
+      \item Quan sát giấc ngủ bằng Edge AI, hiển thị môi trường realtime và đặt báo thức.
+      \item Đồng bộ phiên học, phiên ngủ và phiên thuyết trình lên dashboard.
+      \item Hoạt động offline cho chức năng cục bộ, online để phân tích và lưu lịch sử dài hạn.
+    \end{itemize}
+    \column{0.38\textwidth}
+    \begin{block}{3 objective groups}
+      \begin{itemize}
+        \item Study support
+        \item Sleep support
+        \item Session dashboard
+      \end{itemize}
+    \end{block}
   \end{columns}
 \end{frame}
 
 \begin{frame}{Architecture}
   \begin{figure}
     \centering
-    \includegraphics[width=0.86\textwidth,height=0.72\textheight,keepaspectratio]{architecture.png}
+    \includegraphics[width=0.86\textwidth,height=0.72\textheight,keepaspectratio]{Architecture.png}
   \end{figure}
 \end{frame}
 
@@ -119,11 +129,11 @@
     \toprule
     \textbf{Component} & \textbf{Qty} & \textbf{Availability} & \textbf{Purpose} & \textbf{Price} \\
     \midrule
-    ESP32-S3 DevKitC-1 (N8R8) & 1 & Mua thêm & MCU chính, TinyML/Edge AI, Firebase sync, I2S/SPI control & 150k--220k \\
-    TFT LCD 2.4'' ILI9341 & 1 & Có sẵn & UI cho HOME, STUDY, SLEEP và RELAX & 80k--120k \\
-    INMP441 MEMS Microphone & 1 & Có sẵn & Âm thanh môi trường, Seminar Practice và sleep noise & 40k--55k \\
-    Cảm biến ánh sáng BH1750 & 1 & Có sẵn & Light level/quality và kiểm tra phòng tối trước khi ngủ & 15k--30k \\
-    Nút nhấn tactile 12x12mm & 5 & Có sẵn 3, mua thêm 2 & Điều hướng state machine và cấu hình chức năng & 10k \\
+    ESP32-S3 DevKitC-1 (N8R8) & 1 & Mua thêm & MCU chính, UI, session logic, Edge AI cơ bản và đồng bộ Server & 150k--220k \\
+    TFT LCD 2.4'' ILI9341 & 1 & Có sẵn & UI cho HOME, STUDY, SLEEP, STATUS và dữ liệu realtime & 80k--120k \\
+    INMP441 MEMS Microphone & 1 & Có sẵn & Tiếng ồn phòng ngủ và dữ liệu âm thanh cho Seminar Practice & 40k--55k \\
+    Cảm biến ánh sáng BH1750 & 1 & Có sẵn & Đo mức ánh sáng khi học hoặc ngủ & 15k--30k \\
+    Cảm biến môi trường DHT22/SHT31/BME280 & 1 & Tùy chọn & Đo nhiệt độ, độ ẩm và hỗ trợ phân tích tác nhân giấc ngủ & 40k--120k \\
     \bottomrule
   \end{tabularx}
 \end{frame}
@@ -134,186 +144,342 @@
     \toprule
     \textbf{Component} & \textbf{Qty} & \textbf{Availability} & \textbf{Purpose} & \textbf{Price} \\
     \midrule
-    Buzzer passive 5V & 1 & Mua thêm & Báo Pomodoro, báo thức Sleep và âm thanh game & 8k \\
-    MAX98357A I2S Amp + Loa 0.5W & 1 set & Mua thêm & Phát nhạc MP3/WAV trong RELAX Music Player & 35k--60k \\
-    DS3231 RTC Module (kèm pin) & 1 & Mua thêm & Báo thức, timestamp Pomodoro và đồng bộ thời gian & 35k \\
-    MicroSD Card Module & 1 & Mua thêm & Lưu file nhạc MP3/WAV cho Music Player & 25k \\
-    Pin LiPo 3.7V 1000mAh + TP4056 & 1 & Mua thêm & Nguồn di động tùy chọn cho toàn thiết bị & 60k \\
+    Cảm biến CO$_2$ SCD40/MH-Z19B & 1 & Tùy chọn & Mở rộng phân tích môi trường phòng ngủ & 180k--450k \\
+    Nút nhấn tactile 12x12mm & 5 & Có sẵn 3, mua thêm 2 & Điều hướng Home, Study, Sleep, Status và cấu hình phiên & 10k \\
+    Buzzer passive 5V & 1 & Mua thêm & Báo Pomodoro, báo thức và cảnh báo trạng thái đơn giản & 8k \\
+    DS3231 RTC Module & 1 & Mua thêm & Thời gian ổn định, timestamp phiên và báo thức offline & 35k \\
+    MicroSD/Flash Storage & 1 & Tùy chọn & Lưu tạm dữ liệu phiên khi offline & 0--25k \\
+    Pin LiPo 3.7V + TP4056 & 1 & Mua thêm & Nguồn di động tùy chọn cho thiết bị & 60k \\
     \bottomrule
   \end{tabularx}
   \vspace{0.25cm}
   \begin{block}{Estimated total cost}
-    Required additional components: \textbf{approximately 418,000 VND}
+    Core prototype: \textbf{approximately 388,000--508,000 VND}; optional environment expansion: \textbf{220,000--570,000 VND}
   \end{block}
 \end{frame}
 
 \begin{frame}{3 Objectives}
-  \begin{columns}
-    \column{0.33\textwidth}
-    \begin{block}{Objective 1}
-      \textbf{Focus}
-      \begin{itemize}
-        \item Pomodoro Timer
-        \item Seminar Practice
-      \end{itemize}
-    \end{block}
-    \column{0.33\textwidth}
-    \begin{block}{Objective 2}
-      \textbf{Sleep}
-      \begin{itemize}
-        \item Sleep Monitoring
-        \item Alarm Settings
-      \end{itemize}
-    \end{block}
-    \column{0.33\textwidth}
-    \begin{block}{Objective 3}
-      \textbf{Relax}
-      \begin{itemize}
-        \item Flappy Bird
-        \item Music Player
-      \end{itemize}
-    \end{block}
+  \begin{columns}[t]
+    \column{0.32\textwidth}
+    \begin{tikzpicture}
+      \node[draw=smartblue,rounded corners=6pt,fill=smartlight,
+            inner sep=8pt,text width=3.2cm,align=center] (box) {
+        {\color{smartblue}\large\bfseries 01}\\[4pt]
+        {\bfseries 100\% Pomodoro \& Scores}\\[6pt]
+        \footnotesize
+        $\blacktriangleright$\ Pomodoro Timer\\[2pt]
+        $\blacktriangleright$\ Seminar Practice
+      };
+    \end{tikzpicture}
+    \column{0.32\textwidth}
+    \begin{tikzpicture}
+      \node[draw=smartcyan,rounded corners=6pt,fill=cyan!5,
+            inner sep=8pt,text width=3.2cm,align=center] (box) {
+        {\color{smartcyan}\large\bfseries 02}\\[4pt]
+        {\bfseries Sleep Score \& Factors}\\[6pt]
+        \footnotesize
+        $\blacktriangleright$\ Sleep Monitoring Edge AI\\[2pt]
+        $\blacktriangleright$\ Alarm Setting
+      };
+    \end{tikzpicture}
+    \column{0.32\textwidth}
+    \begin{tikzpicture}
+      \node[draw=smartgreen,rounded corners=6pt,fill=green!5,
+            inner sep=8pt,text width=3.2cm,align=center] (box) {
+        {\color{smartgreen}\large\bfseries 03}\\[4pt]
+        {\bfseries 60s Dashboard Sync}\\[6pt]
+        \footnotesize
+        $\blacktriangleright$\ Study Sessions\\[2pt]
+        $\blacktriangleright$\ Sleep Sessions\\[2pt]
+        $\blacktriangleright$\ Presentation Sessions
+      };
+    \end{tikzpicture}
   \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=6]{SMART Objectives}
+  \scriptsize
+  \renewcommand{\arraystretch}{1.18}
+  \begin{tabularx}{\textwidth}{@{}p{1.7cm}X@{}}
+    \toprule
+    \textbf{Objective} & \textbf{SMART Objective} \\
+    \midrule
+    Objective 1 & \textbf{Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.} \\
+    \addlinespace[2pt]
+    Objective 2 & \textbf{Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường như ánh sáng, nhiệt độ, độ ẩm, CO$_2$, giúp người dùng đánh giá thói quen ngủ hằng ngày.} \\
+    \addlinespace[2pt]
+    Objective 3 & \textbf{Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.} \\
+    \bottomrule
+  \end{tabularx}
 \end{frame}
 
 \begin{frame}{Overall Use Cases}
   \begin{figure}
     \centering
-    \includegraphics[width=0.82\textwidth,height=0.72\textheight,keepaspectratio]{\detokenize{UseCase (0).png}}
+    \includegraphics[width=0.82\textwidth,height=0.72\textheight,keepaspectratio]{\detokenize{overall system.png}}
   \end{figure}
 \end{frame}
 
-\begin{frame}{Objective 1: Focus}
+\begin{frame}{Objective 1}
   \begin{columns}
     \column{0.48\textwidth}
-    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{UseCase (1).png}}
+    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{overall obj1.png}}
     \column{0.48\textwidth}
     \begin{itemize}
-      \item Pomodoro giúp chia phiên tập trung và nghỉ ngơi.
-      \item Seminar Practice giúp luyện trình bày và quản lý thời lượng nói.
-      \item Mục tiêu là giảm phụ thuộc điện thoại trong lúc học/làm việc.
+      \item Pomodoro giúp chia phiên học thành khoảng tập trung và nghỉ ngơi.
+      \item Seminar Practice ghi nhận thời lượng nói và gửi dữ liệu lên Server khi có Wi-Fi.
+      \item Dashboard lưu lịch sử để người dùng theo dõi tiến độ học tập và thuyết trình.
     \end{itemize}
-    \vspace{-0.15cm}
-    \begin{block}{target}
-      \scriptsize SmartClock giúp người dùng hoàn thành các phiên Pomodoro 25 phút và luyện Seminar Practice trên thiết bị vật lý, đo bằng số phiên hoàn thành và thời lượng luyện nói, khả thi với 5 nút/TFT/timer cục bộ, phù hợp mục tiêu giảm xao nhãng khi học/làm việc.
+    \vspace{0.2cm}
+    \begin{block}{SMART Objective}
+      \scriptsize Ghi nhận và hiển thị chính xác 100\% số phiên Pomodoro, tổng số phút tập trung và điểm đánh giá thuyết trình của người dùng ngay sau mỗi phiên học, đồng thời lưu dữ liệu để theo dõi tiến độ học tập theo ngày và tháng.
     \end{block}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Objective 2: Sleep}
+\begin{frame}{Pomodoro Timer Use Case}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{obj1 case1.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Bắt đầu, tạm dừng, tiếp tục và kết thúc phiên.
+      \item Tùy chỉnh thời gian học/nghỉ.
+      \item Hiển thị giờ hiện tại, trạng thái Study/Break và thời gian còn lại.
+      \item Lưu số Pomodoro hoàn thành để đồng bộ dashboard.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Seminar Practice Use Case}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{obj1 case2.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Ghi nhận thời lượng trình bày và dữ liệu âm thanh cần thiết.
+      \item Lưu tạm khi offline.
+      \item Gửi dữ liệu lên Server để chấm điểm khi có Wi-Fi.
+      \item Hiển thị điểm số, trạng thái xử lý và nhận xét ngắn.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Objective 2}
   \begin{columns}
     \column{0.48\textwidth}
-    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{UseCase (4).png}}
+    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{overall obj2.png}}
     \column{0.48\textwidth}
     \begin{itemize}
-      \item Theo dõi thời gian ngủ và tạo đánh giá cơ bản.
-      \item Báo thức giúp duy trì nhịp sinh hoạt ổn định.
-      \item Có thể mở rộng bằng phân tích ánh sáng/âm thanh phòng ngủ.
+      \item Sleep Monitoring ghi nhận thời gian ngủ và môi trường phòng ngủ.
+      \item Alarm Setting giúp người dùng thức dậy đúng giờ.
+      \item Edge AI tạo điểm ngủ, nhận xét và tác nhân ảnh hưởng sau mỗi phiên.
     \end{itemize}
-    \vspace{-0.15cm}
-    \begin{block}{target}
-      \scriptsize SmartClock ghi nhận Sleep Monitoring và Alarm Settings cho từng đêm, đo bằng thời gian ngủ/thời điểm thức/đánh giá cơ bản, khả thi với timer, cảm biến ánh sáng/âm thanh và báo thức, nhằm hỗ trợ thói quen ngủ đều hơn sau mỗi phiên ngủ.
+    \vspace{0.2cm}
+    \begin{block}{SMART Objective}
+      \scriptsize Phân tích và tạo báo cáo sau mỗi phiên ngủ bao gồm thời lượng ngủ, điểm chất lượng giấc ngủ, thời gian báo thức và các yếu tố môi trường như ánh sáng, nhiệt độ, độ ẩm, CO$_2$, giúp người dùng đánh giá thói quen ngủ hằng ngày.
     \end{block}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Bài toán AI: Suy luận trạng thái REM/NREM}
-  \begin{block}{Câu hỏi bài toán}
-    Làm thế nào SmartClock có thể ước lượng trạng thái giấc ngủ REM/NREM của người dùng từ các tín hiệu gián tiếp được thu thập bởi gối thông minh, microphone, cảm biến nhiệt độ và các cảm biến môi trường trong phòng?
+\begin{frame}{Sleep Monitoring Edge AI Use Case}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{obj2 case1.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Ghi nhận thời gian bắt đầu, kết thúc và tổng thời lượng ngủ.
+      \item Hiển thị ánh sáng, tiếng ồn, nhiệt độ, độ ẩm hoặc CO$_2$ nếu có cảm biến.
+      \item Phân tích dữ liệu bằng Edge AI để tạo sleep score.
+      \item Đồng bộ phiên ngủ lên dashboard để xem theo tháng.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Alarm Setting Use Case}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{obj2 case2.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Thiết lập giờ và phút báo thức trên Edge Device.
+      \item Bật hoặc tắt báo thức.
+      \item Hiển thị giờ báo thức hiện tại và trạng thái On/Off.
+      \item Hoạt động cục bộ, không phụ thuộc Internet.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=4]{Edge AI: Sleep Quality Analysis}
+  \begin{block}{Problem}
+    SomniLearnAI không chẩn đoán y khoa, mà hỗ trợ trả lời: ngủ bao lâu, môi trường có phù hợp không và tác nhân nào có thể làm giấc ngủ không ngon.
   \end{block}
   \begin{itemize}
-    \item Đầu ra: một nhãn giai đoạn giấc ngủ cho mỗi khoảng thời gian, gồm \textbf{REM} hoặc \textbf{NREM}.
-    \item Đầu vào: áp lực/tư thế từ cảm biến FSR, các lần trở mình, tiếng ngáy/tín hiệu âm thanh, nhiệt độ cơ thể và phòng, nồng độ CO\textsubscript{2}, ánh sáng và độ ẩm.
-    \item Mô-đun hỗ trợ theo dõi giấc ngủ tại nhà, nhưng không thay thế phương pháp đa ký giấc ngủ (PSG) hoặc chẩn đoán y khoa.
-    \item Nếu có dữ liệu nhịp tim, hệ thống có thể sử dụng như một tín hiệu hỗ trợ để kiểm chứng kết quả suy luận.
+\item Đầu vào: thời lượng ngủ, ánh sáng, tiếng ồn, nhiệt độ, độ ẩm, CO$_2$ và dữ liệu cảm biến mở rộng nếu có.
+    \item Đầu ra: sleep score, nhận xét ngắn, tác nhân ảnh hưởng và gợi ý cải thiện.
+    \item Xử lý tại Edge Device giúp hệ thống vẫn tạo báo cáo cơ bản khi offline.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{AI Approach: Rule-based Sleep Stage Inference}
+\begin{frame}{AI Approach: Rule-based Sleep Scoring}
   \begin{columns}
     \column{0.42\textwidth}
-    \begin{block}{Nhóm đặc trưng}
+    \begin{block}{Feature groups}
       \begin{itemize}
-        \item Tư thế và thay đổi áp lực
-        \item Tần suất trở mình
-        \item Mẫu tiếng ngáy/âm thanh
-        \item Nhiệt độ và ngữ cảnh phòng
+        \item Sleep duration
+        \item Light level
+        \item Noise level
+        \item Temperature / humidity / CO$_2$
       \end{itemize}
     \end{block}
     \column{0.54\textwidth}
     \begin{tikzpicture}[node distance=0.52cm]
       \tikzstyle{stage}=[draw=smartblue, rounded corners=4pt, fill=blue!4, align=center, minimum width=4.7cm, minimum height=0.55cm]
-      \node[stage] (input) {Dữ liệu cảm biến};
-      \node[stage, below=of input] (feature) {Trích xuất đặc trưng};
-      \node[stage, below=of feature] (posture) {Tư thế / Trở mình};
-      \node[stage, below=of posture] (sound) {Âm thanh + Môi trường};
-      \node[stage, below=of sound] (rule) {Suy luận rule-based};
-      \node[stage, below=of rule, fill=green!8, draw=smartgreen] (out) {Dự đoán REM / NREM};
+      \node[stage] (input) {Sensor data};
+      \node[stage, below=of input] (feature) {Feature extraction};
+      \node[stage, below=of feature] (duration) {Sleep duration};
+      \node[stage, below=of duration] (env) {Environment factors};
+      \node[stage, below=of env] (rule) {Rule-based scoring};
+      \node[stage, below=of rule, fill=green!8, draw=smartgreen] (out) {Sleep score + suggestions};
       \draw[->, smartblue, thick] (input) -- (feature);
-      \draw[->, smartblue, thick] (feature) -- (posture);
-      \draw[->, smartblue, thick] (posture) -- (sound);
-      \draw[->, smartblue, thick] (sound) -- (rule);
+      \draw[->, smartblue, thick] (feature) -- (duration);
+      \draw[->, smartblue, thick] (duration) -- (env);
+      \draw[->, smartblue, thick] (env) -- (rule);
       \draw[->, smartgreen, thick] (rule) -- (out);
     \end{tikzpicture}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Objective 3: Relax}
+\begin{frame}{Objective 3}
   \begin{columns}
     \column{0.48\textwidth}
-    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{UseCase (7).png}}
+    \includegraphics[width=\textwidth,height=0.56\textheight,keepaspectratio]{\detokenize{overall obj3.png}}
     \column{0.48\textwidth}
     \begin{itemize}
-      \item Flappy Bird tạo khoảng nghỉ ngắn sau phiên học/làm việc.
-      \item Music Player hỗ trợ thư giãn hoặc tạo nền tập trung.
-      \item Tăng tính gần gũi và thẩm mỹ cho góc làm việc.
+      \item Study Sessions: số Pomodoro và tổng phút học.
+      \item Sleep Sessions: điểm ngủ, thời lượng và tổng kết cuối tháng.
+      \item Presentation Sessions: danh sách điểm, thời lượng nói và xu hướng cải thiện.
     \end{itemize}
-    \vspace{-0.15cm}
-    \begin{block}{target}
-      \scriptsize SmartClock cung cấp Flappy Bird và Music Player cho các phiên nghỉ 5 phút giữa Pomodoro, đo bằng lượt chơi/thời lượng nghe nhạc/số phiên nghỉ, khả thi trên TFT, nút bấm và loa, giúp hồi phục nhẹ mà không cần smartphone.
+    \vspace{0.2cm}
+    \begin{block}{SMART Objective}
+      \scriptsize Đồng bộ và cập nhật dashboard trong vòng 60 giây sau khi kết thúc mỗi phiên học, ngủ hoặc thuyết trình, cung cấp thống kê theo ngày, tuần và tháng để hỗ trợ theo dõi sự cải thiện của người dùng theo thời gian.
     \end{block}
   \end{columns}
 \end{frame}
 
-\begin{frame}{User Flow}
+\begin{frame}{Dashboard Use Cases}
+  \begin{columns}
+    \column{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,height=0.54\textheight,keepaspectratio]{\detokenize{obj3 case1.png}}
+    \scriptsize Study Sessions
+    \column{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,height=0.54\textheight,keepaspectratio]{\detokenize{obj3 case2.png}}
+    \scriptsize Sleep Sessions
+    \column{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth,height=0.54\textheight,keepaspectratio]{\detokenize{obj3 case3.png}}
+    \scriptsize Presentation Sessions
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Internet Service Context}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{internet overview.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item API Server nhận dữ liệu phiên từ Edge Device.
+      \item Session Database lưu lịch sử học, ngủ và thuyết trình.
+      \item Web Dashboard hiển thị dữ liệu theo ngày, tháng và loại phiên.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Dashboard Observation Views}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.72\textwidth,height=0.68\textheight,keepaspectratio]{\detokenize{internet overview.png}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Server-assisted Presentation Scoring}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{internet workflow.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Edge Device ghi nhận phiên Seminar Practice.
+      \item API Server gửi yêu cầu chấm điểm cho Scoring Service.
+      \item Kết quả gồm điểm số và feedback ngắn.
+      \item Dashboard tải danh sách phiên đã chấm.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Synchronization Flow}
+  \begin{columns}
+    \column{0.52\textwidth}
+    \includegraphics[width=\textwidth,height=0.62\textheight,keepaspectratio]{\detokenize{Internet Synchronization Flow.png}}
+    \column{0.44\textwidth}
+    \begin{itemize}
+      \item Online: gửi dữ liệu lên API Server ngay sau khi kết thúc phiên.
+      \item Offline: lưu tạm phiên trong Local Session Cache.
+      \item Reconnected: đồng bộ lại theo thứ tự thời gian.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[shrink=4]{User Flow}
   \begin{center}
     \Large
-    \texttt{HOME} $\rightarrow$ \texttt{STUDY} $\rightarrow$ \texttt{SLEEP} $\rightarrow$ \texttt{RELAX} $\rightarrow$ \texttt{HOME}
+    \texttt{HOME} $\rightarrow$ \texttt{STUDY} $\rightarrow$ \texttt{SLEEP} $\rightarrow$ \texttt{STATUS} $\rightarrow$ \texttt{HOME}
   \end{center}
   \vspace{0.4cm}
   \begin{itemize}
-    \item One physical Mode button cycles through main modes.
-    \item Remaining buttons perform context actions.
-    \item Internet setup: \texttt{SmartClock\_Setup AP} then phone/laptop hotspot.
-    \item Offline mode still supports core local functions.
+    \item One physical Mode button cycles through main screens.
+    \item Remaining buttons perform context actions for Pomodoro, Seminar, Sleep Monitoring, Alarm and Status.
+    \item Internet setup: \texttt{SomniLearnAI\_Setup AP} then Wi-Fi/hotspot.
+    \item Offline mode still supports Pomodoro, alarm, Sleep Monitoring and realtime display.
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Business Value}
-  \begin{itemize}
-    \item \textbf{Productivity:} helps students and knowledge workers build focus routines.
-    \item \textbf{Wellness:} encourages consistent sleep and wake-up habits.
-    \item \textbf{Affordability:} prototype uses low-cost, accessible components.
-    \item \textbf{Expansion:} Edge-Server architecture supports analytics and personalization later.
-  \end{itemize}
+  \begin{columns}[t]
+    \column{0.48\textwidth}
+    \begin{block}{Study and Presentation}
+      \footnotesize Helps students build focus routines and turn presentation practice into measurable feedback.
+    \end{block}
+    \begin{block}{Sleep Support}
+      \footnotesize Encourages consistent sleep habits and awareness of the room environment.
+    \end{block}
+    \column{0.48\textwidth}
+    \begin{block}{Long-term Insight}
+      \footnotesize Dashboard supports monthly comparison and habit summaries.
+    \end{block}
+    \begin{block}{Affordability}
+      \footnotesize Prototype uses low-cost, accessible components with optional environmental expansion.
+    \end{block}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Limitations and Roadmap}
+\begin{frame}[shrink=4]{Limitations and Roadmap}
   \begin{columns}
     \column{0.48\textwidth}
     \textbf{Limitations}
     \begin{itemize}
-      \item Sleep and seminar evaluation are basic.
-      \item Hardware cost is prototype-level estimation.
-      \item Wi-Fi setup needs secure UX.
+      \item Sleep evaluation is supportive, not medical.
+      \item Presentation scoring depends on Wi-Fi and Server.
+      \item Some environment sensors may be optional in the first prototype.
     \end{itemize}
     \column{0.48\textwidth}
     \textbf{Roadmap}
     \begin{itemize}
-      \item Better enclosure and PCB.
-      \item History dashboard.
-      \item Personalized schedules.
-      \item Smart Home / AIoT integration.
+      \item Better sleep monitoring with more sensors.
+      \item Weekly/monthly study reports.
+      \item Smarter alarm options.
+      \item Offline-first synchronization and stronger dashboard security.
     \end{itemize}
   \end{columns}
 \end{frame}
@@ -323,10 +489,10 @@
     \Huge Thank You
     \vspace{0.6cm}
 
-    \Large SmartClock
+    \Large SomniLearnAI
     \vspace{0.2cm}
 
-    \normalsize Tập trung hơn, ngủ sâu hơn, sống thông minh hơn.
+    \normalsize Learn better, sleep smarter, improve with data.
   \end{center}
 \end{frame}
 
