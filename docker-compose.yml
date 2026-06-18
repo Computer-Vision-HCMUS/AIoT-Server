@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  # ─── PostgreSQL ────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: aiot-postgres
+    environment:
+      POSTGRES_DB: aiot_db
+      POSTGRES_USER: aiot_user
+      POSTGRES_PASSWORD: aiot_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiot_user -d aiot_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── pgAdmin 4 (web GUI) ───────────────────────────────────────────────────
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: aiot-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@aiot.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
