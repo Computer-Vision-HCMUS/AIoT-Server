@@ -3,13 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SomniLearnAI - Hardware Simulator</title>
+  <title>EmotiCare AIoT - Hardware Screen Flow</title>
   <style>
     :root {
-      --bg: #10151d; --panel: #192230; --panel-2: #111827; --border: #2b384d;
-      --lcd: #071526; --lcd-line: #1f3b60; --text: #e5edf7; --muted: #91a2b8;
-      --cyan: #67e8f9; --amber: #fbbf24; --green: #4ade80; --red: #fb7185;
-      --blue: #3b82f6; --btn: #334155;
+      --bg: #111827;
+      --panel: #182231;
+      --panel-2: #0f172a;
+      --border: #2b3b52;
+      --lcd: #071526;
+      --lcd-line: #25466d;
+      --text: #eef5ff;
+      --muted: #9fb0c5;
+      --cyan: #67e8f9;
+      --amber: #fbbf24;
+      --green: #4ade80;
+      --red: #fb7185;
+      --blue: #60a5fa;
+      --purple: #c084fc;
+      --btn: #334155;
     }
     * { box-sizing: border-box; }
     body {
@@ -20,13 +31,26 @@
       font-family: "Segoe UI", system-ui, sans-serif;
       padding: 24px;
     }
-    header, .layout { max-width: 1160px; margin: 0 auto; }
-    header { display: flex; justify-content: space-between; gap: 18px; align-items: end; margin-bottom: 22px; }
-    h1 { font-size: 1.35rem; margin: 0 0 4px; }
-    p { margin: 0; color: var(--muted); font-size: .9rem; }
+    header, .layout { max-width: 1180px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin-bottom: 22px;
+    }
+    h1 { margin: 0 0 6px; font-size: 1.45rem; }
+    p { margin: 0; color: var(--muted); line-height: 1.5; }
     a { color: var(--cyan); text-decoration: none; }
-    .layout { display: grid; grid-template-columns: 390px 1fr; gap: 22px; align-items: start; }
-    @media (max-width: 900px) { .layout, header { grid-template-columns: 1fr; display: grid; } }
+    .layout {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 920px) {
+      header, .layout { display: grid; grid-template-columns: 1fr; }
+    }
     .device {
       background: linear-gradient(145deg, #1f2937, #0f172a);
       border: 1px solid var(--border);
@@ -34,7 +58,14 @@
       padding: 20px;
       box-shadow: 0 22px 50px rgba(0,0,0,.35);
     }
-    .device-label { text-align: center; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-size: .72rem; margin-bottom: 12px; }
+    .device-label {
+      text-align: center;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .72rem;
+      margin-bottom: 12px;
+    }
     .tft {
       position: relative;
       overflow: hidden;
@@ -44,58 +75,112 @@
       background: var(--lcd);
       padding: 14px;
       font-family: Consolas, "Courier New", monospace;
-      box-shadow: inset 0 0 28px rgba(103,232,249,.07);
+      box-shadow: inset 0 0 28px rgba(103,232,249,.08);
     }
     .tft::after {
       content: "";
-      position: absolute; inset: 0;
+      position: absolute;
+      inset: 0;
       background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.025) 2px, rgba(255,255,255,.025) 4px);
       pointer-events: none;
     }
     .screen-title {
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
       color: var(--amber);
       border-bottom: 1px solid var(--lcd-line);
       padding-bottom: 6px;
       margin-bottom: 10px;
       font-size: .72rem;
-      letter-spacing: .12em;
+      letter-spacing: .08em;
+      text-transform: uppercase;
     }
-    .mode-badge { color: #5c7698; font-size: .64rem; }
-    .screen-body { color: var(--cyan); font-size: .77rem; line-height: 1.5; }
+    .mode-badge { color: #7894b5; font-size: .62rem; }
+    .screen-body { color: var(--cyan); font-size: .76rem; line-height: 1.45; }
     .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
-    .metric, .config-row, .menu-item {
+    .metric, .menu-item, .message {
       border: 1px solid var(--lcd-line);
       background: rgba(31,59,96,.34);
       border-radius: 5px;
       padding: 8px;
     }
-    .metric label { display: block; color: #5c7698; font-size: .58rem; margin-bottom: 2px; }
-    .metric .val { font-weight: 700; font-size: .92rem; color: var(--text); }
-    .menu-item { margin-bottom: 6px; color: var(--cyan); border-left: 4px solid var(--amber); }
-    .config-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: var(--muted); }
-    .config-row.selected { border-color: var(--amber); color: var(--text); background: rgba(251,191,36,.09); }
-    .status-bar { margin-top: 10px; padding: 6px 8px; border-radius: 5px; background: rgba(31,59,96,.45); color: #7894b5; text-align: center; font-size: .64rem; }
-    .timer { text-align: center; font-size: 2.15rem; color: var(--amber); font-weight: 800; margin: 14px 0 6px; }
-    .center { text-align: center; }
-    .good { color: var(--green) !important; } .bad { color: var(--red) !important; } .warn { color: var(--amber) !important; }
-    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--red); animation: blink 1s infinite; margin-right: 6px; }
-    @keyframes blink { 50% { opacity: .25; } }
-    .buttons { display: flex; gap: 10px; justify-content: center; margin-top: 18px; }
-    .btn {
-      border: 0; border-radius: 999px; width: 58px; height: 58px;
-      background: var(--btn); color: white; font-weight: 800; cursor: pointer;
-      box-shadow: 0 4px 0 #172033; transition: transform .08s, background .08s;
+    .metric label { display: block; color: #7894b5; font-size: .58rem; margin-bottom: 2px; }
+    .metric .val { font-weight: 700; font-size: .9rem; color: var(--text); }
+    .menu-item { margin-bottom: 6px; border-left: 4px solid var(--amber); color: var(--cyan); }
+    .status-bar {
+      margin-top: 10px;
+      padding: 6px 8px;
+      border-radius: 5px;
+      background: rgba(31,59,96,.45);
+      color: #9db7d7;
+      text-align: center;
+      font-size: .64rem;
     }
-    .btn:hover, .btn.pressed { background: var(--blue); transform: translateY(3px); box-shadow: 0 1px 0 #172033; }
-    .labels { display: flex; gap: 10px; justify-content: center; margin-top: 7px; }
+    .emotion { text-align: center; font-size: 1.35rem; color: var(--amber); font-weight: 800; margin: 12px 0 8px; }
+    .center { text-align: center; }
+    .good { color: var(--green) !important; }
+    .bad { color: var(--red) !important; }
+    .warn { color: var(--amber) !important; }
+    .purple { color: var(--purple) !important; }
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: blink 1s infinite;
+      margin-right: 6px;
+    }
+    @keyframes blink { 50% { opacity: .25; } }
+    .buttons, .labels { display: flex; gap: 10px; justify-content: center; }
+    .buttons { margin-top: 18px; }
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      width: 58px;
+      height: 58px;
+      background: var(--btn);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #172033;
+      transition: transform .08s, background .08s;
+    }
+    .btn:hover, .btn.pressed {
+      background: var(--blue);
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #172033;
+    }
+    .labels { margin-top: 7px; }
     .labels span { width: 58px; color: var(--muted); font-size: .6rem; text-align: center; }
-    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
     .panel + .panel { margin-top: 14px; }
     .panel h2 { font-size: .98rem; margin: 0 0 12px; }
-    .breadcrumb { background: rgba(0,0,0,.22); color: var(--muted); border-radius: 7px; padding: 9px 11px; font-family: Consolas, monospace; font-size: .78rem; margin-bottom: 14px; }
+    .breadcrumb {
+      background: rgba(0,0,0,.22);
+      color: var(--muted);
+      border-radius: 7px;
+      padding: 9px 11px;
+      font-family: Consolas, monospace;
+      font-size: .78rem;
+      margin-bottom: 14px;
+    }
     .objective-grid { display: grid; gap: 8px; margin-bottom: 16px; }
-    .objective-card { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: #c9d5e4; background: rgba(15,23,42,.45); font-size: .8rem; }
+    .objective-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      color: #cbd5e1;
+      background: rgba(15,23,42,.45);
+      font-size: .82rem;
+    }
     .objective-card.active { border-color: var(--amber); background: rgba(251,191,36,.08); color: white; }
     .objective-card strong { display: block; margin-bottom: 4px; }
     .hint-list { list-style: none; padding: 0; margin: 0; }
@@ -111,24 +196,24 @@
 <body>
   <header>
     <div>
-      <h1>SomniLearnAI - Hardware Simulator</h1>
-      <p>Mô phỏng Edge Device theo objective mới: Study, Sleep, Status và đồng bộ Dashboard. Dùng phím <strong>1-5</strong> hoặc click nút.</p>
+      <h1>EmotiCare AIoT - Hardware Screen Flow</h1>
+      <p>Mô phỏng luồng màn hình phần cứng cho thiết bị đồng hành cảm xúc. Dùng phím <strong>1-5</strong> hoặc click nút trên thiết bị.</p>
     </div>
-    <p><a href="./dashboard.html">Mở prototype dashboard</a></p>
+    <p>Tất cả trạng thái và báo cáo được theo dõi trực tiếp trên TFT.</p>
   </header>
 
   <main class="layout">
     <section class="device">
-      <div class="device-label">SomniLearnAI Edge Device · TFT 2.4"</div>
+      <div class="device-label">EmotiCare Edge Device · TFT 2.4"</div>
       <div id="tft" class="tft"></div>
-      <div id="btnRow" class="buttons">
+      <div class="buttons">
         <button class="btn" data-key="1">1</button>
         <button class="btn" data-key="2">2</button>
         <button class="btn" data-key="3">3</button>
         <button class="btn" data-key="4">4</button>
         <button class="btn" data-key="5">5</button>
       </div>
-      <div class="labels"><span>Mode</span><span>Action</span><span>Start</span><span>Next/+</span><span>Back/-</span></div>
+      <div class="labels"><span>Mode</span><span>Action</span><span>Start</span><span>Next</span><span>Back</span></div>
     </section>
 
     <section>
@@ -140,7 +225,7 @@
         <ul id="hints" class="hint-list"></ul>
       </div>
       <div class="panel">
-        <h2>Session Cache / Sync Log</h2>
+        <h2>Local Cache / Sync Log</h2>
         <div id="log" class="log"></div>
       </div>
     </section>
@@ -149,43 +234,80 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    const MODES = ["HOME", "STUDY", "SLEEP", "STATUS"];
     const state = {
-      mode: "HOME", screen: "home",
-      online: true, pending: 0,
-      pomodoroToday: 3, studyMinutes: 75, studyMin: 25, breakMin: 5,
-      timerRunning: false, timerPhase: "study", timerSec: 1500, configField: "study",
-      recording: false, recordSec: 0, seminarTarget: 180, seminarResult: null,
-      soundLevel: 42, lightLevel: 260, temp: 27, humidity: 62, co2: 780,
-      monitoring: false, sleepElapsed: 0, sleepScore: null, alarmEnabled: true, alarmTime: "07:00", alarmField: "hour",
-      statusPage: "summary"
+      screen: "home",
+      online: true,
+      pending: 0,
+      recording: false,
+      latestEmotion: "Chưa có",
+      latestConfidence: "--",
+      selectedActivity: null,
+      selectedMedia: "Chưa chọn",
+      mediaCategory: "Thư giãn",
+      reportPeriod: "Ngày",
+      dailyPositive: 42,
+      dailyStress: 28,
+      reportStatus: "Đã cập nhật"
     };
 
-    const META = {
-      home: { path: "HOME", hints: [[1, "Chuyển sang STUDY", true], [2, "Xem nhanh trạng thái thiết bị", true], [3, "Không dùng"], [4, "Không dùng"], [5, "Không dùng"]] },
-      study_menu: { path: "STUDY > Menu", hints: [[1, "Chuyển sang SLEEP", true], [2, "Mở Pomodoro Timer", true], [3, "Mở Seminar Practice", true], [4, "Xem nhanh thống kê học hôm nay", true], [5, "Quay HOME", true]] },
-      pomodoro: { path: "STUDY > Pomodoro", hints: [[2, "Quay Study Menu", true], [3, "Start/Pause", true], [4, "Reset phiên", true], [5, "Cấu hình Study/Break", true]] },
-      pomodoro_config: { path: "STUDY > Pomodoro Config", hints: [[2, "Lưu cấu hình", true], [3, "Chọn Study/Break", true], [4, "Tăng 1 phút", true], [5, "Giảm 1 phút", true]] },
-      seminar: { path: "STUDY > Seminar Practice", hints: [[2, "Quay Study Menu", true], [3, "Bắt đầu/Kết thúc ghi nhận", true], [4, "Xem trạng thái chấm điểm", true], [5, "Đổi target duration", true]] },
-      sleep_menu: { path: "SLEEP > Menu", hints: [[1, "Chuyển sang STATUS", true], [2, "Bắt đầu/dừng Sleep Monitoring", true], [3, "Xem realtime environment", true], [4, "Mở Alarm Setting", true], [5, "Quay Study Mode", true]] },
-      environment: { path: "SLEEP > Realtime Environment", hints: [[2, "Bắt đầu Sleep Monitoring", true], [4, "Mở Alarm Setting", true], [5, "Quay Sleep Menu", true]] },
-      monitoring: { path: "SLEEP > Monitoring", hints: [[2, "Dừng và tạo báo cáo ngủ", true], [4, "Xem báo thức hiện tại", true]] },
-      sleep_report: { path: "SLEEP > Report", hints: [[2, "Lưu report và quay Sleep Menu", true], [4, "Mở Alarm Setting", true]] },
-      alarm: { path: "SLEEP > Alarm Setting", hints: [[2, "Tăng giờ", true], [3, "Tăng phút", true], [4, "Bật/tắt alarm", true], [5, "Lưu và quay Sleep Menu", true]] },
-      status: { path: "STATUS > Sync", hints: [[1, "Quay HOME", true], [2, "Thử đồng bộ lại", true], [3, "Xem phiên chưa đồng bộ", true], [4, "Xem Wi-Fi/API", true], [5, "Quay Sleep Mode", true]] },
+    const objectives = [
+      { id: "O1", title: "SMART Objective 1", text: "Speech Emotion Recognition trên Edge trong 15 giây.", screens: ["checkin", "result"] },
+      { id: "O2", title: "SMART Objective 2", text: "Gợi ý hoạt động, bài hát, podcast hoặc phản hồi qua Cloud trong 20 giây.", screens: ["support", "activity", "media", "conversation"] },
+      { id: "O3", title: "SMART Objective 3", text: "Báo cáo rút gọn trên TFT trong 180 giây.", screens: ["status", "report"] }
+    ];
+
+    const meta = {
+      home: {
+        path: "HOME",
+        hints: [[1, "Check-in cảm xúc", true], [2, "Gợi ý hoạt động"], [3, "Nhạc/Podcast"], [4, "Trò chuyện"], [5, "Báo cáo ngày/tháng/năm"]]
+      },
+      checkin: {
+        path: "HOME > CHECK-IN",
+        hints: [[2, "Hủy và quay về HOME"], [3, "Bắt đầu/dừng ghi âm", true], [4, "Xem trạng thái microphone"], [5, "Quay về HOME"]]
+      },
+      result: {
+        path: "HOME > CHECK-IN > RESULT",
+        hints: [[2, "Check-in lại"], [3, "Mở hỗ trợ cảm xúc", true], [4, "Lưu và đồng bộ"], [5, "Quay về HOME"]]
+      },
+      support: {
+        path: "RESULT > SUPPORT",
+        hints: [[2, "Xem gợi ý hoạt động/nội dung", true], [3, "Chọn bài hát/podcast", true], [4, "Mở trò chuyện hỗ trợ"], [5, "Quay RESULT"]]
+      },
+      activity: {
+        path: "ACTIVITY",
+        hints: [[1, "Quay HOME"], [2, "Chọn hoạt động đầu tiên", true], [3, "Đánh giá hoạt động"], [4, "Gợi ý khác"], [5, "Báo cáo"]]
+      },
+      media: {
+        path: "MUSIC-PODCAST",
+        hints: [[1, "Đổi category"], [2, "Chọn bài hát", true], [3, "Chọn podcast", true], [4, "Lưu nội dung"], [5, "Quay HOME"]]
+      },
+      conversation: {
+        path: "CONVERSATION",
+        hints: [[1, "Quay HOME"], [2, "Gửi chia sẻ ngắn", true], [3, "Nhận phản hồi tiếp theo"], [4, "Lưu metadata"], [5, "Kết thúc hội thoại"]]
+      },
+      status: {
+        path: "STATUS",
+        hints: [[1, "Quay HOME"], [2, "Sync now", true], [3, "Xem pending sessions"], [4, "Bật/tắt online mô phỏng"], [5, "Mở REPORT"]]
+      },
+      report: {
+        path: "REPORT",
+        hints: [[1, "Quay HOME"], [2, "Ngày"], [3, "Tháng"], [4, "Năm"], [5, "Mở STATUS"]]
+      }
     };
 
-    function fmt(sec) { return `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`; }
-    function elapsed(sec) { return `${Math.floor(sec / 3600)}h ${String(Math.floor(sec % 3600 / 60)).padStart(2, "0")}m`; }
-    function resetTimer() { state.timerSec = (state.timerPhase === "study" ? state.studyMin : state.breakMin) * 60; }
-    function pushSession(type, label) {
-      state.pending += state.online ? 0 : 1;
-      log(`${type}: ${label} ${state.online ? "-> synced to API Server" : "-> saved to Local Session Cache"}`);
-    }
+    const emotions = [
+      { label: "Căng thẳng", confidence: "0.84", activity: "Hít thở 4-7-8 trong 2 phút", media: "Podcast thở chậm 5 phút" },
+      { label: "Mệt mỏi", confidence: "0.79", activity: "Nghỉ 5 phút và uống nước", media: "Playlist phục hồi năng lượng" },
+      { label: "Bình thường", confidence: "0.81", activity: "Vận động nhẹ trong 3 phút", media: "Nhạc nền tập trung nhẹ" },
+      { label: "Buồn bã", confidence: "0.77", activity: "Viết 3 câu về cảm xúc hiện tại", media: "Podcast chia sẻ cảm xúc" }
+    ];
+
+    function currentMeta() { return meta[state.screen] || meta.home; }
     function toast(msg) {
       const t = document.getElementById("toast");
-      t.textContent = msg; t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 1700);
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1600);
     }
     function log(msg) {
       const el = document.getElementById("log");
@@ -194,261 +316,195 @@
       el.prepend(line);
       while (el.children.length > 50) el.lastChild.remove();
     }
-    function nextMode() {
-      const next = MODES[(MODES.indexOf(state.mode) + 1) % MODES.length];
-      state.mode = next;
-      state.screen = next === "HOME" ? "home" : next === "STATUS" ? "status" : `${next.toLowerCase()}_menu`;
-      state.timerRunning = state.recording = state.monitoring = false;
-      state.seminarResult = state.sleepScore = null;
-      log(`Mode -> ${next}`);
-      render();
-    }
-
-    function renderTFT() {
-      let body = "";
-      switch (state.screen) {
-        case "home":
-          body = `<div class="center warn">SomniLearnAI</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Time</label><div class="val">${new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"})}</div></div>
-              <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
-              <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
-              <div class="metric"><label>Alarm</label><div class="val">${state.alarmEnabled ? state.alarmTime : "OFF"}</div></div>
-            </div>
-            <div class="status-bar">HOME -> STUDY -> SLEEP -> STATUS</div>`;
-          break;
-        case "study_menu":
-          body = `<div class="warn">Objective 1: Study Support</div>
-            <div class="menu-item">[2] Pomodoro Timer</div>
-            <div class="menu-item">[3] Seminar Practice</div>
-            <div class="menu-item">[4] Today Study Summary</div>
-            <div class="status-bar">${state.pomodoroToday} Pomodoro · ${state.studyMinutes} focus min</div>`;
-          break;
-        case "pomodoro":
-          body = `<div class="center">${state.timerPhase === "study" ? "STUDY SESSION" : "BREAK TIME"}</div>
-            <div class="timer">${fmt(state.timerSec)}</div>
-            <div class="center ${state.timerRunning ? "good" : "warn"}">${state.timerRunning ? "RUNNING" : "PAUSED"}</div>
-            <div class="status-bar">Study ${state.studyMin}m · Break ${state.breakMin}m · Done ${state.pomodoroToday}</div>`;
-          break;
-        case "pomodoro_config":
-          body = `<div class="config-row ${state.configField === "study" ? "selected" : ""}"><span>Study Time</span><span>${state.studyMin} min</span></div>
-            <div class="config-row ${state.configField === "break" ? "selected" : ""}"><span>Break Time</span><span>${state.breakMin} min</span></div>
-            <div class="status-bar">[2] Save · [3] Field · [4/5] +/-</div>`;
-          break;
-        case "seminar":
-          body = state.seminarResult ? `<div class="warn">Presentation Score</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Score</label><div class="val good">${state.seminarResult.score}/100</div></div>
-              <div class="metric"><label>Duration</label><div class="val">${fmt(state.recordSec)}</div></div>
-              <div class="metric"><label>Speech Rate</label><div class="val">${state.seminarResult.wpm} WPM</div></div>
-              <div class="metric"><label>Status</label><div class="val ${state.online ? "good" : "warn"}">${state.online ? "SCORED" : "PENDING"}</div></div>
-            </div>` :
-            `<div>${state.recording ? '<span class="dot"></span>RECORDING ' + fmt(state.recordSec) : "Ready to record seminar"}</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Target</label><div class="val">${fmt(state.seminarTarget)}</div></div>
-              <div class="metric"><label>Server</label><div class="val ${state.online ? "good" : "warn"}">${state.online ? "READY" : "OFFLINE"}</div></div>
-            </div>
-            <div class="status-bar">[3] Start/Stop · [4] Score status</div>`;
-          break;
-        case "sleep_menu":
-          body = `<div class="warn">Objective 2: Sleep Management</div>
-            <div class="menu-item">[2] Sleep Monitoring Edge AI</div>
-            <div class="menu-item">[3] Realtime Environment</div>
-            <div class="menu-item">[4] Alarm Setting</div>
-            <div class="status-bar">Alarm ${state.alarmEnabled ? state.alarmTime : "OFF"} · CO2 ${state.co2} ppm</div>`;
-          break;
-        case "environment":
-          body = `<div class="metric-grid">
-              <div class="metric"><label>Light</label><div class="val">${state.lightLevel} lux</div></div>
-              <div class="metric"><label>Noise</label><div class="val">${state.soundLevel} dB</div></div>
-              <div class="metric"><label>Temp</label><div class="val">${state.temp} C</div></div>
-              <div class="metric"><label>Humidity/CO2</label><div class="val">${state.humidity}% · ${state.co2}</div></div>
-            </div>
-            <div class="status-bar ${state.soundLevel > 52 || state.lightLevel > 330 ? "warn" : "good"}">${state.soundLevel > 52 || state.lightLevel > 330 ? "Environment may affect sleep" : "Environment looks suitable"}</div>`;
-          break;
-        case "monitoring":
-          body = `<div class="warn"><span class="dot"></span>SLEEP MONITORING</div>
-            <div class="timer" style="font-size:1.6rem">${elapsed(state.sleepElapsed)}</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Noise</label><div class="val">${state.soundLevel} dB</div></div>
-              <div class="metric"><label>Light</label><div class="val">${state.lightLevel} lux</div></div>
-            </div>
-            <div class="status-bar">[2] Stop and generate report</div>`;
-          break;
-        case "sleep_report":
-          body = `<div class="center warn">Sleep Report</div>
-            <div class="timer good">${state.sleepScore}/100</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Duration</label><div class="val">${elapsed(state.sleepElapsed)}</div></div>
-              <div class="metric"><label>Main Factor</label><div class="val">${state.soundLevel > 52 ? "Noise" : "Light"}</div></div>
-            </div>
-            <div class="status-bar">Saved for dashboard monthly summary</div>`;
-          break;
-        case "alarm":
-          body = `<div class="center warn">Alarm Setting</div>
-            <div class="timer">${state.alarmTime}</div>
-            <div class="config-row"><span>Status</span><span class="${state.alarmEnabled ? "good" : "bad"}">${state.alarmEnabled ? "ON" : "OFF"}</span></div>
-            <div class="status-bar">[2] +Hour · [3] +Min · [4] On/Off · [5] Save</div>`;
-          break;
-        case "status":
-          body = `<div class="warn">Objective 3: Session Dashboard</div>
-            <div class="metric-grid">
-              <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
-              <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
-              <div class="metric"><label>API</label><div class="val">${state.online ? "<60s sync" : "waiting"}</div></div>
-              <div class="metric"><label>Dashboard</label><div class="val">Study/Sleep/Presentation</div></div>
-            </div>
-            <div class="status-bar">[2] Sync · [3] Pending · [4] Toggle Wi-Fi</div>`;
-          break;
+    function syncSession(reason) {
+      if (state.online) {
+        state.pending = Math.max(0, state.pending - 1);
+        log(`${reason} -> synced to /api/emotion-sessions/sync`);
+      } else {
+        state.pending += 1;
+        log(`${reason} -> saved to local cache`);
       }
-      document.getElementById("tft").innerHTML = `<div class="screen-title"><span>${state.mode}</span><span class="mode-badge">${state.screen.replaceAll("_", " ").toUpperCase()}</span></div><div class="screen-body">${body}</div>`;
     }
+    function createEmotionResult() {
+      const picked = emotions[Math.floor(Math.random() * emotions.length)];
+      state.latestEmotion = picked.label;
+      state.latestConfidence = picked.confidence;
+      state.selectedActivity = picked.activity;
+      state.selectedMedia = picked.media;
+      syncSession(`Emotion session: ${picked.label} (${picked.confidence})`);
+    }
+    function keyAction(key) {
+      document.querySelector(`[data-key="${key}"]`)?.classList.add("pressed");
+      setTimeout(() => document.querySelector(`[data-key="${key}"]`)?.classList.remove("pressed"), 120);
 
-    function objective() {
-      if (state.mode === "STUDY") return "o1";
-      if (state.mode === "SLEEP") return "o2";
-      if (state.mode === "STATUS") return "o3";
-      return "";
-    }
-    function renderSide() {
-      const active = objective();
-      const items = [
-        ["o1", "Objective 1", "Pomodoro, focus minutes, seminar score"],
-        ["o2", "Objective 2", "Sleep report, alarm, light/noise/temp/humidity/CO2"],
-        ["o3", "Objective 3", "Sync within 60 seconds and dashboard statistics"]
-      ];
-      document.getElementById("objectiveMap").innerHTML = items.map(([id, title, text]) => `<div class="objective-card ${active === id ? "active" : ""}"><strong>${title}</strong>${text}</div>`).join("");
-      const meta = META[state.screen] || META.home;
-      document.getElementById("breadcrumb").textContent = meta.path;
-      document.getElementById("hints").innerHTML = meta.hints.map(([k, text, primary]) => `<li><span class="key ${primary ? "primary" : ""}">${k}</span><span>${text}</span></li>`).join("");
-    }
-    function render() { renderTFT(); renderSide(); }
-
-    function handleKey(k) {
-      k = String(k);
-      if (k === "1") return nextMode();
-      log(`Button ${k} @ ${state.screen}`);
-      switch (state.screen) {
-        case "home":
-          if (k === "2") { state.mode = "STATUS"; state.screen = "status"; }
-          break;
-        case "study_menu":
-          if (k === "2") { state.screen = "pomodoro"; resetTimer(); }
-          if (k === "3") { state.screen = "seminar"; state.recordSec = 0; state.recording = false; state.seminarResult = null; }
-          if (k === "4") toast(`${state.pomodoroToday} Pomodoro, ${state.studyMinutes} focus minutes today`);
-          if (k === "5") { state.mode = "HOME"; state.screen = "home"; }
-          break;
-        case "pomodoro":
-          if (k === "2") { state.screen = "study_menu"; state.timerRunning = false; }
-          if (k === "3") state.timerRunning = !state.timerRunning;
-          if (k === "4") { state.timerRunning = false; resetTimer(); }
-          if (k === "5") state.screen = "pomodoro_config";
-          break;
-        case "pomodoro_config":
-          if (k === "2") { state.screen = "pomodoro"; resetTimer(); toast("Pomodoro config saved"); }
-          if (k === "3") state.configField = state.configField === "study" ? "break" : "study";
-          if (k === "4") state.configField === "study" ? state.studyMin++ : state.breakMin++;
-          if (k === "5") state.configField === "study" ? state.studyMin = Math.max(1, state.studyMin - 1) : state.breakMin = Math.max(1, state.breakMin - 1);
-          break;
-        case "seminar":
-          if (k === "2") { state.screen = "study_menu"; state.recording = false; }
-          if (k === "3") state.recording = !state.recording;
-          if (k === "4") {
-            if (state.recordSec === 0) toast("Record first");
-            else {
-              state.recording = false;
-              state.seminarResult = { score: 78 + Math.floor(Math.random() * 16), wpm: 112 + Math.floor(Math.random() * 28) };
-              pushSession("Presentation Session", `score ${state.seminarResult.score}/100`);
-            }
+      if (state.screen === "home") {
+        if (key === "1") state.screen = "checkin";
+        if (key === "2") state.screen = "activity";
+        if (key === "3") state.screen = "media";
+        if (key === "4") state.screen = "conversation";
+        if (key === "5") state.screen = "report";
+      } else if (state.screen === "checkin") {
+        if (key === "2" || key === "5") state.screen = "home";
+        if (key === "3") {
+          state.recording = !state.recording;
+          if (!state.recording) {
+            createEmotionResult();
+            state.screen = "result";
+          } else {
+            toast("Đang nghe...");
           }
-          if (k === "5") { state.seminarTarget += 60; if (state.seminarTarget > 600) state.seminarTarget = 120; }
-          break;
-        case "sleep_menu":
-          if (k === "2") { state.screen = "monitoring"; state.monitoring = true; state.sleepElapsed = 0; }
-          if (k === "3") state.screen = "environment";
-          if (k === "4") state.screen = "alarm";
-          if (k === "5") { state.mode = "STUDY"; state.screen = "study_menu"; }
-          break;
-        case "environment":
-          if (k === "2") { state.screen = "monitoring"; state.monitoring = true; state.sleepElapsed = 0; }
-          if (k === "4") state.screen = "alarm";
-          if (k === "5") state.screen = "sleep_menu";
-          break;
-        case "monitoring":
-          if (k === "2") {
-            state.monitoring = false;
-            state.sleepScore = 68 + Math.floor(Math.random() * 25);
-            state.screen = "sleep_report";
-            pushSession("Sleep Session", `score ${state.sleepScore}/100`);
-          }
-          if (k === "4") state.screen = "alarm";
-          break;
-        case "sleep_report":
-          if (k === "2") { state.screen = "sleep_menu"; state.sleepScore = null; }
-          if (k === "4") state.screen = "alarm";
-          break;
-        case "alarm":
-          if (k === "2") {
-            const h = (Number(state.alarmTime.slice(0,2)) + 1) % 24;
-            state.alarmTime = `${String(h).padStart(2, "0")}:${state.alarmTime.slice(3)}`;
-          }
-          if (k === "3") {
-            const m = (Number(state.alarmTime.slice(3)) + 5) % 60;
-            state.alarmTime = `${state.alarmTime.slice(0,2)}:${String(m).padStart(2, "0")}`;
-          }
-          if (k === "4") state.alarmEnabled = !state.alarmEnabled;
-          if (k === "5") { state.screen = "sleep_menu"; toast("Alarm saved locally"); }
-          break;
-        case "status":
-          if (k === "2") {
-            if (!state.online) toast("Offline - cannot sync");
-            else { log(`Synced ${state.pending} pending session(s) to dashboard`); state.pending = 0; toast("Dashboard updated"); }
-          }
-          if (k === "3") toast(`${state.pending} pending session(s)`);
-          if (k === "4") { state.online = !state.online; toast(state.online ? "Wi-Fi connected" : "Wi-Fi disconnected"); }
-          if (k === "5") { state.mode = "SLEEP"; state.screen = "sleep_menu"; }
-          break;
-      }
-      render();
-    }
-
-    function tick() {
-      if (state.timerRunning && state.screen === "pomodoro") {
-        state.timerSec--;
-        if (state.timerSec <= 0) {
-          state.timerRunning = false;
-          if (state.timerPhase === "study") { state.pomodoroToday++; state.studyMinutes += state.studyMin; pushSession("Study Session", `${state.studyMin} focus minutes`); }
-          state.timerPhase = state.timerPhase === "study" ? "break" : "study";
-          resetTimer();
-          toast("Session complete");
         }
+      } else if (state.screen === "result") {
+        if (key === "2") state.screen = "checkin";
+        if (key === "3") state.screen = "support";
+        if (key === "4") syncSession("Manual result sync");
+        if (key === "5") state.screen = "home";
+      } else if (state.screen === "support") {
+        if (key === "2") state.screen = "activity";
+        if (key === "3") state.screen = "media";
+        if (key === "4") state.screen = "conversation";
+        if (key === "5") state.screen = "result";
+      } else if (state.screen === "activity") {
+        if (key === "1") state.screen = "home";
+        if (key === "2") { log(`Activity selected: ${state.selectedActivity}`); toast("Đã chọn hoạt động"); }
+        if (key === "3") { log("Activity feedback: helpful"); toast("Đã lưu đánh giá"); }
+        if (key === "4") { state.selectedActivity = "Thiền ngắn 3 phút"; toast("Đã đổi gợi ý"); }
+        if (key === "5") state.screen = "report";
+      } else if (state.screen === "media") {
+        if (key === "1") {
+          const categories = ["Thư giãn", "Tập trung", "Ngủ nghỉ", "Vui vẻ", "Xoa dịu buồn bã", "Giải tỏa tức giận", "Phục hồi năng lượng"];
+          const idx = categories.indexOf(state.mediaCategory);
+          state.mediaCategory = categories[(idx + 1) % categories.length];
+          toast(state.mediaCategory);
+        }
+        if (key === "2") { state.selectedMedia = "Bài hát: Calm Focus"; log(`Song selected: ${state.selectedMedia}`); }
+        if (key === "3") { state.selectedMedia = "Podcast: 5 phút thở chậm"; log(`Podcast selected: ${state.selectedMedia}`); }
+        if (key === "4") { log(`Media feedback saved: ${state.selectedMedia}`); toast("Đã lưu nội dung"); }
+        if (key === "5") state.screen = "home";
+      } else if (state.screen === "conversation") {
+        if (key === "1") state.screen = "home";
+        if (key === "2") { log("Conversation input captured"); toast("Đã nhận chia sẻ"); }
+        if (key === "3") toast("Mình nghe bạn. Hãy thử thở chậm một chút nhé.");
+        if (key === "4") log("Conversation metadata saved with consent");
+        if (key === "5") state.screen = "home";
+      } else if (state.screen === "status") {
+        if (key === "1") state.screen = "home";
+        if (key === "2") syncSession("Retry pending sessions");
+        if (key === "3") toast(`${state.pending} phiên pending`);
+        if (key === "4") { state.online = !state.online; toast(state.online ? "Online" : "Offline"); }
+        if (key === "5") state.screen = "report";
+      } else if (state.screen === "report") {
+        if (key === "1") state.screen = "home";
+        if (key === "2") { state.reportPeriod = "Ngày"; toast("Báo cáo ngày"); }
+        if (key === "3") { state.reportPeriod = "Tháng"; toast("Báo cáo tháng"); }
+        if (key === "4") { state.reportPeriod = "Năm"; toast("Báo cáo năm"); }
+        if (key === "5") state.screen = "status";
       }
-      if (state.recording && state.screen === "seminar") state.recordSec++;
-      if (state.monitoring && state.screen === "monitoring") state.sleepElapsed += 60;
-      state.soundLevel = 36 + Math.floor(Math.random() * 24);
-      state.lightLevel = 230 + Math.floor(Math.random() * 140);
-      state.temp = 25 + Math.floor(Math.random() * 5);
-      state.humidity = 55 + Math.floor(Math.random() * 18);
-      state.co2 = 650 + Math.floor(Math.random() * 360);
-      renderTFT();
+      render();
     }
-
-    document.getElementById("btnRow").addEventListener("click", (e) => {
-      const btn = e.target.closest(".btn"); if (!btn) return;
-      btn.classList.add("pressed"); setTimeout(() => btn.classList.remove("pressed"), 120);
-      handleKey(btn.dataset.key);
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key >= "1" && e.key <= "5") {
-        e.preventDefault();
-        const btn = document.querySelector(`.btn[data-key="${e.key}"]`);
-        btn?.classList.add("pressed"); setTimeout(() => btn?.classList.remove("pressed"), 120);
-        handleKey(e.key);
+    function renderTft() {
+      let body = "";
+      if (state.screen === "home") {
+        body = `<div class="center warn">EmotiCare AIoT</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
+            <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
+            <div class="metric"><label>Emotion</label><div class="val">${state.latestEmotion}</div></div>
+            <div class="metric"><label>Confidence</label><div class="val">${state.latestConfidence}</div></div>
+          </div>
+          <div class="status-bar">[1] Check-in · [2] Activity · [3] Music · [4] Chat · [5] Report</div>`;
       }
+      if (state.screen === "checkin") {
+        body = `<div class="center ${state.recording ? "bad" : "warn"}">${state.recording ? '<span class="dot"></span>ĐANG NGHE' : 'SẴN SÀNG CHECK-IN'}</div>
+          <div class="message">Hãy nói một câu ngắn về cảm xúc hiện tại của bạn.</div>
+          <div class="status-bar">[3] Start/Stop · xử lý Edge AI trong 15 giây</div>`;
+      }
+      if (state.screen === "result") {
+        body = `<div class="center">Kết quả cảm xúc</div>
+          <div class="emotion">${state.latestEmotion}</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Confidence</label><div class="val">${state.latestConfidence}</div></div>
+            <div class="metric"><label>Session</label><div class="val ${state.online ? "good" : "warn"}">${state.online ? "SYNCED" : "PENDING"}</div></div>
+          </div>
+          <div class="status-bar">[3] Nhận hỗ trợ · [2] Check-in lại</div>`;
+      }
+      if (state.screen === "support") {
+        body = `<div class="warn">Bạn muốn được hỗ trợ theo cách nào?</div>
+          <div class="menu-item">[2] Gợi ý hoạt động/nội dung</div>
+          <div class="menu-item">[3] Nhạc / Podcast</div>
+          <div class="menu-item">[4] Trò chuyện hỗ trợ</div>
+          <div class="status-bar">Objective 2 · Cloud phản hồi trong 20 giây</div>`;
+      }
+      if (state.screen === "activity") {
+        body = `<div class="warn">Gợi ý phù hợp</div>
+          <div class="message">${state.selectedActivity || "Hít thở chậm trong 2 phút"}</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Emotion</label><div class="val">${state.latestEmotion}</div></div>
+            <div class="metric"><label>Context</label><div class="val">${state.latestConfidence === "--" ? "General" : "Emotion"}</div></div>
+          </div>
+          <div class="status-bar">[1] Home · [2] Chọn · [3] Đánh giá · [4] Khác · [5] Report</div>`;
+      }
+      if (state.screen === "media") {
+        body = `<div class="warn">Nhạc / Podcast theo chủ đích</div>
+          <div class="message">${state.selectedMedia}</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Category</label><div class="val">${state.mediaCategory}</div></div>
+            <div class="metric"><label>Emotion</label><div class="val">${state.latestEmotion}</div></div>
+            <div class="metric"><label>Song</label><div class="val">Calm Focus</div></div>
+            <div class="metric"><label>Podcast</label><div class="val">5 phút thở</div></div>
+          </div>
+          <div class="status-bar">[1] Category · [2] Song · [3] Podcast · [4] Lưu</div>`;
+      }
+      if (state.screen === "conversation") {
+        body = `<div class="warn">Trò chuyện hỗ trợ</div>
+          <div class="message">Mình đang lắng nghe. ${state.latestConfidence === "--" ? "Bạn có thể chia sẻ điều đang xảy ra hôm nay." : `Cảm xúc "${state.latestEmotion}" có vẻ đang hiện diện khá rõ.`} Bạn muốn kể thêm một chút không?</div>
+          <div class="status-bar">[1] Home · [2] Nói tiếp · [3] Phản hồi · [5] Kết thúc</div>`;
+      }
+      if (state.screen === "status") {
+        body = `<div class="warn">Trạng thái đồng bộ</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Network</label><div class="val ${state.online ? "good" : "bad"}">${state.online ? "ONLINE" : "OFFLINE"}</div></div>
+            <div class="metric"><label>Pending</label><div class="val ${state.pending ? "warn" : "good"}">${state.pending}</div></div>
+            <div class="metric"><label>API</label><div class="val">${state.online ? "OK" : "--"}</div></div>
+            <div class="metric"><label>Last Sync</label><div class="val">Just now</div></div>
+          </div>
+          <div class="status-bar">[2] Sync now · [4] Toggle online</div>`;
+      }
+      if (state.screen === "report") {
+        const report = {
+          "Ngày": { pos: 35, stress: 25, trend: "Tối tăng nhẹ", best: "Breathing", content: "Podcast thở" },
+          "Tháng": { pos: 28, stress: 20, trend: "Ổn định hơn", best: "Nghỉ 5 phút", content: "Focus list" },
+          "Năm": { pos: 30, stress: 22, trend: "Tích cực tăng", best: "Vận động nhẹ", content: "Self-care" }
+        }[state.reportPeriod];
+        body = `<div class="warn">Báo cáo ${state.reportPeriod}</div>
+          <div class="metric-grid">
+            <div class="metric"><label>Tích cực</label><div class="val good">${report.pos}%</div></div>
+            <div class="metric"><label>Căng thẳng</label><div class="val warn">${report.stress}%</div></div>
+            <div class="metric"><label>Trend</label><div class="val">${report.trend}</div></div>
+            <div class="metric"><label>Best</label><div class="val">${report.best}</div></div>
+          </div>
+          <div class="status-bar">[2] Ngày · [3] Tháng · [4] Năm · content: ${report.content}</div>`;
+      }
+      return `<div class="screen-title"><span>${currentMeta().path}</span><span class="mode-badge">EmotiCare</span></div><div class="screen-body">${body}</div>`;
+    }
+    function render() {
+      document.getElementById("tft").innerHTML = renderTft();
+      document.getElementById("breadcrumb").textContent = currentMeta().path;
+      document.getElementById("hints").innerHTML = currentMeta().hints.map(([key, text, primary]) =>
+        `<li><span class="key ${primary ? "primary" : ""}">${key}</span><span>${text}</span></li>`
+      ).join("");
+      document.getElementById("objectiveMap").innerHTML = objectives.map(o => `
+        <div class="objective-card ${o.screens.includes(state.screen) ? "active" : ""}">
+          <strong>${o.title}</strong>${o.text}
+        </div>
+      `).join("");
+    }
+    document.querySelectorAll(".btn").forEach(btn => btn.addEventListener("click", () => keyAction(btn.dataset.key)));
+    window.addEventListener("keydown", e => {
+      if ("12345".includes(e.key)) keyAction(e.key);
     });
-    setInterval(tick, 1000);
+    log("EmotiCare screen flow ready");
     render();
-    log("SomniLearnAI simulator ready");
   </script>
 </body>
 </html>
