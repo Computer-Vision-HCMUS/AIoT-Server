@@ -1,0 +1,566 @@
+﻿% !TEX encoding = UTF-8 Unicode
+\documentclass[12pt,aspectratio=169]{beamer}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+% ====== THEME & COLORS ======
+\usetheme{Madrid}
+\definecolor{ecBlue}{RGB}{30,90,180}
+\definecolor{ecLight}{RGB}{235,242,250}
+\definecolor{ecGray}{RGB}{90,90,90}
+\setbeamercolor{structure}{fg=ecBlue}
+\setbeamercolor{title}{fg=white,bg=ecBlue}
+\setbeamercolor{frametitle}{fg=white,bg=ecBlue}
+\setbeamercolor{block title}{fg=white,bg=ecBlue}
+\setbeamercolor{block body}{bg=ecLight}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\color{ecBlue}\textbullet}
+\setbeamertemplate{itemize subitem}{\color{ecGray}--}
+\setbeamerfont{frametitle}{size=\large\bfseries}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title[EmotiCare AIoT]{ĐẶC TẢ HỆ THỐNG \\ \textbf{EmotiCare AIoT}}
+\subtitle{Thiết bị AIoT thông minh đồng hành và chăm sóc sức khỏe cảm xúc}
+\author{Trần Hải Đức \quad Nguyễn Trọng Tài \quad Nguyễn Công Chiến \quad Phạm Nguyễn Gia Bảo}
+\institute{Trường Đại học Khoa học Tự nhiên --- ĐHQG TP.HCM \\ Khoa Công nghệ Thông tin \quad Lớp 23CLC02}
+\date{Tháng 6/2026}
+
+\begin{document}
+
+% ===================== SLIDE TRANG BÌA =====================
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% ===================== MỤC LỤC =====================
+\begin{frame}{Nội dung trình bày}
+  \tableofcontents
+\end{frame}
+
+% ===================== SECTION 00: GIỚI THIỆU =====================
+\section{Giới thiệu sản phẩm}
+
+\begin{frame}{Định vị sản phẩm}
+  \begin{block}{EmotiCare AIoT là gì?}
+    Thiết bị AIoT giúp người dùng \textbf{nhận biết, thấu hiểu và quản lý cảm xúc}
+    trong cuộc sống hằng ngày thông qua giọng nói.
+  \end{block}
+  \vspace{0.3cm}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \textbf{Cách tiếp cận:} Edge-first nhưng Cloud-assisted
+    \begin{itemize}
+      \item Nhận diện cảm xúc cốt lõi xử lý tại \textbf{Edge} (nhanh, riêng tư)
+      \item Gợi ý, trò chuyện, báo cáo dài hạn dùng \textbf{Cloud}
+      \item Mọi kết quả hiển thị trên \textbf{TFT screen}
+    \end{itemize}
+    \column{0.5\textwidth}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.9]
+      \node[draw,rounded corners,fill=ecLight,minimum width=2.6cm,minimum height=1cm] (edge) at (0,0) {Edge Device};
+      \node[draw,rounded corners,fill=ecLight,minimum width=2.6cm,minimum height=1cm] (cloud) at (0,-1.6) {Cloud Service};
+      \node[draw,rounded corners,fill=ecBlue,text=white,minimum width=2.6cm,minimum height=1cm] (tft) at (0,-3.2) {TFT Screen};
+      \draw[-{Latex}] (edge) -- (cloud);
+      \draw[-{Latex}] (cloud) -- (tft);
+      \draw[-{Latex}] (edge) to[bend left=60] (tft);
+    \end{tikzpicture}
+    \end{center}
+  \end{columns}
+  \vspace{0.2cm}
+  \centering \textit{``EmotiCare AIoT -- Understand your feelings, care for your mind.''}
+\end{frame}
+
+\begin{frame}{Mục đích sản phẩm}
+  \begin{itemize}
+    \item Nhận diện cảm xúc trong \textbf{15 giây} sau khi tương tác giọng nói hợp lệ
+    \item Đưa ra hoạt động/bài hát/podcast/phản hồi đồng cảm trong \textbf{20 giây} (khi có Internet)
+    \item Lưu lại từng phiên cảm xúc để xem lại lịch sử
+    \item Tạo báo cáo cảm xúc theo \textbf{ngày, tuần, tháng, năm} trong \textbf{180 giây}
+    \item Phân tích hiệu quả hoạt động/nội dung để gợi ý ngày càng phù hợp hơn
+  \end{itemize}
+\end{frame}
+
+% ===================== SECTION 01: BACKGROUND =====================
+\section{Background}
+
+\begin{frame}{Bối cảnh \& Vấn đề}
+  \begin{table}
+  \small
+  \begin{tabularx}{\textwidth}{|L{3.2cm}|X|X|}
+  \hline
+  \textbf{Vấn đề} & \textbf{Hệ quả} & \textbf{Giải pháp EmotiCare} \\
+  \hline
+  Ít ghi nhận cảm xúc hằng ngày & Không thấy xu hướng dài hạn & Check-in giọng nói + emotion session \\
+  \hline
+  Cảm xúc tiêu cực kéo dài khó phát hiện & Căng thẳng, buồn bã kéo dài & Báo cáo ngày/tuần/tháng/năm \\
+  \hline
+  Gợi ý tinh thần chung chung & Khó biết hoạt động phù hợp & Gợi ý theo cảm xúc + lịch sử feedback \\
+  \hline
+  Dữ liệu giọng nói nhạy cảm & Lo ngại quyền riêng tư & Edge AI, không upload audio thô \\
+  \hline
+  \end{tabularx}
+  \end{table}
+\end{frame}
+
+\begin{frame}{Nguồn cảm hứng \& Sản phẩm tương tự}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \textbf{Nguồn cảm hứng: EMO (LivingAI)}
+    \begin{itemize}
+      \item AI desktop pet, biết phản hồi, tạo cảm giác đồng hành
+      \item EmotiCare kế thừa tinh thần gần gũi, chuyển trọng tâm sang \textbf{chăm sóc cảm xúc có dữ liệu}
+    \end{itemize}
+    \column{0.5\textwidth}
+    \textbf{So sánh nhanh}
+    \begin{itemize}
+      \item \textbf{EMO}: giải trí, cá tính, không tập trung SER
+      \item \textbf{ElliQ}: companion cho người lớn tuổi, wellness
+      \item \textbf{EmotiCare AIoT}: SER cốt lõi tại Edge + báo cáo xu hướng trên TFT
+    \end{itemize}
+  \end{columns}
+  \vspace{0.3cm}
+  \begin{block}{Định vị rõ ràng}
+    Không chẩn đoán bệnh lý, không thay thế chuyên gia --- chỉ hỗ trợ \textbf{tự chăm sóc} cảm xúc.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Người dùng mục tiêu}
+  \begin{table}
+  \small
+  \begin{tabularx}{\textwidth}{|L{3.5cm}|X|X|}
+  \hline
+  \textbf{Nhóm} & \textbf{Nhu cầu chính} & \textbf{Giá trị sản phẩm} \\
+  \hline
+  Sinh viên & Theo dõi căng thẳng, áp lực học tập & Check-in nhanh, gợi ý nghỉ ngơi \\
+  \hline
+  Người đi làm & Quản lý stress trong ngày làm việc & Nhận biết thời điểm căng thẳng \\
+  \hline
+  Người quan tâm wellness & Xây thói quen chăm sóc tinh thần & Báo cáo định kỳ \\
+  \hline
+  Gia đình/người chăm sóc & Góc nhìn tổng quan (nếu được chia sẻ) & Báo cáo không xâm phạm riêng tư \\
+  \hline
+  \end{tabularx}
+  \end{table}
+\end{frame}
+
+\begin{frame}{Từ mục đích suy ra 3 SMART Objective}
+  \centering
+  \begin{tikzpicture}[node distance=0.7cm, scale=0.95, every node/.style={scale=0.95}]
+    \node[draw,rounded corners,fill=ecBlue,text=white,minimum width=8cm,minimum height=1cm] (purpose) {Giúp người dùng nhận biết \& chăm sóc cảm xúc};
+    \node[draw,rounded corners,fill=ecLight,minimum width=3.7cm,minimum height=1.3cm,below left=1.3cm and -2.3cm of purpose,align=center] (o1) {\textbf{Objective 1}\\Nhận diện cảm xúc\\(Edge AI -- 15s)};
+    \node[draw,rounded corners,fill=ecLight,minimum width=3.7cm,minimum height=1.3cm,below=1.3cm of purpose,align=center] (o2) {\textbf{Objective 2}\\Hỗ trợ đúng lúc\\(Cloud -- 20s)};
+    \node[draw,rounded corners,fill=ecLight,minimum width=3.7cm,minimum height=1.3cm,below right=1.3cm and -2.3cm of purpose,align=center] (o3) {\textbf{Objective 3}\\Báo cáo xu hướng\\(Cloud -- 180s)};
+    \draw[-{Latex}] (purpose) -- (o1);
+    \draw[-{Latex}] (purpose) -- (o2);
+    \draw[-{Latex}] (purpose) -- (o3);
+  \end{tikzpicture}
+\end{frame}
+
+% ===================== SECTION 02: KIẾN TRÚC =====================
+\section{Kiến trúc \& Phần cứng}
+
+\begin{frame}{Kiến trúc tổng quan: Edge -- Cloud -- TFT}
+  \centering
+  \begin{tikzpicture}[scale=1, every node/.style={scale=0.9}]
+    \node[draw,rounded corners,fill=ecLight,minimum width=3.3cm,minimum height=1.6cm,align=center] (edge) at (0,0) {\textbf{Edge Device}\\Mic + SER Engine\\(Objective 1)};
+    \node[draw,rounded corners,fill=ecLight,minimum width=3.3cm,minimum height=1.6cm,align=center] (cloud) at (5,0) {\textbf{Cloud Service}\\Recommendation/Media/\\Conversation/Report};
+    \node[draw,rounded corners,fill=ecBlue,text=white,minimum width=3.3cm,minimum height=1.6cm,align=center] (tft) at (2.5,-2.3) {\textbf{TFT Screen}\\Giao diện chính};
+    \draw[-{Latex},thick] (edge) -- node[above]{\scriptsize sync session} (cloud);
+    \draw[-{Latex},thick] (cloud) -- node[right,xshift=0.3cm]{\scriptsize kết quả} (tft);
+    \draw[-{Latex},thick] (edge) -- node[left,xshift=-0.2cm]{\scriptsize emotion} (tft);
+  \end{tikzpicture}
+  \vspace{0.3cm}
+  \begin{itemize}
+    \item \textbf{Edge}: thu âm, chạy SER, hiển thị kết quả, hoạt động offline
+    \item \textbf{Cloud}: gợi ý, hội thoại, báo cáo --- cần Internet
+    \item \textbf{TFT}: giao diện theo dõi duy nhất của người dùng
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Thành phần chính của hệ thống}
+  \small
+  \begin{tabularx}{\textwidth}{|L{3.3cm}|X|}
+  \hline
+  \textbf{Thành phần} & \textbf{Vai trò} \\
+  \hline
+  Edge Device & Mic, nút bấm, Wi-Fi, cache, TFT \\
+  \hline
+  Edge AI SER Engine & Nhận diện cảm xúc từ giọng nói (cục bộ) \\
+  \hline
+  Cloud API Server & Cổng giao tiếp Edge $\leftrightarrow$ Cloud \\
+  \hline
+  Recommendation / Media Recommendation Service & Gợi ý hoạt động, bài hát, podcast \\
+  \hline
+  Conversation Service & Phản hồi đồng cảm, có safety filter \\
+  \hline
+  Report Engine & Tổng hợp báo cáo cảm xúc theo thời gian \\
+  \hline
+  Cloud Database & Lưu trữ dài hạn (user, session, report,...) \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{Phần cứng đề xuất \& chi phí prototype}
+  \small
+  \begin{tabularx}{\textwidth}{|X|L{2.6cm}|}
+  \hline
+  \textbf{Linh kiện} & \textbf{Giá tham khảo} \\
+  \hline
+  ESP32-S3 (bộ điều khiển chính) & 180k -- 350k VND \\
+  \hline
+  INMP441 I2S Microphone & 25k -- 70k VND \\
+  \hline
+  TFT/OLED Display & 120k -- 320k VND \\
+  \hline
+  5 nút bấm/touch + Speaker & 20k -- 110k VND \\
+  \hline
+  \textbf{Tổng dự đoán (đầy đủ)} & \textbf{545k -- 1.700k VND} \\
+  \hline
+  \end{tabularx}
+  \vspace{0.2cm}
+  \begin{block}{Nguyên tắc thiết kế}
+    Edge cho nhận diện cốt lõi --- Cloud cho hỗ trợ nâng cao --- TFT là giao diện chính --- Chịu lỗi offline --- An toàn cảm xúc.
+  \end{block}
+\end{frame}
+
+% ===================== SECTION 03: OBJECTIVES =====================
+\section{3 SMART Objectives \& Use Case}
+
+\begin{frame}{Tổng quan 3 SMART Objective}
+  \small
+  \begin{tabularx}{\textwidth}{|L{2.6cm}|X|L{1.5cm}|}
+  \hline
+  \textbf{Objective} & \textbf{Mô tả} & \textbf{UC} \\
+  \hline
+  Objective 1 & Phát hiện \& phân loại cảm xúc trong 15s sau tương tác giọng nói & UC-01 \\
+  \hline
+  Objective 2 & Đề xuất hoạt động/bài hát/podcast/phản hồi trong 20s & UC-02, 03, 04 \\
+  \hline
+  Objective 3 & Tóm tắt \& phân tích xu hướng cảm xúc trong 180s & UC-05 \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{UC-01: Speech Emotion Recognition}
+  \textbf{Input:} Giọng nói \quad \textbf{Output:} Trạng thái cảm xúc (vui vẻ, bình thường, căng thẳng, buồn bã, tức giận, mệt mỏi)
+  \vspace{0.2cm}
+  \begin{enumerate}
+    \item Người dùng kích hoạt Check-in
+    \item Edge AI tiền xử lý âm thanh, trích xuất đặc trưng
+    \item Mô hình SER phân loại cảm xúc + confidence
+    \item TFT hiển thị kết quả, lưu emotion session
+  \end{enumerate}
+  \begin{block}{Mục tiêu hiệu năng}
+    Hoàn tất trong \textbf{15 giây}. Hoạt động được cả khi \textbf{offline}.
+  \end{block}
+\end{frame}
+
+\begin{frame}{UC-02, UC-03, UC-04: Hỗ trợ qua Cloud (20s)}
+  \small
+  \begin{tabularx}{\textwidth}{|L{1.3cm}|L{3.2cm}|X|}
+  \hline
+  \textbf{UC} & \textbf{Tên} & \textbf{Mô tả ngắn} \\
+  \hline
+  UC-02 & Gợi ý hoạt động \& nội dung & Cloud đề xuất hoạt động, bài hát, podcast theo emotion label/lịch sử \\
+  \hline
+  UC-03 & Chọn bài hát/podcast theo chủ đích & Người dùng chọn category (thư giãn, tập trung, ngủ nghỉ,...) \\
+  \hline
+  UC-04 & Trò chuyện hỗ trợ cảm xúc & Phản hồi đồng cảm, có safety filter, xử lý tín hiệu nguy cấp \\
+  \hline
+  \end{tabularx}
+  \vspace{0.2cm}
+  \textit{Tất cả đều cần Internet; nếu mất kết nối, TFT báo trạng thái cần Cloud.}
+\end{frame}
+
+\begin{frame}{UC-05: Thống kê \& phân tích xu hướng cảm xúc}
+  \textbf{Input:} Emotion sessions, activity logs, media logs, conversation metadata \\
+  \textbf{Output:} Báo cáo rút gọn theo ngày/tuần/tháng/năm trên TFT
+  \vspace{0.2cm}
+  \begin{itemize}
+    \item Cloud Report Engine tính phân bố cảm xúc, xu hướng, hiệu quả hoạt động/nội dung
+    \item Nén thành các \textbf{TFT report cards} ngắn gọn
+    \item Nếu dữ liệu ít $\rightarrow$ trạng thái \texttt{limited\_data}
+  \end{itemize}
+  \begin{block}{Mục tiêu hiệu năng}
+    Hiển thị trên TFT trong vòng \textbf{180 giây}.
+  \end{block}
+\end{frame}
+
+\begin{frame}{Overall Use Case Diagram}
+  \centering
+  \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85}]
+    \node[draw,circle,fill=ecLight,minimum size=1.4cm,align=center] (user) at (-4,0) {Người\\dùng};
+    \node[draw,ellipse,minimum width=3cm,minimum height=0.8cm] (uc1) at (0,2.2) {UC-01: SER};
+    \node[draw,ellipse,minimum width=3.4cm,minimum height=0.8cm] (uc2) at (0,1) {UC-02: Gợi ý hoạt động};
+    \node[draw,ellipse,minimum width=3.4cm,minimum height=0.8cm] (uc3) at (0,-0.2) {UC-03: Chọn media};
+    \node[draw,ellipse,minimum width=3.4cm,minimum height=0.8cm] (uc4) at (0,-1.4) {UC-04: Trò chuyện};
+    \node[draw,ellipse,minimum width=3.4cm,minimum height=0.8cm] (uc5) at (0,-2.6) {UC-05: Báo cáo};
+    \node[draw,circle,fill=ecLight,minimum size=1.4cm,align=center] (cloudA) at (5,-0.7) {Cloud\\Service};
+    \node[draw,circle,fill=ecBlue,text=white,minimum size=1.4cm,align=center] (tftA) at (5,1.5) {TFT\\Screen};
+    \foreach \uc in {uc1,uc2,uc3,uc4,uc5}{\draw (user) -- (\uc);}
+    \foreach \uc in {uc2,uc3,uc4,uc5}{\draw (\uc) -- (cloudA);}
+    \foreach \uc in {uc1,uc2,uc3,uc4,uc5}{\draw (\uc) -- (tftA);}
+  \end{tikzpicture}
+\end{frame}
+
+% ===================== SECTION 04: EDGE AI =====================
+\section{Edge AI -- Speech Emotion Recognition}
+
+\begin{frame}{Pipeline SER trên Edge Device}
+  \centering
+  \begin{tikzpicture}[node distance=0.4cm,scale=0.85,every node/.style={scale=0.8}]
+    \tikzstyle{box}=[draw,rounded corners,fill=ecLight,minimum width=2.6cm,minimum height=1cm,align=center]
+    \node[box] (a) {Thu âm\\(Check-in)};
+    \node[box,right=0.6cm of a] (b) {Tiền xử lý\\\& giảm nhiễu};
+    \node[box,right=0.6cm of b] (c) {Trích xuất đặc trưng\\(Log-Mel, MFCC,\\pitch, energy)};
+    \node[box,right=0.6cm of c] (d) {Mô hình SER\\(CNN nhỏ)};
+    \node[box,right=0.6cm of d,fill=ecBlue,text=white] (e) {Emotion label\\+ confidence};
+    \draw[-{Latex}] (a)--(b); \draw[-{Latex}] (b)--(c); \draw[-{Latex}] (c)--(d); \draw[-{Latex}] (d)--(e);
+  \end{tikzpicture}
+  \vspace{0.4cm}
+  \begin{itemize}
+    \item Dữ liệu tham khảo: \textbf{RAVDESS} (Kaggle) -- tập giọng nói cảm xúc có nhãn
+    \item Đặc trưng chính: Log-Mel Spectrogram, MFCC, pitch, energy
+    \item Mô hình: CNN nhỏ (có thể kèm LSTM/GRU nhẹ), tối ưu bằng quantization/TFLite Micro
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Ánh xạ nhãn cảm xúc (RAVDESS $\rightarrow$ sản phẩm)}
+  \small
+  \begin{tabularx}{\textwidth}{|L{3cm}|L{3cm}|X|}
+  \hline
+  \textbf{Nhãn RAVDESS} & \textbf{Nhãn sản phẩm} & \textbf{Ý nghĩa} \\
+  \hline
+  neutral, calm & Bình thường & Trạng thái ổn định \\
+  \hline
+  happy & Vui vẻ & Cảm xúc tích cực \\
+  \hline
+  sad & Buồn bã & Cần phản hồi đồng cảm \\
+  \hline
+  angry & Tức giận & Cần gợi ý tạm dừng, thở chậm \\
+  \hline
+  fearful, surprised & Căng thẳng & Cần hỗ trợ giảm áp lực \\
+  \hline
+  -- & Mệt mỏi & Nhãn mở rộng, cần dữ liệu bổ sung \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{Logic confidence \& quality flag}
+  \small
+  \begin{tabularx}{\textwidth}{|X|X|}
+  \hline
+  \textbf{Điều kiện} & \textbf{Hành vi hệ thống} \\
+  \hline
+  confidence $\geq$ 0.75 \& clean & Hiển thị emotion label, chuyển sang hỗ trợ \\
+  \hline
+  0.50 $\leq$ confidence $<$ 0.75 & Hiển thị ``có thể là...'', cho xác nhận \\
+  \hline
+  confidence $<$ 0.50 & Không chắc chắn, không kết luận xu hướng \\
+  \hline
+  quality\_flag = too\_short & Yêu cầu ghi âm lại \\
+  \hline
+  quality\_flag = noisy & Cảnh báo môi trường nhiễu \\
+  \hline
+  \end{tabularx}
+  \vspace{0.2cm}
+  \textit{Đánh giá mô hình: Accuracy, Confusion matrix, Macro F1, Latency, Model size, Robustness test.}
+\end{frame}
+
+% ===================== SECTION 05: INTERNET SERVICE =====================
+\section{Internet Service}
+
+\begin{frame}{Sequence: Edge -- Cloud -- TFT}
+  \centering
+  \begin{tikzpicture}[scale=0.85,every node/.style={scale=0.85}]
+    \node[draw,rounded corners,fill=ecLight] (edge) at (0,0) {Edge Device};
+    \node[draw,rounded corners,fill=ecLight] (api) at (4,0) {Cloud API};
+    \node[draw,rounded corners,fill=ecLight] (svc) at (8,0) {Recommendation/\\Media/Conversation/Report};
+    \draw[dashed] (edge) -- (0,-4);
+    \draw[dashed] (api) -- (4,-4);
+    \draw[dashed] (svc) -- (8,-4);
+    \draw[-{Latex}] (0,-0.6) -- node[above,sloped]{\scriptsize 1. sync session} (4,-1.2);
+    \draw[-{Latex}] (4,-1.6) -- node[above,sloped]{\scriptsize 2. forward request} (8,-2.2);
+    \draw[-{Latex}] (8,-2.6) -- node[above,sloped]{\scriptsize 3. response payload} (4,-3.2);
+    \draw[-{Latex}] (4,-3.4) -- node[above,sloped]{\scriptsize 4. rút gọn cho TFT} (0,-3.9);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Thiết kế Database (rút gọn)}
+  \small
+  \textbf{Bảng chính:} \texttt{users}, \texttt{devices}, \texttt{emotion\_sessions}, \texttt{recommendation\_requests}, \texttt{activity\_feedback}, \texttt{media\_items}, \texttt{media\_selection\_logs}, \texttt{conversation\_requests}, \texttt{tft\_reports}
+  \vspace{0.2cm}
+  \begin{tabularx}{\textwidth}{|L{3.6cm}|X|}
+  \hline
+  \textbf{emotion\_sessions} & client\_session\_id (UNIQUE), emotion\_label, confidence\_score, quality\_flag, sync\_status \\
+  \hline
+  \textbf{tft\_reports} & period\_type, tft\_cards (JSONB), emotion\_distribution, data\_quality \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{API tiêu biểu cho Edge Device}
+  \small
+  \begin{tabularx}{\textwidth}{|X|L{1.3cm}|X|}
+  \hline
+  \textbf{Endpoint} & \textbf{Method} & \textbf{Mục đích} \\
+  \hline
+  /api/emotion-sessions/sync & POST & Đồng bộ emotion sessions (idempotent) \\
+  \hline
+  /api/recommendations/request & POST & Lấy activity/song/podcast cards \\
+  \hline
+  /api/conversations/respond & POST & Lấy response card \\
+  \hline
+  /api/reports/tft-summary & GET & Lấy report cards theo period \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+% ===================== SECTION 06: FR/NFR =====================
+\section{Functional \& Non-Functional Requirements}
+
+\begin{frame}{Tóm tắt Functional Requirements}
+  \small
+  \begin{tabularx}{\textwidth}{|L{2.6cm}|X|L{1.5cm}|}
+  \hline
+  \textbf{Nhóm} & \textbf{Nội dung chính} & \textbf{ID} \\
+  \hline
+  Nhận diện Edge & Check-in, ghi âm, SER, lưu session trong 15s & FR-01--08 \\
+  \hline
+  Đồng bộ nền tảng & Cache offline, sync idempotent, trạng thái TFT & FR-09--13 \\
+  \hline
+  Gợi ý qua Cloud & Activity/media cards trong 20s & FR-14--27 \\
+  \hline
+  Trò chuyện qua Cloud & Phản hồi đồng cảm, safety filter & FR-28--34 \\
+  \hline
+  Báo cáo qua Cloud & Report cards theo period trong 180s & FR-35--41 \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{Tóm tắt Non-Functional Requirements}
+  \small
+  \begin{tabularx}{\textwidth}{|L{3.2cm}|X|}
+  \hline
+  \textbf{Nhóm} & \textbf{Yêu cầu chính} \\
+  \hline
+  Hiệu năng & SER $\leq$ 15s, gợi ý/hội thoại $\leq$ 20s, report $\leq$ 180s \\
+  \hline
+  Tin cậy \& khả dụng & Offline cho Objective 1, retry sync, idempotency \\
+  \hline
+  Bảo mật \& riêng tư & Không upload audio thô mặc định, device token, HTTPS \\
+  \hline
+  An toàn cảm xúc & Không chẩn đoán, phản hồi đồng cảm, xử lý tín hiệu nguy cấp \\
+  \hline
+  Trải nghiệm TFT & Thao tác đơn giản, report cards ngắn gọn dễ đọc \\
+  \hline
+  \end{tabularx}
+\end{frame}
+
+% ===================== SECTION 07: USER MANUAL =====================
+\section{User Manual -- Screen Flow}
+
+\begin{frame}{Luồng màn hình thiết bị}
+  \centering
+  \begin{tikzpicture}[scale=0.82,every node/.style={scale=0.78}]
+    \tikzstyle{scr}=[draw,rounded corners,fill=ecLight,minimum width=2.3cm,minimum height=0.9cm,align=center]
+    \node[scr,fill=ecBlue,text=white] (home) at (0,0) {HOME};
+    \node[scr] (checkin) at (-4,-1.6) {CHECK-IN};
+    \node[scr] (result) at (-4,-3.2) {RESULT};
+    \node[scr] (support) at (-4,-4.8) {SUPPORT};
+    \node[scr] (activity) at (0,-6.4) {ACTIVITY};
+    \node[scr] (media) at (-4,-6.4) {MUSIC-PODCAST};
+    \node[scr] (conv) at (-8,-6.4) {CONVERSATION};
+    \node[scr] (report) at (4,-1.6) {REPORT};
+    \node[scr] (status) at (4,-3.2) {STATUS};
+    \draw[-{Latex}] (home) -- (checkin);
+    \draw[-{Latex}] (checkin) -- (result);
+    \draw[-{Latex}] (result) -- (support);
+    \draw[-{Latex}] (support) -- (activity);
+    \draw[-{Latex}] (support) -- (media);
+    \draw[-{Latex}] (support) -- (conv);
+    \draw[-{Latex}] (home) -- (report);
+    \draw[-{Latex}] (home) -- (status);
+    \draw[-{Latex}] (home) to[bend right=15] (activity);
+    \draw[-{Latex}] (home) to[bend left=15] (media);
+    \draw[-{Latex}] (home) to[bend left=25] (conv);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Ví dụ trải nghiệm sử dụng}
+  \begin{enumerate}
+    \item Người dùng nhấn \textbf{Check-in}, nói một câu ngắn
+    \item TFT hiển thị: \textit{Căng thẳng -- confidence 0.74}
+    \item Chuyển sang \textbf{Activity}: gợi ý ``Hít thở 4-7-8'' + podcast thở chậm
+    \item Người dùng đánh giá hoạt động $\rightarrow$ feedback gửi lên Cloud
+    \item Cuối ngày mở \textbf{Report}: xem tỷ lệ cảm xúc, xu hướng, hoạt động hữu ích nhất
+  \end{enumerate}
+\end{frame}
+
+% ===================== SECTION 08: KẾT LUẬN =====================
+\section{Kết luận}
+
+\begin{frame}{Tổng kết \& Vòng lặp vận hành}
+  \centering
+  \textbf{Check-in $\rightarrow$ Edge SER $\rightarrow$ Hiển thị TFT $\rightarrow$ Đồng bộ Cloud $\rightarrow$ Hỗ trợ/Báo cáo $\rightarrow$ Hiển thị TFT}
+  \vspace{0.4cm}
+  \begin{itemize}
+    \item Edge AI xử lý nhận diện cảm xúc cốt lõi, hoạt động cả khi offline
+    \item Cloud hỗ trợ gợi ý, hội thoại và báo cáo dài hạn
+    \item TFT là điểm chạm duy nhất, đơn giản và riêng tư cho người dùng
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Lợi ích \& Giới hạn}
+  \begin{columns}[T]
+    \column{0.5\textwidth}
+    \textbf{Lợi ích}
+    \begin{itemize}\small
+      \item Tăng tự nhận thức cảm xúc
+      \item Hỗ trợ đúng lúc, theo dõi dài hạn
+      \item Phù hợp prototype sinh viên
+      \item Riêng tư hơn (không upload audio thô)
+    \end{itemize}
+    \column{0.5\textwidth}
+    \textbf{Giới hạn}
+    \begin{itemize}\small
+      \item SER là bài toán xác suất, có thể sai
+      \item Objective 2, 3 cần Internet
+      \item TFT không gian hiển thị hạn chế
+      \item Không phải thiết bị y tế
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Hướng phát triển tiếp theo}
+  \begin{itemize}
+    \item Học baseline cảm xúc cá nhân hóa cho từng người dùng
+    \item Cập nhật mô hình SER tối ưu hơn cho Edge Device
+    \item Cá nhân hóa gợi ý dựa trên hiệu quả lịch sử
+    \item Tối ưu TFT visualization (biểu đồ nhỏ, report cards)
+    \item Tích hợp tài nguyên hỗ trợ theo khu vực khi cần
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \centering
+  \vspace{1cm}
+  {\Large \textbf{Cảm ơn quý thầy/cô và các bạn đã theo dõi!}}
+  \vspace{0.5cm}
+
+  {\large EmotiCare AIoT -- Intelligent Emotional Companion}
+  \vspace{1cm}
+
+  \small Trần Hải Đức \quad Nguyễn Trọng Tài \quad Nguyễn Công Chiến \quad Phạm Nguyễn Gia Bảo
+\end{frame}
+
+\end{document}
