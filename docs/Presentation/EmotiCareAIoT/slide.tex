@@ -8,11 +8,10 @@
 % ====== THEME (Metropolis: flat, modern, minimalist) ======
 \usetheme[numbering=fraction,progressbar=frametitle]{metropolis}
 
-% Re-assert fonts AFTER the theme (metropolis tries Fira Sans, which is not
-% installed here, so we explicitly set a Vietnamese-friendly sans family).
-\setmainfont{Carlito}
-\setsansfont{Carlito}
-\setmonofont{DejaVu Sans Mono}[Scale=0.88]
+% Re-assert fonts AFTER the theme
+\setmainfont{Arial}
+\setsansfont{Arial}
+\setmonofont{Consolas}[Scale=0.88]
 
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,shapes.geometric,fit,calc,shadows.blur,decorations.pathreplacing}
@@ -20,18 +19,18 @@
 \usepackage{array}
 \usepackage{tabularx}
 \usepackage[table]{xcolor}
+\usepackage{graphicx}
 
 % ====== COLOR PALETTE ======
-% Deep indigo (primary), warm coral (accent), soft teal (secondary), warm paper bg
-\definecolor{ecInk}{HTML}{1B2430}      % near-black text
-\definecolor{ecPrimary}{HTML}{1E3A8A}  % deep indigo blue
+\definecolor{ecInk}{HTML}{1B2430}      % Near-black text
+\definecolor{ecPrimary}{HTML}{1E3A8A}  % Deep indigo blue
 \definecolor{ecPrimaryDk}{HTML}{142a63}
-\definecolor{ecAccent}{HTML}{F2784B}   % warm coral accent
-\definecolor{ecTeal}{HTML}{12877F}     % soft teal secondary
-\definecolor{ecPaper}{HTML}{FAFAF8}    % warm off-white background
-\definecolor{ecPanel}{HTML}{EEF1F8}    % light indigo panel fill
-\definecolor{ecPanelAlt}{HTML}{E4F3F1} % light teal panel fill
-\definecolor{ecLine}{HTML}{D7DCE6}     % hairline / table rule
+\definecolor{ecAccent}{HTML}{F2784B}   % Warm coral accent
+\definecolor{ecTeal}{HTML}{12877F}     % Soft teal secondary
+\definecolor{ecPaper}{HTML}{FAFAF8}    % Warm off-white background
+\definecolor{ecPanel}{HTML}{EEF1F8}    % Light indigo panel fill
+\definecolor{ecPanelAlt}{HTML}{E4F3F1} % Light teal panel fill
+\definecolor{ecLine}{HTML}{D7DCE6}     % Hairline / table rule
 
 \setbeamercolor{normal text}{fg=ecInk,bg=ecPaper}
 \setbeamercolor{alerted text}{fg=ecAccent}
@@ -53,7 +52,6 @@
 \setbeamerfont{subtitle}{size=\normalsize,series=\mdseries}
 \setbeamerfont{block title}{size=\normalsize,series=\bfseries}
 
-% slightly tighter top margin so content has room
 \setbeamertemplate{frametitle continuation}{}
 \makeatletter
 \setlength{\metropolis@titleseparator@linewidth}{2pt}
@@ -61,19 +59,22 @@
 \setlength{\metropolis@progressinheadfoot@linewidth}{1.4pt}
 \makeatother
 
-% ====== TABLE STYLE: light alternating rows, no vertical rules ======
+% ====== TABLE STYLE ======
 \renewcommand{\arraystretch}{1.25}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 
-% reusable colored tag / chip for headers inside tables and lists
+% Reusable components
 \newcommand{\kw}[2]{{\color{#1}\textbf{#2}}}
 
-% reusable "stat / KPI" pill used in performance callouts
 \newcommand{\statpill}[2]{%
   \tikz[baseline=-0.6ex]{
     \node[draw=ecAccent,line width=1pt,rounded corners=6pt,fill=ecAccent!12,
-          inner sep=5pt,font=\bfseries\small,text=ecPrimaryDk] {#1 #2};
+          inner sep=4pt,font=\bfseries\scriptsize,text=ecPrimaryDk] {#1 #2};
   }%
+}
+\newcommand{\slideimage}[3]{%
+  \includegraphics[width=#2\textwidth,height=#3\textheight,keepaspectratio]{#1}%
 }
 
 \title{ĐẶC TẢ HỆ THỐNG \textbf{EmotiCare AIoT}}
@@ -93,15 +94,12 @@
       at (current page.north east) {EMOTICARE \textbar\ AIoT SPEC};
   \end{tikzpicture}
   \vspace{1.3cm}
-  {\usebeamercolor[fg]{normal text}
-   \setbeamercolor{normal text}{fg=ecPaper,bg=}%
-   \setbeamercolor{titlelike}{fg=ecPaper}%
+  {\setbeamercolor{titlelike}{fg=ecPaper}%
    \setbeamercolor{title}{fg=ecPaper}%
    \setbeamercolor{subtitle}{fg=ecPaper!85}%
    \setbeamercolor{author}{fg=ecPaper!92}%
    \setbeamercolor{date}{fg=ecPaper!75}%
    \setbeamercolor{institute}{fg=ecPaper!75}%
-   \setbeamercolor{title separator}{fg=ecAccent,bg=ecAccent}%
    \titlepage}
 \end{frame}
 
@@ -115,51 +113,30 @@
 
 \begin{frame}{Định vị sản phẩm}
   \begin{block}{EmotiCare AIoT là gì?}
-    Thiết bị AIoT giúp người dùng \textbf{nhận biết, thấu hiểu và quản lý cảm xúc}
-    trong cuộc sống hằng ngày thông qua giọng nói.
+    Thiết bị AIoT giúp người dùng \textbf{nhận biết, thấu hiểu và quản lý cảm xúc} trong cuộc sống hằng ngày thông qua giọng nói.
   \end{block}
   \vspace{0.35cm}
-  \begin{columns}[T,onlytextwidth]
-    \column{0.52\textwidth}
-    \kw{ecPrimary}{Cách tiếp cận:} Edge-first nhưng Cloud-assisted
-    \begin{itemize}
-      \item Nhận diện cảm xúc cốt lõi xử lý tại \kw{ecPrimary}{Edge} (nhanh, riêng tư)
-      \item Gợi ý, trò chuyện, báo cáo dài hạn dùng \kw{ecTeal}{Cloud}
-      \item Mọi kết quả hiển thị trên \kw{ecAccent}{TFT screen}
-    \end{itemize}
-    \column{0.44\textwidth}
-    \begin{center}
-    \begin{tikzpicture}[scale=0.85,every node/.style={scale=0.85},>=Latex]
-      \tikzstyle{node1}=[draw=ecPrimary,line width=1pt,rounded corners=4pt,
-        fill=ecPanel,minimum width=3cm,minimum height=1cm,font=\small\bfseries,text=ecPrimaryDk,blur shadow={shadow blur steps=6,shadow xshift=0.5pt,shadow yshift=-1pt,shadow opacity=0.25}]
-      \tikzstyle{node2}=[draw=ecTeal,line width=1pt,rounded corners=4pt,
-        fill=ecPanelAlt,minimum width=3cm,minimum height=1cm,font=\small\bfseries,text=ecTeal!60!black,blur shadow={shadow blur steps=6,shadow xshift=0.5pt,shadow yshift=-1pt,shadow opacity=0.25}]
-      \tikzstyle{node3}=[draw=ecAccent,line width=1pt,rounded corners=4pt,fill=ecAccent,
-        minimum width=3cm,minimum height=1cm,font=\small\bfseries,text=white,blur shadow={shadow blur steps=6,shadow xshift=0.5pt,shadow yshift=-1pt,shadow opacity=0.25}]
-      \node[node1] (edge) at (0,0) {Edge Device};
-      \node[node2] (cloud) at (0,-1.7) {Cloud Service};
-      \node[node3] (tft) at (0,-3.4) {TFT Screen};
-      \draw[->,ecPrimary,line width=1pt] (edge) -- (cloud);
-      \draw[->,ecTeal,line width=1pt] (cloud) -- (tft);
-      \draw[->,ecAccent,line width=1pt] (edge) to[bend left=55] (tft);
-    \end{tikzpicture}
-    \end{center}
-  \end{columns}
-  \vspace{0.25cm}
-  \centering {\color{ecPrimary}\itshape ``EmotiCare AIoT -- Understand your feelings, care for your mind.''}
+  \kw{ecPrimary}{Cách tiếp cận:} Edge-first nhưng Cloud-assisted
+  \begin{itemize}
+    \item \textbf{Edge AI} nhận diện cảm xúc cốt lõi tại thiết bị để phản hồi nhanh và hạn chế lộ dữ liệu giọng nói.
+    \item \textbf{Cloud} hỗ trợ các tính năng cần Internet như gợi ý hoạt động, nhạc, podcast, trò chuyện và báo cáo dài hạn.
+    \item \textbf{TFT screen} là điểm theo dõi chính: hiển thị cảm xúc, gợi ý, trạng thái sync và báo cáo ngày/tháng/năm.
+  \end{itemize}
+  \vfill
+  \centering {\color{ecPrimary}\small\itshape ``EmotiCare AIoT -- Understand your feelings, care for your mind.''}
 \end{frame}
 
 \begin{frame}{Mục đích sản phẩm}
+  \small
   \begin{block}{Tóm tắt mục đích}
-    Giúp người dùng \textbf{nhận biết cảm xúc hiện tại}, \textbf{nhận hỗ trợ phù hợp đúng lúc}
-    và \textbf{theo dõi xu hướng cảm xúc lâu dài ngay trên thiết bị TFT}.
+    Giúp người dùng \textbf{nhận biết cảm xúc hiện tại}, \textbf{nhận hỗ trợ đúng lúc} và \textbf{theo dõi xu hướng cảm xúc ngay trên TFT}.
   \end{block}
-  \vspace{0.2cm}
+  \vspace{0.1cm}
   \begin{itemize}
-    \item Nhận diện cảm xúc trong \statpill{ecAccent}{15s} sau một tương tác giọng nói hợp lệ
-    \item Đề xuất hoạt động, bài hát, podcast hoặc phản hồi đồng cảm trong \statpill{ecAccent}{20s} khi có Internet
-    \item Lưu từng emotion session để phục vụ đồng bộ, phân tích và xem lại lịch sử
-    \item Tạo báo cáo cảm xúc theo \textbf{ngày, tháng, năm} và trả về TFT trong \statpill{ecAccent}{180s}
+    \item Nhận diện cảm xúc trong \statpill{15s}{} sau một tương tác giọng nói hợp lệ
+    \item Đề xuất hoạt động, bài hát, podcast hoặc phản hồi đồng cảm trong \statpill{20s}{}
+    \item Lưu emotion session để phục vụ đồng bộ, phân tích và xem lại lịch sử
+    \item Tạo báo cáo cảm xúc theo \textbf{ngày, tháng, năm} và trả về TFT trong \statpill{180s}{}
   \end{itemize}
 \end{frame}
 
@@ -168,53 +145,54 @@
 
 \begin{frame}{Bối cảnh \& Vấn đề}
   \begin{block}{Thực trạng}
-    \small Nhu cầu chăm sóc sức khỏe tinh thần cao, nhưng người dùng thường khó ghi nhận cảm xúc đều đặn;
-    self-care cần một điểm chạm đơn giản, riêng tư và dùng được hằng ngày.
+    \small Nhu cầu chăm sóc sức khỏe tinh thần cao, nhưng người dùng thường khó ghi nhận cảm xúc đều đặn; self-care cần một điểm chạm đơn giản, riêng tư và dùng được hằng ngày.
   \end{block}
-  \vspace{-0.1cm}
-  {\renewcommand{\arraystretch}{1.05}
-  \footnotesize
+  \vspace{0.05cm}
+  {\renewcommand{\arraystretch}{0.96}
+  \scriptsize
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3.2cm}XX}
+  \begin{tabularx}{\textwidth}{L{2.9cm}YY}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Vấn đề}} & \textcolor{white}{\textbf{Hệ quả}} & \textcolor{white}{\textbf{Giải pháp EmotiCare}} \\
   \midrule
-  Ít ghi nhận cảm xúc hằng ngày & Không thấy xu hướng dài hạn & Check-in giọng nói + emotion session \\
-  Cảm xúc tiêu cực kéo dài khó phát hiện & Căng thẳng, buồn bã kéo dài & Báo cáo ngày/tháng/năm trên TFT \\
-  Gợi ý tinh thần chung chung & Khó biết hoạt động phù hợp & Gợi ý theo cảm xúc + lịch sử feedback \\
-  Dữ liệu giọng nói nhạy cảm & Lo ngại quyền riêng tư & Edge AI, không upload audio thô \\
+  Ít ghi nhận cảm xúc & Khó thấy xu hướng dài hạn & Check-in giọng nói, lưu emotion session \\
+  Cảm xúc tiêu cực kéo dài & Dễ bỏ lỡ dấu hiệu căng thẳng & Báo cáo ngày/tháng/năm trên TFT \\
+  Gợi ý chăm sóc chung chung & Khó chọn hoạt động phù hợp & Cá nhân hóa theo cảm xúc và feedback \\
+  Dữ liệu giọng nói nhạy cảm & Người dùng lo ngại riêng tư & Edge AI, không upload audio thô mặc định \\
   \bottomrule
   \end{tabularx}}
   \vspace{0.05cm}
-  \scriptsize\color{ecInk!65}\textit{Nguồn tham khảo trong specification: WHO World Mental Health Report, NIMH self-care guidance.}
+  \centering\scriptsize\color{ecInk!65}\textit{Nguồn tham khảo trong specification: WHO World Mental Health Report, NIMH self-care guidance.}
 \end{frame}
 
 \begin{frame}{Nguồn cảm hứng \& Sản phẩm tương tự}
+  \small
   \begin{columns}[T,onlytextwidth]
     \column{0.48\textwidth}
     \kw{ecPrimary}{Nguồn cảm hứng:} EMO (LivingAI)
     \begin{itemize}
-      \item AI desktop pet, biết phản hồi, tạo cảm giác đồng hành
-      \item EmotiCare kế thừa tinh thần gần gũi, chuyển trọng tâm sang \textbf{chăm sóc cảm xúc có dữ liệu}
+      \item AI desktop pet tạo cảm giác đồng hành gần gũi
+      \item EmotiCare kế thừa tinh thần đó, nhưng chuyển trọng tâm sang \textbf{chăm sóc cảm xúc có dữ liệu}
     \end{itemize}
+    \begin{center}
+      \slideimage{images/emo.jpg}{0.40}{0.20}
+    \end{center}
     \column{0.48\textwidth}
     \kw{ecTeal}{So sánh nhanh}
     \begin{itemize}
-      \item \textbf{EMO}: giải trí, cá tính, không tập trung SER
-      \item \textbf{ElliQ}: companion cho người lớn tuổi, wellness
-      \item \textbf{EmotiCare AIoT}: SER cốt lõi tại Edge + báo cáo xu hướng trên TFT
+      \item \textbf{EMO}: giải trí, cá tính, chưa tập trung SER
+      \item \textbf{ElliQ}: companion/wellness cho người lớn tuổi
+      \item \textbf{EmotiCare}: Edge SER + Cloud support + báo cáo TFT
     \end{itemize}
   \end{columns}
-  \vspace{0.4cm}
-  \begin{alertblock}{Định vị rõ ràng}
-    Không chẩn đoán bệnh lý, không thay thế chuyên gia --- chỉ hỗ trợ \textbf{tự chăm sóc} cảm xúc.
-  \end{alertblock}
+  \vfill
+  \centering\color{ecAccent}\textbf{Định vị:} hỗ trợ tự chăm sóc cảm xúc, không chẩn đoán hoặc thay thế chuyên gia.
 \end{frame}
 
 \begin{frame}{Người dùng mục tiêu}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3.5cm}XX}
+  \begin{tabularx}{\textwidth}{L{3.5cm}YY}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Nhóm}} & \textcolor{white}{\textbf{Nhu cầu chính}} & \textcolor{white}{\textbf{Giá trị sản phẩm}} \\
   \midrule
@@ -227,50 +205,19 @@
 \end{frame}
 
 \begin{frame}{Từ mục đích suy ra 3 SMART Objective}
-  \centering
-  \begin{tikzpicture}[node distance=0.7cm, scale=0.95, every node/.style={scale=0.95},>=Latex]
-    \node[draw=ecPrimaryDk,line width=1.2pt,rounded corners=5pt,fill=ecPrimary,text=white,
-          minimum width=8.4cm,minimum height=1cm,font=\bfseries,
-          blur shadow={shadow blur steps=8,shadow xshift=0.6pt,shadow yshift=-1.2pt,shadow opacity=0.3}] (purpose)
-          {Giúp người dùng nhận biết \& chăm sóc cảm xúc};
-    \node[draw=ecPrimary,line width=1pt,rounded corners=5pt,fill=ecPanel,minimum width=3.8cm,minimum height=1.4cm,
-          below left=1.5cm and -2.2cm of purpose,align=center,font=\small,
-          blur shadow={shadow blur steps=6,shadow opacity=0.2}] (o1)
-          {\textcolor{ecPrimaryDk}{\textbf{Objective 1}}\\Nhận diện cảm xúc\\(Edge AI -- 15s)};
-    \node[draw=ecTeal,line width=1pt,rounded corners=5pt,fill=ecPanelAlt,minimum width=3.8cm,minimum height=1.4cm,
-          below=1.5cm of purpose,align=center,font=\small,
-          blur shadow={shadow blur steps=6,shadow opacity=0.2}] (o2)
-          {\textcolor{ecTeal!60!black}{\textbf{Objective 2}}\\Hỗ trợ đúng lúc\\(Cloud -- 20s)};
-    \node[draw=ecAccent,line width=1pt,rounded corners=5pt,fill=ecAccent!15,minimum width=3.8cm,minimum height=1.4cm,
-          below right=1.5cm and -2.2cm of purpose,align=center,font=\small,
-          blur shadow={shadow blur steps=6,shadow opacity=0.2}] (o3)
-          {\textcolor{ecAccent!70!black}{\textbf{Objective 3}}\\Báo cáo xu hướng\\(Cloud -- 180s)};
-    \draw[->,ecPrimary,line width=1.1pt] (purpose) -- (o1);
-    \draw[->,ecTeal,line width=1.1pt] (purpose) -- (o2);
-    \draw[->,ecAccent,line width=1.1pt] (purpose) -- (o3);
-  \end{tikzpicture}
+  \begin{center}
+    \slideimage{images/Goal To Objective.png}{0.90}{0.75}
+  \end{center}
 \end{frame}
 
 % ===================== SECTION 02: KIẾN TRÚC =====================
 \section{Kiến trúc \& Phần cứng}
 
 \begin{frame}{Kiến trúc tổng quan: Edge -- Cloud -- TFT}
-  \centering
-  \begin{tikzpicture}[scale=1, every node/.style={scale=0.9},>=Latex]
-    \node[draw=ecPrimary,line width=1pt,rounded corners=5pt,fill=ecPanel,minimum width=3.4cm,minimum height=1.7cm,align=center,
-          blur shadow={shadow blur steps=6,shadow opacity=0.2}] (edge) at (0,0)
-          {\textcolor{ecPrimaryDk}{\textbf{Edge Device}}\\Mic + SER Engine\\(Objective 1)};
-    \node[draw=ecTeal,line width=1pt,rounded corners=5pt,fill=ecPanelAlt,minimum width=3.4cm,minimum height=1.7cm,align=center,
-          blur shadow={shadow blur steps=6,shadow opacity=0.2}] (cloud) at (5.2,0)
-          {\textcolor{ecTeal!60!black}{\textbf{Cloud Service}}\\Recommendation/Media/\\Conversation/Report};
-    \node[draw=ecAccent,line width=1pt,rounded corners=5pt,fill=ecAccent,text=white,minimum width=3.4cm,minimum height=1.7cm,align=center,
-          blur shadow={shadow blur steps=6,shadow opacity=0.25}] (tft) at (2.6,-2.4)
-          {\textbf{TFT Screen}\\Giao diện chính};
-    \draw[->,ecPrimary,line width=1.1pt] (edge) -- node[above,font=\scriptsize,text=ecInk]{sync session} (cloud);
-    \draw[->,ecTeal,line width=1.1pt] (cloud) -- node[right,xshift=0.35cm,font=\scriptsize,text=ecInk]{kết quả} (tft);
-    \draw[->,ecAccent,line width=1.1pt] (edge) -- node[left,xshift=-0.25cm,font=\scriptsize,text=ecInk]{emotion} (tft);
-  \end{tikzpicture}
-  \vspace{0.3cm}
+  \begin{center}
+    \slideimage{images/Architechture.png}{0.80}{0.55}
+  \end{center}
+  \vspace{-0.1cm}
   \begin{itemize}
     \item \kw{ecPrimary}{Edge}: thu âm, chạy SER, hiển thị kết quả, hoạt động offline
     \item \kw{ecTeal}{Cloud}: gợi ý, hội thoại, báo cáo --- cần Internet
@@ -282,7 +229,7 @@
   \small
   {\renewcommand{\arraystretch}{1.1}
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3.6cm}X}
+  \begin{tabularx}{\textwidth}{L{3.8cm}Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Thành phần}} & \textcolor{white}{\textbf{Vai trò}} \\
   \midrule
@@ -300,7 +247,7 @@
 \begin{frame}{Phần cứng đề xuất \& chi phí prototype}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{XL{2.7cm}}
+  \begin{tabularx}{\textwidth}{Y L{3.5cm}}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Linh kiện}} & \textcolor{white}{\textbf{Giá tham khảo}} \\
   \midrule
@@ -311,7 +258,7 @@
   \rowcolor{ecAccent!18}\textbf{Tổng dự đoán (đầy đủ)} & \textbf{545k -- 1.700k VND} \\
   \bottomrule
   \end{tabularx}
-  \vspace{0.3cm}
+  \vspace{0.2cm}
   \begin{block}{Nguyên tắc thiết kế}
     Edge cho nhận diện cốt lõi --- Cloud cho hỗ trợ nâng cao --- TFT là giao diện chính --- Chịu lỗi offline --- An toàn cảm xúc.
   \end{block}
@@ -323,7 +270,7 @@
 \begin{frame}{Tổng quan 3 SMART Objective}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{2.6cm}XL{2.9cm}}
+  \begin{tabularx}{\textwidth}{L{2.8cm}Y L{3.2cm}}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Objective}} & \textcolor{white}{\textbf{Mô tả đầy đủ}} & \textcolor{white}{\textbf{Vai trò trong vòng lặp}} \\
   \midrule
@@ -344,14 +291,14 @@
     \item TFT hiển thị kết quả, lưu emotion session
   \end{enumerate}
   \begin{block}{Mục tiêu hiệu năng}
-    Hoàn tất trong \statpill{ecAccent}{15s}. Hoạt động được cả khi \textbf{offline}.
+    Hoàn tất trong \statpill{15s}{}. Hoạt động được cả khi \textbf{offline}.
   \end{block}
 \end{frame}
 
 \begin{frame}{UC-02, UC-03, UC-04: Hỗ trợ qua Cloud (20s)}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{1.3cm}L{3.4cm}X}
+  \begin{tabularx}{\textwidth}{L{1.5cm}L{3.5cm}Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{UC}} & \textcolor{white}{\textbf{Tên}} & \textcolor{white}{\textbf{Mô tả ngắn}} \\
   \midrule
@@ -360,8 +307,8 @@
   UC-04 & Trò chuyện hỗ trợ cảm xúc & Phản hồi đồng cảm, có safety filter, xử lý tín hiệu nguy cấp \\
   \bottomrule
   \end{tabularx}
-  \vspace{0.25cm}
-  \small\color{ecInk!70}\textit{Tất cả đều cần Internet; nếu mất kết nối, TFT báo trạng thái cần Cloud.}
+  \vspace{0.2cm}
+  \centering\small\color{ecInk!70}\textit{Tất cả đều cần Internet; nếu mất kết nối, TFT báo trạng thái cần Cloud.}
 \end{frame}
 
 \begin{frame}{UC-05: Thống kê \& phân tích xu hướng cảm xúc}
@@ -371,53 +318,27 @@
   \begin{itemize}
     \item Cloud Report Engine tính phân bố cảm xúc, xu hướng, hiệu quả hoạt động/nội dung
     \item Nén thành các \textbf{TFT report cards} ngắn gọn
-    \item Nếu dữ liệu ít $\rightarrow$ trạng thái \texttt{limited\_data}
+    \item Nếu dữ liệu ít $\rightarrow$ hiển thị trạng thái \texttt{limited\_data}
   \end{itemize}
   \begin{block}{Mục tiêu hiệu năng}
-    Hiển thị trên TFT trong vòng \statpill{ecAccent}{180s}.
+    Hiển thị trên TFT trong vòng \statpill{180s}{}.
   \end{block}
 \end{frame}
 
 \begin{frame}{Overall Use Case Diagram}
-  \centering
-  \begin{tikzpicture}[scale=0.85, every node/.style={scale=0.85},>=Latex]
-    \node[draw=ecPrimaryDk,line width=1pt,circle,fill=ecPanel,minimum size=1.5cm,align=center,
-          font=\bfseries,text=ecPrimaryDk] (user) at (-4.2,0) {Người\\dùng};
-    \node[draw=ecPrimary,line width=0.9pt,ellipse,minimum width=3.2cm,minimum height=0.85cm,fill=white] (uc1) at (0,2.2) {UC-01: SER};
-    \node[draw=ecPrimary,line width=0.9pt,ellipse,minimum width=3.6cm,minimum height=0.85cm,fill=white] (uc2) at (0,1) {UC-02: Gợi ý hoạt động};
-    \node[draw=ecPrimary,line width=0.9pt,ellipse,minimum width=3.6cm,minimum height=0.85cm,fill=white] (uc3) at (0,-0.2) {UC-03: Chọn media};
-    \node[draw=ecPrimary,line width=0.9pt,ellipse,minimum width=3.6cm,minimum height=0.85cm,fill=white] (uc4) at (0,-1.4) {UC-04: Trò chuyện};
-    \node[draw=ecPrimary,line width=0.9pt,ellipse,minimum width=3.6cm,minimum height=0.85cm,fill=white] (uc5) at (0,-2.6) {UC-05: Báo cáo};
-    \node[draw=ecTeal,line width=1pt,circle,fill=ecPanelAlt,minimum size=1.5cm,align=center,
-          font=\bfseries,text=ecTeal!60!black] (cloudA) at (5.2,-0.7) {Cloud\\Service};
-    \node[draw=ecAccent,line width=1pt,circle,fill=ecAccent,text=white,minimum size=1.5cm,align=center,
-          font=\bfseries] (tftA) at (5.2,1.5) {TFT\\Screen};
-    \foreach \uc in {uc1,uc2,uc3,uc4,uc5}{\draw[ecPrimary!70] (user) -- (\uc);}
-    \foreach \uc in {uc2,uc3,uc4,uc5}{\draw[ecTeal] (\uc) -- (cloudA);}
-    \foreach \uc in {uc1,uc2,uc3,uc4,uc5}{\draw[ecAccent] (\uc) -- (tftA);}
-  \end{tikzpicture}
+  \begin{center}
+    \slideimage{images/overall UC.png}{0.88}{0.72}
+  \end{center}
 \end{frame}
 
 % ===================== SECTION 04: EDGE AI =====================
 \section{Edge AI -- Speech Emotion Recognition}
 
 \begin{frame}{Pipeline SER trên Edge Device}
-  \centering
-  \begin{tikzpicture}[node distance=0.45cm,scale=0.85,every node/.style={scale=0.8},>=Latex]
-    \tikzstyle{box}=[draw=ecPrimary,line width=0.9pt,rounded corners=4pt,fill=ecPanel,
-                      minimum width=2.7cm,minimum height=1.1cm,align=center,
-                      blur shadow={shadow blur steps=5,shadow opacity=0.18}]
-    \node[box] (a) {Thu âm\\(Check-in)};
-    \node[box,right=0.65cm of a] (b) {Tiền xử lý\\\& giảm nhiễu};
-    \node[box,right=0.65cm of b] (c) {Trích xuất đặc trưng\\(Log-Mel, MFCC,\\pitch, energy)};
-    \node[box,right=0.65cm of c] (d) {Mô hình SER\\(CNN nhỏ)};
-    \node[box,right=0.65cm of d,fill=ecAccent,text=white,draw=ecAccent] (e) {Emotion label\\+ confidence};
-    \draw[->,ecPrimary,line width=1pt] (a)--(b);
-    \draw[->,ecPrimary,line width=1pt] (b)--(c);
-    \draw[->,ecPrimary,line width=1pt] (c)--(d);
-    \draw[->,ecAccent,line width=1pt] (d)--(e);
-  \end{tikzpicture}
-  \vspace{0.5cm}
+  \begin{center}
+    \slideimage{images/EdgeAI Pipeline.png}{0.90}{0.40}
+  \end{center}
+  \vspace{0.15cm}
   \begin{itemize}
     \item Dữ liệu tham khảo: \textbf{RAVDESS} (Kaggle) -- tập giọng nói cảm xúc có nhãn
     \item Đặc trưng chính: Log-Mel Spectrogram, MFCC, pitch, energy
@@ -428,7 +349,7 @@
 \begin{frame}{Ánh xạ nhãn cảm xúc (RAVDESS $\rightarrow$ sản phẩm)}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3cm}L{3cm}X}
+  \begin{tabularx}{\textwidth}{L{3.5cm}L{3.0cm}Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Nhãn RAVDESS}} & \textcolor{white}{\textbf{Nhãn sản phẩm}} & \textcolor{white}{\textbf{Ý nghĩa}} \\
   \midrule
@@ -444,58 +365,53 @@
 
 \begin{frame}{Logic confidence \& quality flag}
   \small
-  \begin{tabularx}{\textwidth}{L{6.3cm}X}
+  \rowcolors{2}{ecPanel!45}{white}
+  \begin{tabularx}{\textwidth}{L{6.0cm}Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Điều kiện}} & \textcolor{white}{\textbf{Hành vi hệ thống}} \\
   \midrule
-  \rowcolor{ecPanel!45}confidence $\geq$ 0.75 \& clean & Hiển thị emotion label, chuyển sang hỗ trợ \\
-  0.50 $\leq$ confidence $<$ 0.75 & Hiển thị ``có thể là...'', cho xác nhận \\
-  \rowcolor{ecPanel!45}confidence $<$ 0.50 & Không chắc chắn, không kết luận xu hướng \\
+  confidence $\ge$ 0.75 \& clean & Hiển thị emotion label, chuyển sang hỗ trợ \\
+  0.50 $\le$ confidence $<$ 0.75 & Hiển thị ``có thể là...'', cho xác nhận \\
+  confidence $<$ 0.50 & Không chắc chắn, không kết luận xu hướng \\
   quality\_flag = too\_short & Yêu cầu ghi âm lại \\
-  \rowcolor{ecPanel!45}quality\_flag = noisy & Cảnh báo môi trường nhiễu \\
+  quality\_flag = noisy & Cảnh báo môi trường nhiễu \\
   \bottomrule
   \end{tabularx}
-  \vspace{0.25cm}
-  \small\color{ecInk!70}\textit{Đánh giá mô hình: Accuracy, Confusion matrix, Macro F1, Latency, Model size, Robustness test.}
+  \vspace{0.15cm}
+  \centering\scriptsize\color{ecInk!70}\textit{Đánh giá mô hình: Accuracy, Confusion matrix, Macro F1, Latency, Model size, Robustness test.}
 \end{frame}
 
 % ===================== SECTION 05: INTERNET SERVICE =====================
 \section{Internet Service}
 
 \begin{frame}{Sequence: Edge -- Cloud -- TFT}
-  \centering
-  \begin{tikzpicture}[scale=0.85,every node/.style={scale=0.85},>=Latex]
-    \node[draw=ecPrimary,line width=0.9pt,rounded corners=4pt,fill=ecPanel] (edge) at (0,0) {Edge Device};
-    \node[draw=ecPrimary,line width=0.9pt,rounded corners=4pt,fill=ecPanel] (api) at (4,0) {Cloud API};
-    \node[draw=ecTeal,line width=0.9pt,rounded corners=4pt,fill=ecPanelAlt,align=center] (svc) at (8,0) {Recommendation/\\Media/Conversation/Report};
-    \draw[dashed,ecLine] (edge) -- (0,-4);
-    \draw[dashed,ecLine] (api) -- (4,-4);
-    \draw[dashed,ecLine] (svc) -- (8,-4);
-    \draw[->,ecPrimary,line width=1pt] (0,-0.6) -- node[above,sloped,font=\scriptsize,text=ecInk]{1. sync session} (4,-1.2);
-    \draw[->,ecPrimary,line width=1pt] (4,-1.6) -- node[above,sloped,font=\scriptsize,text=ecInk]{2. forward request} (8,-2.2);
-    \draw[->,ecTeal,line width=1pt] (8,-2.6) -- node[above,sloped,font=\scriptsize,text=ecInk]{3. response payload} (4,-3.2);
-    \draw[->,ecAccent,line width=1pt] (4,-3.4) -- node[above,sloped,font=\scriptsize,text=ecInk]{4. rút gọn cho TFT} (0,-3.9);
-  \end{tikzpicture}
+  \begin{center}
+    \slideimage{images/Internet 2.png}{0.88}{0.72}
+  \end{center}
 \end{frame}
 
 \begin{frame}{Thiết kế Database (rút gọn)}
   \small
   \textbf{Bảng chính:} \texttt{users}, \texttt{devices}, \texttt{emotion\_sessions}, \texttt{recommendation\_requests}, \texttt{activity\_feedback}, \texttt{media\_items}, \texttt{media\_selection\_logs}, \texttt{conversation\_requests}, \texttt{tft\_reports}
   \vspace{0.3cm}
+  
+  {\renewcommand{\arraystretch}{1.2}
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3.8cm}X}
+  \begin{tabularx}{\textwidth}{L{3.8cm}Y}
   \toprule
-  \rowcolor{ecPrimary}\textcolor{white}{\textbf{emotion\_sessions}} & \textcolor{white}{client\_session\_id (UNIQUE), emotion\_label, confidence\_score, quality\_flag, sync\_status} \\
+  \rowcolor{ecPrimary}\textcolor{white}{\textbf{Tên bảng}} & \textcolor{white}{\textbf{Thuộc tính tiêu biểu}} \\
   \midrule
-  \rowcolor{ecTeal}\textcolor{white}{\textbf{tft\_reports}} & \textcolor{white}{period\_type, tft\_cards (JSONB), emotion\_distribution, data\_quality} \\
+  \texttt{emotion\_sessions} & \texttt{client\_session\_id (UNIQUE), emotion\_label, confidence\_score, quality\_flag, sync\_status} \\
+  \midrule
+  \rowcolor{ecTeal!15}\texttt{tft\_reports} & \texttt{period\_type, tft\_cards (JSONB), emotion\_distribution, data\_quality} \\
   \bottomrule
-  \end{tabularx}
+  \end{tabularx}}
 \end{frame}
 
 \begin{frame}{API tiêu biểu cho Edge Device}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{XL{1.4cm}X}
+  \begin{tabularx}{\textwidth}{Y L{1.8cm} Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Endpoint}} & \textcolor{white}{\textbf{Method}} & \textcolor{white}{\textbf{Mục đích}} \\
   \midrule
@@ -513,7 +429,7 @@
 \begin{frame}{Tóm tắt Functional Requirements}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{2.8cm}XL{1.6cm}}
+  \begin{tabularx}{\textwidth}{L{3.2cm}Y L{2.0cm}}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Nhóm}} & \textcolor{white}{\textbf{Nội dung chính}} & \textcolor{white}{\textbf{ID}} \\
   \midrule
@@ -529,11 +445,11 @@
 \begin{frame}{Tóm tắt Non-Functional Requirements}
   \small
   \rowcolors{2}{ecPanel!45}{white}
-  \begin{tabularx}{\textwidth}{L{3.4cm}X}
+  \begin{tabularx}{\textwidth}{L{3.5cm}Y}
   \toprule
   \rowcolor{ecPrimary}\textcolor{white}{\textbf{Nhóm}} & \textcolor{white}{\textbf{Yêu cầu chính}} \\
   \midrule
-  Hiệu năng & SER $\leq$ 15s, gợi ý/hội thoại $\leq$ 20s, report $\leq$ 180s \\
+  Hiệu năng & SER $\le$ 15s, gợi ý/hội thoại $\le$ 20s, report $\le$ 180s \\
   Tin cậy \& khả dụng & Offline cho Objective 1, retry sync, idempotency \\
   Bảo mật \& riêng tư & Không upload audio thô mặc định, device token, HTTPS \\
   An toàn cảm xúc & Không chẩn đoán, phản hồi đồng cảm, xử lý tín hiệu nguy cấp \\
@@ -546,41 +462,31 @@
 \section{User Manual -- Screen Flow}
 
 \begin{frame}{Luồng màn hình thiết bị}
-  \centering
-  \begin{tikzpicture}[scale=0.82,every node/.style={scale=0.78},>=Latex]
-    \tikzstyle{scr}=[draw=ecPrimary,line width=0.9pt,rounded corners=4pt,fill=ecPanel,
-                      minimum width=2.4cm,minimum height=0.9cm,align=center]
-    \node[scr,fill=ecPrimary,text=white,draw=ecPrimaryDk] (home) at (0,0) {HOME};
-    \node[scr] (checkin) at (-4,-1.6) {CHECK-IN};
-    \node[scr] (result) at (-4,-3.2) {RESULT};
-    \node[scr] (support) at (-4,-4.8) {SUPPORT};
-    \node[scr,fill=ecPanelAlt,draw=ecTeal] (activity) at (0,-6.4) {ACTIVITY};
-    \node[scr,fill=ecPanelAlt,draw=ecTeal] (media) at (-4,-6.4) {MUSIC-PODCAST};
-    \node[scr,fill=ecPanelAlt,draw=ecTeal] (conv) at (-8,-6.4) {CONVERSATION};
-    \node[scr,fill=ecAccent!15,draw=ecAccent] (report) at (4,-1.6) {REPORT};
-    \node[scr,fill=ecAccent!15,draw=ecAccent] (status) at (4,-3.2) {STATUS};
-    \draw[->,ecPrimary] (home) -- (checkin);
-    \draw[->,ecPrimary] (checkin) -- (result);
-    \draw[->,ecPrimary] (result) -- (support);
-    \draw[->,ecTeal] (support) -- (activity);
-    \draw[->,ecTeal] (support) -- (media);
-    \draw[->,ecTeal] (support) -- (conv);
-    \draw[->,ecAccent] (home) -- (report);
-    \draw[->,ecAccent] (home) -- (status);
-    \draw[->,ecTeal!70] (home) to[bend right=15] (activity);
-    \draw[->,ecTeal!70] (home) to[bend left=15] (media);
-    \draw[->,ecTeal!70] (home) to[bend left=25] (conv);
-  \end{tikzpicture}
+  \scriptsize
+  \rowcolors{2}{ecPanel!45}{white}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabularx}{\textwidth}{L{3.0cm}Y}
+  \toprule
+  \rowcolor{ecPrimary}\textcolor{white}{\textbf{Màn hình}} & \textcolor{white}{\textbf{Luồng thao tác chính}} \\
+  \midrule
+  HOME & Chọn Check-in, Activity, Music/Podcast, Conversation, Report hoặc Status \\
+  CHECK-IN $\rightarrow$ RESULT & Thu giọng nói, chạy SER tại Edge, hiển thị emotion label và confidence \\
+  SUPPORT & Sau check-in, chọn hoạt động, nội dung nghe hoặc trò chuyện \\
+  ACTIVITY / MEDIA / CHAT & Có Internet để lấy activity cards, media cards hoặc response card từ Cloud \\
+  REPORT & Chọn ngày/tháng/năm; xem report từ Cloud hoặc cache gần nhất \\
+  STATUS & Xem online/offline, pending sessions và lần sync gần nhất \\
+  \bottomrule
+  \end{tabularx}
 \end{frame}
 
 \begin{frame}{Ví dụ trải nghiệm sử dụng}
   \begin{enumerate}
-    \item Từ \textbf{HOME}, người dùng có thể chọn thẳng Check-in, Activity, Music/Podcast, Conversation hoặc Report
-    \item Nếu chọn \textbf{Check-in}, người dùng nói một câu ngắn
-    \item TFT hiển thị: \textit{Căng thẳng -- confidence 0.74}
-    \item Chuyển sang \textbf{Activity}: gợi ý ``Hít thở 4-7-8'' + podcast thở chậm
-    \item Người dùng đánh giá hoạt động $\rightarrow$ feedback gửi lên Cloud
-    \item Mở \textbf{Report}: chọn ngày/tháng/năm để xem tỷ lệ cảm xúc, xu hướng và hoạt động hữu ích nhất
+    \item Từ \textbf{HOME}, người dùng có thể chọn thẳng Check-in, Activity, Music/Podcast, Conversation hoặc Report.
+    \item Nếu chọn \textbf{Check-in}, người dùng nói một câu ngắn vào thiết bị.
+    \item TFT hiển thị ngay: \textit{Căng thẳng -- confidence 0.74}.
+    \item Chuyển nhanh sang \textbf{Activity}: Gợi ý ``Hít thở 4-7-8'' + đề xuất nghe podcast thở chậm.
+    \item Người dùng thực hiện và đánh giá hoạt động $\rightarrow$ phản hồi gửi trực tiếp lên Cloud.
+    \item Mở màn hình \textbf{Report}: Chọn xem theo ngày/tháng/năm để nắm bắt tỷ lệ phân bố cảm xúc và hoạt động hữu ích nhất.
   \end{enumerate}
 \end{frame}
 
@@ -589,12 +495,13 @@
 
 \begin{frame}{Tổng kết \& Vòng lặp vận hành}
   \centering
-  {\large\color{ecPrimary}\textbf{Check-in $\rightarrow$ Edge SER $\rightarrow$ Hiển thị TFT $\rightarrow$ Đồng bộ Cloud $\rightarrow$ Hỗ trợ/Báo cáo $\rightarrow$ Hiển thị TFT}}
+  \vskip 0.5cm
+  {\large\color{ecPrimary}\bfseries Check-in $\rightarrow$ Edge SER $\rightarrow$ Hiển thị TFT $\rightarrow$ Đồng bộ Cloud $\rightarrow$ Hỗ trợ/Báo cáo $\rightarrow$ Hiển thị TFT}
   \vspace{0.5cm}
   \begin{itemize}
-    \item Edge AI xử lý nhận diện cảm xúc cốt lõi, hoạt động cả khi offline
-    \item Cloud hỗ trợ gợi ý, hội thoại và báo cáo dài hạn
-    \item TFT là điểm chạm duy nhất, đơn giản và riêng tư cho người dùng
+    \item \textbf{Edge AI} đảm nhiệm xử lý nhận diện cảm xúc cốt lõi, hoạt động tin cậy bất kể trạng thái mạng.
+    \item \textbf{Cloud} mở rộng tính năng với các dịch vụ gợi ý thông minh, hội thoại sâu và phân tích báo cáo dài hạn.
+    \item \textbf{TFT} giữ vai trò là điểm chạm phần cứng duy nhất, trực quan và bảo mật quyền riêng tư tối đa.
   \end{itemize}
 \end{frame}
 
@@ -603,19 +510,19 @@
     \column{0.48\textwidth}
     \begin{block}{Lợi ích}
       \begin{itemize}\small
-        \item Tăng tự nhận thức cảm xúc
-        \item Hỗ trợ đúng lúc, theo dõi dài hạn
-        \item Phù hợp prototype sinh viên
-        \item Riêng tư hơn (không upload audio thô)
+        \item Tăng khả năng tự nhận thức cảm xúc.
+        \item Hỗ trợ đúng lúc, theo dõi dài hạn.
+        \item Phù hợp tối ưu cho mô hình prototype sinh viên.
+        \item Riêng tư cao (không upload âm thanh gốc).
       \end{itemize}
     \end{block}
     \column{0.48\textwidth}
     \begin{alertblock}{Giới hạn}
       \begin{itemize}\small
-        \item SER là bài toán xác suất, có thể sai
-        \item Objective 2, 3 cần Internet
-        \item TFT không gian hiển thị hạn chế
-        \item Không phải thiết bị y tế
+        \item SER mang tính xác suất, có tỉ lệ sai số.
+        \item Objective 2, 3 phụ thuộc hoàn toàn vào Internet.
+        \item Không gian hiển thị trên TFT khá hạn chế.
+        \item Không có chức năng thay thế thiết bị y tế.
       \end{itemize}
     \end{alertblock}
   \end{columns}
@@ -623,26 +530,27 @@
 
 \begin{frame}{Hướng phát triển tiếp theo}
   \begin{itemize}
-    \item Học baseline cảm xúc cá nhân hóa cho từng người dùng
-    \item Cập nhật mô hình SER tối ưu hơn cho Edge Device
-    \item Cá nhân hóa gợi ý dựa trên hiệu quả lịch sử
-    \item Tối ưu TFT visualization (biểu đồ nhỏ, report cards)
-    \item Tích hợp tài nguyên hỗ trợ theo khu vực khi cần
+    \item Học mô hình baseline cảm xúc cá nhân hóa riêng cho từng đối tượng người dùng.
+    \item Liên tục cập nhật và nén các mô hình SER tối ưu hơn chuyên biệt cho các dòng Edge Device.
+    \item Nâng cao thuật toán cá nhân hóa gợi ý dựa trên lịch sử tương tác và hiệu quả phản hồi.
+    \item Tối ưu hóa ngôn ngữ thiết kế đồ họa nhỏ gọn, trực quan trên màn hình TFT (mini-charts).
+    \item Tích hợp bản đồ tài nguyên và liên hệ hỗ trợ tâm lý khẩn cấp theo định vị khu vực.
   \end{itemize}
 \end{frame}
 
-\begin{frame}[plain,standout]
+% ===================== SLIDE KẾT THÚC =====================
+\begin{frame}[plain]
   \begin{tikzpicture}[remember picture,overlay]
     \fill[ecPrimary] (current page.south west) rectangle (current page.north east);
   \end{tikzpicture}
-  \vspace{1cm}
-  {\color{white}\Large\textbf{Cảm ơn quý thầy/cô và các bạn đã theo dõi!}}
-  \vspace{0.5cm}
-
-  {\color{ecAccent}\large EmotiCare AIoT -- Intelligent Emotional Companion}
-  \vspace{1cm}
-
-  {\color{white!85!black}\small Trần Hải Đức \,\textbar\, Nguyễn Trọng Tài \,\textbar\, Nguyễn Công Chiến \,\textbar\, Phạm Nguyễn Gia Bảo}
+  \centering
+  \vfill
+  {\color{white}\Large\bfseries Cảm ơn quý thầy/cô và các bạn đã theo dõi!}
+  \vskip 0.4cm
+  {\color{ecAccent}\large\texttt{EmotiCare AIoT -- Intelligent Emotional Companion}}
+  \vskip 1.5cm
+  {\color{white!80!black}\small Trần Hải Đức \,\textbar\, Nguyễn Trọng Tài \,\textbar\, Nguyễn Công Chiến \,\textbar\, Phạm Nguyễn Gia Bảo}
+  \vfill
 \end{frame}
 
 \end{document}
