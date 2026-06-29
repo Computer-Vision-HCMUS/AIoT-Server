@@ -99,3 +99,15 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | SMART Objective 2 | UC-03 | FR-12, FR-21 đến FR-27, FR-42, FR-45 |
 | SMART Objective 2 | UC-04 | FR-12, FR-28 đến FR-34, FR-42, FR-45 |
 | SMART Objective 3 | UC-05 | FR-09 đến FR-13, FR-35 đến FR-45 |
+
+## 6.10. Requirement Domain Summary
+
+| Domain | Requirement range | Thành phần chịu trách nhiệm | Ghi chú kiểm thử |
+| ------ | ----------------- | -------------------------- | ---------------- |
+| Edge AI | FR-01 đến FR-08 | Edge Device, SER Engine, TFT | Kiểm thử thu âm, inference, confidence và quality flag |
+| Sync/Data | FR-09 đến FR-13 | Edge Device, Cloud API, Cloud Database | Kiểm thử pending cache, retry và idempotency |
+| Recommendation | FR-14 đến FR-20 | Cloud Recommendation Service, TFT | Kiểm thử activity/song/podcast cards và feedback |
+| Media | FR-21 đến FR-27 | Cloud Media Recommendation Service, TFT | Kiểm thử category, media list, selection log |
+| Conversation | FR-28 đến FR-34 | Cloud Conversation Service, Safety Filter, TFT | Kiểm thử phản hồi đồng cảm và tình huống safety |
+| Report | FR-35 đến FR-41 | Cloud Report Engine, TFT | Kiểm thử report ngày/tháng/năm, limited_data và cache |
+| User Data & Consent | FR-42 đến FR-45 | Device Auth, Local Cache, Cloud Database | Kiểm thử pairing, consent và xóa dữ liệu cục bộ |

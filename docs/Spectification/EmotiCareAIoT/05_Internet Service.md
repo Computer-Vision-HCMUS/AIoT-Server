@@ -43,6 +43,17 @@ flowchart TD
     Gateway --> FeedbackAPI --> DB
     Gateway -->|"response payload"| Edge
     Edge --> TFT
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Edge,TFT edgeNode
+    class Gateway,DeviceAuth,SessionAPI,RecommendationAPI,MediaAPI,ConversationAPI,ReportAPI,FeedbackAPI,DB cloudNode
+    class Reco,Media,Chat,Safety,ReportEngine serviceNode
 ```
 
 *Mô tả diagram: Sơ đồ mô tả Cloud Service như backend cho thiết bị phần cứng; Edge Device gọi API, Cloud xử lý dữ liệu và trả payload rút gọn để hiển thị trên TFT.*
@@ -232,6 +243,16 @@ flowchart TD
     Display["TFT hiển thị report"]
 
     Trigger --> Request --> Load --> Analyze --> Compact --> Save --> Return --> Display
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Display edgeNode
+    class Trigger,Request,Load,Analyze,Compact,Save,Return actionNode
 ```
 
 *Mô tả chart: Flow chart này cho thấy báo cáo được xử lý trên Cloud, bao gồm cả hoạt động, bài hát và podcast đã chọn; kết quả cuối cùng là các thẻ ngắn để hiển thị trên TFT screen.*

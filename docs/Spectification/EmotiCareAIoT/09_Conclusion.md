@@ -16,7 +16,7 @@ Ba năng lực này tạo thành vòng lặp: **check-in -> Edge SER -> hiển t
 | --------------- | --------------------- |
 | Objective 1 | UC-01, Edge AI pipeline và FR-01 đến FR-08 mô tả nhận diện cảm xúc trong 15 giây, hiển thị TFT và lưu emotion session |
 | Objective 2 | UC-02, UC-03, UC-04 và FR-14 đến FR-34 mô tả gợi ý hoạt động, lựa chọn bài hát/podcast, trò chuyện hỗ trợ qua Cloud và hiển thị trên TFT trong 20 giây |
-| Objective 3 | UC-05, Internet Service, DB schema, Report Engine và FR-35 đến FR-45 mô tả báo cáo ngày/tuần/tháng/năm trả về TFT trong 180 giây |
+| Objective 3 | UC-05, Internet Service, DB schema, Report Engine và FR-35 đến FR-45 mô tả báo cáo ngày/tháng/năm trả về TFT trong 180 giây |
 
 ## 9.3. Lợi ích kỳ vọng
 
@@ -48,6 +48,19 @@ Ba năng lực này tạo thành vòng lặp: **check-in -> Edge SER -> hiển t
 | TFT visualization tốt hơn | Tối ưu biểu đồ nhỏ, biểu tượng cảm xúc và report cards |
 | Tài nguyên hỗ trợ theo khu vực | Gợi ý hotline hoặc dịch vụ hỗ trợ phù hợp với địa phương khi cần |
 
-## 9.6. Kết luận
+## 9.6. Forward Plans và Milestones
+
+| Milestone | Deliverable | Forecast | Status |
+| --------- | ----------- | -------- | ------ |
+| Hardware assembly | ESP32-S3, microphone, TFT, buttons, buzzer hoạt động ở mức prototype | Tuần 1 | Planned |
+| TFT screen flow validation | HOME, CHECK-IN, ACTIVITY, MUSIC-PODCAST, CONVERSATION, REPORT, STATUS chạy theo flow demo | Tuần 1-2 | In progress |
+| SER baseline | Pipeline thu âm, trích xuất đặc trưng và phân loại emotion label baseline | Tuần 2 | Planned |
+| Cloud API mock | Mock API cho sync, recommendation, media, conversation và report | Tuần 2 | Planned |
+| Database integration | Schema users, devices, emotion_sessions, media, reports được seed dữ liệu mẫu | Tuần 3 | Planned |
+| End-to-end demo | Edge Device gửi request, Cloud trả cards, TFT hiển thị kết quả | Tuần 3 | Planned |
+| Requirement validation | Kiểm tra FR/NFR, use case diagram, flow chart và user manual | Tuần 4 | Planned |
+| Final specification review | Build lại Specification.md và rà soát thống nhất tài liệu | Tuần 4 | Planned |
+
+## 9.7. Kết luận
 
 EmotiCare AIoT không cố gắng thay thế con người trong việc chăm sóc cảm xúc. Sản phẩm đóng vai trò một thiết bị đồng hành nhỏ gọn, cho phép người dùng dừng lại, nhận biết cảm xúc, nhận hỗ trợ từ Cloud khi có Internet và theo dõi xu hướng ngay trên TFT screen.

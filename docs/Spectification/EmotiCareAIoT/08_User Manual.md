@@ -23,7 +23,7 @@ CHECK-IN -> RESULT -> SUPPORT -> ACTIVITY / MUSIC-PODCAST / CONVERSATION
 | MUSIC-PODCAST | Chọn bài hát hoặc podcast theo chủ đích và category | Chọn category, xem danh sách, chọn nội dung để nghe |
 | CONVERSATION | Hiển thị phản hồi từ Cloud Conversation Service | Nói tiếp, nhận phản hồi, kết thúc |
 | STATUS | Xem online/offline, pending count, last sync | Thử đồng bộ lại |
-| REPORT | Xem tóm tắt ngày/tuần/tháng/năm từ Cloud Report Engine | Chọn period và xem report cards |
+| REPORT | Xem tóm tắt ngày/tháng/năm từ Cloud Report Engine | Chọn period và xem report cards |
 
 ## 8.3. Thiết lập lần đầu
 

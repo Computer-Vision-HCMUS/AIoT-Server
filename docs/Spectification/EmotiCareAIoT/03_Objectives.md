@@ -10,6 +10,16 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 | SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. | UC-02, UC-03, UC-04 | Biến dữ liệu cảm xúc hoặc nhu cầu trực tiếp từ HOME thành hành động hỗ trợ cụ thể |
 | SMART Objective 3 | Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tháng và năm trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ. | UC-05 | Giúp người dùng nhìn lại xu hướng cảm xúc và hiệu quả của hoạt động/nội dung đã chọn |
 
+### Value Proposition to Requirement Mapping
+
+| Value proposition | SMART objective | Use case | Requirement group | Expected user value |
+| ----------------- | --------------- | -------- | ----------------- | ------------------- |
+| Người dùng nhận biết cảm xúc nhanh mà không cần nhập liệu thủ công | SMART Objective 1 | UC-01 | FR-01 đến FR-08, NFR-01, NFR-13, NFR-14 | Người dùng có emotion label và confidence ngay trên TFT sau một lần check-in ngắn |
+| Người dùng nhận hỗ trợ phù hợp khi đang cần điều chỉnh cảm xúc | SMART Objective 2 | UC-02 | FR-14 đến FR-20, NFR-02, NFR-08, NFR-24 | Người dùng có hoạt động, bài hát hoặc podcast gợi ý mà không phải tự tìm |
+| Người dùng chủ động chọn nội dung nghe theo mục đích | SMART Objective 2 | UC-03 | FR-21 đến FR-27, NFR-04, NFR-24, NFR-30 | Người dùng chọn category và nhận danh sách bài hát/podcast phù hợp |
+| Người dùng có kênh trò chuyện ngắn, đồng cảm và an toàn | SMART Objective 2 | UC-04 | FR-28 đến FR-34, NFR-03, NFR-19 đến NFR-22 | Người dùng nhận phản hồi ngắn gọn, không phán xét, có safety filter |
+| Người dùng nhìn lại xu hướng cảm xúc dài hạn trên thiết bị | SMART Objective 3 | UC-05 | FR-35 đến FR-41, NFR-05, NFR-26 | Người dùng xem report cards theo ngày/tháng/năm ngay trên TFT |
+
 ### Overall Objective Flow Chart
 
 ```mermaid
@@ -17,17 +27,17 @@ flowchart TD
     User(["Người dùng"])
     TFT["TFT Screen"]
 
-    subgraph O1["SMART Objective 1: Edge SER"]
+    subgraph O1["SMART Objective 1"]
         UC1["UC-01: Speech Emotion Recognition"]
     end
 
-    subgraph O2["SMART Objective 2: Cloud Emotional Support"]
+    subgraph O2["SMART Objective 2"]
         UC2["UC-02: Gợi ý hoạt động và nội dung cải thiện tâm trạng"]
         UC3["UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích"]
         UC4["UC-04: Trò chuyện hỗ trợ cảm xúc"]
     end
 
-    subgraph O3["SMART Objective 3: Cloud Emotional Summary"]
+    subgraph O3["SMART Objective 3"]
         UC5["UC-05: Thống kê và phân tích xu hướng cảm xúc"]
     end
 
@@ -42,6 +52,17 @@ flowchart TD
     UC4 -->|"supportive response"| TFT
     UC5 -->|"summary report"| TFT
     TFT --> User
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class UC1,UC2,UC3,UC4,UC5 actionNode
 ```
 
 *Mô tả chart: Flow chart này cho thấy Objective 1 tạo dữ liệu cảm xúc tại Edge, Objective 2 và Objective 3 dùng Cloud để xử lý nâng cao, còn mọi kết quả đều quay về TFT screen để người dùng theo dõi.*
@@ -85,6 +106,18 @@ flowchart LR
     UC05 -. "include: activity/content logs từ UC-02" .-> UC02
     UC05 -. "include: media selection logs từ UC-03" .-> UC03
     UC05 -. "include: conversation metadata từ UC-04" .-> UC04
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class Cloud cloudNode
+    class UC01,UC02,UC03,UC04,UC05 actionNode
 ```
 
 *Mô tả diagram: Use case diagram này mô tả các tác nhân chính gồm người dùng, Cloud Service và TFT Screen; trong đó chỉ UC-01 chạy tại Edge, còn UC-02, UC-03, UC-04 và UC-05 cần Cloud phối hợp.*
@@ -149,6 +182,17 @@ flowchart LR
     UC01 -. "include" .-> UC01D
     UC01 -. "include" .-> UC01E
     UC01 -. "include" .-> UC01F
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class Edge,TFT edgeNode
+    class UC01,UC01A,UC01B,UC01C,UC01D,UC01E,UC01F actionNode
 ```
 
 *Mô tả diagram: Use case diagram này cho thấy người dùng tương tác với Edge Device để chạy SER, sau đó kết quả được hiển thị trên TFT và lưu thành emotion session.*
@@ -156,7 +200,7 @@ flowchart LR
 #### Flow Chart
 
 ```mermaid
-flowchart TD
+flowchart LR
     Start([Bắt đầu])
     Activate["Người dùng kích hoạt Check-in"]
     Record["Thiết bị ghi âm có giới hạn thời gian"]
@@ -177,6 +221,17 @@ flowchart TD
     Confidence -- "Không" --> Uncertain --> Save
     Confidence -- "Có" --> Save
     Save --> Display --> End
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Display edgeNode
+    class Record serviceNode
+    class Start,Activate,Valid,Retry,Preprocess,Feature,Infer,Confidence,Uncertain,Save,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả tuần tự xử lý SER từ lúc người dùng check-in đến khi TFT hiển thị cảm xúc và local cache lưu phiên.*
@@ -241,6 +296,18 @@ flowchart LR
     UC02 -. "include" .-> UC02D
     UC02 -. "include" .-> UC02E
     UC02 -. "include" .-> UC02F
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class Cloud cloudNode
+    class UC02,UC01,UC02A,UC02B,UC02C,UC02D,UC02E,UC02F actionNode
 ```
 
 *Mô tả diagram: Use case diagram này thể hiện UC-02 cần Cloud Recommendation Service xử lý đồng thời hoạt động, bài hát và podcast; TFT Screen là nơi người dùng xem và phản hồi gợi ý.*
@@ -248,7 +315,7 @@ flowchart LR
 #### Flow Chart
 
 ```mermaid
-flowchart TD
+flowchart LR
     Start([Bắt đầu])
     Emotion["Nhận emotion label từ UC-01"]
     Online{"Có Internet?"}
@@ -264,6 +331,17 @@ flowchart TD
     Start --> Emotion --> Online
     Online -- "Không" --> NeedNet --> End
     Online -- "Có" --> Send --> Rank --> Return --> Display --> Feedback --> Save --> End
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Display edgeNode
+    class Feedback cloudNode
+    class Start,Emotion,Online,NeedNet,Send,Rank,Return,Save,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả quá trình lấy gợi ý hoạt động, bài hát và podcast từ Cloud rồi hiển thị kết quả lên TFT, bao gồm cả nhánh khi thiết bị không có Internet.*
@@ -334,6 +412,18 @@ flowchart LR
     UC03 -. "include" .-> UC03D
     UC03 -. "include" .-> UC03E
     UC03 -. "include" .-> UC03F
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class Cloud cloudNode
+    class UC03,UC01,UC03A,UC03B,UC03C,UC03D,UC03E,UC03F actionNode
 ```
 
 *Mô tả diagram: Use case diagram này mô tả nhánh người dùng chủ động chọn bài hát hoặc podcast theo category; Cloud lọc và xếp hạng nội dung, còn TFT hiển thị danh sách rút gọn.*
@@ -341,7 +431,7 @@ flowchart LR
 #### Flow Chart
 
 ```mermaid
-flowchart TD
+flowchart LR
     Start([Bắt đầu])
     SelectMode["Người dùng chọn Music/Podcast Mode"]
     ChooseCategory["Chọn category hoặc nói chủ đích"]
@@ -356,8 +446,17 @@ flowchart TD
     End([Kết thúc])
 
     Start --> SelectMode --> ChooseCategory --> Online
-    Online -- "Không" --> NeedNet --> End
-    Online -- "Có" --> Send --> Filter --> Rank --> Display --> SelectItem --> Save --> End
+    Online -->|Không| NeedNet --> End
+    Online -->|Có| Send --> Filter --> Rank --> Display --> SelectItem --> Save --> End
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Display edgeNode
+    class Start,SelectMode,ChooseCategory,Online,NeedNet,Send,Filter,Rank,SelectItem,Save,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả quá trình người dùng chủ động chọn category bài hát/podcast, Cloud trả danh sách phù hợp và thiết bị ghi nhận lựa chọn.*
@@ -414,6 +513,18 @@ flowchart LR
     UC04 -. "include" .-> UC03C
     UC04 -. "include" .-> UC03D
     UC03E -. "extend: nếu có tín hiệu nguy cấp" .-> UC04
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class Cloud cloudNode
+    class UC04,UC01,UC03A,UC03B,UC03C,UC03D,UC03E actionNode
 ```
 
 *Mô tả diagram: Use case diagram này nhấn mạnh Cloud Conversation Service là tác nhân xử lý phản hồi, còn TFT hiển thị câu trả lời đã được rút gọn và kiểm tra an toàn.*
@@ -443,20 +554,30 @@ flowchart TD
     Safety -- "Có" --> Crisis
     Crisis -- "Có" --> Support --> Save --> End
     Crisis -- "Không" --> Reply --> Save --> End
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Safety serviceNode
+    class Start,Speech,Online,NeedNet,Send,Generate,Rewrite,Crisis,Support,Reply,Save,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả luồng hội thoại cloud-assisted, bao gồm kiểm tra Internet, safety filter và nhánh xử lý tín hiệu nguy cấp.*
 
 ---
 
-## 3.4. SMART Objective 3: Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần, tháng và năm trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ
+## 3.4. SMART Objective 3: Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tháng và năm trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ
 
 Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiết bị. Cloud xử lý tổng hợp dữ liệu, còn thiết bị hiển thị phiên bản rút gọn phù hợp với màn hình TFT.
 
 ### 3.4.1. Use Case UC-05: Thống kê và phân tích xu hướng cảm xúc
 
 * **Input:** Lịch sử cảm xúc, activity logs, media selection logs và conversation metadata đã đồng bộ.
-* **Output:** Báo cáo rút gọn theo ngày, tuần, tháng và năm hiển thị trên TFT.
+* **Output:** Báo cáo rút gọn theo ngày, tháng và năm hiển thị trên TFT.
 
 **Mô tả:** Cloud Report Engine tổng hợp dữ liệu cảm xúc theo nhiều mốc thời gian, tính tỷ lệ cảm xúc, xu hướng thay đổi và hiệu quả hoạt động. Kết quả được nén thành các thẻ thông tin ngắn để hiển thị trên TFT.
 
@@ -511,6 +632,18 @@ flowchart LR
     UC05 -. "include" .-> UC04B
     UC05 -. "include" .-> UC04C
     UC05 -. "include" .-> UC04D
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class User userNode
+    class TFT edgeNode
+    class Cloud cloudNode
+    class Scheduler,UC05,UC01,UC02,UC03,UC04,UC04A,UC04B,UC04C,UC04D actionNode
 ```
 
 *Mô tả diagram: Use case diagram này cho thấy Cloud Report Engine tổng hợp dữ liệu từ các use case trước và trả báo cáo rút gọn về TFT Screen.*
@@ -540,6 +673,16 @@ flowchart TD
     Enough -- "Không" --> Limited --> Compact
     Enough -- "Có" --> Aggregate --> Trend --> Effect --> Compact
     Compact --> Display --> End
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Display edgeNode
+    class Start,Trigger,Online,NeedNet,Request,Load,Enough,Limited,Aggregate,Trend,Effect,Compact,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả cách thiết bị yêu cầu Cloud tạo báo cáo và nhận lại các thẻ tóm tắt để hiển thị trên TFT.*

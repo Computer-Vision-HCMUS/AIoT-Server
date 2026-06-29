@@ -18,7 +18,7 @@
 | Song Card | Thẻ bài hát rút gọn gồm title, creator, duration, category và reason text |
 | Podcast Card | Thẻ podcast rút gọn gồm title, creator, duration, category và reason text |
 | Response Card | Thẻ phản hồi hội thoại rút gọn để hiển thị trên TFT |
-| TFT Report Card | Thẻ báo cáo ngắn gồm insight chính theo ngày, tuần, tháng hoặc năm |
+| TFT Report Card | Thẻ báo cáo ngắn gồm insight chính theo ngày, tháng hoặc năm |
 | Limited Data | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo insight mạnh |
 
 ## 10.2. Bảng tham chiếu use case
@@ -84,7 +84,7 @@
 | `/api/conversations/respond` | POST | Lấy response card từ Cloud |
 | `/api/feedback/activity` | POST | Lưu lựa chọn hoặc đánh giá hoạt động |
 | `/api/feedback/media` | POST | Lưu lựa chọn hoặc đánh giá bài hát/podcast |
-| `/api/reports/tft-summary` | GET | Lấy report cards theo ngày, tuần, tháng hoặc năm |
+| `/api/reports/tft-summary` | GET | Lấy report cards theo ngày, tháng hoặc năm |
 | `/api/reports/generate` | POST | Yêu cầu Cloud tạo report mới |
 | `/api/device-config` | GET | Lấy cấu hình rút gọn cho thiết bị |
 
@@ -119,7 +119,30 @@ CHECK-IN -> RESULT -> SUPPORT -> ACTIVITY / MUSIC-PODCAST / CONVERSATION
 | Flash/Local Storage | Cache | Lưu session pending, media selection log pending và report gần nhất |
 | Wi-Fi | Kết nối | Bắt buộc cho Objective 2 và Objective 3 |
 
-## 10.9. References
+## 10.9. Other Requirements: Metadata và Supported Data Formats
+
+### 10.9.1. Required metadata
+
+| Data object | Required metadata | Mục đích |
+| ----------- | ----------------- | -------- |
+| `emotion_sessions` | `client_session_id`, `device_id`, `user_id`, `emotion_label`, `confidence_score`, `quality_flag`, `client_created_at`, `sync_status` | Truy vết phiên cảm xúc, chống trùng session và phục vụ report |
+| `recommendation_requests` | `session_id` nếu có, `request_payload`, `response_payload`, `status`, `created_at` | Lưu lịch sử gợi ý và đánh giá hiệu quả hỗ trợ |
+| `media_items` | `media_type`, `title`, `creator`, `category`, `duration_sec`, `enabled` | Phân loại bài hát/podcast và lọc nội dung theo category |
+| `media_selection_logs` | `session_id` nếu có, `media_item_id`, `user_intent`, `selected_category`, `feedback_score`, `created_at` | Theo dõi nội dung người dùng chọn và cá nhân hóa gợi ý |
+| `conversation_requests` | `session_id` nếu có, `user_message_summary`, `response_text`, `safety_flag`, `created_at` | Lưu metadata hội thoại khi được phép và kiểm tra safety |
+| `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality`, `generated_at` | Hiển thị report cards trên TFT và cache report gần nhất |
+
+### 10.9.2. Supported data formats
+
+| Format | Extension/MIME | Dùng cho | Trạng thái |
+| ------ | -------------- | -------- | ---------- |
+| JSON | `application/json` | API request/response, TFT cards, config payload | Supported |
+| WAV/PCM local | `.wav`, PCM buffer | Audio sample xử lý cục bộ cho SER | Local only |
+| CSV | `text/csv` | Export log/report trong phiên bản sau | Planned |
+| Markdown | `.md` | Tài liệu specification và user manual | Supported |
+| PNG/JPG | `.png`, `.jpg` | Hình minh họa, prototype screenshot nếu cần | Supported |
+
+## 10.10. References
 
 [1] PubMed Central, bài tham khảo về Speech Emotion Recognition.  
 https://pmc.ncbi.nlm.nih.gov/articles/PMC8898841/

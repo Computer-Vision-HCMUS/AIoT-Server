@@ -63,7 +63,7 @@ RAVDESS là tập dữ liệu âm thanh cảm xúc được sử dụng rộng r
 ## 4.5. Pipeline SER trên Edge Device
 
 ```mermaid
-flowchart TD
+flowchart LR
     Start([Người dùng kích hoạt Check-in])
     Capture["Thu âm có giới hạn thời gian"]
     Resample["Chuẩn hóa sample rate và mono channel"]
@@ -85,6 +85,16 @@ flowchart TD
     Segment -- "Có" --> Feature --> Model --> Confidence
     Confidence -- "Có" --> Label --> Cache --> Support --> End
     Confidence -- "Không" --> Uncertain --> Cache --> Support --> End
+
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
+    class Cache cacheNode
+    class Start,Capture,Resample,VAD,Denoise,Segment,Retry,Feature,Model,Confidence,Label,Uncertain,Support,End actionNode
 ```
 
 *Mô tả chart: Flow chart này mô tả pipeline Edge AI cho Speech Emotion Recognition, từ thu âm đến lưu emotion session và chuyển emotion context cho các chức năng cloud-assisted.*

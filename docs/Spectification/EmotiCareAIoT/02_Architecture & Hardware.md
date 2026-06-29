@@ -7,33 +7,44 @@ EmotiCare AIoT sử dụng kiến trúc **Edge-Cloud-TFT**. Edge Device chịu t
 ```mermaid
 flowchart LR
     User(["Người dùng"])
-    Device["Edge Device"]
-    TFT["TFT Screen"]
-    EdgeAI["Edge AI: Speech Emotion Recognition"]
-    Cache[("Local Cache")]
-    Cloud["Cloud API Server"]
-    DB[("Cloud Database")]
-    Reco["Recommendation Service"]
-    Media["Media Recommendation Service"]
-    Chat["Conversation Service"]
-    Report["Report Engine"]
+    Device["🔌 Edge Device"]
+    TFT["📺 TFT Screen"]
+    EdgeAI["🧠 Edge AI<br/>Speech Emotion"]
+    Cache[("💾 Local Cache")]
+    Cloud["☁️ Cloud API<br/>Server"]
+    DB[("🗄️ Cloud Database")]
+    Reco["🎵 Recommendation<br/>Service"]
+    Media["📻 Media<br/>Service"]
+    Chat["💬 Conversation<br/>Service"]
+    Report["📊 Report<br/>Engine"]
 
     User -->|"Giọng nói / nút bấm"| Device
     Device --> EdgeAI
-    EdgeAI -->|"emotion label + confidence"| Cache
+    EdgeAI -->|"emotion label +<br/>confidence"| Cache
     Device --> TFT
-    Cache -->|"sync khi có Internet"| Cloud
+    Cache -->|"sync khi có<br/>Internet"| Cloud
     Cloud --> DB
     Cloud --> Reco
     Cloud --> Media
     Cloud --> Chat
     Cloud --> Report
-    Reco -->|"activity/music/podcast suggestions"| Cloud
-    Media -->|"selected media list"| Cloud
-    Chat -->|"supportive response"| Cloud
-    Report -->|"summary report"| Cloud
+    Reco -->|"activity/music/<br/>podcast suggestions"| Cloud
+    Media -->|"selected<br/>media list"| Cloud
+    Chat -->|"supportive<br/>response"| Cloud
+    Report -->|"summary<br/>report"| Cloud
     Cloud -->|"kết quả cloud"| Device
     Device --> TFT
+
+    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:3px,color:#1e1b4b
+    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
+    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
+    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:3px,color:#0c3d67
+    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
+    class User userNode
+    class Device,TFT,EdgeAI edgeNode
+    class Cache cacheNode
+    class Cloud,DB cloudNode
+    class Reco,Media,Chat,Report serviceNode
 ```
 
 *Mô tả diagram: Sơ đồ thể hiện Objective 1 chạy trên Edge AI, còn Objective 2 và Objective 3 phối hợp với Cloud Service; mọi kết quả cuối cùng được trả về Edge Device và hiển thị trên TFT screen.*
@@ -92,7 +103,7 @@ Nếu nhóm muốn giảm chi phí, phương án tối thiểu là dùng ESP32-S
 | 4 | Thiết bị đồng bộ emotion session lên Cloud khi có Internet | Synced emotion session |
 | 5 | Cloud Recommendation Service, Media Recommendation Service hoặc Conversation Service xử lý yêu cầu hỗ trợ | Activity suggestion, song/podcast list hoặc supportive response |
 | 6 | Thiết bị nhận kết quả cloud và hiển thị trên TFT | Support screen |
-| 7 | Cloud Report Engine tổng hợp dữ liệu theo ngày/tuần/tháng/năm | Report summary |
+| 7 | Cloud Report Engine tổng hợp dữ liệu theo ngày/tháng/năm | Report summary |
 | 8 | Thiết bị nhận báo cáo rút gọn và hiển thị trên TFT | Report screen |
 
 ## 2.6. Nguyên tắc thiết kế
@@ -112,3 +123,16 @@ Nếu nhóm muốn giảm chi phí, phương án tối thiểu là dùng ESP32-S
 * Thiết bị phải hiển thị rõ trạng thái `Offline`, `Sync pending`, `Waiting cloud` và `Cloud result ready`.
 * Mỗi kết quả cloud phải được rút gọn để phù hợp với TFT screen.
 * API đồng bộ phải idempotent để tránh tạo trùng session khi retry.
+
+## 2.8. Assumptions và Dependencies
+
+| Nhóm | Giả định/phụ thuộc | Ảnh hưởng đến thiết kế |
+| ---- | ------------------ | ---------------------- |
+| Phần cứng | Prototype sử dụng ESP32-S3 hoặc board tương đương có Wi-Fi | Wi-Fi được xem là năng lực nền cho Objective 2 và Objective 3 |
+| Màn hình | TFT/OLED có không gian hiển thị giới hạn | Nội dung từ Cloud phải rút gọn thành cards ngắn |
+| Microphone | Microphone thu âm ở khoảng cách gần và môi trường demo không quá ồn | SER cần quality flag để xử lý audio quá ngắn/nhiễu |
+| Edge AI | Mô hình SER trên Edge là baseline/prototype, không thay thế đánh giá chuyên gia | Kết quả cần confidence score và trạng thái không chắc chắn |
+| Internet | Cloud API có thể không khả dụng khi mất Wi-Fi | Thiết bị phải cache session pending và hiển thị trạng thái offline |
+| Cloud Service | Server demo có database, recommendation service, media service, conversation service và report engine ở mức prototype | Các response cần schema rõ ràng để Edge dễ hiển thị |
+| Dữ liệu | Dataset tham khảo chính cho SER là RAVDESS hoặc dữ liệu tương đương | Tập nhãn sản phẩm cần ánh xạ từ nhãn dataset sang emotion label thực tế |
+| Quyền riêng tư | Audio thô không upload mặc định | Chỉ emotion context, metadata và feedback được đồng bộ nếu phù hợp consent |

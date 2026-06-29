@@ -12,3 +12,5 @@ aiot.db
 
 __pycache__/
 *.py[cod]
+
+docs/Spectification/example specification.pdf
