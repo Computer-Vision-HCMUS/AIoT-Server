@@ -1,48 +1,75 @@
 # AIoT-Server
 
-FastAPI backend for SmartClock and VisionDriveAI devices.
+FastAPI backend for **EmotiCare AIoT** Internet Service.
 
-## Docker Setup (recommended)
+The server follows `docs/Spectification/EmotiCareAIoT/05_Internet Service.md`:
+
+- Pair and authenticate Edge devices.
+- Sync emotion sessions from Edge AI.
+- Return TFT-ready recommendation, media, conversation, and report payloads.
+- Persist data in PostgreSQL with SQLAlchemy models and Alembic migrations.
+
+## Docker setup
 
 ```bash
 docker compose up --build
 ```
 
-The API is available at `http://localhost:8000`, Swagger docs at
-`http://localhost:8000/docs`, PostgreSQL at `localhost:5432`, and pgAdmin at
-`http://localhost:5050`.
+The API is available at:
 
-To load mock data after the stack is running:
+```text
+http://localhost:8000
+http://localhost:8000/docs
+```
+
+PostgreSQL is available at `localhost:5432`, and pgAdmin at:
+
+```text
+http://localhost:5050
+```
+
+Seed demo data:
 
 ```bash
 docker compose exec api python -m app.seed
 ```
 
-## Local Setup (SQLite fallback or host Python)
+## Local setup
 
 ```bash
 pip install -r requirements.txt
-cp .env.example .env
 alembic upgrade head
+python -m app.seed
 uvicorn app.main:app --reload
 ```
 
-API docs are available at `http://localhost:8000/docs`.
+Demo token:
 
-This project targets PostgreSQL for shared development, demos, and deployment.
-SQLite remains supported as a lightweight local fallback by setting
-`DATABASE_URL=sqlite:///./aiot.db`.
+```text
+demo-emoticare-device-token-local-dev
+```
 
-## Core Flow
+Use it as:
 
-1. Register a device with `POST /devices/register`.
-2. Store the returned `device_token` on the ESP32 device.
-3. Send authenticated requests with `Authorization: Bearer <device_token>` or `X-Device-Token`.
+```http
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
 
-## Database
+## Core API flow
 
-Schema changes are managed by Alembic migrations in `alembic/versions`.
-Do not create production tables from application startup code.
+1. `POST /api/devices/pair`
+2. `POST /api/emotion-sessions/sync`
+3. `POST /api/recommendations/request`
+4. `POST /api/media/recommendations`
+5. `POST /api/conversations/respond`
+6. `POST /api/feedback/activity` or `POST /api/feedback/media`
+7. `GET /api/reports/tft-summary?period=daily`
 
-For database architecture, migration, SQLite, PostgreSQL, Supabase, and pgAdmin notes, read `docs/database/DATABASE.md`.
-For mock data and Postman requests, read `docs/api/POSTMAN_TESTING.md`.
+Useful read/debug endpoints:
+
+- `GET /api/emotion-sessions`
+- `GET /api/recommendations`
+- `GET /api/media/history`
+- `GET /api/reports`
+
+For detailed Postman examples, read `docs/api/POSTMAN_TESTING.md`.

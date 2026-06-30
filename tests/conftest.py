@@ -13,8 +13,8 @@ os.environ["DATABASE_URL"] = f"sqlite:///./{TEST_DB_PATH}"
 os.environ["MIGRATION_DATABASE_URL"] = f"sqlite:///./{TEST_DB_PATH}"
 
 from app.database import Base, SessionLocal, engine, get_db  # noqa: E402
-from app.main import app  # noqa: E402
-from app.models import device, smartclock, visiondrive  # noqa: E402, F401
+from app.main import app as fastapi_app  # noqa: E402
+import app.models.emoticare  # noqa: E402, F401
 
 
 def override_get_db():
@@ -25,7 +25,7 @@ def override_get_db():
         db.close()
 
 
-app.dependency_overrides[get_db] = override_get_db
+fastapi_app.dependency_overrides[get_db] = override_get_db
 
 
 @pytest.fixture(autouse=True)
@@ -38,4 +38,4 @@ def reset_database():
 
 @pytest.fixture
 def client():
-    return TestClient(app)
+    return TestClient(fastapi_app)
