@@ -1,4 +1,7 @@
--- Run this in pgAdmin Query Tool while connected as a PostgreSQL superuser.
+-- EmotiCare local PostgreSQL setup for pgAdmin.
+-- Run this only when you use PostgreSQL installed directly on your machine.
+-- Docker Compose already creates aiot_db / aiot_user / aiot_password.
+--
 -- pgAdmin does not use psql commands like \connect, so run this in two steps.
 
 -- Step 1: Connect to the default `postgres` database, then run:
