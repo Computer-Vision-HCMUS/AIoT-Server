@@ -1,0 +1,8 @@
+bài báo uy tín + có code + sử dụng dataset RAVDESS + cổ điển + edge ai
+
+On-device Emotion Recognition from Spoken Language in Embedded Devices
+Tác giả: Neeraj Boddeda, Sharvari Wanjari, Shashank Goud Boorgu, Prasenjit Karmakar, Sandip Chakraborty
+Hội nghị: IEEE PerCom Workshops 2025
+DOI: 10.1109/PerComWorkshops65533.2025.00161
+Code: repo GitHub prasenjit52282/embedded-audio-emotion.
+
