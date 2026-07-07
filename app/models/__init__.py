@@ -1,24 +1,28 @@
-from app.models.device import Device, TimerConfig, SleepConfig
-from app.models.smartclock import (
-    GameScore,
-    PomodoroSession,
-    SeminarRecording,
-    SleepQualityReport,
-    SleepSensorBatch,
-    SleepSession,
+"""
+EmotiCare AIoT — model registry.
+Import all models here so Alembic auto-detects them via Base.metadata.
+"""
+
+from app.models.emoticare import (
+    ActivityFeedback,
+    ConversationRequest,
+    Device,
+    EmotionSession,
+    MediaItem,
+    MediaSelectionLog,
+    RecommendationRequest,
+    TftReport,
+    User,
 )
-from app.models.visiondrive import Trip, DistractionEvent
 
 __all__ = [
+    "User",
     "Device",
-    "TimerConfig",
-    "SleepConfig",
-    "PomodoroSession",
-    "SleepSession",
-    "SleepSensorBatch",
-    "SleepQualityReport",
-    "SeminarRecording",
-    "GameScore",
-    "Trip",
-    "DistractionEvent",
+    "EmotionSession",
+    "RecommendationRequest",
+    "ActivityFeedback",
+    "ConversationRequest",
+    "TftReport",
+    "MediaItem",
+    "MediaSelectionLog",
 ]

@@ -1,5 +1,5 @@
 *.zip
-
+*.kiro
 .env
 *.env
 aiot.db
