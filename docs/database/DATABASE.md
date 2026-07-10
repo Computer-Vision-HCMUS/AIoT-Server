@@ -1,327 +1,327 @@
-# AIoT Backend Database and Server Guide
+# EmotiCare Database and pgAdmin Guide
 
-Tài liệu này là tài liệu database duy nhất của project. Nó gộp lại phần kiến trúc database, migration, PostgreSQL local, Supabase và cách hiểu vì sao dữ liệu có thể xuất hiện ở SQLite nhưng không thấy trong pgAdmin.
+Tài liệu này mô tả database/backend hiện tại của **EmotiCare AIoT Internet Service** theo
+`docs/Spectification/EmotiCareAIoT/05_Internet Service.md`.
 
-## 1. Tổng quan kiến trúc
+Mục tiêu chính:
 
-Server hiện tại là một FastAPI backend cho 2 nhóm thiết bị:
+- Tạo đúng schema DB cho UC01-UC05.
+- Test được API và thấy dữ liệu ghi vào từng bảng.
+- Quan sát database bằng pgAdmin.
 
-- **SmartClock**: Pomodoro, Sleep Monitoring, Alarm, Seminar Practice, Game Score.
-- **VisionDriveAI**: Trip tracking, distraction detection, safety score.
+## 1. Kiến trúc hiện tại
 
-Luồng tổng thể:
+Backend là một **FastAPI modular monolith**:
 
 ```text
-ESP32 / Web Dashboard / Postman
+Edge Device / Postman / Swagger
         |
         v
-FastAPI Server
+FastAPI Cloud API
         |
         v
-Database
+SQLAlchemy ORM
+        |
+        v
+PostgreSQL database
 ```
 
-## 2. Server structure
-
-Các file server chính:
+Các file chính:
 
 | File | Vai trò |
 |---|---|
-| `app/main.py` | Tạo FastAPI app, CORS, route `/`, include routers |
+| `app/main.py` | Tạo FastAPI app, CORS, include các router `/api/*` |
 | `app/config.py` | Đọc `.env` bằng Pydantic Settings |
 | `app/database.py` | Tạo SQLAlchemy engine/session |
-| `app/auth.py` | Xác thực thiết bị bằng `device_token` |
+| `app/auth.py` | Xác thực device token bằng SHA-256 hash |
+| `app/models/emoticare.py` | SQLAlchemy models cho toàn bộ EmotiCare schema |
 | `app/schemas.py` | Pydantic request/response schemas |
-| `app/routers/health.py` | Health check |
-| `app/routers/devices.py` | Register device, get current device |
-| `app/routers/smartclock.py` | SmartClock APIs |
-| `app/routers/visiondrive.py` | VisionDrive APIs |
-| `app/models/*.py` | SQLAlchemy database models |
-| `app/seed.py` | Seed dữ liệu mock |
+| `app/seed.py` | Seed user demo, device demo và media catalog |
+| `alembic/versions/*` | Database migrations |
 
-Các endpoint chính:
+## 2. Bảng database
 
-| Endpoint | Mục đích |
-|---|---|
-| `GET /` | Trang gốc, trả thông tin server |
-| `GET /health` | Kiểm tra server và database |
-| `POST /devices/register` | Đăng ký thiết bị |
-| `GET /devices/me` | Kiểm tra token thiết bị hiện tại |
-| `GET /smartclock/timer-config` | Lấy cấu hình Pomodoro |
-| `PUT /smartclock/timer-config` | Cập nhật cấu hình Pomodoro |
-| `GET /smartclock/sleep-config` | Lấy cấu hình sleep/alarm |
-| `PUT /smartclock/sleep-config` | Cập nhật cấu hình sleep/alarm |
-| `POST /smartclock/pomodoro-sessions` | Ghi log Pomodoro |
-| `POST /smartclock/sleep-sessions` | Bắt đầu sleep session |
-| `POST /smartclock/sleep-sessions/{id}/sensor-batches` | Gửi batch cảm biến sleep |
-| `PUT /smartclock/sleep-sessions/{id}/quality-report` | Tạo/cập nhật sleep quality report |
-| `GET /smartclock/sleep-sessions/{id}/quality-report` | Đọc sleep quality report |
-| `POST /smartclock/game-scores` | Ghi điểm game |
-| `POST /visiondrive/trips` | Bắt đầu trip |
-| `POST /visiondrive/trips/{id}/distraction-events` | Ghi event mất tập trung |
-| `POST /visiondrive/trips/{id}/end` | Kết thúc trip |
+| Table | Use case | Mục đích |
+|---|---|---|
+| `users` | Core | Người dùng, pairing code, consent lưu dữ liệu |
+| `devices` | Core | Thiết bị Edge đã ghép với user, token hash, firmware, last seen |
+| `emotion_sessions` | UC01, UC05 | Emotion session đồng bộ từ Edge AI lên Cloud |
+| `recommendation_requests` | UC02, UC05 | Lưu request/response gợi ý hoạt động, bài hát, podcast |
+| `activity_feedback` | UC02, UC05 | Lưu lựa chọn/đánh giá activity |
+| `media_items` | UC02, UC03 | Catalog bài hát/podcast |
+| `media_selection_logs` | UC03, UC05 | Lưu nội dung người dùng chọn và feedback media |
+| `conversation_requests` | UC04, UC05 | Lưu phản hồi hội thoại và safety flag |
+| `tft_reports` | UC05 | Báo cáo rút gọn để trả về TFT |
 
-
-Các file Alembic:
-
-| File | Vai trò |
-|---|---|
-| `alembic.ini` | Cấu hình Alembic |
-| `alembic/env.py` | Nối Alembic với SQLAlchemy metadata và database URL |
-| `alembic/versions/*.py` | Các migration cụ thể |
-
-Lệnh thường dùng:
-
-```bash
-alembic current
-alembic heads
-alembic history
-alembic upgrade head
-alembic downgrade -1
-alembic revision --autogenerate -m "message"
-```
-
-## 5. Entity relationship
+## 3. ER diagram
 
 ```mermaid
 erDiagram
+    users ||--o{ devices : owns
+    users ||--o{ emotion_sessions : has
+    users ||--o{ tft_reports : receives
+
+    devices ||--o{ emotion_sessions : syncs
+
+    emotion_sessions ||--o{ recommendation_requests : requests
+    recommendation_requests ||--o{ activity_feedback : receives
+
+    emotion_sessions ||--o{ conversation_requests : starts
+    emotion_sessions ||--o{ media_selection_logs : logs
+    media_items ||--o{ media_selection_logs : selected
+
+    users {
+        uuid id PK
+        varchar name
+        varchar pairing_code UK
+        boolean consent_audio_storage
+        timestamp created_at
+        timestamp updated_at
+    }
+
     devices {
-        int id PK
-        string device_id UK
-        enum device_type
-        string device_token UK
-        datetime created_at
-        datetime last_seen_at
+        uuid id PK
+        uuid user_id FK
+        varchar name
+        varchar device_token_hash
+        varchar firmware_version
+        timestamp last_seen_at
+        varchar status
+        timestamp created_at
     }
 
-    timer_configs {
-        int id PK
-        int device_id FK
-        int study_duration
-        int break_duration
-        datetime updated_at
+    emotion_sessions {
+        uuid id PK
+        varchar client_session_id
+        uuid user_id FK
+        uuid device_id FK
+        varchar emotion_label
+        numeric confidence_score
+        varchar quality_flag
+        int inference_latency_ms
+        timestamp client_created_at
+        timestamp created_at
     }
 
-    sleep_configs {
-        int id PK
-        int device_id FK
-        bool alarm_enabled
-        string alarm_time
-        int sleep_duration
-        datetime updated_at
+    recommendation_requests {
+        uuid id PK
+        uuid session_id FK
+        jsonb request_payload
+        jsonb response_payload
+        varchar status
+        timestamp created_at
     }
 
-    pomodoro_sessions {
-        int id PK
-        int device_id FK
-        datetime timestamp
-        int duration
-        enum session_type
-        datetime created_at
+    activity_feedback {
+        uuid id PK
+        uuid recommendation_id FK
+        varchar activity_type
+        boolean selected
+        int feedback_score
+        timestamp created_at
     }
 
-    sleep_sessions {
-        int id PK
-        int device_id FK
-        datetime start_time
-        datetime end_time
-        enum status
-        float sleep_score
+    media_items {
+        uuid id PK
+        varchar media_type
+        varchar title
+        varchar creator
+        varchar category
+        int duration_sec
+        text source_url
+        boolean enabled
     }
 
-    sleep_sensor_batches {
-        int id PK
-        int sleep_session_id FK
-        datetime timestamp
-        float sound_level
-        float light_level
+    media_selection_logs {
+        uuid id PK
+        uuid session_id FK
+        uuid media_item_id FK
+        varchar user_intent
+        varchar selected_category
+        int feedback_score
+        timestamp created_at
     }
 
-    sleep_quality_reports {
-        int id PK
-        int sleep_session_id FK
-        float duration_minutes
-        enum quality_label
-        float duration_score
-        float sound_score
-        float light_score
-        float avg_sound_level
-        float avg_light_level
-        bool duration_issue
-        bool noise_issue
-        bool light_issue
-        text recommendation
-        datetime generated_at
+    conversation_requests {
+        uuid id PK
+        uuid session_id FK
+        text user_message_summary
+        varchar response_text
+        varchar safety_flag
+        timestamp created_at
     }
 
-    seminar_recordings {
-        int id PK
-        int device_id FK
-        string file_path
-        float duration
-        enum status
-        float clarity_score
-        float speed_score
-        float noise_score
-        float confidence_score
-        datetime created_at
-        datetime evaluated_at
+    tft_reports {
+        uuid id PK
+        uuid user_id FK
+        varchar period_type
+        date period_start
+        date period_end
+        jsonb tft_cards
+        jsonb emotion_distribution
+        varchar trend_summary
+        varchar data_quality
+        timestamp generated_at
     }
-
-    game_scores {
-        int id PK
-        int device_id FK
-        int score
-        datetime timestamp
-        datetime created_at
-    }
-
-    trips {
-        int id PK
-        int device_id FK
-        datetime start_time
-        datetime end_time
-        enum status
-        float safety_score
-    }
-
-    distraction_events {
-        int id PK
-        int trip_id FK
-        datetime timestamp
-        enum event_type
-        enum severity
-    }
-
-    devices ||--o| timer_configs : has
-    devices ||--o| sleep_configs : has
-    devices ||--o{ pomodoro_sessions : logs
-    devices ||--o{ sleep_sessions : monitors
-    devices ||--o{ seminar_recordings : records
-    devices ||--o{ game_scores : plays
-    devices ||--o{ trips : drives
-    sleep_sessions ||--o{ sleep_sensor_batches : batches
-    sleep_sessions ||--o| sleep_quality_reports : summarizes
-    trips ||--o{ distraction_events : detects
 ```
 
-## 6. Table summary
+## 4. API ghi vào bảng nào
 
-| Table | Thuộc về | Mô tả |
+| API | Method | Bảng đọc/ghi chính |
 |---|---|---|
-| `devices` | Core | Thiết bị ESP32 đã đăng ký |
-| `timer_configs` | SmartClock | Cấu hình Pomodoro |
-| `sleep_configs` | SmartClock | Cấu hình báo thức và giấc ngủ |
-| `pomodoro_sessions` | SmartClock | Log phiên Pomodoro |
-| `sleep_sessions` | SmartClock | Phiên theo dõi giấc ngủ |
-| `sleep_sensor_batches` | SmartClock | Dữ liệu âm thanh/ánh sáng theo thời gian |
-| `sleep_quality_reports` | SmartClock | Báo cáo chất lượng ngủ, issue và recommendation |
-| `seminar_recordings` | SmartClock | File audio và kết quả đánh giá seminar |
-| `game_scores` | SmartClock | Điểm game |
-| `trips` | VisionDrive | Chuyến đi |
-| `distraction_events` | VisionDrive | Sự kiện mất tập trung trong chuyến đi |
+| `/api/devices/pair` | POST | đọc `users`, ghi `devices` |
+| `/api/devices/heartbeat` | POST | cập nhật `devices` |
+| `/api/emotion-sessions/sync` | POST | ghi `emotion_sessions` |
+| `/api/emotion-sessions` | GET | đọc `emotion_sessions` của device hiện tại |
+| `/api/recommendations/request` | POST | đọc `emotion_sessions`, `media_items`; ghi `recommendation_requests` |
+| `/api/recommendations` | GET | đọc `recommendation_requests` của device hiện tại |
+| `/api/media/categories` | GET | trả category static |
+| `/api/media/recommendations` | POST | đọc `media_items` |
+| `/api/media/history` | GET | đọc `media_selection_logs` của device hiện tại |
+| `/api/conversations/respond` | POST | đọc `emotion_sessions`; ghi `conversation_requests` |
+| `/api/feedback/activity` | POST | đọc `recommendation_requests`; ghi `activity_feedback` |
+| `/api/feedback/media` | POST | đọc `emotion_sessions`, `media_items`; ghi `media_selection_logs` |
+| `/api/reports/tft-summary` | GET | đọc logs; ghi/đọc `tft_reports` |
+| `/api/reports/generate` | POST | đọc logs; ghi `tft_reports` |
+| `/api/reports` | GET | đọc `tft_reports` của user hiện tại |
+| `/api/device-config` | GET | trả config static cho Edge |
 
-## 7. Indexes
+## 5. Setup nhanh bằng Docker Compose
 
-| Table | Index | Mục đích |
-|---|---|---|
-| `devices` | `ix_devices_device_id` | Lookup device khi auth/register |
-| `pomodoro_sessions` | `ix_pomodoro_device_timestamp` | Query lịch sử Pomodoro theo device/time |
-| `sleep_sessions` | `ix_sleep_device_start` | Query lịch sử ngủ |
-| `sleep_sensor_batches` | `ix_sleep_batch_session_ts` | Query batch cảm biến theo session/time |
-| `sleep_quality_reports` | `ix_sleep_quality_generated` | Query report theo thời gian tạo |
-| `seminar_recordings` | `ix_seminar_device_created` | Query recording theo device/time |
-| `game_scores` | `ix_game_device_score` | Leaderboard/query score |
-| `trips` | `ix_trip_device_start` | Query trip theo device/time |
-| `distraction_events` | `ix_distraction_trip_ts` | Query event theo trip/time |
+Đây là cách dễ nhất để có API, PostgreSQL và pgAdmin chạy cùng lúc.
 
-## 8. Enum values
-
-| Enum | Values |
-|---|---|
-| `device_type` | `smartclock`, `visiondrive` |
-| `pomodoro_type` | `study`, `break` |
-| `sleep_status` | `active`, `completed` |
-| `sleep_quality_label` | `poor`, `fair`, `good`, `excellent` |
-| `seminar_status` | `pending`, `processing`, `completed`, `failed` |
-| `trip_status` | `active`, `completed` |
-| `distraction_type` | `drowsiness`, `gaze_distraction`, `phone_use` |
-| `distraction_severity` | `low`, `medium`, `high` |
-
-## 9. Sleep use case mapping
-
-Theo docs submission, Sleep Monitoring cần:
-
-- Ghi nhận thời gian bắt đầu/kết thúc ngủ.
-- Tính tổng thời lượng ngủ.
-- Theo dõi ánh sáng và âm thanh môi trường.
-- Đánh giá chất lượng ngủ.
-- Phân tích nguyên nhân ngủ chưa tốt.
-- Đưa ra gợi ý cải thiện.
-
-Mapping sang DB:
-
-| Nhu cầu use case | Bảng/cột |
-|---|---|
-| Bắt đầu/kết thúc ngủ | `sleep_sessions.start_time`, `sleep_sessions.end_time` |
-| Điểm ngủ tổng quan | `sleep_sessions.sleep_score` |
-| Âm thanh/ánh sáng theo thời gian | `sleep_sensor_batches` |
-| Báo cáo chất lượng | `sleep_quality_reports.quality_label` |
-| Điểm thành phần | `duration_score`, `sound_score`, `light_score` |
-| Vấn đề chính | `duration_issue`, `noise_issue`, `light_issue` |
-| Gợi ý cải thiện | `recommendation` |
-
-## 10. Database URL modes
-
-### SQLite local
-
-Dùng để test nhanh trên máy, seed mock, Postman:
-
-```env
-DATABASE_URL=sqlite:///./aiot.db
-MIGRATION_DATABASE_URL=sqlite:///./aiot.db
+```bash
+docker compose up --build
 ```
 
-Khi dùng mode này:
+Docker Compose tạo:
 
-- Database là file `aiot.db` trong project.
-- pgAdmin không thấy bảng vì pgAdmin không đọc SQLite.
-- Dùng SQLite viewer hoặc API server để xem dữ liệu.
+| Service | URL/Port | Credential |
+|---|---|---|
+| API | `http://localhost:8000` | N/A |
+| Swagger | `http://localhost:8000/docs` | N/A |
+| PostgreSQL | `localhost:5432` | `aiot_user` / `aiot_password` |
+| pgAdmin | `http://localhost:5050` | `admin@aiot.local` / `admin` |
 
-### PostgreSQL local
+API container tự chạy:
 
-Dùng khi muốn xem bảng bằng pgAdmin:
+```bash
+alembic upgrade head
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Seed demo data:
+
+```bash
+docker compose exec api python -m app.seed
+```
+
+Demo token sau khi seed:
+
+```text
+demo-emoticare-device-token-local-dev
+```
+
+## 6. Mở database trong pgAdmin khi dùng Docker
+
+1. Mở:
+
+```text
+http://localhost:5050
+```
+
+2. Đăng nhập:
+
+```text
+Email: admin@aiot.local
+Password: admin
+```
+
+3. Add server:
+
+```text
+Object Explorer > Servers > Register > Server
+```
+
+Tab **General**:
+
+```text
+Name: AIoT Docker PostgreSQL
+```
+
+Tab **Connection**:
+
+```text
+Host name/address: postgres
+Port: 5432
+Maintenance database: aiot_db
+Username: aiot_user
+Password: aiot_password
+```
+
+4. Xem bảng:
+
+```text
+Servers
+└── AIoT Docker PostgreSQL
+    └── Databases
+        └── aiot_db
+            └── Schemas
+                └── public
+                    └── Tables
+```
+
+Nếu pgAdmin chạy ngoài Docker thay vì service `pgadmin`, dùng host:
+
+```text
+Host name/address: localhost
+Port: 5432
+Username: aiot_user
+Password: aiot_password
+```
+
+## 7. Setup PostgreSQL local trên máy
+
+Dùng cách này nếu bạn chạy PostgreSQL bằng installer/local service, không dùng container PostgreSQL.
+
+Tạo database/user trong pgAdmin Query Tool khi đang connect vào database `postgres`:
+
+```sql
+CREATE DATABASE aiot_db;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT FROM pg_catalog.pg_roles WHERE rolname = 'aiot_user'
+    ) THEN
+        CREATE USER aiot_user WITH PASSWORD '123';
+    END IF;
+END
+$$;
+
+ALTER USER aiot_user WITH PASSWORD '123';
+```
+
+Sau đó connect sang database `aiot_db` và chạy:
+
+```sql
+GRANT ALL PRIVILEGES ON DATABASE aiot_db TO aiot_user;
+GRANT ALL ON SCHEMA public TO aiot_user;
+ALTER SCHEMA public OWNER TO aiot_user;
+```
+
+`.env` khi dùng PostgreSQL local:
 
 ```env
 DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
 MIGRATION_DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
+APP_HOST=0.0.0.0
+APP_PORT=8000
+APP_DEBUG=false
+CORS_ORIGINS=http://localhost:3000,http://localhost:5173
 ```
 
-Sau khi đổi `.env`, cần chạy:
-
-```bash
-alembic upgrade head
-python -m app.seed
-```
-
-Lúc đó pgAdmin mới thấy bảng trong `Schemas > public > Tables`.
-
-### Supabase PostgreSQL
-
-Dùng khi muốn database cloud:
-
-```env
-DATABASE_URL=postgresql://postgres.<project-ref>:<db-password>@<pooler-host>:5432/postgres?sslmode=require
-MIGRATION_DATABASE_URL=postgresql://postgres:<db-password>@db.<project-ref>.supabase.co:5432/postgres?sslmode=require
-```
-
-Gợi ý:
-
-- `DATABASE_URL`: dùng Session Pooler nếu app chạy ở môi trường không chắc IPv6.
-- `MIGRATION_DATABASE_URL`: dùng Direct connection nếu mạng hỗ trợ.
-- Nếu Direct connection lỗi, có thể đặt `MIGRATION_DATABASE_URL` giống `DATABASE_URL`.
-
-## 11. Setup local SQLite để test Postman
+Chạy migration, seed và server:
 
 ```bash
 alembic upgrade head
@@ -329,81 +329,183 @@ python -m app.seed
 uvicorn app.main:app --reload
 ```
 
-Mở:
-
-```text
-http://127.0.0.1:8000/
-http://127.0.0.1:8000/docs
-http://127.0.0.1:8000/health
-```
-
-Token mock:
-
-```text
-SmartClock: dev-smartclock-token
-VisionDrive: dev-visiondrive-token
-```
-
-Header Postman:
-
-```http
-Authorization: Bearer dev-smartclock-token
-```
-
-## 12. Setup PostgreSQL để xem trong pgAdmin
-
-Bước chuẩn:
-
-1. Tạo database trong PostgreSQL, ví dụ `aiot_db`.
-2. Tạo user, ví dụ `aiot_user`.
-3. Cấp quyền cho user trên database.
-4. Đổi `.env` sang PostgreSQL URL.
-5. Chạy migration và seed.
-
-Ví dụ SQL trong pgAdmin Query Tool hoặc `psql`:
-
-```sql
-CREATE DATABASE aiot_db;
-CREATE USER aiot_user WITH PASSWORD '123';
-GRANT ALL PRIVILEGES ON DATABASE aiot_db TO aiot_user;
-```
-
-Sau đó mở `.env`:
-
-```env
-DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
-MIGRATION_DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
-```
-
-Chạy:
+Kiểm tra migration:
 
 ```bash
-alembic upgrade head
-python -m app.seed
+alembic current
 ```
 
-Cuối cùng trong pgAdmin:
+Kết quả đúng:
 
 ```text
-Databases
-└── aiot_db
-    └── Schemas
-        └── public
-            └── Tables
+e002_emoticare_internet (head)
 ```
+
+## 8. Quan sát dữ liệu sau khi test API
+
+Sau khi gọi API bằng Swagger/Postman, mở pgAdmin:
+
+```text
+Databases > aiot_db > Schemas > public > Tables
+```
+
+Right click từng bảng:
+
+```text
+View/Edit Data > All Rows
+```
+
+Các bảng nên có dữ liệu sau seed:
+
+| Bảng | Dữ liệu seed |
+|---|---|
+| `users` | 1 demo user, pairing code `DEMO-001` |
+| `devices` | 1 demo device |
+| `media_items` | 21 bài hát/podcast |
+
+Các bảng có dữ liệu sau khi gọi API:
+
+| API đã gọi | Bảng sẽ thấy thêm dòng |
+|---|---|
+| `/api/emotion-sessions/sync` | `emotion_sessions` |
+| `/api/recommendations/request` | `recommendation_requests` |
+| `/api/feedback/activity` | `activity_feedback` |
+| `/api/feedback/media` | `media_selection_logs` |
+| `/api/conversations/respond` | `conversation_requests` |
+| `/api/reports/generate` | `tft_reports` |
+
+## 9. SQL query mẫu trong pgAdmin
+
+Đếm số dòng từng bảng:
+
+```sql
+SELECT 'users' AS table_name, COUNT(*) FROM users
+UNION ALL SELECT 'devices', COUNT(*) FROM devices
+UNION ALL SELECT 'emotion_sessions', COUNT(*) FROM emotion_sessions
+UNION ALL SELECT 'recommendation_requests', COUNT(*) FROM recommendation_requests
+UNION ALL SELECT 'activity_feedback', COUNT(*) FROM activity_feedback
+UNION ALL SELECT 'media_items', COUNT(*) FROM media_items
+UNION ALL SELECT 'media_selection_logs', COUNT(*) FROM media_selection_logs
+UNION ALL SELECT 'conversation_requests', COUNT(*) FROM conversation_requests
+UNION ALL SELECT 'tft_reports', COUNT(*) FROM tft_reports;
+```
+
+Xem emotion sessions mới nhất:
+
+```sql
+SELECT
+    es.id,
+    es.client_session_id,
+    d.name AS device_name,
+    es.emotion_label,
+    es.confidence_score,
+    es.quality_flag,
+    es.client_created_at,
+    es.created_at
+FROM emotion_sessions es
+JOIN devices d ON d.id = es.device_id
+ORDER BY es.created_at DESC
+LIMIT 20;
+```
+
+Xem recommendation payload:
+
+```sql
+SELECT
+    rr.id,
+    es.emotion_label,
+    rr.status,
+    rr.response_payload,
+    rr.created_at
+FROM recommendation_requests rr
+JOIN emotion_sessions es ON es.id = rr.session_id
+ORDER BY rr.created_at DESC
+LIMIT 10;
+```
+
+Xem media feedback:
+
+```sql
+SELECT
+    msl.id,
+    mi.title,
+    mi.media_type,
+    msl.selected_category,
+    msl.user_intent,
+    msl.feedback_score,
+    msl.created_at
+FROM media_selection_logs msl
+JOIN media_items mi ON mi.id = msl.media_item_id
+ORDER BY msl.created_at DESC
+LIMIT 20;
+```
+
+Xem report TFT:
+
+```sql
+SELECT
+    id,
+    period_type,
+    period_start,
+    period_end,
+    data_quality,
+    emotion_distribution,
+    tft_cards,
+    generated_at
+FROM tft_reports
+ORDER BY generated_at DESC
+LIMIT 10;
+```
+
+## 10. Test API mẫu
+
+Chi tiết request Postman nằm ở:
+
+```text
+docs/api/POSTMAN_TESTING.md
+```
+
+Luồng test tối thiểu:
+
+1. Seed database.
+2. Dùng token `demo-emoticare-device-token-local-dev`.
+3. Sync emotion session.
+4. Mở pgAdmin, kiểm tra `emotion_sessions`.
+5. Gọi recommendation.
+6. Kiểm tra `recommendation_requests`.
+7. Gọi feedback/media/conversation/report.
+8. Kiểm tra các bảng còn lại.
+
+Các API đọc nhanh để demo không cần mở bảng thủ công:
+
+```text
+GET /api/emotion-sessions
+GET /api/recommendations
+GET /api/media/history
+GET /api/reports
+```
+
+## 11. Troubleshooting pgAdmin
 
 Nếu không thấy bảng:
 
 - Right click `Tables` > `Refresh`.
-- Kiểm tra bạn đang mở đúng database.
-- Kiểm tra `.env` có thật sự dùng PostgreSQL chưa.
-- Chạy `alembic current`, nếu không hiện revision `bc260fe3aabc` thì migration chưa chạy vào database đó.
+- Kiểm tra đang mở đúng database `aiot_db`.
+- Kiểm tra `.env` có trỏ đúng PostgreSQL không.
+- Chạy `alembic current`, phải thấy `e002_emoticare_internet (head)`.
+- Chạy `alembic upgrade head` nếu migration chưa lên head.
+- Nếu dùng Docker pgAdmin, host nên là `postgres`; nếu dùng pgAdmin cài trên máy, host nên là `localhost`.
 
+Nếu API ghi dữ liệu nhưng pgAdmin không thấy:
 
-## 14. Quy tắc làm việc
+- Có thể API đang trỏ sang database khác với database pgAdmin đang mở.
+- Kiểm tra biến `DATABASE_URL` trong `.env` hoặc `docker-compose.yml`.
+- Với Docker Compose, API dùng `postgres:5432`, còn pgAdmin ngoài Docker dùng `localhost:5432`.
+
+## 12. Quy tắc làm việc với DB
 
 - Không commit `.env`.
-- Không commit `aiot.db`.
-- Mỗi lần sửa SQLAlchemy model thì tạo migration mới.
-- Muốn bảng xuất hiện ở database nào thì `.env` phải trỏ đúng database đó trước khi chạy `alembic upgrade head`.
-- Với PostgreSQL/Supabase thật, luôn kiểm tra migration file trước khi chạy.
+- Không commit file database local như `aiot.db`.
+- Khi sửa SQLAlchemy model, tạo Alembic migration mới.
+- Với PostgreSQL/Supabase thật, kiểm tra migration trước khi chạy.
+- Muốn pgAdmin thấy bảng ở database nào thì `DATABASE_URL`/`MIGRATION_DATABASE_URL` phải trỏ đúng database đó trước khi chạy migration.

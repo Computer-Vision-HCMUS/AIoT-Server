@@ -1,0 +1,18 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces Sơ đồ suy ra ba SMART objective từ mục đích sản phẩm}}{21}{figure.caption.4}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Sơ đồ kiến trúc Edge-Cloud-TFT của EmotiCare AIoT}}{24}{figure.caption.7}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Flow chart tổng quan liên kết ba SMART objective}}{30}{figure.caption.9}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Use case diagram tổng quan của hệ thống EmotiCare AIoT}}{31}{figure.caption.10}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Use case diagram UC-01 Speech Emotion Recognition}}{33}{figure.caption.12}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Flow chart UC-01 Speech Emotion Recognition}}{33}{figure.caption.13}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Use case diagram UC-02 gợi ý hoạt động cải thiện tâm trạng}}{36}{figure.caption.15}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Flow chart UC-02 gợi ý hoạt động cải thiện tâm trạng}}{36}{figure.caption.16}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Use case diagram UC-03 trò chuyện hỗ trợ cảm xúc}}{39}{figure.caption.17}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Flow chart UC-03 trò chuyện hỗ trợ cảm xúc}}{39}{figure.caption.18}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Use case diagram UC-04 lựa chọn nhạc và podcast theo chủ đích}}{41}{figure.caption.19}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Flow chart UC-04 lựa chọn nhạc và podcast theo chủ đích}}{41}{figure.caption.20}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Use case diagram UC-05 thống kê và phân tích xu hướng cảm xúc}}{43}{figure.caption.22}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Flow chart UC-05 thống kê và phân tích xu hướng cảm xúc}}{43}{figure.caption.23}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Pipeline Edge AI cho Speech Emotion Recognition}}{47}{figure.caption.25}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Flow đồng bộ session giữa Edge Device và Cloud Server}}{52}{figure.caption.27}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Flow Cloud hỗ trợ gợi ý, nội dung nghe và hội thoại cảm xúc}}{57}{figure.caption.30}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Flow Cloud tổng hợp báo cáo và trả insight về TFT screen}}{58}{figure.caption.31}%

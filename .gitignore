@@ -1,5 +1,5 @@
 *.zip
-
+*.kiro
 .env
 *.env
 aiot.db
@@ -12,3 +12,5 @@ aiot.db
 
 __pycache__/
 *.py[cod]
+
+docs/Spectification/example specification.pdf

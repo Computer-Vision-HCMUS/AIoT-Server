@@ -1,197 +1,185 @@
-from datetime import datetime
-from typing import Literal
+"""
+EmotiCare AIoT — Pydantic schemas (request/response models).
+"""
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from datetime import date, datetime
+from typing import Any, Literal, Optional
 
-
-DeviceType = Literal["smartclock", "visiondrive"]
-
-
-class DeviceRegisterRequest(BaseModel):
-    device_id: str = Field(min_length=1, max_length=64)
-    device_type: DeviceType
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class DeviceResponse(BaseModel):
+# ─── Devices ──────────────────────────────────────────────────────────────────
+
+class DevicePairRequest(BaseModel):
+    pairing_code: str = Field(min_length=1, max_length=20)
+    device_name: str = Field(min_length=1, max_length=120)
+    firmware_version: Optional[str] = Field(default=None, max_length=50)
+
+
+class DevicePairResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
     device_id: str
-    device_type: DeviceType
-    created_at: datetime
-    last_seen_at: datetime
+    user_id: str
+    device_name: str
+    device_token: str  # returned once only
+    status: str
+    paired_at: datetime
 
 
-class DeviceRegisterResponse(DeviceResponse):
-    device_token: str
+class DeviceHeartbeatRequest(BaseModel):
+    firmware_version: Optional[str] = Field(default=None, max_length=50)
 
 
-class TimerConfigRequest(BaseModel):
-    study_duration: int = Field(gt=0, le=240)
-    break_duration: int = Field(gt=0, le=120)
+class DeviceHeartbeatResponse(BaseModel):
+    device_id: str
+    server_time: datetime
+    status: str
+    config_version: str
 
 
-class TimerConfigResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+# ─── Emotion Sessions ─────────────────────────────────────────────────────────
 
-    study_duration: int
-    break_duration: int
-    updated_at: datetime
-
-
-class PomodoroSessionRequest(BaseModel):
-    timestamp: datetime
-    duration: int = Field(gt=0)
-    session_type: Literal["study", "break"]
+EmotionLabel = Literal[
+    "happy", "neutral", "stressed", "sad", "angry", "tired", "uncertain"
+]
+QualityFlag = Literal["clean", "noisy", "too_short", "low_confidence"]
 
 
-class PomodoroSessionResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+class EmotionSessionItem(BaseModel):
+    """One emotion session to be synced from the Edge Device."""
 
-    id: int
-    timestamp: datetime
-    duration: int
-    session_type: Literal["study", "break"]
-    created_at: datetime
-
-
-class GameScoreRequest(BaseModel):
-    score: int = Field(ge=0)
-    timestamp: datetime
+    client_session_id: str = Field(min_length=1, max_length=80)
+    emotion_label: EmotionLabel
+    confidence_score: float = Field(ge=0.0, le=1.0)
+    quality_flag: QualityFlag
+    inference_latency_ms: Optional[int] = Field(default=None, ge=0)
+    client_created_at: datetime
 
 
-class GameScoreResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    score: int
-    timestamp: datetime
-    created_at: datetime
+class EmotionSessionSyncRequest(BaseModel):
+    sessions: list[EmotionSessionItem] = Field(min_length=1, max_length=50)
 
 
-class SleepSessionStartRequest(BaseModel):
-    start_time: datetime
+class EmotionSessionSyncResponse(BaseModel):
+    received_count: int
+    total_submitted: int
+    received_ids: list[str]
 
 
-class SleepSessionEndRequest(BaseModel):
-    end_time: datetime
-    sleep_score: float = Field(ge=0, le=100)
+# ─── Recommendations ──────────────────────────────────────────────────────────
+
+class RecommendationRequestPayload(BaseModel):
+    session_id: str = Field(min_length=36, max_length=36)
 
 
-class SleepSessionResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    start_time: datetime
-    end_time: datetime | None
-    status: Literal["active", "completed"]
-    sleep_score: float | None
+class RecommendationResponse(BaseModel):
+    recommendation_id: str
+    emotion_label: str
+    cards: list[dict[str, Any]]
+    status: Literal["success", "failed", "limited"]
 
 
-class SleepSensorBatchRequest(BaseModel):
-    timestamp: datetime
-    sound_level: float = Field(ge=0)
-    light_level: float = Field(ge=0)
+# ─── Media ────────────────────────────────────────────────────────────────────
+
+MediaCategory = Literal[
+    "relax", "focus", "sleep", "happy",
+    "sad_support", "anger_release", "energy_recover"
+]
+MediaType = Literal["song", "podcast", "both"]
 
 
-class SleepSensorBatchResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    timestamp: datetime
-    sound_level: float
-    light_level: float
+class MediaCategoriesResponse(BaseModel):
+    categories: list[dict[str, str]]
 
 
-class SleepQualityReportRequest(BaseModel):
-    duration_minutes: float = Field(gt=0)
-    quality_label: Literal["poor", "fair", "good", "excellent"]
-    duration_score: float | None = Field(default=None, ge=0, le=100)
-    sound_score: float | None = Field(default=None, ge=0, le=100)
-    light_score: float | None = Field(default=None, ge=0, le=100)
-    avg_sound_level: float | None = Field(default=None, ge=0)
-    avg_light_level: float | None = Field(default=None, ge=0)
-    duration_issue: bool = False
-    noise_issue: bool = False
-    light_issue: bool = False
-    recommendation: str | None = Field(default=None, max_length=1000)
+class MediaRecommendationRequest(BaseModel):
+    category: Optional[MediaCategory] = None
+    media_type: Optional[MediaType] = None
+    emotion_label: Optional[EmotionLabel] = None
+    user_intent: Optional[str] = Field(default=None, max_length=120)
 
 
-class SleepQualityReportResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+class MediaRecommendationResponse(BaseModel):
+    category: Optional[str]
+    media_type: str
+    cards: list[dict[str, Any]]
 
-    id: int
-    sleep_session_id: int
-    duration_minutes: float
-    quality_label: Literal["poor", "fair", "good", "excellent"]
-    duration_score: float | None
-    sound_score: float | None
-    light_score: float | None
-    avg_sound_level: float | None
-    avg_light_level: float | None
-    duration_issue: bool
-    noise_issue: bool
-    light_issue: bool
-    recommendation: str | None
+
+# ─── Conversations ────────────────────────────────────────────────────────────
+
+class ConversationRespondRequest(BaseModel):
+    session_id: str = Field(min_length=36, max_length=36)
+    user_message: Optional[str] = Field(default=None, max_length=500)
+
+
+class ConversationRespondResponse(BaseModel):
+    conversation_id: str
+    safety_flag: Literal["none", "low", "medium", "high"]
+    card: dict[str, Any]
+
+
+# ─── Feedback ─────────────────────────────────────────────────────────────────
+
+ActivityType = Literal["breathing", "rest", "movement", "journaling"]
+
+
+class ActivityFeedbackRequest(BaseModel):
+    recommendation_id: str = Field(min_length=36, max_length=36)
+    activity_type: ActivityType
+    selected: bool = False
+    feedback_score: Optional[int] = Field(default=None, ge=1, le=5)
+
+
+class MediaFeedbackRequest(BaseModel):
+    session_id: str = Field(min_length=36, max_length=36)
+    media_item_id: str = Field(min_length=36, max_length=36)
+    user_intent: Optional[str] = Field(default=None, max_length=120)
+    feedback_score: Optional[int] = Field(default=None, ge=1, le=5)
+
+
+class FeedbackSavedResponse(BaseModel):
+    feedback_id: str
+    saved: bool
+
+
+# ─── Reports ──────────────────────────────────────────────────────────────────
+
+PeriodType = Literal["daily", "weekly", "monthly", "yearly"]
+
+
+class TftSummaryResponse(BaseModel):
+    report_id: str
+    period_type: PeriodType
+    period_start: date
+    period_end: date
+    cards: list[dict[str, Any]]
+    emotion_distribution: dict[str, Any]
+    trend_summary: Optional[str]
+    data_quality: Literal["enough_data", "limited_data"]
     generated_at: datetime
 
 
-class TripStartRequest(BaseModel):
-    start_time: datetime
+class ReportGenerateRequest(BaseModel):
+    period_type: PeriodType
 
 
-class TripEndRequest(BaseModel):
-    end_time: datetime
-    safety_score: float = Field(ge=0, le=100)
+class ReportGenerateResponse(BaseModel):
+    report_id: str
+    period_type: PeriodType
+    data_quality: Literal["enough_data", "limited_data"]
+    cards: list[dict[str, Any]]
+    generated_at: datetime
 
 
-class TripResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
+# ─── Device Config ────────────────────────────────────────────────────────────
 
-    id: int
-    start_time: datetime
-    end_time: datetime | None
-    status: Literal["active", "completed"]
-    safety_score: float | None
-
-
-class DistractionEventRequest(BaseModel):
-    timestamp: datetime
-    event_type: Literal["drowsiness", "gaze_distraction", "phone_use"]
-    severity: Literal["low", "medium", "high"]
-
-
-class DistractionEventResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    timestamp: datetime
-    event_type: Literal["drowsiness", "gaze_distraction", "phone_use"]
-    severity: Literal["low", "medium", "high"]
-
-
-class SleepConfigRequest(BaseModel):
-    alarm_enabled: bool
-    alarm_time: str | None = Field(default=None, max_length=5)
-    sleep_duration: int = Field(gt=0, le=1440)
-
-    @field_validator("alarm_time")
-    @classmethod
-    def validate_alarm_time(cls, value: str | None) -> str | None:
-        if value is None:
-            return value
-        hour, separator, minute = value.partition(":")
-        if separator != ":" or not hour.isdigit() or not minute.isdigit():
-            raise ValueError("alarm_time must use HH:MM format")
-        if not (0 <= int(hour) <= 23 and 0 <= int(minute) <= 59):
-            raise ValueError("alarm_time must use HH:MM format")
-        return value
-
-
-class SleepConfigResponse(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    alarm_enabled: bool
-    alarm_time: str | None
-    sleep_duration: int
-    updated_at: datetime
+class DeviceConfigResponse(BaseModel):
+    emotion_labels: list[str]
+    confidence_thresholds: dict[str, float]
+    quality_flags: list[str]
+    sync_interval_sec: int
+    heartbeat_interval_sec: int
+    tft_card_max: int
+    text_templates: dict[str, str]
+    media_categories: list[str]

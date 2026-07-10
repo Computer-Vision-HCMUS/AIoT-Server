@@ -1,0 +1,98 @@
+\contentsline {table}{\numberline {1}{\ignorespaces 0.1. Thông tin tài liệu}}{10}{table.1}%
+\contentsline {table}{\numberline {2}{\ignorespaces 0.3.1. Revision history}}{11}{table.2}%
+\contentsline {table}{\numberline {3}{\ignorespaces 0.3.2. Sign-off}}{11}{table.3}%
+\contentsline {table}{\numberline {4}{\ignorespaces 0.4. Intended Audience}}{12}{table.4}%
+\contentsline {table}{\numberline {5}{\ignorespaces 0.5. Definitions, Standards, and Framework}}{12}{table.5}%
+\contentsline {table}{\numberline {6}{\ignorespaces 0.6. How to Use this Document}}{13}{table.6}%
+\contentsline {table}{\numberline {7}{\ignorespaces 0.7. Thông tin thành viên}}{13}{table.7}%
+\contentsline {table}{\numberline {8}{\ignorespaces 0.8. Phạm vi cập nhật đặc tả}}{14}{table.8}%
+\contentsline {table}{\numberline {9}{\ignorespaces 0.9. Lịch sử phiên bản}}{14}{table.9}%
+\contentsline {table}{\numberline {10}{\ignorespaces 0.10. Cấu trúc tài liệu}}{15}{table.10}%
+\contentsline {table}{\numberline {11}{\ignorespaces 1.1.2. Sản phẩm tương tự}}{17}{table.11}%
+\contentsline {table}{\numberline {12}{\ignorespaces 1.3. Vấn đề cần giải quyết}}{18}{table.12}%
+\contentsline {table}{\numberline {13}{\ignorespaces 1.3. Vấn đề cần giải quyết (2)}}{18}{table.13}%
+\contentsline {table}{\numberline {14}{\ignorespaces 1.4. Người dùng mục tiêu}}{19}{table.14}%
+\contentsline {table}{\numberline {15}{\ignorespaces 1.4.1. User classes, characteristics và quyền truy cập}}{19}{table.15}%
+\contentsline {table}{\numberline {16}{\ignorespaces 1.5. Mục đích sản phẩm}}{20}{table.16}%
+\contentsline {table}{\numberline {17}{\ignorespaces 1.6. Từ mục đích sản phẩm suy ra 3 mục tiêu}}{22}{table.17}%
+\contentsline {table}{\numberline {18}{\ignorespaces 1.8. Tiêu chí thành công}}{23}{table.18}%
+\contentsline {table}{\numberline {19}{\ignorespaces 2.2. Thành phần chính}}{24}{table.19}%
+\contentsline {table}{\numberline {20}{\ignorespaces 2.3. Thành phần phần cứng đề xuất}}{25}{table.20}%
+\contentsline {table}{\numberline {21}{\ignorespaces 2.4. Dự đoán chi phí tổng}}{26}{table.21}%
+\contentsline {table}{\numberline {22}{\ignorespaces 2.5. Luồng dữ liệu tổng quát}}{26}{table.22}%
+\contentsline {table}{\numberline {23}{\ignorespaces 2.6. Nguyên tắc thiết kế}}{27}{table.23}%
+\contentsline {table}{\numberline {24}{\ignorespaces 2.8. Assumptions và Dependencies}}{28}{table.24}%
+\contentsline {table}{\numberline {25}{\ignorespaces 3.1. Tổng quan}}{29}{table.25}%
+\contentsline {table}{\numberline {26}{\ignorespaces Value Proposition to Requirement Mapping}}{29}{table.26}%
+\contentsline {table}{\numberline {27}{\ignorespaces 3.2.1. Use Case UC-01: Speech Emotion Recognition}}{32}{table.27}%
+\contentsline {table}{\numberline {28}{\ignorespaces 3.3.1. Use Case UC-02: Gợi ý hoạt động và nội dung cải thiện tâm trạng}}{34}{table.28}%
+\contentsline {table}{\numberline {29}{\ignorespaces 3.3.2. Use Case UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích}}{37}{table.29}%
+\contentsline {table}{\numberline {30}{\ignorespaces Category nội dung}}{38}{table.30}%
+\contentsline {table}{\numberline {31}{\ignorespaces 3.3.3. Use Case UC-04: Trò chuyện hỗ trợ cảm xúc}}{40}{table.31}%
+\contentsline {table}{\numberline {32}{\ignorespaces 3.4.1. Use Case UC-05: Thống kê và phân tích xu hướng cảm xúc}}{42}{table.32}%
+\contentsline {table}{\numberline {33}{\ignorespaces 3.5. Bảng tổng hợp use case}}{44}{table.33}%
+\contentsline {table}{\numberline {34}{\ignorespaces 4.2. Cơ sở tham khảo kỹ thuật}}{45}{table.34}%
+\contentsline {table}{\numberline {35}{\ignorespaces 4.3. RAVDESS và ánh xạ nhãn cảm xúc}}{46}{table.35}%
+\contentsline {table}{\numberline {36}{\ignorespaces 4.4. Dữ liệu đầu vào và đầu ra}}{46}{table.36}%
+\contentsline {table}{\numberline {37}{\ignorespaces 4.4. Dữ liệu đầu vào và đầu ra (2)}}{47}{table.37}%
+\contentsline {table}{\numberline {38}{\ignorespaces 4.6. Đặc trưng âm thanh}}{48}{table.38}%
+\contentsline {table}{\numberline {39}{\ignorespaces 4.7. Mô hình đề xuất}}{48}{table.39}%
+\contentsline {table}{\numberline {40}{\ignorespaces 4.8. Tập nhãn sản phẩm}}{49}{table.40}%
+\contentsline {table}{\numberline {41}{\ignorespaces 4.9. Logic confidence và quality flag}}{49}{table.41}%
+\contentsline {table}{\numberline {42}{\ignorespaces 4.10. Đánh giá mô hình}}{50}{table.42}%
+\contentsline {table}{\numberline {43}{\ignorespaces 4.11. Lưu trữ cục bộ}}{50}{table.43}%
+\contentsline {table}{\numberline {44}{\ignorespaces 5.1. Tổng quan}}{52}{table.44}%
+\contentsline {table}{\numberline {45}{\ignorespaces 5.3.1. Bảng users}}{53}{table.45}%
+\contentsline {table}{\numberline {46}{\ignorespaces 5.3.2. Bảng devices}}{53}{table.46}%
+\contentsline {table}{\numberline {47}{\ignorespaces 5.3.3. Bảng emotion\_sessions}}{53}{table.47}%
+\contentsline {table}{\numberline {48}{\ignorespaces 5.3.4. Bảng recommendation\_requests}}{54}{table.48}%
+\contentsline {table}{\numberline {49}{\ignorespaces 5.3.5. Bảng activity\_feedback}}{54}{table.49}%
+\contentsline {table}{\numberline {50}{\ignorespaces 5.3.6. Bảng conversation\_requests}}{54}{table.50}%
+\contentsline {table}{\numberline {51}{\ignorespaces 5.3.7. Bảng tft\_reports}}{55}{table.51}%
+\contentsline {table}{\numberline {52}{\ignorespaces 5.4. API cho Edge Device}}{55}{table.52}%
+\contentsline {table}{\numberline {53}{\ignorespaces 5.5.1. Bảng media\_items}}{56}{table.53}%
+\contentsline {table}{\numberline {54}{\ignorespaces 5.5.2. Bảng media\_selection\_logs}}{56}{table.54}%
+\contentsline {table}{\numberline {55}{\ignorespaces 5.5.3. Media categories}}{57}{table.55}%
+\contentsline {table}{\numberline {56}{\ignorespaces Yêu cầu chức năng nhận diện cảm xúc trên Edge}}{60}{table.56}%
+\contentsline {table}{\numberline {57}{\ignorespaces Yêu cầu chức năng đồng bộ nền tảng}}{61}{table.57}%
+\contentsline {table}{\numberline {58}{\ignorespaces Yêu cầu chức năng gợi ý hoạt động và nội dung qua Cloud}}{61}{table.58}%
+\contentsline {table}{\numberline {59}{\ignorespaces Yêu cầu chức năng lựa chọn bài hát hoặc podcast theo chủ đích}}{61}{table.59}%
+\contentsline {table}{\numberline {60}{\ignorespaces Yêu cầu chức năng trò chuyện hỗ trợ qua Cloud}}{62}{table.60}%
+\contentsline {table}{\numberline {61}{\ignorespaces Yêu cầu chức năng báo cáo trên TFT qua Cloud}}{62}{table.61}%
+\contentsline {table}{\numberline {62}{\ignorespaces Yêu cầu chức năng quản lý dữ liệu người dùng}}{63}{table.62}%
+\contentsline {table}{\numberline {63}{\ignorespaces 6.9. Traceability Matrix}}{63}{table.63}%
+\contentsline {table}{\numberline {64}{\ignorespaces 6.10. Requirement Domain Summary}}{64}{table.64}%
+\contentsline {table}{\numberline {65}{\ignorespaces Yêu cầu phi chức năng về hiệu năng}}{65}{table.65}%
+\contentsline {table}{\numberline {66}{\ignorespaces Yêu cầu phi chức năng về độ tin cậy và khả dụng}}{65}{table.66}%
+\contentsline {table}{\numberline {67}{\ignorespaces Yêu cầu phi chức năng về bảo mật và quyền riêng tư}}{66}{table.67}%
+\contentsline {table}{\numberline {68}{\ignorespaces Yêu cầu phi chức năng về an toàn cảm xúc}}{66}{table.68}%
+\contentsline {table}{\numberline {69}{\ignorespaces Yêu cầu phi chức năng về khả dụng và trải nghiệm TFT}}{66}{table.69}%
+\contentsline {table}{\numberline {70}{\ignorespaces Yêu cầu phi chức năng về khả năng bảo trì và mở rộng}}{67}{table.70}%
+\contentsline {table}{\numberline {71}{\ignorespaces 8.2. Luồng màn hình thiết bị}}{68}{table.71}%
+\contentsline {table}{\numberline {72}{\ignorespaces 8.3. Thiết lập lần đầu}}{69}{table.72}%
+\contentsline {table}{\numberline {73}{\ignorespaces 8.4. Check-in cảm xúc bằng giọng nói}}{69}{table.73}%
+\contentsline {table}{\numberline {74}{\ignorespaces 8.4. Check-in cảm xúc bằng giọng nói (2)}}{70}{table.74}%
+\contentsline {table}{\numberline {75}{\ignorespaces 8.5. Sử dụng gợi ý hoạt động và nội dung qua Cloud}}{70}{table.75}%
+\contentsline {table}{\numberline {76}{\ignorespaces 8.6. Chọn bài hát hoặc podcast theo chủ đích}}{71}{table.76}%
+\contentsline {table}{\numberline {77}{\ignorespaces 8.6. Chọn bài hát hoặc podcast theo chủ đích (2)}}{71}{table.77}%
+\contentsline {table}{\numberline {78}{\ignorespaces 8.7. Sử dụng trò chuyện hỗ trợ cảm xúc qua Cloud}}{72}{table.78}%
+\contentsline {table}{\numberline {79}{\ignorespaces 8.8. Xem trạng thái đồng bộ}}{72}{table.79}%
+\contentsline {table}{\numberline {80}{\ignorespaces 8.9. Xem báo cáo trên TFT}}{73}{table.80}%
+\contentsline {table}{\numberline {81}{\ignorespaces 8.9. Xem báo cáo trên TFT (2)}}{73}{table.81}%
+\contentsline {table}{\numberline {82}{\ignorespaces 8.9. Xem báo cáo trên TFT (3)}}{73}{table.82}%
+\contentsline {table}{\numberline {83}{\ignorespaces 8.10. Xử lý sự cố}}{74}{table.83}%
+\contentsline {table}{\numberline {84}{\ignorespaces 9.2. Mức độ đáp ứng mục tiêu}}{75}{table.84}%
+\contentsline {table}{\numberline {85}{\ignorespaces 9.3. Lợi ích kỳ vọng}}{75}{table.85}%
+\contentsline {table}{\numberline {86}{\ignorespaces 9.4. Giới hạn hiện tại}}{76}{table.86}%
+\contentsline {table}{\numberline {87}{\ignorespaces 9.5. Hướng phát triển}}{76}{table.87}%
+\contentsline {table}{\numberline {88}{\ignorespaces 9.6. Forward Plans và Milestones}}{77}{table.88}%
+\contentsline {table}{\numberline {89}{\ignorespaces 10.1. Thuật ngữ}}{78}{table.89}%
+\contentsline {table}{\numberline {90}{\ignorespaces 10.2. Bảng tham chiếu use case}}{79}{table.90}%
+\contentsline {table}{\numberline {91}{\ignorespaces 10.3. Emotion session schema}}{79}{table.91}%
+\contentsline {table}{\numberline {92}{\ignorespaces 10.4. Thư viện hoạt động mẫu}}{80}{table.92}%
+\contentsline {table}{\numberline {93}{\ignorespaces 10.5. Media category mẫu}}{80}{table.93}%
+\contentsline {table}{\numberline {94}{\ignorespaces 10.6. API summary cho Edge Device}}{80}{table.94}%
+\contentsline {table}{\numberline {95}{\ignorespaces 10.7. Screen flow phần cứng}}{81}{table.95}%
+\contentsline {table}{\numberline {96}{\ignorespaces 10.8. Tham chiếu phần cứng}}{82}{table.96}%
+\contentsline {table}{\numberline {97}{\ignorespaces 10.9.1. Required metadata}}{82}{table.97}%
+\contentsline {table}{\numberline {98}{\ignorespaces 10.9.2. Supported data formats}}{83}{table.98}%

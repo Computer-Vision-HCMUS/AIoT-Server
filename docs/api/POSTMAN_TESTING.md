@@ -1,75 +1,23 @@
-# API Mock Data and Postman Testing
+# EmotiCare API Mock Data and Postman Testing
 
-Tài liệu này hướng dẫn init database bằng dữ liệu mock để test API bằng Postman.
+Tài liệu này dùng để test Internet Service theo
+`docs/Spectification/EmotiCareAIoT/05_Internet Service.md`.
 
-## 1. Chuẩn bị `.env`
+## 1. Init database
 
-Nếu dùng Supabase, điền connection string thật:
-
-```env
-DATABASE_URL=postgresql://postgres.<project-ref>:<db-password>@<pooler-host>:5432/postgres?sslmode=require
-MIGRATION_DATABASE_URL=postgresql://postgres:<db-password>@db.<project-ref>.supabase.co:5432/postgres?sslmode=require
-```
-
-Nếu chỉ test local bằng SQLite:
+PostgreSQL local trong `.env`:
 
 ```env
-DATABASE_URL=sqlite:///./aiot.db
-MIGRATION_DATABASE_URL=sqlite:///./aiot.db
+DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
+MIGRATION_DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
 ```
 
-## 2. Init schema và seed data
-
-Chạy migration trước để tạo toàn bộ bảng:
+Chạy migration và seed:
 
 ```bash
 alembic upgrade head
-```
-
-Sau đó insert dữ liệu mock:
-
-```bash
 python -m app.seed
-```
-
-Seed script là idempotent cho 2 thiết bị demo. Chạy lại script sẽ refresh dữ liệu mock của 2 thiết bị này.
-
-## 3. Token mẫu
-
-SmartClock:
-
-```text
-dev-smartclock-token
-```
-
-VisionDrive:
-
-```text
-dev-visiondrive-token
-```
-
-Trong Postman, thêm header:
-
-```http
-Authorization: Bearer dev-smartclock-token
-```
-
-hoặc:
-
-```http
-X-Device-Token: dev-smartclock-token
-```
-
-## 4. Chạy server
-
-```bash
 uvicorn app.main:app --reload
-```
-
-Base URL:
-
-```text
-http://localhost:8000
 ```
 
 Swagger UI:
@@ -78,196 +26,251 @@ Swagger UI:
 http://localhost:8000/docs
 ```
 
-## 5. Request mẫu cho Postman
+## 2. Demo token
 
-### Health check
+Seed tạo user demo có pairing code:
 
-```http
-GET http://localhost:8000/health
+```text
+DEMO-001
 ```
 
-### Get current SmartClock
+Seed cũng tạo sẵn device demo với token:
 
-```http
-GET http://localhost:8000/devices/me
-Authorization: Bearer dev-smartclock-token
+```text
+demo-emoticare-device-token-local-dev
 ```
 
-### Register new device
+Header dùng trong Postman:
 
 ```http
-POST http://localhost:8000/devices/register
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+hoặc:
+
+```http
+Authorization: Bearer demo-emoticare-device-token-local-dev
+```
+
+## 3. Pair device
+
+```http
+POST http://localhost:8000/api/devices/pair
 Content-Type: application/json
 ```
 
 ```json
 {
-  "device_id": "smartclock-postman-001",
-  "device_type": "smartclock"
+  "pairing_code": "DEMO-001",
+  "device_name": "ESP32-S3 EmotiCare",
+  "firmware_version": "1.0.0"
 }
 ```
 
-### Get SmartClock timer config
+Lưu `device_token` trả về để test các endpoint còn lại.
+
+## 4. Heartbeat
 
 ```http
-GET http://localhost:8000/smartclock/timer-config
-Authorization: Bearer dev-smartclock-token
-```
-
-### Update SmartClock sleep config
-
-```http
-PUT http://localhost:8000/smartclock/sleep-config
-Authorization: Bearer dev-smartclock-token
+POST http://localhost:8000/api/devices/heartbeat
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "alarm_enabled": true,
-  "alarm_time": "06:45",
-  "sleep_duration": 480
+  "firmware_version": "1.0.1"
 }
 ```
 
-### Create Pomodoro session
+Response có `server_time`, `status`, `config_version`.
+
+## 5. Sync emotion sessions
 
 ```http
-POST http://localhost:8000/smartclock/pomodoro-sessions
-Authorization: Bearer dev-smartclock-token
+POST http://localhost:8000/api/emotion-sessions/sync
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "timestamp": "2026-05-29T08:00:00Z",
-  "duration": 1500,
-  "session_type": "study"
+  "sessions": [
+    {
+      "client_session_id": "edge-session-001",
+      "emotion_label": "stressed",
+      "confidence_score": 0.82,
+      "quality_flag": "clean",
+      "inference_latency_ms": 850,
+      "client_created_at": "2026-06-29T08:00:00Z"
+    }
+  ]
 }
 ```
 
-### Create Sleep session
+Endpoint này idempotent theo `device_id + client_session_id`.
+
+Xem session đã sync:
 
 ```http
-POST http://localhost:8000/smartclock/sleep-sessions
-Authorization: Bearer dev-smartclock-token
+GET http://localhost:8000/api/emotion-sessions
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+## 6. Recommendation request
+
+Lấy `session_id` cloud trong database table `emotion_sessions`, rồi gọi:
+
+```http
+POST http://localhost:8000/api/recommendations/request
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "start_time": "2026-05-29T23:00:00Z"
+  "session_id": "<emotion_sessions.id>"
 }
 ```
 
-Ghi lại `id` trong response để dùng cho các API tiếp theo.
+Kết quả lưu vào `recommendation_requests`.
 
-### Add Sleep sensor batch
+Xem recommendation history:
 
 ```http
-POST http://localhost:8000/smartclock/sleep-sessions/{session_id}/sensor-batches
-Authorization: Bearer dev-smartclock-token
+GET http://localhost:8000/api/recommendations
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+## 7. Activity feedback
+
+```http
+POST http://localhost:8000/api/feedback/activity
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "timestamp": "2026-05-30T01:00:00Z",
-  "sound_level": 21.5,
-  "light_level": 8.0
+  "recommendation_id": "<recommendation_requests.id>",
+  "activity_type": "breathing",
+  "selected": true,
+  "feedback_score": 5
 }
 ```
 
-### Upsert Sleep quality report
+Kết quả lưu vào `activity_feedback`.
+
+## 8. Media categories and recommendations
 
 ```http
-PUT http://localhost:8000/smartclock/sleep-sessions/{session_id}/quality-report
-Authorization: Bearer dev-smartclock-token
+GET http://localhost:8000/api/media/categories
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+```http
+POST http://localhost:8000/api/media/recommendations
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "duration_minutes": 450,
-  "quality_label": "good",
-  "duration_score": 37,
-  "sound_score": 25,
-  "light_score": 28,
-  "avg_sound_level": 18.2,
-  "avg_light_level": 7.5,
-  "duration_issue": true,
-  "noise_issue": false,
-  "light_issue": false,
-  "recommendation": "Try sleeping 30 minutes longer to reach the 8-hour target."
+  "media_type": "both",
+  "emotion_label": "stressed",
+  "user_intent": "calm down"
 }
 ```
 
-### Get Sleep quality report
+Media catalog nằm trong `media_items`.
+
+Xem lịch sử chọn media:
 
 ```http
-GET http://localhost:8000/smartclock/sleep-sessions/{session_id}/quality-report
-Authorization: Bearer dev-smartclock-token
+GET http://localhost:8000/api/media/history
+X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-### Start VisionDrive trip
+## 9. Media feedback
 
 ```http
-POST http://localhost:8000/visiondrive/trips
-Authorization: Bearer dev-visiondrive-token
+POST http://localhost:8000/api/feedback/media
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "start_time": "2026-05-29T09:00:00Z"
+  "session_id": "<emotion_sessions.id>",
+  "media_item_id": "<media_items.id>",
+  "user_intent": "calm down",
+  "feedback_score": 4
 }
 ```
 
-### Add distraction event
+Kết quả lưu vào `media_selection_logs`.
+
+## 10. Conversation response
 
 ```http
-POST http://localhost:8000/visiondrive/trips/{trip_id}/distraction-events
-Authorization: Bearer dev-visiondrive-token
+POST http://localhost:8000/api/conversations/respond
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "timestamp": "2026-05-29T09:05:00Z",
-  "event_type": "phone_use",
-  "severity": "high"
+  "session_id": "<emotion_sessions.id>",
+  "user_message": "toi thay cang thang"
 }
 ```
 
-### End VisionDrive trip
+Kết quả lưu vào `conversation_requests`.
+
+Test safety high:
+
+```json
+{
+  "session_id": "<emotion_sessions.id>",
+  "user_message": "toi muon chet va khong muon song nua"
+}
+```
+
+Kết quả đúng: `safety_flag = high`, card có `severity = alert`, `next_action = contact_support`.
+
+## 11. TFT report
 
 ```http
-POST http://localhost:8000/visiondrive/trips/{trip_id}/end
-Authorization: Bearer dev-visiondrive-token
+GET http://localhost:8000/api/reports/tft-summary?period=daily
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+```http
+POST http://localhost:8000/api/reports/generate
+X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
 
 ```json
 {
-  "end_time": "2026-05-29T09:30:00Z",
-  "safety_score": 82
+  "period_type": "daily"
 }
 ```
 
-## 6. Test lỗi auth nhanh
+Kết quả lưu vào `tft_reports`.
 
-Dùng SmartClock token gọi VisionDrive API:
+Xem report history:
 
 ```http
-POST http://localhost:8000/visiondrive/trips
-Authorization: Bearer dev-smartclock-token
-Content-Type: application/json
+GET http://localhost:8000/api/reports
+X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-```json
-{
-  "start_time": "2026-05-29T09:00:00Z"
-}
+## 12. Device config
+
+```http
+GET http://localhost:8000/api/device-config
+X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-Kết quả đúng là HTTP `403`, vì token SmartClock không được gọi API VisionDrive.
+Trả về emotion labels, thresholds, quality flags, sync intervals và media categories cho thiết bị.
