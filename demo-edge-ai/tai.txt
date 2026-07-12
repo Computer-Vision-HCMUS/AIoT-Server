@@ -6,3 +6,7 @@ Hội nghị: IEEE PerCom Workshops 2025
 DOI: 10.1109/PerComWorkshops65533.2025.00161
 Code: repo GitHub prasenjit52282/embedded-audio-emotion.
 
+
+Chủ nhật ngày 12 tháng 7 năm 2026:
+    Đã xây dựng và chạy thử chương trình C++ độc lập trên máy tính, truyền một vector mẫu gồm 45 đặc trưng kiểu int16_t vào hai hàm rf_predict() và rf_predict_proba() trong classifier.h; chương trình được biên dịch bằng g++ và thực thi thành công.
+    Với bộ input khai báo sẵn, mô hình trả về Class index 0 – Angry, có giá trị đầu ra cao nhất là 0.48; kết quả này chỉ xác nhận luồng feature input → classifier.h → class output hoạt động, chưa kiểm tra với âm thanh thực tế
