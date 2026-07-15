@@ -16,6 +16,7 @@ from app.schemas import (
     MediaRecommendationRequest,
     MediaRecommendationResponse,
 )
+from app.services.recommendations import recommend_music, recommend_podcast
 
 router = APIRouter(prefix="/api/media", tags=["Media"])
 
@@ -183,6 +184,7 @@ def get_media_recommendations(
             "creator": item.creator,
             "category": item.category,
             "duration_sec": item.duration_sec,
+            "source_url": item.source_url,
             "reason": (
                 f"Khớp chủ đích: {payload.user_intent}"
                 if payload.user_intent
@@ -197,6 +199,44 @@ def get_media_recommendations(
     return MediaRecommendationResponse(
         category=payload.category,
         media_type=payload.media_type or "both",
+        cards=cards,
+    )
+
+
+@router.post(
+    "/music/recommend",
+    response_model=MediaRecommendationResponse,
+    summary="Gợi ý nhạc theo cảm xúc",
+)
+def recommend_music_endpoint(
+    payload: MediaRecommendationRequest,
+    db: Session = Depends(get_db),
+    current_device: Device = Depends(get_current_device),
+):
+    emotion_label = payload.emotion_label or "neutral"
+    cards = recommend_music(emotion_label, current_device.user_id, db, limit=5)
+    return MediaRecommendationResponse(
+        category=payload.category,
+        media_type="song",
+        cards=cards,
+    )
+
+
+@router.post(
+    "/podcast/recommend",
+    response_model=MediaRecommendationResponse,
+    summary="Gợi ý podcast theo cảm xúc",
+)
+def recommend_podcast_endpoint(
+    payload: MediaRecommendationRequest,
+    db: Session = Depends(get_db),
+    current_device: Device = Depends(get_current_device),
+):
+    emotion_label = payload.emotion_label or "neutral"
+    cards = recommend_podcast(emotion_label, current_device.user_id, db, limit=5)
+    return MediaRecommendationResponse(
+        category=payload.category,
+        media_type="podcast",
         cards=cards,
     )
 

@@ -1,29 +1,5 @@
-"""
-Conversations router.
+"""Conversation service with safety filtering and optional Gemini response."""
 
-POST /api/conversations/respond — yêu cầu Cloud tạo phản hồi hỗ trợ cảm xúc
-"""
-
-import uuid
-from datetime import datetime, timezone
-
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
-
-from app.auth import get_current_device
-from app.database import get_db
-from app.models.emoticare import ConversationRequest, Device, EmotionSession
-from app.schemas import ConversationRespondRequest, ConversationRespondResponse
-from app.services.conversation import (
-    chat,
-    detect_safety_flag,
-    next_action as conversation_next_action,
-    summarize_user_message,
-)
-
-router = APIRouter(prefix="/api/conversations", tags=["Conversations"])
-
-# Crisis keywords: nếu phát hiện thì escalate safety_flag = high.
 CRISIS_KEYWORDS = [
     "tự tử", "tu tu", "tự làm hại", "tu lam hai", "muốn chết", "muon chet",
     "không muốn sống", "khong muon song", "suicide", "self-harm",
@@ -40,7 +16,6 @@ LOW_RISK_KEYWORDS = [
     "buồn", "buon", "mệt", "met", "giận", "gian",
 ]
 
-# Mapping emotion → empathetic response templates (TFT-friendly, ≤ 120 chars)
 RESPONSE_TEMPLATES: dict[str, list[str]] = {
     "stressed": [
         "Mình hiểu bạn đang chịu nhiều áp lực. Hãy dừng lại, hít thở sâu và cho mình nghỉ một chút nhé.",
@@ -87,8 +62,7 @@ def _contains_any(text: str, keywords: list[str]) -> bool:
     return any(keyword in text for keyword in keywords)
 
 
-def _detect_safety_flag(text: str) -> str:
-    """Keyword-based safety check. Returns high | medium | low | none."""
+def detect_safety_flag(text: str) -> str:
     lower = text.lower()
     if _contains_any(lower, CRISIS_KEYWORDS):
         return "high"
@@ -99,7 +73,7 @@ def _detect_safety_flag(text: str) -> str:
     return "none"
 
 
-def _next_action(emotion_label: str, safety_flag: str) -> str:
+def next_action(emotion_label: str, safety_flag: str) -> str:
     if safety_flag == "high":
         return "contact_support"
     if safety_flag == "medium":
@@ -111,7 +85,7 @@ def _next_action(emotion_label: str, safety_flag: str) -> str:
     return "reflect"
 
 
-def _get_response(emotion_label: str, safety_flag: str, message: str | None) -> str:
+def fallback_response(emotion_label: str, safety_flag: str, message: str | None) -> str:
     if safety_flag == "high":
         return CRISIS_RESPONSE
     if safety_flag == "medium":
@@ -123,7 +97,7 @@ def _get_response(emotion_label: str, safety_flag: str, message: str | None) -> 
     return base
 
 
-def _summarize_user_message(message: str | None, safety_flag: str) -> str | None:
+def summarize_user_message(message: str | None, safety_flag: str) -> str | None:
     if not message:
         return None
     if safety_flag == "high":
@@ -131,70 +105,17 @@ def _summarize_user_message(message: str | None, safety_flag: str) -> str | None
     return message[:200]
 
 
-@router.post(
-    "/respond",
-    response_model=ConversationRespondResponse,
-    status_code=status.HTTP_200_OK,
-    summary="Yêu cầu Cloud tạo phản hồi hỗ trợ cảm xúc",
-)
-def respond(
-    payload: ConversationRespondRequest,
-    db: Session = Depends(get_db),
-    current_device: Device = Depends(get_current_device),
-):
-    """
-    Nhận user_message và emotion context.
-    Áp dụng safety filter, trả về 1 response card rút gọn cho TFT.
-    """
-    # Verify session
-    session = (
-        db.query(EmotionSession)
-        .filter(
-            EmotionSession.id == payload.session_id,
-            EmotionSession.device_id == current_device.id,
-        )
-        .first()
+def chat(emotion_label: str, user_message: str | None, safety_flag: str) -> str:
+    fallback = fallback_response(emotion_label, safety_flag, user_message)
+    if safety_flag in ("high", "medium"):
+        return fallback
+
+    from app.services.gemini import gemini_client
+
+    prompt = (
+        "Bạn là trợ lý hỗ trợ cảm xúc cho thiết bị EmotiCare có màn hình TFT nhỏ. "
+        "Trả lời bằng tiếng Việt, 1-2 câu, ấm áp, không chẩn đoán y khoa. "
+        f"Cảm xúc nhận diện: {emotion_label}. "
+        f"Người dùng nói: {user_message or '[không có nội dung]'}"
     )
-    if session is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Emotion session not found",
-        )
-
-    # Safety filter
-    safety_flag = detect_safety_flag(payload.user_message or "")
-
-    # Generate response
-    response_text = chat(session.emotion_label, payload.user_message, safety_flag)
-    next_action = conversation_next_action(session.emotion_label, safety_flag)
-
-    # Store summary only if user consented
-    user_message_summary = None
-    if session.user and session.user.consent_audio_storage and payload.user_message:
-        user_message_summary = summarize_user_message(payload.user_message, safety_flag)
-
-    conversation = ConversationRequest(
-        id=str(uuid.uuid4()),
-        session_id=session.id,
-        user_message_summary=user_message_summary,
-        response_text=response_text,
-        safety_flag=safety_flag,
-        created_at=datetime.now(timezone.utc),
-    )
-    db.add(conversation)
-    db.commit()
-    db.refresh(conversation)
-
-    card = {
-        "title": "Phản hồi hỗ trợ",
-        "body": response_text,
-        "severity": "alert" if safety_flag == "high" else ("warn" if safety_flag == "medium" else "info"),
-        "next_action": next_action,
-        "action_id": f"conversation:{conversation.id}",
-    }
-
-    return ConversationRespondResponse(
-        conversation_id=conversation.id,
-        safety_flag=safety_flag,
-        card=card,
-    )
+    return gemini_client.generate_text(prompt, fallback=fallback)[:500]

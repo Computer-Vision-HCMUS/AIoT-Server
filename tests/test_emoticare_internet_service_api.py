@@ -1,6 +1,8 @@
 import uuid
 from datetime import datetime, timezone
+from types import SimpleNamespace
 
+import pytest
 from app.database import SessionLocal
 from app.models.emoticare import (
     ActivityFeedback,
@@ -13,6 +15,8 @@ from app.models.emoticare import (
     TftReport,
     User,
 )
+from app.seed import MEDIA_SEED
+from app.services.gemini import GeminiClient
 
 
 def _now() -> datetime:
@@ -441,3 +445,84 @@ def test_report_with_limited_data_and_invalid_period_are_handled(client):
         params={"period_type": "quarterly"},
     )
     assert invalid.status_code == 422
+
+
+def test_gemini_client_falls_back_without_api_key():
+    client = GeminiClient(api_key="", model="gemini-2.5-flash")
+
+    assert client.generate_text("hello", fallback="fallback text") == "fallback text"
+
+
+def test_demo_media_seed_is_twenty_mp3_items():
+    assert len(MEDIA_SEED) == 20
+    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "song") == 10
+    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "podcast") == 10
+    assert all(item["duration_sec"] == 20 for item in MEDIA_SEED)
+    assert all(item["source_url"].endswith(".mp3") for item in MEDIA_SEED)
+
+
+def test_alias_recommendation_media_and_statistics_endpoints(client):
+    _, headers, session_id = _create_flow(
+        client, "ALIAS-001", ["stressed", "sad", "neutral"], consent=True
+    )
+
+    action = client.post(
+        "/api/recommendations/action",
+        headers=headers,
+        json={"session_id": session_id},
+    )
+    assert action.status_code == 200
+    assert action.json()["cards"]
+    assert all(card["action_id"].startswith("activity:") for card in action.json()["cards"])
+
+    music = client.post(
+        "/api/media/music/recommend",
+        headers=headers,
+        json={"emotion_label": "stressed"},
+    )
+    assert music.status_code == 200
+    assert music.json()["media_type"] == "song"
+    assert all(card["media_type"] == "song" for card in music.json()["cards"])
+
+    podcast = client.post(
+        "/api/media/podcast/recommend",
+        headers=headers,
+        json={"emotion_label": "stressed"},
+    )
+    assert podcast.status_code == 200
+    assert podcast.json()["media_type"] == "podcast"
+    assert all(card["media_type"] == "podcast" for card in podcast.json()["cards"])
+
+    statistic = client.get("/api/statistics/day", headers=headers)
+    assert statistic.status_code == 200
+    assert statistic.json()["period_type"] == "daily"
+
+
+def test_stt_transcribe_endpoint_uses_whisper_service_without_storing_audio(client, monkeypatch):
+    _, headers, _ = _create_flow(client, "STT-001", ["neutral"])
+
+    async def fake_transcribe_upload(file):
+        return SimpleNamespace(
+            transcript="xin chao",
+            language="vi",
+            duration_sec=1.0,
+        )
+
+    monkeypatch.setattr(
+        "app.routers.stt.stt_service.transcribe_upload",
+        fake_transcribe_upload,
+    )
+
+    response = client.post(
+        "/api/stt/transcribe",
+        headers=headers,
+        files={"file": ("sample.mp3", b"fake mp3 bytes", "audio/mpeg")},
+    )
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "transcript": "xin chao",
+        "language": "vi",
+        "duration_sec": 1.0,
+        "stored": False,
+    }

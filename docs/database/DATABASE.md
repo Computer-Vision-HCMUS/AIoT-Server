@@ -174,16 +174,23 @@ erDiagram
 | `/api/emotion-sessions/sync` | POST | ghi `emotion_sessions` |
 | `/api/emotion-sessions` | GET | đọc `emotion_sessions` của device hiện tại |
 | `/api/recommendations/request` | POST | đọc `emotion_sessions`, `media_items`; ghi `recommendation_requests` |
+| `/api/recommendations/action` | POST | đọc `emotion_sessions`; ghi `recommendation_requests` |
 | `/api/recommendations` | GET | đọc `recommendation_requests` của device hiện tại |
 | `/api/media/categories` | GET | trả category static |
 | `/api/media/recommendations` | POST | đọc `media_items` |
+| `/api/media/music/recommend` | POST | đọc `media_items` loại `song` |
+| `/api/media/podcast/recommend` | POST | đọc `media_items` loại `podcast` |
 | `/api/media/history` | GET | đọc `media_selection_logs` của device hiện tại |
 | `/api/conversations/respond` | POST | đọc `emotion_sessions`; ghi `conversation_requests` |
+| `/api/stt/transcribe` | POST | xử lý audio tạm thời bằng Whisper; mặc định không ghi DB |
 | `/api/feedback/activity` | POST | đọc `recommendation_requests`; ghi `activity_feedback` |
 | `/api/feedback/media` | POST | đọc `emotion_sessions`, `media_items`; ghi `media_selection_logs` |
 | `/api/reports/tft-summary` | GET | đọc logs; ghi/đọc `tft_reports` |
 | `/api/reports/generate` | POST | đọc logs; ghi `tft_reports` |
 | `/api/reports` | GET | đọc `tft_reports` của user hiện tại |
+| `/api/statistics/day` | GET | đọc logs; ghi/đọc `tft_reports` daily |
+| `/api/statistics/week` | GET | đọc logs; ghi/đọc `tft_reports` weekly |
+| `/api/statistics/month` | GET | đọc logs; ghi/đọc `tft_reports` monthly |
 | `/api/device-config` | GET | trả config static cho Edge |
 
 ## 5. Setup nhanh bằng Docker Compose
@@ -338,7 +345,7 @@ alembic current
 Kết quả đúng:
 
 ```text
-e002_emoticare_internet (head)
+e003_drop_global_client_unique (head)
 ```
 
 ## 8. Quan sát dữ liệu sau khi test API
@@ -361,7 +368,7 @@ Các bảng nên có dữ liệu sau seed:
 |---|---|
 | `users` | 1 demo user, pairing code `DEMO-001` |
 | `devices` | 1 demo device |
-| `media_items` | 21 bài hát/podcast |
+| `media_items` | 20 file MP3 demo: 10 bài nhạc + 10 podcast |
 
 Các bảng có dữ liệu sau khi gọi API:
 
@@ -369,10 +376,12 @@ Các bảng có dữ liệu sau khi gọi API:
 |---|---|
 | `/api/emotion-sessions/sync` | `emotion_sessions` |
 | `/api/recommendations/request` | `recommendation_requests` |
+| `/api/recommendations/action` | `recommendation_requests` |
 | `/api/feedback/activity` | `activity_feedback` |
 | `/api/feedback/media` | `media_selection_logs` |
 | `/api/conversations/respond` | `conversation_requests` |
 | `/api/reports/generate` | `tft_reports` |
+| `/api/statistics/day|week|month` | `tft_reports` |
 
 ## 9. SQL query mẫu trong pgAdmin
 
@@ -492,7 +501,7 @@ Nếu không thấy bảng:
 - Right click `Tables` > `Refresh`.
 - Kiểm tra đang mở đúng database `aiot_db`.
 - Kiểm tra `.env` có trỏ đúng PostgreSQL không.
-- Chạy `alembic current`, phải thấy `e002_emoticare_internet (head)`.
+- Chạy `alembic current`, phải thấy `e003_drop_global_client_unique (head)`.
 - Chạy `alembic upgrade head` nếu migration chưa lên head.
 - Nếu dùng Docker pgAdmin, host nên là `postgres`; nếu dùng pgAdmin cài trên máy, host nên là `localhost`.
 

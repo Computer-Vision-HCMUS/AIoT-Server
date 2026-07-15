@@ -21,6 +21,10 @@ from app.models.emoticare import (
     RecommendationRequest,
 )
 from app.schemas import RecommendationRequestPayload, RecommendationResponse
+from app.services.recommendations import (
+    recommend_action,
+    recommend_media,
+)
 
 router = APIRouter(prefix="/api/recommendations", tags=["Recommendations"])
 
@@ -194,8 +198,8 @@ def request_recommendation(
     emotion_label = session.emotion_label
 
     # Build cards: max 2 activity + 3 media = 5 total
-    activity_cards = _build_activity_cards(emotion_label, current_device.user_id, db)
-    media_cards = _build_media_cards(emotion_label, current_device.user_id, db, limit=3)
+    activity_cards = recommend_action(emotion_label, current_device.user_id, db, limit=2)
+    media_cards = recommend_media(emotion_label, current_device.user_id, db, limit=3)
     all_cards = activity_cards + media_cards
 
     response_payload = {
@@ -220,6 +224,60 @@ def request_recommendation(
         recommendation_id=reco.id,
         emotion_label=emotion_label,
         cards=all_cards,
+        status=reco.status,
+    )
+
+
+@router.post(
+    "/action",
+    response_model=RecommendationResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Gợi ý hoạt động hỗ trợ cảm xúc",
+)
+def request_action_recommendation(
+    payload: RecommendationRequestPayload,
+    db: Session = Depends(get_db),
+    current_device: Device = Depends(get_current_device),
+):
+    session = (
+        db.query(EmotionSession)
+        .filter(
+            EmotionSession.id == payload.session_id,
+            EmotionSession.device_id == current_device.id,
+        )
+        .first()
+    )
+    if session is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Emotion session not found or does not belong to this device",
+        )
+
+    cards = recommend_action(session.emotion_label, current_device.user_id, db, limit=5)
+    response_payload = {
+        "emotion_label": session.emotion_label,
+        "cards": cards,
+    }
+    reco = RecommendationRequest(
+        id=str(uuid.uuid4()),
+        session_id=session.id,
+        request_payload={
+            "session_id": payload.session_id,
+            "emotion_label": session.emotion_label,
+            "recommendation_type": "action",
+        },
+        response_payload=response_payload,
+        status="success" if cards else "limited",
+        created_at=datetime.now(timezone.utc),
+    )
+    db.add(reco)
+    db.commit()
+    db.refresh(reco)
+
+    return RecommendationResponse(
+        recommendation_id=reco.id,
+        emotion_label=session.emotion_label,
+        cards=cards,
         status=reco.status,
     )
 
