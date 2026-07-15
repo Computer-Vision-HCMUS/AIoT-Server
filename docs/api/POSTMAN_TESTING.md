@@ -1,32 +1,291 @@
-# EmotiCare API Mock Data and Postman Testing
+# EmotiCare API Endpoint Testing
 
 Tài liệu này dùng để test Internet Service theo
 `docs/Spectification/EmotiCareAIoT/05_Internet Service.md`.
 
-## 1. Init database
+## 0. Base URL
 
-PostgreSQL local trong `.env`:
+Khi deploy trên Vercel, đặt biến Postman:
 
-```env
-DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
-MIGRATION_DATABASE_URL=postgresql://aiot_user:123@localhost:5432/aiot_db
+```text
+BASE_URL=https://<your-vercel-project>.vercel.app
 ```
 
-Chạy migration và seed:
+Nếu test local trước khi deploy:
 
-```bash
-alembic upgrade head
-python -m app.seed
-uvicorn app.main:app --reload
+```text
+BASE_URL=http://localhost:8000
 ```
 
 Swagger UI:
 
 ```text
-http://localhost:8000/docs
+{{BASE_URL}}/docs
 ```
 
-## 2. Demo token
+## 1. B1 - Tích hợp API Gemini
+
+Mục tiêu test: xác nhận Gemini được dùng cho phần sinh câu trả lời chat và lý do gợi ý.
+
+Biến môi trường cần có trên Vercel:
+
+```env
+GEMINI_API_KEY=<google-ai-studio-api-key>
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+Endpoint test chính:
+
+```http
+POST {{BASE_URL}}/api/conversations/respond
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "session_id": "<emotion_sessions.id>",
+  "user_message": "toi thay cang thang"
+}
+```
+
+Kết quả mong đợi: response có `response_text`, `safety_flag`, `cards`; dữ liệu được lưu vào `conversation_requests`.
+
+## 2. B2 - Tải Whisper cho STT
+
+Mục tiêu test: xác nhận endpoint nhận audio và gọi model Whisper qua `faster-whisper`.
+
+Biến môi trường:
+
+```env
+WHISPER_MODEL_SIZE=base
+```
+
+Endpoint:
+
+```http
+POST {{BASE_URL}}/api/stt/transcribe
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: multipart/form-data
+```
+
+Form-data:
+
+```text
+file=@sample.mp3
+```
+
+Response mẫu:
+
+```json
+{
+  "transcript": "noi dung nhan dien",
+  "language": "vi",
+  "duration_sec": 20.0,
+  "stored": false
+}
+```
+
+## 3. B3 - Cài các hàm gọi API Gemini và model Whisper
+
+Các hàm cần test gián tiếp qua endpoint:
+
+- Gemini: `chat`, sinh `reason` trong recommendation cards.
+- Whisper: `stt_service.transcribe_upload`.
+
+Test Gemini qua recommendation:
+
+```http
+POST {{BASE_URL}}/api/recommendations/action
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "session_id": "<emotion_sessions.id>"
+}
+```
+
+Kết quả mong đợi: mỗi card có `reason` ngắn, phù hợp emotion label.
+
+Test Whisper qua `/api/stt/transcribe` như B2.
+
+## 4. B4 - Tải dataset nhạc và podcast
+
+Dataset demo gồm:
+
+- 10 file nhạc, mỗi file 20 giây.
+- 10 file podcast/spoken-audio, mỗi file 20 giây.
+- File được upload lên Supabase Storage bucket `media-demo`.
+- Metadata được seed vào bảng `media_items`.
+
+Chạy upload và seed từ máy local, trỏ `.env` tới Supabase:
+
+```bash
+python scripts/upload_media_dataset.py --dataset-dir ./media-dataset
+alembic upgrade head
+python -m app.seed
+```
+
+Kiểm tra category:
+
+```http
+GET {{BASE_URL}}/api/media/categories
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+Test recommend nhạc:
+
+```http
+POST {{BASE_URL}}/api/media/music/recommend
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "emotion_label": "stressed"
+}
+```
+
+Test recommend podcast:
+
+```http
+POST {{BASE_URL}}/api/media/podcast/recommend
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "emotion_label": "stressed"
+}
+```
+
+Kết quả mong đợi: response trả về card có `media_item_id`, `title`, `media_type`, `duration_sec = 20`, `source_url`.
+
+## 5. B5 - Test recommend-action, recommend-music, recommend-podcast, chat và statistic
+
+Trước khi test B5, cần có `session_id`. Tạo session bằng endpoint sync:
+
+```http
+POST {{BASE_URL}}/api/emotion-sessions/sync
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "sessions": [
+    {
+      "client_session_id": "edge-session-001",
+      "emotion_label": "stressed",
+      "confidence_score": 0.82,
+      "quality_flag": "clean",
+      "inference_latency_ms": 850,
+      "client_created_at": "2026-06-29T08:00:00Z"
+    }
+  ]
+}
+```
+
+Lấy session đã sync:
+
+```http
+GET {{BASE_URL}}/api/emotion-sessions
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+### 5.1. recommend-action
+
+```http
+POST {{BASE_URL}}/api/recommendations/action
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "session_id": "<emotion_sessions.id>"
+}
+```
+
+### 5.2. recommend-music
+
+```http
+POST {{BASE_URL}}/api/media/music/recommend
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "emotion_label": "stressed"
+}
+```
+
+### 5.3. recommend-podcast
+
+```http
+POST {{BASE_URL}}/api/media/podcast/recommend
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "emotion_label": "stressed"
+}
+```
+
+### 5.4. chat
+
+```http
+POST {{BASE_URL}}/api/conversations/respond
+X-Device-Token: demo-emoticare-device-token-local-dev
+Content-Type: application/json
+```
+
+```json
+{
+  "session_id": "<emotion_sessions.id>",
+  "user_message": "toi can mot loi khuyen ngan"
+}
+```
+
+### 5.5. statistic
+
+Nhóm endpoint statistic theo thiết kế gồm ngày, tuần, tháng:
+
+```http
+GET {{BASE_URL}}/api/statistics/day
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+```http
+GET {{BASE_URL}}/api/statistics/week
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+```http
+GET {{BASE_URL}}/api/statistics/month
+X-Device-Token: demo-emoticare-device-token-local-dev
+```
+
+Kết quả mong đợi: response theo schema TFT summary, có `period_type`, `summary_cards`, `dominant_emotion`, dữ liệu lưu/đọc từ `tft_reports`.
+
+## 6. Deploy trên Vercel thay cho Docker
+
+Không cần chạy `docker compose` cho flow deploy demo. Cách chạy mới:
+
+1. Tạo Supabase project, lấy PostgreSQL URL và Storage bucket `media-demo`.
+2. Deploy repo lên Vercel.
+3. Thêm Environment Variables trong Vercel: `DATABASE_URL`, `MIGRATION_DATABASE_URL`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `WHISPER_MODEL_SIZE`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_MEDIA_BUCKET`, `CORS_ORIGINS`.
+4. Từ máy local, chạy `alembic upgrade head`, upload dataset và `python -m app.seed` với `.env` trỏ tới Supabase.
+5. Test toàn bộ endpoint bằng `{{BASE_URL}} = https://<your-vercel-project>.vercel.app`.
+
+## 7. Demo token
 
 Seed tạo user demo có pairing code:
 
@@ -52,10 +311,10 @@ hoặc:
 Authorization: Bearer demo-emoticare-device-token-local-dev
 ```
 
-## 3. Pair device
+## 8. Pair device
 
 ```http
-POST http://localhost:8000/api/devices/pair
+POST {{BASE_URL}}/api/devices/pair
 Content-Type: application/json
 ```
 
@@ -69,10 +328,10 @@ Content-Type: application/json
 
 Lưu `device_token` trả về để test các endpoint còn lại.
 
-## 4. Heartbeat
+## 9. Heartbeat
 
 ```http
-POST http://localhost:8000/api/devices/heartbeat
+POST {{BASE_URL}}/api/devices/heartbeat
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -85,44 +344,14 @@ Content-Type: application/json
 
 Response có `server_time`, `status`, `config_version`.
 
-## 5. Sync emotion sessions
+## 10. Các endpoint bổ sung
+
+### Recommendation tổng hợp
+
+Lấy activity + music + podcast cards:
 
 ```http
-POST http://localhost:8000/api/emotion-sessions/sync
-X-Device-Token: demo-emoticare-device-token-local-dev
-Content-Type: application/json
-```
-
-```json
-{
-  "sessions": [
-    {
-      "client_session_id": "edge-session-001",
-      "emotion_label": "stressed",
-      "confidence_score": 0.82,
-      "quality_flag": "clean",
-      "inference_latency_ms": 850,
-      "client_created_at": "2026-06-29T08:00:00Z"
-    }
-  ]
-}
-```
-
-Endpoint này idempotent theo `device_id + client_session_id`.
-
-Xem session đã sync:
-
-```http
-GET http://localhost:8000/api/emotion-sessions
-X-Device-Token: demo-emoticare-device-token-local-dev
-```
-
-## 6. Recommendation request
-
-Lấy `session_id` cloud trong database table `emotion_sessions`, rồi gọi:
-
-```http
-POST http://localhost:8000/api/recommendations/request
+POST {{BASE_URL}}/api/recommendations/request
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -135,17 +364,17 @@ Content-Type: application/json
 
 Kết quả lưu vào `recommendation_requests`.
 
-Xem recommendation history:
+### Recommendation history
 
 ```http
-GET http://localhost:8000/api/recommendations
+GET {{BASE_URL}}/api/recommendations
 X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-## 7. Activity feedback
+### Activity feedback
 
 ```http
-POST http://localhost:8000/api/feedback/activity
+POST {{BASE_URL}}/api/feedback/activity
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -159,17 +388,10 @@ Content-Type: application/json
 }
 ```
 
-Kết quả lưu vào `activity_feedback`.
-
-## 8. Media categories and recommendations
+### Media recommendation tổng hợp
 
 ```http
-GET http://localhost:8000/api/media/categories
-X-Device-Token: demo-emoticare-device-token-local-dev
-```
-
-```http
-POST http://localhost:8000/api/media/recommendations
+POST {{BASE_URL}}/api/media/recommendations
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -182,19 +404,17 @@ Content-Type: application/json
 }
 ```
 
-Media catalog nằm trong `media_items`.
-
-Xem lịch sử chọn media:
+### Media history
 
 ```http
-GET http://localhost:8000/api/media/history
+GET {{BASE_URL}}/api/media/history
 X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-## 9. Media feedback
+### Media feedback
 
 ```http
-POST http://localhost:8000/api/feedback/media
+POST {{BASE_URL}}/api/feedback/media
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -208,26 +428,15 @@ Content-Type: application/json
 }
 ```
 
-Kết quả lưu vào `media_selection_logs`.
+### Conversation safety high
 
-## 10. Conversation response
+Test safety high:
 
 ```http
-POST http://localhost:8000/api/conversations/respond
+POST {{BASE_URL}}/api/conversations/respond
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
-
-```json
-{
-  "session_id": "<emotion_sessions.id>",
-  "user_message": "toi thay cang thang"
-}
-```
-
-Kết quả lưu vào `conversation_requests`.
-
-Test safety high:
 
 ```json
 {
@@ -238,15 +447,15 @@ Test safety high:
 
 Kết quả đúng: `safety_flag = high`, card có `severity = alert`, `next_action = contact_support`.
 
-## 11. TFT report
+### TFT report
 
 ```http
-GET http://localhost:8000/api/reports/tft-summary?period=daily
+GET {{BASE_URL}}/api/reports/tft-summary?period=daily
 X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
 ```http
-POST http://localhost:8000/api/reports/generate
+POST {{BASE_URL}}/api/reports/generate
 X-Device-Token: demo-emoticare-device-token-local-dev
 Content-Type: application/json
 ```
@@ -259,17 +468,17 @@ Content-Type: application/json
 
 Kết quả lưu vào `tft_reports`.
 
-Xem report history:
+### Report history
 
 ```http
-GET http://localhost:8000/api/reports
+GET {{BASE_URL}}/api/reports
 X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 
-## 12. Device config
+### Device config
 
 ```http
-GET http://localhost:8000/api/device-config
+GET {{BASE_URL}}/api/device-config
 X-Device-Token: demo-emoticare-device-token-local-dev
 ```
 

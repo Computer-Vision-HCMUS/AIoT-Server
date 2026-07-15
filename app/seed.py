@@ -4,7 +4,7 @@ EmotiCare AIoT — Seed script.
 Creates demo data for local development and API testing:
   - 1 demo user  (pairing_code = DEMO-001)
   - 1 demo device (token printed to console after seeding)
-  - 21 media items (3 per category × 7 categories, mix of song and podcast)
+  - 20 media items (10 songs + 10 podcasts, 20-second MP3 metadata)
 
 Usage:
     python -m app.seed
@@ -15,6 +15,7 @@ import secrets
 import uuid
 from datetime import datetime, timezone
 
+from app.config import settings
 from app.database import SessionLocal
 from app.models.emoticare import Device, MediaItem, User
 
@@ -26,35 +27,36 @@ def _utcnow() -> datetime:
 DEMO_USER_ID = "00000000-0000-0000-0000-000000000001"
 DEMO_PAIRING_CODE = "DEMO-001"
 
+
+def _media_url(path: str) -> str:
+    if settings.SUPABASE_URL:
+        base_url = settings.SUPABASE_URL.rstrip("/")
+        bucket = settings.SUPABASE_MEDIA_BUCKET
+        return f"{base_url}/storage/v1/object/public/{bucket}/{path}"
+    return f"supabase://{settings.SUPABASE_MEDIA_BUCKET}/{path}"
+
+
 MEDIA_SEED: list[dict] = [
-    # relax
-    {"media_type": "song",    "category": "relax",         "title": "Weightless",              "creator": "Marconi Union",          "duration_sec": 480},
-    {"media_type": "song",    "category": "relax",         "title": "Clair de Lune",            "creator": "Claude Debussy",         "duration_sec": 320},
-    {"media_type": "podcast", "category": "relax",         "title": "Bài thở 4-7-8",           "creator": "MindfulVN",              "duration_sec": 300},
-    # focus
-    {"media_type": "song",    "category": "focus",         "title": "Experience",               "creator": "Ludovico Einaudi",       "duration_sec": 360},
-    {"media_type": "song",    "category": "focus",         "title": "Rain Sounds",              "creator": "Nature Sounds",          "duration_sec": 3600},
-    {"media_type": "podcast", "category": "focus",         "title": "Deep Work Tips",           "creator": "Cal Newport Podcast",    "duration_sec": 900},
-    # sleep
-    {"media_type": "song",    "category": "sleep",         "title": "Gymnopédie No.1",         "creator": "Erik Satie",             "duration_sec": 195},
-    {"media_type": "song",    "category": "sleep",         "title": "Sleep Drone",              "creator": "Ambient Works",          "duration_sec": 7200},
-    {"media_type": "podcast", "category": "sleep",         "title": "Câu chuyện ngủ ngon",     "creator": "Ngủ Đi Em",              "duration_sec": 1200},
-    # happy
-    {"media_type": "song",    "category": "happy",         "title": "Happy",                   "creator": "Pharrell Williams",      "duration_sec": 233},
-    {"media_type": "song",    "category": "happy",         "title": "Vui Lên Nào",             "creator": "AMEE",                   "duration_sec": 210},
-    {"media_type": "podcast", "category": "happy",         "title": "Câu chuyện truyền cảm hứng", "creator": "Vietcetera",          "duration_sec": 1800},
-    # sad_support
-    {"media_type": "song",    "category": "sad_support",   "title": "The Night We Met",        "creator": "Lord Huron",             "duration_sec": 218},
-    {"media_type": "song",    "category": "sad_support",   "title": "Tự Tình",                 "creator": "Hoàng Duyên",            "duration_sec": 240},
-    {"media_type": "podcast", "category": "sad_support",   "title": "Khi Buồn Thì Sao",       "creator": "Tâm Tình VN",            "duration_sec": 1500},
-    # anger_release
-    {"media_type": "song",    "category": "anger_release", "title": "Breathe (2 AM)",          "creator": "Anna Nalick",            "duration_sec": 279},
-    {"media_type": "song",    "category": "anger_release", "title": "Grounding Sounds",        "creator": "Healing Frequencies",    "duration_sec": 600},
-    {"media_type": "podcast", "category": "anger_release", "title": "Kiểm soát cơn giận",     "creator": "PsychologyVN",           "duration_sec": 720},
-    # energy_recover
-    {"media_type": "song",    "category": "energy_recover","title": "Rise Up",                 "creator": "Andra Day",              "duration_sec": 275},
-    {"media_type": "song",    "category": "energy_recover","title": "Sóng Gió",                "creator": "Jack & K-ICM",           "duration_sec": 220},
-    {"media_type": "podcast", "category": "energy_recover","title": "Self-care Buổi Sáng",    "creator": "WellnessVN",             "duration_sec": 600},
+    {"media_type": "song", "category": "relax", "title": "Calm Morning Pad", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/01-calm-morning-pad.mp3")},
+    {"media_type": "song", "category": "relax", "title": "Soft Rain Keys", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/02-soft-rain-keys.mp3")},
+    {"media_type": "song", "category": "focus", "title": "Low Focus Pulse", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/03-low-focus-pulse.mp3")},
+    {"media_type": "song", "category": "focus", "title": "Clean Study Loop", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/04-clean-study-loop.mp3")},
+    {"media_type": "song", "category": "sleep", "title": "Night Breath Drone", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/05-night-breath-drone.mp3")},
+    {"media_type": "song", "category": "happy", "title": "Light Steps", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/06-light-steps.mp3")},
+    {"media_type": "song", "category": "happy", "title": "Warm Smile Beat", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/07-warm-smile-beat.mp3")},
+    {"media_type": "song", "category": "sad_support", "title": "Gentle Hold", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/08-gentle-hold.mp3")},
+    {"media_type": "song", "category": "anger_release", "title": "Grounding Low Tone", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/09-grounding-low-tone.mp3")},
+    {"media_type": "song", "category": "energy_recover", "title": "Small Energy Rise", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/10-small-energy-rise.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Bai tho 4-7-8", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/01-breathing-478.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Dung lai mot phut", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/02-one-minute-pause.mp3")},
+    {"media_type": "podcast", "category": "focus", "title": "Bat dau tap trung", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/03-start-focus.mp3")},
+    {"media_type": "podcast", "category": "sleep", "title": "Chuan bi nghi ngoi", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/04-prepare-rest.mp3")},
+    {"media_type": "podcast", "category": "happy", "title": "Giu nang luong tot", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/05-keep-good-energy.mp3")},
+    {"media_type": "podcast", "category": "sad_support", "title": "O canh noi buon", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/06-with-sadness.mp3")},
+    {"media_type": "podcast", "category": "sad_support", "title": "Tu noi loi tu te", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/07-kind-self-talk.mp3")},
+    {"media_type": "podcast", "category": "anger_release", "title": "Ha nhiet con gian", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/08-cool-down-anger.mp3")},
+    {"media_type": "podcast", "category": "energy_recover", "title": "Nap lai nang luong", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/09-energy-recover.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Goi ten cam xuc", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/10-name-the-feeling.mp3")},
 ]
 
 
@@ -123,7 +125,6 @@ def seed():
             media = MediaItem(
                 id=str(uuid.uuid4()),
                 **item_data,
-                source_url=None,
                 enabled=True,
             )
             db.add(media)

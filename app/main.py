@@ -22,6 +22,8 @@ from app.routers import (
     media,
     recommendations,
     reports,
+    statistics,
+    stt,
 )
 
 # ─── FastAPI app ──────────────────────────────────────────────────────────────
@@ -79,9 +81,13 @@ def root():
             "media_recommendations":  "POST /api/media/recommendations",
             "media_history":          "GET  /api/media/history",
             "conversation":           "POST /api/conversations/respond",
+            "stt":                    "POST /api/stt/transcribe",
             "feedback_activity":      "POST /api/feedback/activity",
             "feedback_media":         "POST /api/feedback/media",
             "tft_summary":            "GET  /api/reports/tft-summary",
+            "statistic_day":          "GET  /api/statistics/day",
+            "statistic_week":         "GET  /api/statistics/week",
+            "statistic_month":        "GET  /api/statistics/month",
             "generate_report":        "POST /api/reports/generate",
             "list_reports":           "GET  /api/reports",
             "device_config":          "GET  /api/device-config",
@@ -95,6 +101,8 @@ app.include_router(emotion_sessions.router)
 app.include_router(recommendations.router)
 app.include_router(media.router)
 app.include_router(conversations.router)
+app.include_router(stt.router)
 app.include_router(feedback.router)
 app.include_router(reports.router)
+app.include_router(statistics.router)
 app.include_router(device_config.router)

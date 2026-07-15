@@ -119,6 +119,15 @@ class ConversationRespondResponse(BaseModel):
     card: dict[str, Any]
 
 
+# ─── Speech To Text ───────────────────────────────────────────────────────────
+
+class SttTranscriptionResponse(BaseModel):
+    transcript: str
+    language: Optional[str] = None
+    duration_sec: Optional[float] = None
+    stored: bool = False
+
+
 # ─── Feedback ─────────────────────────────────────────────────────────────────
 
 ActivityType = Literal["breathing", "rest", "movement", "journaling"]
