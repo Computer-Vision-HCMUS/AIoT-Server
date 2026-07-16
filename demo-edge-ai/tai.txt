@@ -72,3 +72,18 @@ Thứ ba, ngày 14 tháng 7 năm 2026:
 
         Jitter và Shimmer dễ code nếu giữ nguyên repo.
         Chúng chỉ được đưa vào nhóm cần xem lại vì cách tính trong repo có thể không đúng với định nghĩa âm học chuẩn.
+
+Thứ 5, ngày 16 tháng 7 năm 2026
+
+    https://github.com/edgeimpulse/inferencing-sdk-cpp/blob/master/classifier/ei_run_dsp.h
+    Edge Impulse giải quyết được khối 13 MFCC về mặt thuật toán embedded C++:
+
+        Audio PCM
+        → chia frame
+        → pre-emphasis
+        → power spectrum
+        → Mel filterbank
+        → log
+        → DCT
+        → MFCC
+    
