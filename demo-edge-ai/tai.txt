@@ -1,0 +1,89 @@
+bài báo uy tín + có code + sử dụng dataset RAVDESS + cổ điển + edge ai
+
+On-device Emotion Recognition from Spoken Language in Embedded Devices
+Tác giả: Neeraj Boddeda, Sharvari Wanjari, Shashank Goud Boorgu, Prasenjit Karmakar, Sandip Chakraborty
+Hội nghị: IEEE PerCom Workshops 2025
+DOI: 10.1109/PerComWorkshops65533.2025.00161
+Code: repo GitHub prasenjit52282/embedded-audio-emotion.
+
+
+Chủ nhật ngày 12 tháng 7 năm 2026:
+    Đã xây dựng và chạy thử chương trình C++ độc lập trên máy tính, truyền một vector mẫu gồm 45 đặc trưng kiểu int16_t vào hai hàm rf_predict() và rf_predict_proba() trong classifier.h; chương trình được biên dịch bằng g++ và thực thi thành công.
+    Với bộ input khai báo sẵn, mô hình trả về Class index 0 – Angry, có giá trị đầu ra cao nhất là 0.48; kết quả này chỉ xác nhận luồng feature input → classifier.h → class output hoạt động, chưa kiểm tra với âm thanh thực tế
+
+Thứ ba, ngày 14 tháng 7 năm 2026:
+    Theo extractor.py, vector đầu vào gồm:
+
+        13 MFCC
+        12 Chroma
+        7 Spectral Contrast
+        1 RMS/Energy
+        1 Zero Crossing Rate
+        1 F0
+        1 F2
+        1 Jitter
+        1 Shimmer
+        1 Band Energy — thực tế code dùng Spectral Bandwidth
+        1 Pause Rate
+        1 Spectral Centroid
+        1 Spectral Bandwidth
+        1 Spectral Rolloff
+        1 Spectral Flux
+        1 Spectral Flatness
+        --------------------------------
+        45 đặc trưng
+
+
+
+
+    PHÂN LOẠI 45 ĐẶC TRƯNG ÂM HỌC THEO MỨC ĐỘ KHẢ THI KHI EMBED TRÊN ESP32
+    NHÓM XANH: DỄ VÀ CHẮC CHẮN LÀM ĐƯỢC
+
+        RMS / Energy.
+        Zero Crossing Rate.
+        Pause Rate.
+        Spectral Centroid.
+        Spectral Bandwidth.
+        Spectral Rolloff.
+        Spectral Flux.
+        Spectral Flatness.
+        Shimmer theo cách tính của repo.
+        Jitter theo cách tính của repo, sau khi đã có MFCC.
+
+        Số lượng gần đúng: 10 đặc trưng.
+
+        NHÓM VÀNG: LÀM ĐƯỢC NHƯNG CẦN SO SÁNH VỚI PYTHON
+
+        13 MFCC.
+        12 Chroma.
+        1 F0.
+
+        Số lượng: 26 đặc trưng.
+
+        NHÓM ĐỎ: CẦN XEM LẠI NGHIÊM TÚC
+
+        7 Spectral Contrast.
+        1 F2.
+        1 Band Energy hoặc đặc trưng đang bị đặt sai tên.
+        Cách định nghĩa Jitter.
+        Cách định nghĩa Shimmer.
+
+        Lưu ý:
+
+        Jitter và Shimmer dễ code nếu giữ nguyên repo.
+        Chúng chỉ được đưa vào nhóm cần xem lại vì cách tính trong repo có thể không đúng với định nghĩa âm học chuẩn.
+
+Thứ 5, ngày 16 tháng 7 năm 2026
+
+    https://github.com/edgeimpulse/inferencing-sdk-cpp/blob/master/classifier/ei_run_dsp.h
+    Edge Impulse giải quyết được khối 13 MFCC về mặt thuật toán embedded C++:
+
+        Audio PCM
+        → chia frame
+        → pre-emphasis
+        → power spectrum
+        → Mel filterbank
+        → log
+        → DCT
+        → MFCC
+    
