@@ -1,7 +1,7 @@
 """
 Recommendations router.
 
-POST /api/recommendations/request — yêu cầu Cloud gợi ý hoạt động, bài hát và podcast
+POST /api/recommendations/request — yêu cầu Cloud gợi ý hoạt động hỗ trợ cảm xúc
 """
 
 import uuid
@@ -21,10 +21,7 @@ from app.models.emoticare import (
     RecommendationRequest,
 )
 from app.schemas import RecommendationRequestPayload, RecommendationResponse
-from app.services.recommendations import (
-    recommend_action,
-    recommend_media,
-)
+from app.services.recommendations import recommend_action
 
 router = APIRouter(prefix="/api/recommendations", tags=["Recommendations"])
 
@@ -197,10 +194,9 @@ def request_recommendation(
 
     emotion_label = session.emotion_label
 
-    # Build cards: max 2 activity + 3 media = 5 total
-    activity_cards = recommend_action(emotion_label, current_device.user_id, db, limit=2)
-    media_cards = recommend_media(emotion_label, current_device.user_id, db, limit=3)
-    all_cards = activity_cards + media_cards
+    # The simulator does not ship a media library yet, so return five actionable
+    # wellbeing activities rather than mixing in unavailable music or podcasts.
+    all_cards = recommend_action(emotion_label, current_device.user_id, db, limit=5)
 
     response_payload = {
         "emotion_label": emotion_label,
