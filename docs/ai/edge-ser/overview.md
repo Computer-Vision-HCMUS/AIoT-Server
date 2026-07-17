@@ -1,5 +1,6 @@
-# 04. Edge AI
+# Edge AI — Speech Emotion Recognition (SER)
 
+> Đặc tả chi tiết Edge SER cho EmotiCare AIoT. Bản rút gọn trong spec: `docs/Spectification/EmotiCareAIoT/04_EdgeAI.md`.
 
 ## 4.1. Vai trò của Edge AI trong Speech Emotion Recognition
 

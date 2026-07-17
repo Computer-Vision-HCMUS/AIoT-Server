@@ -112,5 +112,5 @@ New demo endpoints:
 Deployment, AI, and dataset details:
 
 - `docs/deployment/SUPABASE_DEPLOYMENT.md`
-- `docs/ai/GEMINI_WHISPER.md`
+- `docs/ai/cloud/gemini-whisper.md`
 - `docs/datasets/MEDIA_DATASET.md`

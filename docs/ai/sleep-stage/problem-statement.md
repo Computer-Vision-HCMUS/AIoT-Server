@@ -1,5 +1,6 @@
-# Problem Statement: Suy luận giai đoạn ngủ từ gối thông minh và cảm biến môi trường
+# Sleep Stage Inference — Problem Statement
 
+> Bài toán suy luận REM/NREM từ gối thông minh và cảm biến môi trường. Tách biệt với Edge SER của EmotiCare.
 ## 1. Bối cảnh
 
 Giấc ngủ của con người thường được chia thành hai trạng thái chính:
