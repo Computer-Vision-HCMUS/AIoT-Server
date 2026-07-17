@@ -1,1 +1,0 @@
-# edge_ai_embedded-audio-emotion

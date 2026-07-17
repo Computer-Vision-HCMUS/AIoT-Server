@@ -550,6 +550,6 @@ Sprint có thể xem là hoàn thành khi:
 
 - `README.md`
 - `docs/api/POSTMAN_TESTING.md`
-- `docs/ai/GEMINI_WHISPER.md`
+- `docs/ai/cloud/gemini-whisper.md`
 - `docs/datasets/MEDIA_DATASET.md`
 - `docs/deployment/SUPABASE_DEPLOYMENT.md`

@@ -1,2 +1,0 @@
-link demo embed:
-https://github.com/tail0ng/edge_ai_embedded-audio-emotion
