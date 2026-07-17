@@ -14,8 +14,11 @@ class Settings(BaseSettings):
     APP_PORT: int = 8000
     APP_DEBUG: bool = False
     CORS_ORIGINS: str = "http://localhost:3000,http://localhost:5173"
+    PLAYGROUND_API: str = "GEMINI"
     GEMINI_API_KEY: str | None = None
     GEMINI_MODEL: str = "gemini-2.5-flash"
+    GROQ_API_KEY: str | None = None
+    GROQ_MODEL: str = "groq/compound-mini"
     WHISPER_MODEL_SIZE: str = "base"
     SUPABASE_URL: str | None = None
     SUPABASE_SERVICE_ROLE_KEY: str | None = None

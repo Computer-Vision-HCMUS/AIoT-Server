@@ -33,10 +33,10 @@ EMOTION_MEDIA_MAP: dict[str, list[str]] = {
 }
 
 ACTIVITY_DESCRIPTIONS: dict[str, str] = {
-    "breathing": "Hít thở sâu 4-7-8 trong 5 phút",
-    "rest": "Nghỉ ngơi hoàn toàn 10-15 phút",
-    "movement": "Vận động nhẹ - đứng dậy, kéo giãn hoặc đi bộ ngắn",
-    "journaling": "Viết 3 câu ngắn về cảm xúc hiện tại",
+    "breathing": "Dành 5 phút hít vào 4 nhịp, giữ 7 nhịp và thở ra 8 nhịp. Lặp lại chậm rãi, không cần cố gắng nếu bạn thấy chóng mặt.",
+    "rest": "Tạm rời màn hình 10–15 phút, ngồi hoặc nằm ở nơi yên tĩnh. Uống một ngụm nước và cho phép bản thân không cần giải quyết gì ngay lúc này.",
+    "movement": "Đứng dậy kéo giãn vai, cổ và lưng trong 2 phút, sau đó đi bộ chậm 5 phút. Mục tiêu là đổi nhịp cơ thể, không phải tập nặng.",
+    "journaling": "Viết 3 câu: điều đang xảy ra, cảm xúc của bạn và một việc nhỏ bạn có thể làm tiếp theo. Không cần viết hay, chỉ cần thành thật.",
 }
 
 
@@ -76,13 +76,14 @@ def media_feedback_score(media_item_id: str, user_id: str, db: Session) -> float
     return len(logs) * 0.15 + avg_score
 
 
-def _gemini_reason(kind: str, emotion_label: str, fallback: str) -> str:
+def _ai_reason(kind: str, emotion_label: str, fallback: str) -> str:
     prompt = (
         "Bạn là trợ lý cảm xúc cho thiết bị TFT nhỏ. "
-        f"Viết một lý do tiếng Việt dưới 80 ký tự cho gợi ý {kind} "
-        f"khi cảm xúc hiện tại là {emotion_label}. Chỉ trả về một câu ngắn."
+        f"Viết phần 'Vì sao phù hợp lúc này' bằng tiếng Việt cho gợi ý {kind} "
+        f"khi cảm xúc hiện tại là {emotion_label}. Viết 2 câu ấm áp, cụ thể, tổng 180–280 ký tự. "
+        "Nêu lợi ích thực tế trong vài phút tới; không chẩn đoán hoặc khẳng định y khoa."
     )
-    return gemini_client.generate_text(prompt, fallback=fallback)[:160]
+    return gemini_client.generate_text(prompt, fallback=fallback)[:320]
 
 
 def recommend_action(emotion_label: str, user_id: str, db: Session, *, limit: int = 2) -> list[dict]:
@@ -109,7 +110,7 @@ def recommend_action(emotion_label: str, user_id: str, db: Session, *, limit: in
             "activity_type": activity,
             "title": activity.capitalize(),
             "body": ACTIVITY_DESCRIPTIONS.get(activity, "Thực hiện hoạt động này để cải thiện tâm trạng"),
-            "reason": _gemini_reason("hoạt động", emotion_label, fallback_reason),
+            "reason": _ai_reason("hoạt động", emotion_label, fallback_reason),
             "severity": "info",
             "action_id": f"activity:{activity}",
         })
@@ -160,7 +161,7 @@ def _recommend_media(
             "category": item.category,
             "source_url": item.source_url,
             "body": f"{item.creator or 'Unknown'} · {item.category.replace('_', ' ').title()}",
-            "reason": _gemini_reason(item.media_type, emotion_label, fallback_reason),
+            "reason": _ai_reason(item.media_type, emotion_label, fallback_reason),
             "duration_sec": item.duration_sec,
             "severity": "info",
             "action_id": f"media:{item.id}",

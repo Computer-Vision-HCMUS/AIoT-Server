@@ -119,6 +119,19 @@ class ConversationRespondResponse(BaseModel):
     card: dict[str, Any]
 
 
+class ConversationHistoryItem(BaseModel):
+    id: str
+    session_id: str
+    user_message: str | None
+    response_text: str
+    safety_flag: Literal["none", "low", "medium", "high"]
+    created_at: datetime
+
+
+class ConversationHistoryResponse(BaseModel):
+    items: list[ConversationHistoryItem]
+
+
 # ─── Speech To Text ───────────────────────────────────────────────────────────
 
 class SttTranscriptionResponse(BaseModel):
@@ -167,6 +180,11 @@ class TftSummaryResponse(BaseModel):
     trend_summary: Optional[str]
     data_quality: Literal["enough_data", "limited_data"]
     generated_at: datetime
+
+
+class StatisticsExplanationResponse(BaseModel):
+    period_type: str
+    explanation: str
 
 
 class ReportGenerateRequest(BaseModel):

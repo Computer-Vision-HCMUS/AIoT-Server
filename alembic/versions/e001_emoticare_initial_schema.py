@@ -13,7 +13,7 @@ from typing import Sequence, Union
 
 import sqlalchemy as sa
 from alembic import op
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ENUM, JSONB
 
 revision: str = "e001_emoticare"
 down_revision: Union[str, None] = None
@@ -82,7 +82,7 @@ def upgrade() -> None:
         sa.Column("last_seen_at", sa.DateTime(timezone=True), nullable=True),
         sa.Column(
             "status",
-            sa.Enum("online", "offline", "disabled",
+            ENUM("online", "offline", "disabled",
                     name="device_status_enum", create_type=False),
             nullable=False,
             server_default="offline",
@@ -97,14 +97,14 @@ def upgrade() -> None:
         sa.Column("id", sa.String(36), primary_key=True),
         sa.Column(
             "media_type",
-            sa.Enum("song", "podcast", name="media_type_enum", create_type=False),
+            ENUM("song", "podcast", name="media_type_enum", create_type=False),
             nullable=False,
         ),
         sa.Column("title", sa.String(160), nullable=False),
         sa.Column("creator", sa.String(160), nullable=True),
         sa.Column(
             "category",
-            sa.Enum(
+            ENUM(
                 "relax", "focus", "sleep", "happy",
                 "sad_support", "anger_release", "energy_recover",
                 name="media_category_enum", create_type=False,
@@ -134,7 +134,7 @@ def upgrade() -> None:
         sa.Column("confidence_score", sa.Numeric(4, 3), nullable=False),
         sa.Column(
             "quality_flag",
-            sa.Enum(
+            ENUM(
                 "clean", "noisy", "too_short", "low_confidence",
                 name="quality_flag_enum", create_type=False,
             ),
@@ -164,7 +164,7 @@ def upgrade() -> None:
         sa.Column("response_payload", JSONB, nullable=False),
         sa.Column(
             "status",
-            sa.Enum("success", "failed", "limited",
+            ENUM("success", "failed", "limited",
                     name="reco_status_enum", create_type=False),
             nullable=False,
             server_default="success",
@@ -183,7 +183,7 @@ def upgrade() -> None:
         ),
         sa.Column(
             "activity_type",
-            sa.Enum("breathing", "rest", "movement", "journaling",
+            ENUM("breathing", "rest", "movement", "journaling",
                     name="activity_type_enum", create_type=False),
             nullable=False,
         ),
@@ -205,7 +205,7 @@ def upgrade() -> None:
         sa.Column("response_text", sa.String(500), nullable=False),
         sa.Column(
             "safety_flag",
-            sa.Enum("none", "low", "medium", "high",
+            ENUM("none", "low", "medium", "high",
                     name="safety_flag_enum", create_type=False),
             nullable=False,
             server_default="none",
@@ -224,18 +224,18 @@ def upgrade() -> None:
         ),
         sa.Column(
             "period_type",
-            sa.Enum("daily", "weekly", "monthly", "yearly",
+            ENUM("daily", "weekly", "monthly", "yearly",
                     name="period_type_enum", create_type=False),
             nullable=False,
         ),
         sa.Column("period_start", sa.Date(), nullable=False),
         sa.Column("period_end", sa.Date(), nullable=False),
-        sa.Column("tft_cards", JSONB, nullable=False, server_default="'[]'::jsonb"),
-        sa.Column("emotion_distribution", JSONB, nullable=False, server_default="'{}'::jsonb"),
+        sa.Column("tft_cards", JSONB, nullable=False, server_default=sa.text("'[]'::jsonb")),
+        sa.Column("emotion_distribution", JSONB, nullable=False, server_default=sa.text("'{}'::jsonb")),
         sa.Column("trend_summary", sa.String(500), nullable=True),
         sa.Column(
             "data_quality",
-            sa.Enum("enough_data", "limited_data",
+            ENUM("enough_data", "limited_data",
                     name="data_quality_enum", create_type=False),
             nullable=False,
             server_default="limited_data",

@@ -1,13 +1,13 @@
 """Statistic aliases for day/week/month TFT reports."""
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_device
 from app.database import get_db
 from app.models.emoticare import Device
-from app.schemas import TftSummaryResponse
-from app.services.statistics import build_statistics
+from app.schemas import StatisticsExplanationResponse, TftSummaryResponse
+from app.services.statistics import build_statistics, explain_statistics
 
 router = APIRouter(prefix="/api/statistics", tags=["Statistics"])
 
@@ -49,3 +49,23 @@ def statistic_month(
     current_device: Device = Depends(get_current_device),
 ):
     return _response_for_period("monthly", current_device, db)
+
+
+@router.post("/{period}/explain", response_model=StatisticsExplanationResponse)
+def explain_period_statistics(
+    period: str,
+    db: Session = Depends(get_db),
+    current_device: Device = Depends(get_current_device),
+):
+    period_type = {"day": "daily", "week": "weekly", "month": "monthly"}.get(period)
+    if period_type is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Unknown statistics period")
+    report = build_statistics(period_type, current_device, db)
+    try:
+        explanation = explain_statistics(report)
+    except RuntimeError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="The selected AI provider is temporarily unavailable. Please retry.",
+        ) from exc
+    return StatisticsExplanationResponse(period_type=period_type, explanation=explanation)

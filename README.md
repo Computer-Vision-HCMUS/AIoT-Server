@@ -83,6 +83,8 @@ Useful read/debug endpoints:
 
 For detailed Postman examples, read `docs/api/POSTMAN_TESTING.md`.
 
+For a browser-based ESP32 interaction simulator and API testing lab, read `docs/api/TESTING_SIMULATOR.md`.
+
 ## AI, Supabase, and Vercel setup
 
 Copy `.env.example` to `.env`, then set:

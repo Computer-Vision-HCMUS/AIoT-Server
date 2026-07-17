@@ -118,4 +118,4 @@ def chat(emotion_label: str, user_message: str | None, safety_flag: str) -> str:
         f"Cảm xúc nhận diện: {emotion_label}. "
         f"Người dùng nói: {user_message or '[không có nội dung]'}"
     )
-    return gemini_client.generate_text(prompt, fallback=fallback)[:500]
+    return gemini_client.generate_text(prompt, fallback=fallback, require_live=True)[:500]
