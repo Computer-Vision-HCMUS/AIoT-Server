@@ -19,7 +19,7 @@ class PlaygroundClient:
         return bool(settings.GROQ_API_KEY) if self.provider in {"GROQ", "GROK"} else bool(settings.GEMINI_API_KEY)
 
     def _generate_groq(self, prompt: str) -> str:
-        response = httpx.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {settings.GROQ_API_KEY}"}, json={"model": settings.GROQ_MODEL, "messages": [{"role": "system", "content": "You are EmotiCare, a warm, concise Vietnamese wellbeing companion. Do not diagnose medical conditions."}, {"role": "user", "content": prompt}], "temperature": 0.5}, timeout=30)
+        response = httpx.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {settings.GROQ_API_KEY}"}, json={"model": settings.GROQ_MODEL, "messages": [{"role": "system", "content": "You are EmotiCare, a warm, concise Vietnamese wellbeing companion. Do not diagnose medical conditions."}, {"role": "user", "content": prompt}], "temperature": 0.8}, timeout=30)
         response.raise_for_status()
         return ((response.json().get("choices") or [{}])[0].get("message", {}).get("content", "")).strip()
 

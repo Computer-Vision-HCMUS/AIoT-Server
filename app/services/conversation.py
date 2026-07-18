@@ -1,4 +1,6 @@
-"""Conversation service with safety filtering and optional Gemini response."""
+"""Conversation service with safety filtering and contextual AI responses."""
+
+import re
 
 CRISIS_KEYWORDS = [
     "tự tử", "tu tu", "tự làm hại", "tu lam hai", "muốn chết", "muon chet",
@@ -105,14 +107,34 @@ def summarize_user_message(message: str | None, safety_flag: str) -> str | None:
     return message[:200]
 
 
+def _looks_like_unreliable_transcript(message: str | None) -> bool:
+    """Detect long, highly repetitive STT output before sending it to the AI."""
+    if not message:
+        return False
+    words = re.findall(r"\w+", message.lower(), flags=re.UNICODE)
+    if len(words) < 12:
+        return False
+    unique_ratio = len(set(words)) / len(words)
+    return len(words) > 100 or unique_ratio < 0.38
+
+
 def chat(emotion_label: str, user_message: str | None, safety_flag: str) -> str:
     fallback = fallback_response(emotion_label, safety_flag, user_message)
     if safety_flag in ("high", "medium"):
         return fallback
 
+    if _looks_like_unreliable_transcript(user_message):
+        return (
+            "Mình nhận được đoạn ghi âm khá dài hoặc bị lặp, nên chưa chắc đã hiểu đúng. "
+            "Bạn thử nói lại một câu ngắn, hoặc gửi bằng chữ để mình phản hồi sát hơn nhé."
+        )
+
     from app.services.gemini import gemini_client
 
     prompt = (
+        "Reply in Vietnamese in 2-3 short, natural sentences. Mention one specific detail or feeling from "
+        "the user's message, suggest exactly one small practical next step, and finish with one brief open question. "
+        "Avoid generic reassurance, repeating the user's wording, medical diagnosis, and saying that you are AI. "
         "Bạn là trợ lý hỗ trợ cảm xúc cho thiết bị EmotiCare có màn hình TFT nhỏ. "
         "Trả lời bằng tiếng Việt, 1-2 câu, ấm áp, không chẩn đoán y khoa. "
         f"Cảm xúc nhận diện: {emotion_label}. "

@@ -20,6 +20,12 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str | None = None
     GROQ_MODEL: str = "groq/compound-mini"
     WHISPER_MODEL_SIZE: str = "base"
+    WHISPER_DEVICE: str = "cpu"
+    WHISPER_COMPUTE_TYPE: str = "int8"
+    WHISPER_BEAM_SIZE: int = 1
+    WHISPER_CPU_THREADS: int = 4
+    WHISPER_VAD_FILTER: bool = True
+    WHISPER_LANGUAGE: str | None = "vi"
     SUPABASE_URL: str | None = None
     SUPABASE_SERVICE_ROLE_KEY: str | None = None
     SUPABASE_MEDIA_BUCKET: str = "media-demo"
