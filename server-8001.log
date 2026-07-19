@@ -1,0 +1,256 @@
+INFO:     127.0.0.1:56443 - "OPTIONS /api/emotion-sessions/sync HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56443 - "POST /api/emotion-sessions/sync HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56443 - "OPTIONS /api/emotion-sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56443 - "GET /api/emotion-sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56443 - "OPTIONS /api/recommendations/request HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61993 - "POST /api/recommendations/request HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56589 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61993 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52858 - "GET /media/music/04-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:54042 - "GET /media/music/03-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:54707 - "GET /media/music/01-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60182 - "GET /media/music/02-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60182 - "GET /media/music/07-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57595 - "GET /media/music/06-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59817 - "GET /media/music/10-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61634 - "GET /media/music/08-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59614 - "GET /media/music/05-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61634 - "GET /media/music/09-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58450 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53038 - "GET /media/podcast/05-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:58450 - "GET /media/podcast/04-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61453 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61634 - "GET /media/podcast/07-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61453 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60413 - "GET /media/podcast/01-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52241 - "GET /media/podcast/10-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53483 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60413 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:52241 - "GET /media/music/07-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56589 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56443 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52241 - "GET /media/music/03-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64767 - "GET /media/music/06-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:52792 - "GET /media/music/04-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57511 - "GET /media/music/01-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:52792 - "GET /media/music/05-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64767 - "GET /media/music/10-emoticare-soundscape.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57511 - "GET /media/podcast/05-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64767 - "GET /media/podcast/04-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:52792 - "GET /media/podcast/07-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:52241 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57511 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50769 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55777 - "OPTIONS /api/conversations/history?session_id=74cd2b59-0324-4747-80e6-70d6d5984909 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55777 - "GET /api/conversations/history?session_id=74cd2b59-0324-4747-80e6-70d6d5984909 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55777 - "OPTIONS /api/conversations/respond HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55777 - "POST /api/conversations/respond HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55777 - "POST /api/conversations/respond HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62435 - "POST /api/conversations/respond HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62435 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56451 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58883 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56612 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59522 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56451 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62435 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62823 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:49809 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51695 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:58883 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65420 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58558 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65362 - "OPTIONS /api/feedback/media HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65362 - "POST /api/feedback/media HTTP/1.1" 201 Created
+INFO:     127.0.0.1:65362 - "POST /api/feedback/media HTTP/1.1" 201 Created
+INFO:     127.0.0.1:65362 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55794 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55794 - "POST /api/feedback/media HTTP/1.1" 201 Created
+INFO:     127.0.0.1:55794 - "POST /api/feedback/media HTTP/1.1" 201 Created
+INFO:     127.0.0.1:55794 - "POST /api/feedback/media HTTP/1.1" 201 Created
+INFO:     127.0.0.1:49685 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55794 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54533 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49806 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61297 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52023 - "GET /media/music/03-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64155 - "GET /media/music/04-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63049 - "GET /media/music/02-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51356 - "GET /media/music/01-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64155 - "GET /media/music/07-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51356 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63049 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64155 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52023 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51356 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:59863 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56513 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51650 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52999 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64172 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54976 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50523 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51650 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56731 - "GET /media/music/03-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53466 - "GET /media/music/04-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63442 - "GET /media/music/02-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64623 - "GET /media/music/01-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64623 - "GET /media/music/07-emoticare-soundscape.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63442 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:64623 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53466 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56731 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53466 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52999 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64172 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63748 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53374 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54287 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63932 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63930 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59916 - "GET /media/music/02-commons-yet-again-again.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51171 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:58121 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51918 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50332 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51263 - "GET /media/music/02-commons-yet-again-again.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51263 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56077 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56077 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55107 - "GET /media/music/02-commons-yet-again-again.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55838 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58388 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63906 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51618 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60784 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55107 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58388 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60784 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55107 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56272 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51910 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50775 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62876 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62876 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50775 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53214 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56931 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56931 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56272 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51910 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51910 - "OPTIONS /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51910 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53214 - "GET /media/music/03-commons-big-eyed-rabbit-vincent-s-15th-anniversary-party-set-on.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62761 - "GET /media/music/05-commons-parents-4-29-14-boardners-hollywood-ca.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:63884 - "GET /media/music/07-commons-much-to-munch.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:49736 - "GET /media/music/06-commons-programa-eme-179-t-07-24.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:58162 - "GET /media/music/10-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:54126 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54126 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53605 - "OPTIONS /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55866 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58149 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53605 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52108 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55866 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56634 - "GET /media/music/02-commons-yet-again-again.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49670 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60077 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60017 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51172 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60077 - "GET /media/music/03-commons-big-eyed-rabbit-vincent-s-15th-anniversary-party-set-on.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51172 - "GET /media/music/03-commons-big-eyed-rabbit-vincent-s-15th-anniversary-party-set-on.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60077 - "GET /media/music/07-commons-much-to-munch.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60017 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:49670 - "GET /media/music/05-commons-parents-4-29-14-boardners-hollywood-ca.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60077 - "GET /media/music/06-commons-programa-eme-179-t-07-24.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56634 - "GET /media/music/10-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55887 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51492 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58251 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62576 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61651 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55135 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55887 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52932 - "GET /media/music/07-commons-much-to-munch.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51337 - "GET /media/music/05-commons-parents-4-29-14-boardners-hollywood-ca.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:63020 - "GET /media/music/03-commons-big-eyed-rabbit-vincent-s-15th-anniversary-party-set-on.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50455 - "GET /media/music/10-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56198 - "GET /media/music/06-commons-programa-eme-179-t-07-24.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51712 - "GET /media/podcast/05-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52420 - "GET /media/podcast/04-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54083 - "GET /media/podcast/01-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55508 - "GET /media/podcast/07-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53291 - "GET /media/podcast/10-emoticare-guidance.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61564 - "OPTIONS /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60968 - "OPTIONS /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58843 - "OPTIONS /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54604 - "GET /media/music/02-commons-yet-again-again.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57307 - "GET /media/music/09-commons-partite-sopra-un-soggetto.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55905 - "GET /media/music/01-commons-house-sesion04.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55905 - "GET /media/music/08-commons-red-vic-sessions-2007.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:57307 - "GET /media/music/04-commons-stetson-calling-10-26-2010.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:54604 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55905 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57307 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61182 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56246 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61564 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63712 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60968 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51790 - "GET /media/music/11-commons-amateur-zen-6-advertising-whatever.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56673 - "GET /media/music/20-commons-aeon-gratitude-track-154.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:53670 - "GET /media/music/30-commons-citywide-blackout-july-13-2017-anturazh-worm-readercon.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55641 - "GET /media/music/15-commons-disater.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62392 - "GET /media/music/39-commons-apathy-for-the-desert.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59836 - "GET /media/music/17-commons-el-pato-mareado-the-clumbsy-duck.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57536 - "GET /media/music/32-commons-entrevista-a-juancho-organizador-campa-a-best-the-music.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61588 - "GET /media/music/06-commons-fetch-it-for-me.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55770 - "GET /media/music/02-commons-footstep-surf-music-band-pamela-cuba-libre.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62028 - "GET /media/music/40-commons-hey-ma-hey-pa-1.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60283 - "GET /media/music/40-commons-holiday.mp3 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58668 - "GET /media/music/40-commons-hey-ma-hey-pa-1.mp3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54129 - "GET /media/music/07-commons-internet-is-slow.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55684 - "GET /media/music/38-commons-justin-sherburn-and-art-from-the-streets-on-koop-austin.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50701 - "GET /media/music/04-commons-karamela5.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55107 - "GET /media/music/34-commons-latino-mix-may2011-extended.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64554 - "GET /media/music/03-commons-modular-improvisation-45a-b-17022017-night.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59277 - "GET /media/music/09-commons-music-9.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61612 - "GET /media/music/14-commons-musica.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64043 - "GET /media/music/24-commons-noche-de-rock-1029-dream-theater-virulency.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57636 - "GET /media/music/35-commons-norelpref-compendium-96.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:58204 - "GET /media/music/31-commons-pace-down.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60595 - "GET /media/music/25-commons-penipaintrix-and-the-butt-splosions-present-music-from-.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57485 - "GET /media/music/08-commons-sahara-horra-programa-71.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:55107 - "GET /media/music/10-commons-sahara-horra-sahara-libre-62.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51425 - "GET /media/music/22-commons-sdt02-le-cercle-pepo-salazar.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56394 - "GET /media/music/05-commons-sherpa-cast-2010-08-11.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62285 - "GET /media/music/13-commons-spirit-world.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62272 - "GET /media/music/19-commons-the-contemporary-austin-crit-group-on-austin-artists-ko.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61290 - "GET /media/music/18-commons-the-door-towards-the-dream.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57646 - "GET /media/music/33-commons-the-letter-u.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:49318 - "GET /media/music/23-commons-touchy.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50427 - "GET /media/music/21-commons-track-309-ambivalence.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:60883 - "GET /media/music/01-commons-wang-jim.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:49791 - "GET /media/music/36-commons-yesterday.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:57850 - "GET /media/music/26-commons-wheelchair-sam-256-kbps.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64877 - "GET /media/music/12-commons-warlock-radio-may-madness-may-31-2014.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:63043 - "GET /media/music/37-commons-yesterday.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59455 - "GET /media/music/16-commons-you-20have-20no-20power.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50335 - "GET /media/music/27-commons-zarbsong-hiphop-vibes.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:61185 - "GET /media/music/28-commons-zarbsong-meanbeat-track.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:62281 - "GET /media/music/29-commons-zarbsong-mobilisation.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:64714 - "GET /media/podcast/09-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:51824 - "GET /media/podcast/08-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:50579 - "GET /media/podcast/03-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:56780 - "GET /media/podcast/02-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:59949 - "GET /media/podcast/06-emoticare-guidance.mp3 HTTP/1.1" 206 Partial Content
+INFO:     127.0.0.1:53170 - "GET /api/media/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56724 - "POST /api/media/music/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53791 - "POST /api/media/podcast/recommend HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62229 - "GET /media/music/02-commons-footstep-surf-music-band-pamela-cuba-libre.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61310 - "GET /media/music/20-commons-aeon-gratitude-track-154.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56651 - "GET /media/music/11-commons-amateur-zen-6-advertising-whatever.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:55885 - "GET /media/music/39-commons-apathy-for-the-desert.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:61310 - "GET /media/music/15-commons-disater.mp3 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53309 - "GET /media/music/30-commons-citywide-blackout-july-13-2017-anturazh-worm-readercon.mp3 HTTP/1.1" 304 Not Modified

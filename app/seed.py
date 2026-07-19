@@ -11,9 +11,11 @@ Usage:
 """
 
 import hashlib
+import json
 import secrets
 import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
 from app.config import settings
 from app.database import SessionLocal
@@ -33,7 +35,7 @@ def _media_url(path: str) -> str:
         base_url = settings.SUPABASE_URL.rstrip("/")
         bucket = settings.SUPABASE_MEDIA_BUCKET
         return f"{base_url}/storage/v1/object/public/{bucket}/{path}"
-    return f"supabase://{settings.SUPABASE_MEDIA_BUCKET}/{path}"
+    return f"/media/{path}"
 
 
 MEDIA_SEED: list[dict] = [
@@ -58,6 +60,22 @@ MEDIA_SEED: list[dict] = [
     {"media_type": "podcast", "category": "energy_recover", "title": "Nap lai nang luong", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/09-energy-recover.mp3")},
     {"media_type": "podcast", "category": "relax", "title": "Goi ten cam xuc", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/10-name-the-feeling.mp3")},
 ]
+
+
+def _local_catalog() -> list[dict]:
+    """Prefer the downloaded local catalog over the legacy demo manifest."""
+    catalog = Path(__file__).resolve().parent.parent / "media-dataset" / "catalog.json"
+    if not catalog.is_file():
+        return []
+    with catalog.open(encoding="utf-8") as handle:
+        items = json.load(handle)
+    required = {"media_type", "title", "creator", "duration_sec", "category", "source_url"}
+    if not isinstance(items, list) or any(not required.issubset(item) for item in items):
+        raise ValueError(f"Invalid local media catalog: {catalog}")
+    return [{key: item[key] for key in required} for item in items]
+
+
+MEDIA_SEED = _local_catalog() or MEDIA_SEED
 
 
 def seed():

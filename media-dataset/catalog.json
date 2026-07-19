@@ -1,0 +1,802 @@
+[
+  {
+    "media_type": "song",
+    "title": "Wang Jim",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/01-commons-wang-jim.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Footstep Surf Music Band Pamela Cuba Libre",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/02-commons-footstep-surf-music-band-pamela-cuba-libre.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Modular Improvisation 45A B 17022017 Night",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/03-commons-modular-improvisation-45a-b-17022017-night.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Karamela5",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/04-commons-karamela5.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Sherpa Cast 2010 08 11",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/05-commons-sherpa-cast-2010-08-11.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Fetch It For Me",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "anger_release",
+    "duration_sec": 90,
+    "source_url": "/media/music/06-commons-fetch-it-for-me.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Internet Is Slow",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "energy_recover",
+    "duration_sec": 90,
+    "source_url": "/media/music/07-commons-internet-is-slow.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Sahara Horra Programa 71",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/08-commons-sahara-horra-programa-71.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Music 9",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/09-commons-music-9.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Sahara Horra Sahara Libre 62",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/10-commons-sahara-horra-sahara-libre-62.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Amateur Zen 6 Advertising Whatever",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/11-commons-amateur-zen-6-advertising-whatever.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Warlock Radio May Madness May 31 2014",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/12-commons-warlock-radio-may-madness-may-31-2014.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Spirit World",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "anger_release",
+    "duration_sec": 90,
+    "source_url": "/media/music/13-commons-spirit-world.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Musica",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "energy_recover",
+    "duration_sec": 90,
+    "source_url": "/media/music/14-commons-musica.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Disater",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/15-commons-disater.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "You 20Have 20No 20Power",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/16-commons-you-20have-20no-20power.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "El Pato Mareado The Clumbsy Duck",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/17-commons-el-pato-mareado-the-clumbsy-duck.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "The Door Towards The Dream",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/18-commons-the-door-towards-the-dream.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "The Contemporary Austin Crit Group On Austin Artists Ko",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/19-commons-the-contemporary-austin-crit-group-on-austin-artists-ko.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Aeon Gratitude Track 154",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "anger_release",
+    "duration_sec": 90,
+    "source_url": "/media/music/20-commons-aeon-gratitude-track-154.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Track 309 Ambivalence",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "energy_recover",
+    "duration_sec": 90,
+    "source_url": "/media/music/21-commons-track-309-ambivalence.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Sdt02 Le Cercle Pepo Salazar",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/22-commons-sdt02-le-cercle-pepo-salazar.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Touchy",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/23-commons-touchy.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Noche De Rock 1029 Dream Theater Virulency",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/24-commons-noche-de-rock-1029-dream-theater-virulency.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Penipaintrix And The Butt Splosions Present Music From ",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/25-commons-penipaintrix-and-the-butt-splosions-present-music-from-.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Wheelchair Sam 256 Kbps",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/26-commons-wheelchair-sam-256-kbps.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Zarbsong Hiphop Vibes",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "anger_release",
+    "duration_sec": 90,
+    "source_url": "/media/music/27-commons-zarbsong-hiphop-vibes.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Zarbsong Meanbeat Track",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "energy_recover",
+    "duration_sec": 90,
+    "source_url": "/media/music/28-commons-zarbsong-meanbeat-track.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Zarbsong Mobilisation",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/29-commons-zarbsong-mobilisation.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Citywide Blackout July 13 2017 Anturazh Worm Readercon",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/30-commons-citywide-blackout-july-13-2017-anturazh-worm-readercon.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Pace Down",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/31-commons-pace-down.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Entrevista A Juancho Organizador Campa A Best The Music",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/32-commons-entrevista-a-juancho-organizador-campa-a-best-the-music.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "The Letter U",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/33-commons-the-letter-u.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Latino Mix May2011 Extended",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "anger_release",
+    "duration_sec": 90,
+    "source_url": "/media/music/34-commons-latino-mix-may2011-extended.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Norelpref Compendium 96",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "energy_recover",
+    "duration_sec": 90,
+    "source_url": "/media/music/35-commons-norelpref-compendium-96.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Yesterday",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "relax",
+    "duration_sec": 90,
+    "source_url": "/media/music/36-commons-yesterday.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Yesterday",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "focus",
+    "duration_sec": 90,
+    "source_url": "/media/music/37-commons-yesterday.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Justin Sherburn And Art From The Streets On Koop Austin",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sleep",
+    "duration_sec": 90,
+    "source_url": "/media/music/38-commons-justin-sherburn-and-art-from-the-streets-on-koop-austin.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Apathy For The Desert",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "happy",
+    "duration_sec": 90,
+    "source_url": "/media/music/39-commons-apathy-for-the-desert.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "media_type": "song",
+    "title": "Hey Ma Hey Pa 1",
+    "creator": "Internet Archive Creative Commons contributor",
+    "category": "sad_support",
+    "duration_sec": 90,
+    "source_url": "/media/music/40-commons-hey-ma-hey-pa-1.mp3",
+    "dataset": "Internet Archive Creative Commons Music Dataset",
+    "license_note": "Creative Commons; attribution source recorded with the local dataset."
+  },
+  {
+    "source_url": "/media/podcast/01-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Slow breathing for one minute",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/02-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Name the feeling",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sad_support",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/03-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Start a focus session",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/04-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Rest before sleep",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sleep",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/05-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Keep positive energy",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "happy",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/06-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Cool down anger",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "anger_release",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/07-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Restore your energy",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "energy_recover",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/08-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Return to the present",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/09-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Take a gentle break",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/10-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Speak kindly to yourself",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sad_support",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/11-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "A two-minute reset",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/12-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Make room for sadness",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sad_support",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/13-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Plan one focused block",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/14-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "A softer evening",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sleep",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/15-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Celebrate a small win",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "happy",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/16-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Pause before replying",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "anger_release",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/17-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Move with gentle energy",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "energy_recover",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/18-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Five senses grounding",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/19-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Close a distracting loop",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/20-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Permission to pause",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sad_support",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/21-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Settle your body",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/22-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "One clear priority",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/23-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Let the day end",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sleep",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/24-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Share good energy",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "happy",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/25-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Release the tightness",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "anger_release",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/26-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Recover at your pace",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "energy_recover",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/27-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "A calm transition",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/28-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Focus after a setback",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/29-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Prepare for quiet sleep",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sleep",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/30-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Notice what is working",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "happy",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/31-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Choose a gentle response",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "anger_release",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/32-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Recharge with kindness",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "energy_recover",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/33-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Anchor in the room",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/34-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Begin without pressure",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/35-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Ease into rest",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "sleep",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/36-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Keep your momentum",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "happy",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/37-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Make space before action",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "anger_release",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/38-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Return energy slowly",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "energy_recover",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/39-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "A mindful minute",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "relax",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  },
+  {
+    "source_url": "/media/podcast/40-emoticare-guidance.mp3",
+    "duration_sec": 45,
+    "title": "Finish the next step",
+    "license_note": "Project-created audio; no external URL stored.",
+    "category": "focus",
+    "creator": "EmotiCare Local Guidance",
+    "dataset": "EmotiCare Local Spoken Dataset v1",
+    "media_type": "podcast"
+  }
+]

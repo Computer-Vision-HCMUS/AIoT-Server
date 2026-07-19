@@ -194,8 +194,8 @@ def request_recommendation(
 
     emotion_label = session.emotion_label
 
-    # The simulator does not ship a media library yet, so return five actionable
-    # wellbeing activities rather than mixing in unavailable music or podcasts.
+    # The support screen is intentionally action-only. Music and podcasts are
+    # discovered through the dedicated media endpoints and the Discover screen.
     all_cards = recommend_action(emotion_label, current_device.user_id, db, limit=5)
 
     response_payload = {

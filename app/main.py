@@ -9,8 +9,11 @@ Run with:
     uvicorn app.main:app --reload
 """
 
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
 from app.routers import (
@@ -56,6 +59,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+dataset_dir = Path(__file__).resolve().parent.parent / "media-dataset"
+dataset_dir.mkdir(exist_ok=True)
+app.mount("/media", StaticFiles(directory=dataset_dir), name="local-media")
 
 
 @app.get("/", tags=["Root"])

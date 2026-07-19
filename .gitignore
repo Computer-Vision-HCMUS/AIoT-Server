@@ -6,6 +6,9 @@ aiot.db
 *.db
 *.db*
 *.db-journal
+media-dataset/source/
+media-dataset/music/
+media-dataset/podcast/
 
 .secrets/
 *.secret

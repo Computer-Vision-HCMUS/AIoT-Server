@@ -128,6 +128,39 @@ def get_media_categories(
     return MediaCategoriesResponse(categories=categories)
 
 
+@router.get(
+    "/library",
+    summary="Lấy toàn bộ danh sách nhạc và podcast local",
+)
+def get_media_library(
+    db: Session = Depends(get_db),
+    current_device: Device = Depends(get_current_device),
+):
+    del current_device
+    items = (
+        db.query(MediaItem)
+        .filter(MediaItem.enabled.is_(True))
+        .order_by(MediaItem.media_type, MediaItem.title)
+        .all()
+    )
+    serialized = [
+        {
+            "media_id": item.id,
+            "media_type": item.media_type,
+            "title": item.title,
+            "creator": item.creator,
+            "category": item.category,
+            "duration_sec": item.duration_sec,
+            "source_url": item.source_url,
+        }
+        for item in items
+    ]
+    return {
+        "music": [item for item in serialized if item["media_type"] == "song"],
+        "podcasts": [item for item in serialized if item["media_type"] == "podcast"],
+    }
+
+
 @router.post(
     "/recommendations",
     response_model=MediaRecommendationResponse,
