@@ -6,6 +6,8 @@
  * decoding; acoustic feature extraction and model inference run in C++.
  */
 
+
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -25,6 +27,11 @@
 #include <vector>
 
 #include "../classifier.h"
+
+#include "inferencing-sdk-cpp-master/dsp/numpy.hpp"
+#include "inferencing-sdk-cpp-master/dsp/speechpy/speechpy.hpp"
+#include "inferencing-sdk-cpp-master/classifier/ei_run_dsp.h"
+
 
 namespace aiot::ser {
 

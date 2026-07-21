@@ -1,0 +1,6 @@
+
+cd .\docs\ai\edge-ser\artifacts\smart-device
+.\ser_mp3.cpp extract "..\test\DC_h05.wav" ".\happy.features.json"
+.\ser_mp3.exe classify ".\happy.features.json"
+
+ở trên phải ra happy mới đúng, nhưng hiện tại lại ra angry
