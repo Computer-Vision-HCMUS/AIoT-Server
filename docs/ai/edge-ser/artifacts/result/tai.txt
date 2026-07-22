@@ -7,3 +7,21 @@ cd .\docs\ai\edge-ser\artifacts\smart-device
 
 cd .\docs\ai\edge-ser\artifacts\smart-device
 g++ ser_mp3.cpp -o ser_mp3.exe -std=c++17 -I.
+
+
+//1137
+power shell ( we jul 22 2026): 
+
+g++ ser_mp3.cpp `
+  edge-impulse-sdk/porting/mingw32/ei_classifier_porting.cpp `
+  edge-impulse-sdk/dsp/kissfft/kiss_fft.cpp `
+  edge-impulse-sdk/dsp/kissfft/kiss_fftr.cpp `
+  -o ser_mp3.exe `
+  -std=c++17 `
+  -I.
+
+  //
+.\ser_mp3.exe extract "..\test\DC_h05.wav" ".\happy.features.json"
+
+//
+.\ser_mp3.exe classify ".\happy.features.json"
