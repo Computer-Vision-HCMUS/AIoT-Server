@@ -123,6 +123,22 @@ def _generate_report(
         .order_by(EmotionSession.client_created_at.asc())
         .all()
     )
+
+    # Fallback: ESP32 has no RTC so client_created_at is always anchored to 2025-01-01.
+    # If the primary filter returns nothing, retry using the server-assigned created_at
+    # (which is always an accurate UTC wall-clock timestamp).
+    if not sessions:
+        sessions = (
+            db.query(EmotionSession)
+            .filter(
+                EmotionSession.user_id == user_id,
+                EmotionSession.device_id == device_id,
+                EmotionSession.created_at >= period_start_dt,
+                EmotionSession.created_at < period_end_dt,
+            )
+            .order_by(EmotionSession.created_at.asc())
+            .all()
+        )
     session_ids = [session.id for session in sessions]
     recommendation_count = 0
     activity_scores: list[int] = []
