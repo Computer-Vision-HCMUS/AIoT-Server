@@ -86,6 +86,7 @@ def root():
             "list_recommendations":   "GET  /api/recommendations",
             "media_categories":       "GET  /api/media/categories",
             "media_recommendations":  "POST /api/media/recommendations",
+            "media_stream":           "GET  /api/media/stream/{media_id}",
             "media_history":          "GET  /api/media/history",
             "conversation":           "POST /api/conversations/respond",
             "stt":                    "POST /api/stt/transcribe",

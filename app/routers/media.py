@@ -5,7 +5,11 @@ GET  /api/media/categories       — lấy danh sách 7 category
 POST /api/media/recommendations  — lấy bài hát/podcast theo category và intent
 """
 
-from fastapi import APIRouter, Depends, Query
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi.responses import FileResponse, RedirectResponse
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_device
@@ -19,6 +23,29 @@ from app.schemas import (
 from app.services.recommendations import recommend_music, recommend_podcast
 
 router = APIRouter(prefix="/api/media", tags=["Media"])
+
+MEDIA_DATASET_DIR = Path(__file__).resolve().parents[2] / "media-dataset"
+
+
+def _stream_url(request: Request, item: MediaItem) -> str | None:
+    """Return an absolute playback URL; ESP32 audio clients cannot use paths."""
+    if not item.source_url:
+        return None
+    return str(request.url_for("stream_media", media_id=item.id))
+
+
+def _local_media_path(source_url: str) -> Path | None:
+    """Resolve only /media/... URLs and prevent traversal outside the dataset."""
+    path = unquote(urlparse(source_url).path)
+    if not path.startswith("/media/"):
+        return None
+
+    candidate = (MEDIA_DATASET_DIR / path.removeprefix("/media/")).resolve()
+    try:
+        candidate.relative_to(MEDIA_DATASET_DIR.resolve())
+    except ValueError:
+        return None
+    return candidate
 
 CATEGORY_META: dict[str, dict] = {
     "relax": {
@@ -79,6 +106,48 @@ INTENT_CATEGORY_KEYWORDS: dict[str, list[str]] = {
 }
 
 
+@router.get(
+    "/stream/{media_id}",
+    name="stream_media",
+    summary="Stream an enabled media item with HTTP Range support",
+    responses={
+        200: {"content": {"audio/mpeg": {}}},
+        206: {"content": {"audio/mpeg": {}}},
+    },
+)
+def stream_media(media_id: str, db: Session = Depends(get_db)):
+    """Serve local MP3 files or redirect to their configured remote source.
+
+    The endpoint is intentionally unauthenticated because the ESP32 audio
+    decoder fetches the URL independently of the authenticated catalog call.
+    It exposes only enabled media IDs, and ``FileResponse`` handles byte-range
+    requests (206) required by seeking and resilient streaming clients.
+    """
+    item = (
+        db.query(MediaItem)
+        .filter(MediaItem.id == media_id, MediaItem.enabled.is_(True))
+        .first()
+    )
+    if not item or not item.source_url:
+        raise HTTPException(status_code=404, detail="Media item not found")
+
+    local_path = _local_media_path(item.source_url)
+    if local_path:
+        if not local_path.is_file():
+            raise HTTPException(status_code=404, detail="Media file not found")
+        return FileResponse(
+            local_path,
+            media_type="audio/mpeg",
+            filename=local_path.name,
+            headers={"Accept-Ranges": "bytes", "Cache-Control": "public, max-age=3600"},
+        )
+
+    parsed = urlparse(item.source_url)
+    if parsed.scheme in {"http", "https"}:
+        return RedirectResponse(item.source_url, status_code=307)
+    raise HTTPException(status_code=404, detail="Unsupported media source")
+
+
 def _intent_categories(intent: str | None) -> list[str]:
     if not intent:
         return []
@@ -133,6 +202,7 @@ def get_media_categories(
     summary="Lấy toàn bộ danh sách nhạc và podcast local",
 )
 def get_media_library(
+    request: Request,
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
 ):
@@ -151,7 +221,7 @@ def get_media_library(
             "creator": item.creator,
             "category": item.category,
             "duration_sec": item.duration_sec,
-            "source_url": item.source_url,
+            "source_url": _stream_url(request, item),
         }
         for item in items
     ]
@@ -168,6 +238,7 @@ def get_media_library(
 )
 def get_media_recommendations(
     payload: MediaRecommendationRequest,
+    request: Request,
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
 ):
@@ -217,7 +288,7 @@ def get_media_recommendations(
             "creator": item.creator,
             "category": item.category,
             "duration_sec": item.duration_sec,
-            "source_url": item.source_url,
+            "source_url": _stream_url(request, item),
             "reason": (
                 f"Khớp chủ đích: {payload.user_intent}"
                 if payload.user_intent
@@ -243,11 +314,15 @@ def get_media_recommendations(
 )
 def recommend_music_endpoint(
     payload: MediaRecommendationRequest,
+    request: Request,
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
 ):
     emotion_label = payload.emotion_label or "neutral"
     cards = recommend_music(emotion_label, current_device.user_id, db, limit=5)
+    for card in cards:
+        item = db.get(MediaItem, card["media_id"])
+        card["source_url"] = _stream_url(request, item) if item else None
     return MediaRecommendationResponse(
         category=payload.category,
         media_type="song",
@@ -262,11 +337,15 @@ def recommend_music_endpoint(
 )
 def recommend_podcast_endpoint(
     payload: MediaRecommendationRequest,
+    request: Request,
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
 ):
     emotion_label = payload.emotion_label or "neutral"
     cards = recommend_podcast(emotion_label, current_device.user_id, db, limit=5)
+    for card in cards:
+        item = db.get(MediaItem, card["media_id"])
+        card["source_url"] = _stream_url(request, item) if item else None
     return MediaRecommendationResponse(
         category=payload.category,
         media_type="podcast",

@@ -87,6 +87,44 @@ def _seed_media_items() -> list[str]:
     return ids
 
 
+def test_media_stream_url_is_absolute_and_supports_ranges(client):
+    from app.routers.media import MEDIA_DATASET_DIR
+
+    media_id = str(uuid.uuid4())
+    relative_path = "music/test-stream.mp3"
+    media_file = MEDIA_DATASET_DIR / relative_path
+    media_file.parent.mkdir(parents=True, exist_ok=True)
+    media_file.write_bytes(b"ID3" + b"x" * 1024)
+
+    db = SessionLocal()
+    try:
+        db.add(
+            MediaItem(
+                id=media_id,
+                media_type="song",
+                category="relax",
+                title="Range test",
+                creator="Tests",
+                duration_sec=1,
+                source_url=f"/media/{relative_path}",
+                enabled=True,
+            )
+        )
+        db.commit()
+    finally:
+        db.close()
+
+    try:
+        stream = client.get(
+            f"/api/media/stream/{media_id}", headers={"Range": "bytes=0-31"}
+        )
+        assert stream.status_code == 206
+        assert stream.headers["content-range"].startswith("bytes 0-31/")
+        assert len(stream.content) == 32
+    finally:
+        media_file.unlink(missing_ok=True)
+
+
 def _pair_device(client, pairing_code: str) -> tuple[str, dict[str, str]]:
     response = client.post(
         "/api/devices/pair",
