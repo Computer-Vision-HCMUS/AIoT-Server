@@ -28,9 +28,8 @@
 
 #include "../classifier.h"
 
-#include "inferencing-sdk-cpp-master/dsp/numpy.hpp"
-#include "inferencing-sdk-cpp-master/dsp/speechpy/speechpy.hpp"
-#include "inferencing-sdk-cpp-master/classifier/ei_run_dsp.h"
+#include "edge-impulse-sdk/dsp/speechpy/speechpy.hpp"
+#include "edge-impulse-sdk/dsp/returntypes.hpp"
 
 
 namespace aiot::ser {
@@ -53,6 +52,36 @@ struct AudioBuffer {
                                    : static_cast<double>(samples.size()) / sample_rate_hz;
     }
 };
+
+namespace {
+    thread_local const std::vector <float> * g_mfcc_audio_samples = nullptr;
+
+    int mfcc_audio_get_data(
+        size_t offset,
+        size_t length,
+        float* out_ptr
+    ) {
+        if (g_mfcc_audio_samples == nullptr || out_ptr == nullptr){
+           return ei::EIDSP_PARAMETER_INVALID;
+           
+        }
+
+        if (offset > g_mfcc_audio_samples->size() ||
+            length > g_mfcc_audio_samples->size() - offset) {
+            return ei::EIDSP_OUT_OF_BOUNDS;
+
+        }
+
+        std::copy_n(
+            g_mfcc_audio_samples->data() + offset,
+            length,
+            out_ptr
+        );
+        
+        return ei::EIDSP_OK;
+    } 
+}
+
 
 struct Prediction {
     int class_index{};
@@ -207,24 +236,171 @@ public:
 
 class AcousticFeatureExtractor final {
 public:
+    // [[nodiscard]] Features extract(const AudioBuffer& audio) const {
+    //     if (audio.samples.size() < kFftSize) {
+    //         throw std::runtime_error("Audio must be at least 2048 samples long.");
+    //     }
+
+    //     FrameStatistics statistics;
+    //     for (size_t start = 0; start + kFftSize <= audio.samples.size(); start += kHopSize) {
+    //         const auto power = power_spectrum(audio.samples, start);
+    //         update_statistics(power, audio, start, statistics);
+    //     }
+    //     if (statistics.frame_count == 0) {
+    //         throw std::runtime_error("No analysis frames were generated.");
+    //     }
+
+    //     return quantize(build_feature_vector(audio, statistics));
+    // }
+
     [[nodiscard]] Features extract(const AudioBuffer& audio) const {
         if (audio.samples.size() < kFftSize) {
             throw std::runtime_error("Audio must be at least 2048 samples long.");
         }
 
-        FrameStatistics statistics;
-        for (size_t start = 0; start + kFftSize <= audio.samples.size(); start += kHopSize) {
+        const std::array<double, 13> edge_impulse_mfcc =
+        extract_edge_impulse_mfcc(audio);//
+
+        FrameStatistics statistics;//
+
+
+        for (size_t start = 0; start + kFftSize <= audio.samples.size(); start += kHopSize)
+        {
             const auto power = power_spectrum(audio.samples, start);
             update_statistics(power, audio, start, statistics);
         }
+  
         if (statistics.frame_count == 0) {
-            throw std::runtime_error("No analysis frames were generated.");
+            throw std::runtime_error(
+                "No analysis frames were generated."
+            );
         }
 
-        return quantize(build_feature_vector(audio, statistics));
+        statistics.mfcc_sum = edge_impulse_mfcc;//
+        return quantize(
+            build_feature_vector(audio, statistics)
+        );
     }
-
+    
 private:
+
+    [[nodiscard]] static std::array <double, 13>  extract_edge_impulse_mfcc(
+        const AudioBuffer& audio
+    ){
+        if (audio.sample_rate_hz <= 0 || audio.samples.empty()) {
+            throw std::runtime_error(
+                "Invalid audio for Edge Impulse MFCC extraction."
+            );
+        }
+
+        constexpr uint16_t kNumCepstral = 13;
+        constexpr uint16_t kNumFilters = 26;
+        constexpr uint16_t kImplementationVersion = 4;
+        
+         /*
+        * Quy đổi từ cấu hình hiện tại của ser_mp3.cpp:
+        *
+        * frame_length = 2048 samples / sample rate
+        * frame_stride = 512 samples / sample rate
+        */
+
+        const float frame_length = 
+            static_cast<float>(kFftSize) /
+            static_cast<float>(audio.sample_rate_hz);
+         
+        const float frame_stride = 
+            static_cast<float>(kHopSize) /
+            static_cast<float>(audio.sample_rate_hz);   
+
+        const uint32_t sampling_frequency =
+            static_cast<uint32_t> (audio.sample_rate_hz);
+            
+        const uint32_t  low_frequency = 0;
+        const uint32_t high_frequency = 
+            sampling_frequency /2;
+            
+        ei::signal_t signal{};
+        signal.total_length = audio.samples.size();
+        signal.get_data = &mfcc_audio_get_data;  
+
+        g_mfcc_audio_samples = &audio.samples; 
+
+        const ei::matrix_size_t matrix_size =
+        ei::speechpy::feature::calculate_mfcc_buffer_size(
+            signal.total_length,
+            sampling_frequency,
+            frame_length,
+            frame_stride,
+            kNumCepstral,
+            kImplementationVersion
+        );
+
+         if (matrix_size.rows == 0 || matrix_size.cols != kNumCepstral) {
+            g_mfcc_audio_samples = nullptr;
+            throw std::runtime_error(
+                "Edge Impulse calculated an invalid MFCC matrix size."
+            );
+        }
+
+         ei::matrix_t mfcc_matrix(
+            matrix_size.rows,
+            matrix_size.cols
+        );
+
+         if (mfcc_matrix.buffer == nullptr) {
+            g_mfcc_audio_samples = nullptr;
+            throw std::runtime_error(
+                "Could not allocate Edge Impulse MFCC matrix."
+            );
+        }   
+
+          const int result = ei::speechpy::feature::mfcc(
+            &mfcc_matrix,
+            &signal,
+            sampling_frequency,
+            frame_length,
+            frame_stride,
+            kNumCepstral,
+            kNumFilters,
+            kFftSize,
+            low_frequency,
+            high_frequency,
+            true,
+            kImplementationVersion
+        );
+
+        g_mfcc_audio_samples = nullptr;
+
+        if (result != ei::EIDSP_OK) {
+            throw std::runtime_error(
+                "Edge Impulse MFCC failed with error code: " +
+                std::to_string(result)
+            );
+        }
+
+        std::array<double, 13> mfcc_mean{};
+
+       
+
+        for (uint32_t row = 0; row < mfcc_matrix.rows; ++row) {
+            for (uint32_t coefficient = 0;
+                coefficient < mfcc_matrix.cols;
+                ++coefficient) {
+
+                mfcc_mean[coefficient] +=
+                    mfcc_matrix.buffer[
+                        row * mfcc_matrix.cols + coefficient
+                    ];
+            }
+        }
+
+        for (double& coefficient : mfcc_mean) {
+            coefficient /= static_cast<double>(mfcc_matrix.rows);
+        }
+        // tính trung bình
+        return mfcc_mean;
+
+    }
     static constexpr int kSpectrumBins = kFftSize / 2 + 1;
 
     struct FrameStatistics {
