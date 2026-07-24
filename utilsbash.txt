@@ -1,4 +1,4 @@
 & "C:\ProgramData\anaconda3\shell\condabin\conda-hook.ps1"
 conda activate base
 
-python -m uvicorn app.main:app --reload
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload

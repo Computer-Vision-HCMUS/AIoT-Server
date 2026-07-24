@@ -5,11 +5,14 @@ GET  /api/media/categories       — lấy danh sách 7 category
 POST /api/media/recommendations  — lấy bài hát/podcast theo category và intent
 """
 
+import logging
 from pathlib import Path
+import subprocess
 from urllib.parse import unquote, urlparse
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse
+from starlette.background import BackgroundTask
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_device
@@ -23,8 +26,12 @@ from app.schemas import (
 from app.services.recommendations import recommend_music, recommend_podcast
 
 router = APIRouter(prefix="/api/media", tags=["Media"])
+# Use Uvicorn's configured logger so playback diagnostics are visible when the
+# development server is started with its normal INFO log level.
+logger = logging.getLogger("uvicorn.error")
 
 MEDIA_DATASET_DIR = Path(__file__).resolve().parents[2] / "media-dataset"
+ESP_MEDIA_DIR = MEDIA_DATASET_DIR / "esp"
 
 
 def _stream_url(request: Request, item: MediaItem) -> str | None:
@@ -46,6 +53,36 @@ def _local_media_path(source_url: str) -> Path | None:
     except ValueError:
         return None
     return candidate
+
+
+def _esp_optimized_path(source_url: str) -> Path | None:
+    """Return the pre-transcoded ESP-friendly copy when it is available."""
+    source_path = _local_media_path(source_url)
+    if not source_path:
+        return None
+    candidate = ESP_MEDIA_DIR / source_path.relative_to(MEDIA_DATASET_DIR)
+    return candidate if candidate.is_file() else source_path
+
+
+def _pcm_chunks(media_path: Path):
+    """Transcode a local item to signed 16-bit, 16 kHz mono PCM on demand."""
+    process = subprocess.Popen(
+        [
+            "ffmpeg", "-v", "error", "-i", str(media_path), "-vn",
+            "-f", "s16le", "-acodec", "pcm_s16le", "-ac", "1", "-ar", "16000",
+            "pipe:1",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    try:
+        assert process.stdout is not None
+        while chunk := process.stdout.read(4096):
+            yield chunk
+    finally:
+        if process.poll() is None:
+            process.terminate()
+        process.wait(timeout=2)
 
 CATEGORY_META: dict[str, dict] = {
     "relax": {
@@ -115,7 +152,12 @@ INTENT_CATEGORY_KEYWORDS: dict[str, list[str]] = {
         206: {"content": {"audio/mpeg": {}}},
     },
 )
-def stream_media(media_id: str, db: Session = Depends(get_db)):
+def stream_media(
+    media_id: str,
+    request: Request,
+    format: str | None = Query(default=None),
+    db: Session = Depends(get_db),
+):
     """Serve local MP3 files or redirect to their configured remote source.
 
     The endpoint is intentionally unauthenticated because the ESP32 audio
@@ -131,19 +173,55 @@ def stream_media(media_id: str, db: Session = Depends(get_db)):
     if not item or not item.source_url:
         raise HTTPException(status_code=404, detail="Media item not found")
 
-    local_path = _local_media_path(item.source_url)
+    local_path = _esp_optimized_path(item.source_url)
     if local_path:
         if not local_path.is_file():
             raise HTTPException(status_code=404, detail="Media file not found")
+        client = request.client.host if request.client else "unknown"
+        byte_range = request.headers.get("range", "full file")
+        file_size = local_path.stat().st_size
+        logger.info(
+            "media playback started: client=%s media_id=%s file=%s size=%d range=%s",
+            client,
+            media_id,
+            local_path.name,
+            file_size,
+            byte_range,
+        )
+        if format == "pcm":
+            logger.info(
+                "media PCM stream started: client=%s media_id=%s file=%s format=s16le/16000/mono",
+                client,
+                media_id,
+                local_path.name,
+            )
+            return StreamingResponse(
+                _pcm_chunks(local_path),
+                media_type="audio/L16;rate=16000;channels=1",
+                headers={"Cache-Control": "no-store", "X-Audio-Format": "s16le-16000-mono"},
+            )
         return FileResponse(
             local_path,
             media_type="audio/mpeg",
             filename=local_path.name,
             headers={"Accept-Ranges": "bytes", "Cache-Control": "public, max-age=3600"},
+            background=BackgroundTask(
+                logger.info,
+                "media playback response finished: client=%s media_id=%s file=%s",
+                client,
+                media_id,
+                local_path.name,
+            ),
         )
 
     parsed = urlparse(item.source_url)
     if parsed.scheme in {"http", "https"}:
+        logger.info(
+            "media playback redirected: client=%s media_id=%s target=%s",
+            request.client.host if request.client else "unknown",
+            media_id,
+            item.source_url,
+        )
         return RedirectResponse(item.source_url, status_code=307)
     raise HTTPException(status_code=404, detail="Unsupported media source")
 

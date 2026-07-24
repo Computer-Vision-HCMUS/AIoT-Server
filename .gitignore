@@ -9,6 +9,7 @@ aiot.db
 media-dataset/source/
 media-dataset/music/
 media-dataset/podcast/
+media-dataset/esp/
 
 .secrets/
 *.secret
