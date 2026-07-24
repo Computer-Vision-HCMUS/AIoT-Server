@@ -12,6 +12,8 @@ g++ ser_mp3.cpp -o ser_mp3.exe -std=c++17 -I.
 //1137
 power shell ( we jul 22 2026): 
 
+cd .\docs\ai\edge-ser\artifacts\smart-device
+
 g++ ser_mp3.cpp `
   edge-impulse-sdk/porting/mingw32/ei_classifier_porting.cpp `
   edge-impulse-sdk/dsp/kissfft/kiss_fft.cpp `
@@ -25,3 +27,61 @@ g++ ser_mp3.cpp `
 
 //
 .\ser_mp3.exe classify ".\happy.features.json"
+
+//
+Fri, jul 24, 2026
+      Những đặc trưng LibXtract có thể hỗ trợ
+
+      LibXtract là nguồn C/C++ tốt để tham khảo hoặc dùng trực tiếp cho:
+
+      Đặc trưng của bạn	Khả năng dùng LibXtract
+      RMS / Energy	Có
+      Zero Crossing Rate	Có
+      Spectral Centroid	Có
+      Spectral Bandwidth / Variance	Có thể xây từ centroid và variance
+      Spectral Rolloff	Có
+      Spectral Flux	Có
+      Spectral Flatness	Có
+      MFCC	Có
+      Pause Rate	Không có trực tiếp, tự tính từ RMS
+      Shimmer theo repo	Không cần thư viện, tự tính
+      Jitter theo repo	Không có trực tiếp, tự tính từ chuỗi MFCC0
+  //
+  Thứ tự ưu tiên
+Giai đoạn 1 — dễ nhất, chưa cần FFT của LibXtract
+
+Làm trước:
+
+RMS / Energy
+Zero Crossing Rate
+Pause Rate
+Shimmer theo repo
+
+Trong đó:
+
+RMS và ZCR dùng trực tiếp LibXtract.
+Pause Rate dùng kết quả RMS từng frame.
+Shimmer giữ công thức hiện tại vì đã gần đúng repo.
+Giai đoạn 2 — dùng chung một magnitude spectrum
+
+Làm tiếp:
+
+Spectral Centroid
+Spectral Rolloff
+Spectral Flatness
+
+LibXtract được thiết kế theo kiểu “cascading”: phổ được tính một lần rồi truyền cho nhiều hàm đặc trưng khác nhau, tránh FFT lại nhiều lần. Đây chính là kiến trúc phù hợp với update_statistics() hiện tại.
+
+Giai đoạn 3 — cần kiểm tra kỹ định nghĩa
+Spectral Bandwidth
+Spectral Flux
+
+Hai đặc trưng này chưa nên làm ngay vì:
+
+LibXtract có xtract_spread và spectral variance, nhưng chưa chắc đồng nhất với librosa.feature.spectral_bandwidth.
+LibXtract có XTRACT_FLUX, nhưng chưa chắc tương đương librosa.onset.onset_strength mà repo Python dùng.
+Giai đoạn 4 — khó nhất
+MFCC
+Jitter phụ thuộc MFCC0 theo frame
+
+LibXtract có MFCC, nhưng phải khởi tạo filterbank và kiểm tra kết quả với pipeline huấn luyện. Tài liệu của nó xác nhận xtract_mfcc() nhận magnitude spectrum và một cấu trúc filterbank được tạo bởi xtract_init_mfcc()
