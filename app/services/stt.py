@@ -1,6 +1,7 @@
 """Speech-to-text service powered by faster-whisper."""
 
 import os
+import subprocess
 import tempfile
 from dataclasses import dataclass
 
@@ -74,6 +75,38 @@ class WhisperSttService:
                 os.remove(temp_path)
             except OSError:
                 pass
+
+    def _transcribe_pcm_bytes(self, pcm: bytes, sample_rate: int) -> TranscriptionResult:
+        """Convert ESP s16le PCM to MP3, then send that MP3 to local Whisper."""
+        pcm_path = mp3_path = None
+        try:
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".pcm") as tmp:
+                pcm_path = tmp.name
+                tmp.write(pcm)
+            mp3_path = f"{pcm_path}.mp3"
+            conversion = subprocess.run(
+                [
+                    "ffmpeg", "-y", "-v", "error", "-f", "s16le", "-ar", str(sample_rate),
+                    "-ac", "1", "-i", pcm_path, "-c:a", "libmp3lame", "-b:a", "64k", mp3_path,
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=30,
+            )
+            if conversion.returncode != 0:
+                raise RuntimeError("PCM to MP3 conversion failed")
+            return self._transcribe_file(mp3_path)
+        finally:
+            for path in (pcm_path, mp3_path):
+                if path:
+                    try:
+                        os.remove(path)
+                    except OSError:
+                        pass
+
+    async def transcribe_pcm_s16le(self, pcm: bytes, sample_rate: int) -> TranscriptionResult:
+        return await run_in_threadpool(self._transcribe_pcm_bytes, pcm, sample_rate)
 
 
 stt_service = WhisperSttService()

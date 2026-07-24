@@ -27,6 +27,8 @@ from app.routers import (
     reports,
     statistics,
     stt,
+    tts,
+    voice_conversations,
 )
 
 # ─── FastAPI app ──────────────────────────────────────────────────────────────
@@ -89,7 +91,9 @@ def root():
             "media_stream":           "GET  /api/media/stream/{media_id}",
             "media_history":          "GET  /api/media/history",
             "conversation":           "POST /api/conversations/respond",
+            "companion_voice":        "POST /api/conversations/voice",
             "stt":                    "POST /api/stt/transcribe",
+            "tts":                    "POST /api/tts/synthesize",
             "feedback_activity":      "POST /api/feedback/activity",
             "feedback_media":         "POST /api/feedback/media",
             "tft_summary":            "GET  /api/reports/tft-summary",
@@ -109,7 +113,9 @@ app.include_router(emotion_sessions.router)
 app.include_router(recommendations.router)
 app.include_router(media.router)
 app.include_router(conversations.router)
+app.include_router(voice_conversations.router)
 app.include_router(stt.router)
+app.include_router(tts.router)
 app.include_router(feedback.router)
 app.include_router(reports.router)
 app.include_router(statistics.router)
