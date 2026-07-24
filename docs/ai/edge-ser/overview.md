@@ -237,6 +237,21 @@ Lưu ý: chỉ nên lưu mặc định kết quả suy luận và metadata cần
 * Kết quả SER là suy luận xác suất, không phải kết luận chắc chắn về trạng thái tâm lý.
 * Kết quả Edge AI chỉ hỗ trợ tự nhận thức, không phải chẩn đoán y khoa.
 
+## 4.13. Hướng trích xuất đặc trưng native với LibXtract
+
+[LibXtract](https://github.com/jamiebullock/LibXtract) là thư viện C/C++ có thể dùng để thay thế dần phần trích xuất đặc trưng Python khi triển khai SER trên thiết bị hoặc trong native runner. Thư viện hỗ trợ trực tiếp RMS/Energy, Zero Crossing Rate, Spectral Centroid, Rolloff, Flux, Flatness và MFCC.
+
+Việc triển khai cần theo từng giai đoạn để vừa kiểm chứng tính tương thích với pipeline huấn luyện, vừa tránh tính FFT lặp lại:
+
+| Giai đoạn | Đặc trưng | Ghi chú |
+| --- | --- | --- |
+| 1 | RMS/Energy, Zero Crossing Rate, Pause Rate, Shimmer | RMS và ZCR dùng trực tiếp thư viện; Pause Rate tính từ RMS theo frame; Shimmer giữ công thức hiện tại để so sánh với repo tham khảo. |
+| 2 | Spectral Centroid, Rolloff, Flatness | Tính magnitude spectrum một lần rồi tái sử dụng cho nhiều đặc trưng. |
+| 3 | Spectral Bandwidth, Flux | Cần đối chiếu với định nghĩa của `librosa`; không giả định kết quả LibXtract tương đương hoàn toàn. |
+| 4 | 13 MFCC và Jitter | Khởi tạo và kiểm chứng Mel filterbank trước khi dùng `xtract_mfcc()`; Jitter phụ thuộc MFCC0 theo frame trong pipeline hiện tại. |
+
+Spectral Bandwidth, Spectral Flux, MFCC và Jitter chỉ được đưa vào feature vector production sau khi so sánh đầu ra theo frame và theo file với pipeline Python/`extractor.py`. Điều này đặc biệt quan trọng vì classifier nhận đúng 45 chiều feature với thứ tự và scale đã được dùng trong quá trình huấn luyện.
+
 ## 4.2. Cơ sở tham khảo kỹ thuật
 
 Thiết kế SER của EmotiCare AIoT tham khảo ba nhóm nguồn:

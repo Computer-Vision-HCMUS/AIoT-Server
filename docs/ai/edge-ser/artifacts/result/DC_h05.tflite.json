@@ -1,0 +1,23 @@
+{
+  "input": "..\\artifacts\\test\\DC_h05.wav",
+  "emotion_label": "happy",
+  "confidence_score": 0.999988317489624,
+  "top_k_predictions": [
+    {
+      "label": "happy",
+      "confidence": 0.999988317489624
+    },
+    {
+      "label": "angry",
+      "confidence": 1.167560913017951e-05
+    },
+    {
+      "label": "disgust",
+      "confidence": 7.0140987462608e-10
+    }
+  ],
+  "sample_rate_hz": 22050,
+  "duration_seconds": 4.3605895691609975,
+  "feature_count": 210,
+  "inference_latency_ms": 0.04220000118948519
+}

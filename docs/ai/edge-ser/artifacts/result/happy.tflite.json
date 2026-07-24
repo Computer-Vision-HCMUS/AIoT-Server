@@ -1,0 +1,23 @@
+{
+  "input": "..\\artifacts\\test\\happy.mp3",
+  "emotion_label": "disgust",
+  "confidence_score": 0.9420397877693176,
+  "top_k_predictions": [
+    {
+      "label": "disgust",
+      "confidence": 0.9420397877693176
+    },
+    {
+      "label": "happy",
+      "confidence": 0.057804256677627563
+    },
+    {
+      "label": "calm",
+      "confidence": 0.00015110192180145532
+    }
+  ],
+  "sample_rate_hz": 22050,
+  "duration_seconds": 6.9360090702947845,
+  "feature_count": 210,
+  "inference_latency_ms": 0.08280000110971741
+}

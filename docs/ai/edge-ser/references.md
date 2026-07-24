@@ -26,8 +26,11 @@ Tiêu chí chọn: bài báo uy tín, có code, dùng RAVDESS, hướng edge AI 
 | Resource | Link |
 | -------- | ---- |
 | Edge Impulse MFCC (C++) | [ei_run_dsp.h](https://github.com/edgeimpulse/inferencing-sdk-cpp/blob/master/classifier/ei_run_dsp.h) |
+| LibXtract | [jamiebullock/LibXtract](https://github.com/jamiebullock/LibXtract) |
 
 Pipeline tham khảo: Audio PCM → frame → pre-emphasis → power spectrum → Mel filterbank → log → DCT → MFCC.
+
+LibXtract được tham khảo cho native C/C++ feature extraction: RMS/Energy, Zero Crossing Rate, Spectral Centroid, Rolloff, Flux, Flatness và MFCC. Cần benchmark kết quả với pipeline Python trước khi dùng các feature này cho classifier.
 
 ## Datasets (training)
 

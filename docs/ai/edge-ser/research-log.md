@@ -79,3 +79,19 @@ Audio PCM → frame → pre-emphasis → power spectrum → Mel filterbank → l
 ```
 
 Link: [ei_run_dsp.h](https://github.com/edgeimpulse/inferencing-sdk-cpp/blob/master/classifier/ei_run_dsp.h)
+
+---
+
+## 2026-07-24 — Đánh giá LibXtract cho native feature extraction
+
+LibXtract là lựa chọn C/C++ để triển khai hoặc đối chiếu các acoustic feature ngoài Edge Impulse.
+
+| Nhóm | Kết luận |
+| --- | --- |
+| Có thể dùng trực tiếp | RMS/Energy, Zero Crossing Rate, Spectral Centroid, Rolloff, Flux, Flatness, MFCC |
+| Tự tính từ feature khác | Pause Rate từ RMS theo frame; Shimmer theo công thức hiện tại; Jitter từ chuỗi MFCC0 |
+| Cần kiểm chứng với Python | Spectral Bandwidth/Variance, Spectral Flux và MFCC filterbank |
+
+Thứ tự triển khai: bắt đầu với RMS, ZCR, Pause Rate và Shimmer; sau đó tái sử dụng một magnitude spectrum cho Centroid, Rolloff và Flatness. Chỉ thêm MFCC sau khi so sánh kết quả với pipeline huấn luyện.
+
+Tham khảo: [LibXtract](https://github.com/jamiebullock/LibXtract).
