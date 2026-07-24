@@ -1,0 +1,6 @@
+.venv/
+data/
+models/*
+!models/ravdess_ser.tflite
+!models/ravdess_ser.metadata.json
+__pycache__/

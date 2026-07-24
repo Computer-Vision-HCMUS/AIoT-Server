@@ -1,0 +1,23 @@
+{
+  "input": "..\\results\\happy-ravdess.mp3",
+  "emotion_label": "happy",
+  "confidence_score": 0.9476750493049622,
+  "top_k_predictions": [
+    {
+      "label": "happy",
+      "confidence": 0.9476750493049622
+    },
+    {
+      "label": "surprised",
+      "confidence": 0.0380532331764698
+    },
+    {
+      "label": "angry",
+      "confidence": 0.010979639366269112
+    }
+  ],
+  "sample_rate_hz": 22050,
+  "duration_seconds": 3.47015873015873,
+  "feature_count": 210,
+  "inference_latency_ms": 0.043399999412940815
+}

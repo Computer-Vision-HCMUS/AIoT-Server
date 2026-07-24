@@ -1,0 +1,95 @@
+{
+  "dataset": "RAVDESS audio-only speech",
+  "sample_count": 1440,
+  "feature_count": 210,
+  "sample_rate_hz": 22050,
+  "labels": [
+    "angry",
+    "calm",
+    "disgust",
+    "fearful",
+    "happy",
+    "neutral",
+    "sad",
+    "surprised"
+  ],
+  "evaluation_protocol": "stratified random holdout: 20%, seed 42",
+  "test_actors": null,
+  "test_samples": 288,
+  "test_accuracy": 0.6388888888888888,
+  "tflite_test_accuracy": 0.6319444444444444,
+  "class_distribution": {
+    "neutral": 96,
+    "calm": 192,
+    "happy": 192,
+    "sad": 192,
+    "angry": 192,
+    "fearful": 192,
+    "disgust": 192,
+    "surprised": 192
+  },
+  "classification_report": {
+    "angry": {
+      "precision": 0.7631578947368421,
+      "recall": 0.7631578947368421,
+      "f1-score": 0.7631578947368421,
+      "support": 38.0
+    },
+    "calm": {
+      "precision": 0.6739130434782609,
+      "recall": 0.8157894736842105,
+      "f1-score": 0.7380952380952381,
+      "support": 38.0
+    },
+    "disgust": {
+      "precision": 0.5918367346938775,
+      "recall": 0.7631578947368421,
+      "f1-score": 0.6666666666666666,
+      "support": 38.0
+    },
+    "fearful": {
+      "precision": 0.5833333333333334,
+      "recall": 0.717948717948718,
+      "f1-score": 0.6436781609195402,
+      "support": 39.0
+    },
+    "happy": {
+      "precision": 0.5454545454545454,
+      "recall": 0.46153846153846156,
+      "f1-score": 0.5,
+      "support": 39.0
+    },
+    "neutral": {
+      "precision": 0.44,
+      "recall": 0.5789473684210527,
+      "f1-score": 0.5,
+      "support": 19.0
+    },
+    "sad": {
+      "precision": 0.6521739130434783,
+      "recall": 0.39473684210526316,
+      "f1-score": 0.4918032786885246,
+      "support": 38.0
+    },
+    "surprised": {
+      "precision": 0.8846153846153846,
+      "recall": 0.5897435897435898,
+      "f1-score": 0.7076923076923077,
+      "support": 39.0
+    },
+    "accuracy": 0.6388888888888888,
+    "macro avg": {
+      "precision": 0.6418106061694653,
+      "recall": 0.6356275303643725,
+      "f1-score": 0.62638669334989,
+      "support": 288.0
+    },
+    "weighted avg": {
+      "precision": 0.6554299567323635,
+      "recall": 0.6388888888888888,
+      "f1-score": 0.6346282126631194,
+      "support": 288.0
+    }
+  },
+  "tflite_model": "ravdess_ser.tflite"
+}

@@ -1,0 +1,4 @@
+tensorflow
+librosa
+numpy
+scikit-learn
