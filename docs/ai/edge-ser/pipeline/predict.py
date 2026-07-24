@@ -1,4 +1,4 @@
-"""Run a RAVDESS-trained TFLite SER model on an MP3/WAV input."""
+"""Run the explicitly selected RAVDESS TFLite artifact on MP3/WAV input."""
 
 from __future__ import annotations
 
@@ -10,26 +10,31 @@ from pathlib import Path
 import numpy as np
 import tensorflow as tf
 
-from features import extract_features
+from percom_features import FEATURE_SCHEMA_VERSION, extract_features
+
+MODEL_DIRECTORY = Path(__file__).resolve().parent.parent / "models"
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("input", type=Path, help="MP3/WAV/etc. accepted by ffmpeg/librosa")
     parser.add_argument(
-        "--model",
-        type=Path,
-        default=Path("../models/ravdess_ser.tflite"),
+        "--artifact",
+        choices=["percom45-mlp"],
+        default="percom45-mlp",
+        help="TFLite artifact/schema to use. Random Forest C inference is separate.",
     )
-    parser.add_argument(
-        "--metadata",
-        type=Path,
-        default=Path("../models/ravdess_ser.metadata.json"),
-    )
+    parser.add_argument("--model", type=Path, default=MODEL_DIRECTORY / "percom_mlp.tflite")
+    parser.add_argument("--metadata", type=Path, default=MODEL_DIRECTORY / "percom45.metadata.json")
     parser.add_argument("--output", type=Path, default=None)
     args = parser.parse_args()
 
     metadata = json.loads(args.metadata.read_text(encoding="utf-8"))
+    if metadata.get("schema_version") != FEATURE_SCHEMA_VERSION:
+        raise RuntimeError(
+            f"Metadata schema is {metadata.get('schema_version')!r}, expected "
+            f"{FEATURE_SCHEMA_VERSION!r}"
+        )
     feature_vector = extract_features(args.input)
     interpreter = tf.lite.Interpreter(model_path=str(args.model))
     interpreter.allocate_tensors()
@@ -52,6 +57,9 @@ def main() -> None:
     labels = metadata["labels"]
     result = {
         "input": str(args.input),
+        "artifact": args.artifact,
+        "schema_version": FEATURE_SCHEMA_VERSION,
+        "model_version": metadata.get("schema_version"),
         "emotion_label": labels[int(ordering[0])],
         "confidence_score": float(probabilities[ordering[0]]),
         "top_k_predictions": [

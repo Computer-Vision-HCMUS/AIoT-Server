@@ -1,0 +1,90 @@
+{
+  "schema_version": "percom45-v1",
+  "comparable_features": [
+    {
+      "name": "energy",
+      "python": 0.004056211095303297,
+      "native": 0.004107,
+      "relative_error": 0.01252126763212892,
+      "passes": true
+    },
+    {
+      "name": "zero_crossing_rate",
+      "python": 0.05570150911808014,
+      "native": 0.05599,
+      "relative_error": 0.005179229189433536,
+      "passes": true
+    },
+    {
+      "name": "pause_rate",
+      "python": 0.7857142686843872,
+      "native": 0.785714,
+      "relative_error": 3.41961954736314e-07,
+      "passes": true
+    },
+    {
+      "name": "spectral_centroid",
+      "python": 6697.87744140625,
+      "native": 4328.958984,
+      "relative_error": 0.35368196538825963,
+      "passes": false
+    },
+    {
+      "name": "spectral_rolloff",
+      "python": 12494.5595703125,
+      "native": 8815.775391,
+      "relative_error": 0.2944308807853794,
+      "passes": false
+    },
+    {
+      "name": "spectral_flatness",
+      "python": 0.20149043202400208,
+      "native": 0.23358,
+      "relative_error": 0.1592610013967082,
+      "passes": false
+    }
+  ],
+  "all_comparable_features_pass": false,
+  "benchmark_required": [
+    "f0",
+    "f2",
+    "jitter",
+    "shimmer",
+    "band_energy_ratio",
+    "spectral_bandwidth",
+    "spectral_flux",
+    "mfcc_1",
+    "mfcc_2",
+    "mfcc_3",
+    "mfcc_4",
+    "mfcc_5",
+    "mfcc_6",
+    "mfcc_7",
+    "mfcc_8",
+    "mfcc_9",
+    "mfcc_10",
+    "mfcc_11",
+    "mfcc_12",
+    "mfcc_13",
+    "chroma_1",
+    "chroma_2",
+    "chroma_3",
+    "chroma_4",
+    "chroma_5",
+    "chroma_6",
+    "chroma_7",
+    "chroma_8",
+    "chroma_9",
+    "chroma_10",
+    "chroma_11",
+    "chroma_12",
+    "spectral_contrast_1",
+    "spectral_contrast_2",
+    "spectral_contrast_3",
+    "spectral_contrast_4",
+    "spectral_contrast_5",
+    "spectral_contrast_6",
+    "spectral_contrast_7"
+  ],
+  "note": "This does not claim numerical equivalence for MFCC, flux, or bandwidth. A LibXtract implementation must supply a fixture before this check can establish supported primitive parity."
+}

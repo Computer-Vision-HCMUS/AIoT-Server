@@ -30,7 +30,12 @@ Tiêu chí chọn: bài báo uy tín, có code, dùng RAVDESS, hướng edge AI 
 
 Pipeline tham khảo: Audio PCM → frame → pre-emphasis → power spectrum → Mel filterbank → log → DCT → MFCC.
 
-LibXtract được tham khảo cho native C/C++ feature extraction: RMS/Energy, Zero Crossing Rate, Spectral Centroid, Rolloff, Flux, Flatness và MFCC. Cần benchmark kết quả với pipeline Python trước khi dùng các feature này cho classifier.
+LibXtract được tham khảo cho native C/C++ feature extraction: RMS/Energy, Zero
+Crossing Rate, Spectral Centroid, Rolloff, Flux, Flatness và MFCC. Trạng thái
+benchmark `percom45-v1`: RMS, ZCR và pause rate đã khớp tolerance trên fixture
+desktop; centroid, rolloff và flatness chưa khớp. MFCC, flux và bandwidth chưa
+được tuyên bố tương đương số học. Xem `pipeline/check_feature_parity.py`; không
+dùng native vector để phát hành classifier trước khi các mục này pass.
 
 ## Datasets (training)
 

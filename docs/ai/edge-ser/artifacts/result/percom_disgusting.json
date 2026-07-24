@@ -1,0 +1,26 @@
+{
+  "input": "artifacts\\test\\disgusting.mp3",
+  "artifact": "percom45-mlp",
+  "schema_version": "percom45-v1",
+  "model_version": "percom45-v1",
+  "emotion_label": "disgust",
+  "confidence_score": 0.9149049520492554,
+  "top_k_predictions": [
+    {
+      "label": "disgust",
+      "confidence": 0.9149049520492554
+    },
+    {
+      "label": "fearful",
+      "confidence": 0.05303187295794487
+    },
+    {
+      "label": "happy",
+      "confidence": 0.02875942550599575
+    }
+  ],
+  "sample_rate_hz": 48000,
+  "duration_seconds": 3.264,
+  "feature_count": 45,
+  "inference_latency_ms": 0.04829999670619145
+}

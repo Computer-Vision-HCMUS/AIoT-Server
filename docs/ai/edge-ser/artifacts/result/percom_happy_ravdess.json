@@ -1,0 +1,26 @@
+{
+  "input": "data\\ravdess-speech\\Actor_01\\03-01-03-01-01-01-01.wav",
+  "artifact": "percom45-mlp",
+  "schema_version": "percom45-v1",
+  "model_version": "percom45-v1",
+  "emotion_label": "happy",
+  "confidence_score": 0.3797856271266937,
+  "top_k_predictions": [
+    {
+      "label": "happy",
+      "confidence": 0.3797856271266937
+    },
+    {
+      "label": "sad",
+      "confidence": 0.2760465443134308
+    },
+    {
+      "label": "fearful",
+      "confidence": 0.14437012374401093
+    }
+  ],
+  "sample_rate_hz": 48000,
+  "duration_seconds": 3.4701458333333335,
+  "feature_count": 45,
+  "inference_latency_ms": 0.05289999899105169
+}

@@ -1,49 +1,54 @@
-# RAVDESS SER pipeline
-
-Pipeline này tạo baseline có thể kiểm chứng cho input audio và output emotion:
+# PerCom-aligned RAVDESS-8 SER pipeline
 
 ```text
-MP3/WAV → librosa decode → fixed acoustic features → TFLite → JSON prediction
+MP3/WAV → mono PCM → PerCom45 (`percom45-v1`) → Random Forest C header | TFLite MLP → JSON
 ```
 
-RAVDESS audio-only speech có 1.440 WAV được gắn nhãn trong filename. Mặc định,
-`train_ravdess.py` dùng stratified holdout để đo baseline; chọn `--evaluation actor`
-để giữ toàn bộ actor 21–24 cho test nghiêm ngặt hơn.
+Đây là adaptation theo bài PerCom 2025, không phải reproduction chính xác: giữ
+toàn bộ 8 nhãn RAVDESS (`calm` được giữ lại), trong khi taxonomy của bài báo có
+7 nhãn. `percom_features.py` tạo 45 đặc trưng: 13 scalar/prosodic, 13 MFCC
+means, 12 chroma means và 7 spectral-contrast means.
 
-## Train và export
+## Tái lập train
 
 Từ thư mục `edge-ser`:
 
 ```powershell
-.\.venv\Scripts\python.exe .\pipeline\train_ravdess.py `
+.\.venv\Scripts\python.exe .\pipeline\train_percom.py `
   --dataset .\data\ravdess-speech `
   --output .\models
 ```
 
-Script chỉ tạo `models/ravdess_ser.tflite` nếu test accuracy của protocol đã chọn lớn hơn
-50%. Metadata đi kèm (`ravdess_ser.metadata.json`) lưu labels, số sample, protocol
-đánh giá và classification report.
+Script cache feature matrix, dùng seed 42 và stratified holdout 20% làm chỉ số
+chính; actor 21–24 được giữ ra riêng làm stress test. Cả Random Forest và MLP
+chỉ được export khi test accuracy của chính chúng `>50%`. Artifacts là
+`models/percom_rf.h`, `models/percom_mlp.tflite`, và
+`models/percom45.metadata.json` (labels, schema, accuracy, Macro F1, per-class
+F1, latency, size và protocol).
 
-## Predict từ MP3
+## Predict TFLite
 
 ```powershell
 .\.venv\Scripts\python.exe .\pipeline\predict.py .\sample.mp3 `
-  --model .\models\ravdess_ser.tflite `
-  --metadata .\models\ravdess_ser.metadata.json `
+  --artifact percom45-mlp `
   --output .\artifacts\result\sample.json
 ```
 
-Output JSON có `emotion_label`, `confidence_score`, top-3 predictions, sample rate,
-duration và inference latency.
+JSON ghi rõ artifact, schema/model version, nhãn, top-3, sample rate, duration
+và latency. Filename không phải ground truth.
 
-## ESP32 và LibXtract
+## Native RF và LibXtract parity
 
-TFLite model nhận vector acoustic float32, không trực tiếp decode MP3. ESP32 cần:
+`artifacts/smart-device/ser_mp3.cpp` compile được với C++17 và `ffmpeg`; nó
+include `models/percom_rf.h` và dùng float32 PerCom45 vector. Tuy nhiên native
+extractor hiện chưa đạt parity với Python cho centroid, rolloff và flatness;
+vì vậy **không deploy header này lên ESP32** trước khi hoàn tất LibXtract
+benchmark.
 
-1. Decode/capture PCM 16-bit mono.
-2. Tái tạo đúng feature schema trong `features.py`.
-3. Gọi TFLite Micro với vector feature đó.
+```powershell
+.\.venv\Scripts\python.exe .\pipeline\check_feature_parity.py `
+  .\sample.wav .\native-features.json
+```
 
-LibXtract phù hợp cho phần native C/C++ vì các primitive của nó được thiết kế để
-tái sử dụng magnitude spectrum giữa nhiều feature. Tuy nhiên không thay thế trực
-tiếp `librosa`: phải benchmark feature parity trước khi dùng trên firmware.
+Harness chỉ có thể pass các primitive đã đối chiếu. MFCC, flux và bandwidth
+luôn bị đánh dấu `benchmark required`, không được suy diễn tương đương số học.

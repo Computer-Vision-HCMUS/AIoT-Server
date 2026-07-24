@@ -1,0 +1,26 @@
+{
+  "input": "artifacts\\test\\happy.mp3",
+  "artifact": "percom45-mlp",
+  "schema_version": "percom45-v1",
+  "model_version": "percom45-v1",
+  "emotion_label": "disgust",
+  "confidence_score": 0.9589299559593201,
+  "top_k_predictions": [
+    {
+      "label": "disgust",
+      "confidence": 0.9589299559593201
+    },
+    {
+      "label": "angry",
+      "confidence": 0.03165989741683006
+    },
+    {
+      "label": "happy",
+      "confidence": 0.009271187707781792
+    }
+  ],
+  "sample_rate_hz": 48000,
+  "duration_seconds": 6.936,
+  "feature_count": 45,
+  "inference_latency_ms": 0.04310000076657161
+}

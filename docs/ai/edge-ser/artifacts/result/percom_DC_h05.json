@@ -1,0 +1,26 @@
+{
+  "input": "artifacts\\test\\DC_h05.wav",
+  "artifact": "percom45-mlp",
+  "schema_version": "percom45-v1",
+  "model_version": "percom45-v1",
+  "emotion_label": "happy",
+  "confidence_score": 0.918191134929657,
+  "top_k_predictions": [
+    {
+      "label": "happy",
+      "confidence": 0.918191134929657
+    },
+    {
+      "label": "sad",
+      "confidence": 0.08011221140623093
+    },
+    {
+      "label": "fearful",
+      "confidence": 0.0008832368184812367
+    }
+  ],
+  "sample_rate_hz": 44100,
+  "duration_seconds": 4.3605895691609975,
+  "feature_count": 45,
+  "inference_latency_ms": 0.056300003052456304
+}

@@ -1,40 +1,44 @@
-# Kết quả kiểm thử MP3 → cảm xúc
+# PerCom-aligned RAVDESS-8 results
 
-Ngày chạy: 2026-07-25
+Ngày chạy: 2026-07-25. Dataset là 1.440 RAVDESS audio-only speech WAV, giữ đủ
+8 nhãn. Schema `percom45-v1` là adaptation theo PerCom: không thể coi là
+reproduction 7-nhãn của bài báo.
 
-## Baseline cũ
+## Primary evaluation
 
-Pipeline C++ dùng `classifier.h` 45 chiều từng dự đoán cả hai mẫu Happy và
-Disgust thành Angry, với confidence 0.320 và 0.290. Artifact này được giữ để
-đối chiếu nhưng không dùng để phát hành model.
+Stratified random holdout 20%, seed 42, 288 mẫu test:
 
-## Model RAVDESS mới
+| Artifact | Accuracy | Macro F1 | Kích thước |
+| --- | ---: | ---: | ---: |
+| Random Forest (30 trees, max depth 10) | 52.43% | 51.16% | C header 1,183,788 B |
+| Keras MLP | 54.17% | 53.61% | — |
+| TFLite MLP | 54.86% | 54.11% | 16,048 B |
 
-- Dataset: RAVDESS audio-only speech, 1.440 WAV có ground-truth.
-- Đầu vào model: 210 acoustic features từ mono PCM 22.05 kHz.
-- Model: Keras MLP có chuẩn hóa feature, export `ravdess_ser.tflite`.
-- Đánh giá: stratified random holdout 20%, seed 42, 288 mẫu test.
-- Keras test accuracy: **63.89%**.
-- TFLite test accuracy: **63.19%**.
-- Macro F1: **62.64%**.
+Cả RF và TFLite đều qua acceptance gate `>50%`. Per-class report, order nhãn,
+schema và latency được lưu trong `models/percom45.metadata.json`. RF desktop
+mean inference time là 0.217 ms/vector; không suy diễn trực tiếp sang ESP32.
 
-Kết quả vượt tiêu chí tối thiểu `>50%`. Đây là baseline stratified, không phải
-đánh giá actor-independent; đánh giá theo actor holdout trước đó chỉ đạt 42.50%
-và được ghi nhận là chưa đạt.
+Actor-held-out stress test (actors 21–24) của RF chỉ đạt 30.42% accuracy /
+29.31% Macro F1. Vì vậy kết quả stratified không đại diện cho khả năng tổng quát
+qua speaker và không phù hợp để so sánh trực tiếp với 61.2% F1 của bài báo.
 
-## Kiểm thử MP3
+## Artifact và native status
 
-Một RAVDESS WAV có nhãn `happy` được encode lại thành MP3 và chạy qua TFLite:
+- `models/percom_mlp.tflite`: artifact tích hợp khả thi hơn về kích thước.
+- `models/percom_rf.h`: đã export float32 và native runner build thành công,
+  nhưng header 1.18 MB vượt mục tiêu 256 KB của paper.
+- Native parity fixture: RMS, ZCR và pause rate đạt tolerance; centroid,
+  rolloff và flatness chưa đạt. MFCC, flux và bandwidth chưa benchmark với
+  LibXtract. RF native **chưa được phép deploy** dù runner có thể chạy.
 
-| Input | Nhãn mong đợi | Nhãn dự đoán | Confidence | Kết quả |
-| --- | --- | --- | ---: | --- |
-| `happy-ravdess.mp3` | Happy | Happy | 94.77% | Đúng |
+## End-to-end audio check
 
-Output JSON gồm `emotion_label`, `confidence_score`, top-3 predictions,
-sample rate, duration và latency. Xem lệnh tái lập trong
-[`../../pipeline/README.md`](../../pipeline/README.md).
+`Actor_01/03-01-03-01-01-01-01.wav` (ground truth filename `happy`) được
+TFLite dự đoán `happy` với confidence 37.98%. Output:
+`percom_happy_ravdess.json`. Các file `DC_h05.wav`, `happy.mp3`, và
+`disgusting.mp3` không còn hiện diện trong working tree ở lần chạy này, nên
+không thể báo cáo nhãn cho chúng.
 
 > [!WARNING]
-> Accuracy 63.89% không có nghĩa mọi MP3 sẽ được phân loại đúng. Model chỉ được
-> benchmark trên RAVDESS; cần đánh giá thêm với recording/microphone và người
-> dùng thật trước khi dùng như tính năng sản phẩm.
+> Không coi filename của audio tùy ý là ground truth. Cần data speaker-held-out
+> và native LibXtract parity trước khi dùng model trong sản phẩm.

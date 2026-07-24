@@ -24,17 +24,17 @@
 #include <string_view>
 #include <vector>
 
-#include "../classifier.h"
+#include "../../models/percom_rf.h"
 
 namespace aiot::ser {
 
 constexpr int kFeatureCount = 45;
-constexpr int kClassCount = 7;
+constexpr int kClassCount = 8;
 constexpr int kFftSize = 2048;  // Matches librosa's default n_fft.
 constexpr int kHopSize = 512;   // Matches extractor.py.
 constexpr double kPi = 3.14159265358979323846;
 
-using Features = std::array<int16_t, kFeatureCount>;
+using Features = std::array<float, kFeatureCount>;
 using Probabilities = std::array<float, kClassCount>;
 
 struct AudioBuffer {
@@ -214,7 +214,11 @@ public:
             throw std::runtime_error("No analysis frames were generated.");
         }
 
-        return quantize(build_feature_vector(audio, statistics));
+        const auto values = build_feature_vector(audio, statistics);
+        Features output{};
+        std::transform(values.begin(), values.end(), output.begin(),
+                       [](double value) { return static_cast<float>(value); });
+        return output;
     }
 
 private:
@@ -489,16 +493,17 @@ class EmotionClassifier final {
 public:
     [[nodiscard]] Prediction predict(const Features& features) const {
         static constexpr std::array<std::string_view, kClassCount> kLabels = {
-            "Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"};
+            "angry", "calm", "disgust", "fearful", "happy", "neutral", "sad", "surprised"};
         Prediction prediction;
-        prediction.class_index = rf_predict(features.data(), kFeatureCount);
-        rf_predict_proba(features.data(), kFeatureCount, prediction.probabilities.data(), kClassCount);
+        prediction.class_index = percom_rf_predict(features.data(), kFeatureCount);
+        percom_rf_predict_proba(features.data(), kFeatureCount,
+                                prediction.probabilities.data(), kClassCount);
         prediction.label = kLabels.at(prediction.class_index);
         return prediction;
     }
 };
 
-/** Serializes the model-ready, fixed-point 45-element vector without external JSON dependencies. */
+/** Serializes the model-ready PerCom45 float vector without JSON dependencies. */
 class FeatureJsonStore final {
 public:
     static void write(const std::filesystem::path& output_path, const Features& features,
@@ -508,7 +513,7 @@ public:
             throw std::runtime_error("Cannot write feature JSON: " + output_path.string());
         }
         stream << "{\n"
-               << "  \"schema_version\": 1,\n"
+               << "  \"schema_version\": \"percom45-v1\",\n"
                << "  \"feature_count\": " << kFeatureCount << ",\n"
                << "  \"sample_rate_hz\": " << audio.sample_rate_hz << ",\n"
                << "  \"duration_seconds\": " << std::fixed << std::setprecision(6)
@@ -537,17 +542,16 @@ public:
         std::replace(array_text.begin(), array_text.end(), ',', ' ');
         std::istringstream values(array_text);
         Features features{};
-        long long value = 0;
+        float value = 0.0F;
         size_t index = 0;
         while (values >> value) {
             if (index >= features.size()) {
                 throw std::runtime_error("Feature JSON has more than 45 values.");
             }
-            if (value < std::numeric_limits<int16_t>::min() ||
-                value > std::numeric_limits<int16_t>::max()) {
-                throw std::runtime_error("Feature value is outside int16 range.");
+            if (!std::isfinite(value)) {
+                throw std::runtime_error("Feature value must be finite.");
             }
-            features[index++] = static_cast<int16_t>(value);
+            features[index++] = value;
         }
         if (index != features.size()) {
             throw std::runtime_error("Feature JSON must contain exactly 45 integer values.");
@@ -598,8 +602,8 @@ int main(int argc, char** argv) {
         if (command == "extract" && argc == 4) {
             const Features features = application.extract(argv[2]);
             FeatureJsonStore::write(argv[3], features, application.last_audio());
-            std::cout << "{\"status\":\"extracted\",\"output\":\"" << argv[3]
-                      << "\",\"feature_count\":45}\n";
+            std::cout << "{\"status\":\"extracted\",\"schema_version\":\"percom45-v1\","
+                      << "\"output\":\"" << argv[3] << "\",\"feature_count\":45}\n";
             return 0;
         }
         if (command == "classify" && argc == 3) {
