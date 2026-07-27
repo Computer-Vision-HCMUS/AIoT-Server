@@ -24,7 +24,7 @@ của 13 MFCC, 12 chroma, RMS, zero-crossing rate, spectral centroid, bandwidth,
 rolloff, flatness và spectral contrast. Thứ tự nằm trong `extractor.h` và không
 được thay đổi sau khi train.
 
-`classify.h` là Random Forest float32 gồm 30 cây, độ sâu tối đa 10, cân bằng
+`classify.h` là Extra Trees float32 gồm 100 cây, không giới hạn độ sâu, cân bằng
 trọng số lớp và seed 42. Model được lưu joblib rồi được `tools/export_model.py`
 gọi emlearn để tạo header. Header nhận đúng 45 giá trị float,
 trả về chỉ số lớp; `native_pipeline.cpp` ánh xạ chỉ số đó về tám nhãn cảm xúc.

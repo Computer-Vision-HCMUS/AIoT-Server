@@ -61,17 +61,17 @@
     "surprised"
   ],
   "classifier": {
-    "type": "RandomForestClassifier",
-    "trees": 30,
-    "max_depth": 10,
+    "type": "ExtraTreesClassifier",
+    "trees": 100,
+    "max_depth": null,
     "class_weight": "balanced",
     "seed": 42,
     "exporter": "tools/export_model.py + emlearn float"
   },
   "primary_evaluation": {
     "protocol": "stratified 80/20 holdout, seed 42",
-    "accuracy": 0.46875,
-    "macro_f1": 0.4473553011329812
+    "accuracy": 0.6284722222222222,
+    "macro_f1": 0.6119236123090487
   },
   "actor_held_out_evaluation": {
     "actors": [
@@ -80,8 +80,8 @@
       "23",
       "24"
     ],
-    "accuracy": 0.31666666666666665,
-    "macro_f1": 0.2865935216370178
+    "accuracy": 0.3458333333333333,
+    "macro_f1": 0.30041732531205007
   },
   "class_distribution": {
     "neutral": 96,

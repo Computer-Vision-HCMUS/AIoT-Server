@@ -16,7 +16,7 @@ from pathlib import Path
 
 import joblib
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
 
@@ -131,19 +131,19 @@ def main() -> None:
     elif shutil.which("ffmpeg") is None:
         raise FileNotFoundError("ffmpeg is required; pass --ffmpeg <path-to-ffmpeg.exe>")
     features, labels, actors = load_dataset(args.dataset, args.cache, args.workers, args.extractor)
-    LOGGER.info("Bắt đầu train Random Forest với %d mẫu và %d đặc trưng", features.shape[0], features.shape[1])
+    LOGGER.info("Bắt đầu train Extra Trees với %d mẫu và %d đặc trưng", features.shape[0], features.shape[1])
     class_labels = sorted(set(labels))
     label_to_index = {label: index for index, label in enumerate(class_labels)}
     encoded = np.asarray([label_to_index[label] for label in labels], dtype=np.int32)
     x_train, x_test, y_train, y_test = train_test_split(features, encoded, test_size=0.20, random_state=42, stratify=encoded)
-    model = RandomForestClassifier(n_estimators=30, max_depth=10, class_weight="balanced", n_jobs=-1, random_state=42).fit(x_train, y_train)
+    model = ExtraTreesClassifier(n_estimators=100, max_depth=None, class_weight="balanced", n_jobs=-1, random_state=42).fit(x_train, y_train)
     primary = metrics(y_test, model.predict(x_test), class_labels)
     LOGGER.info("Holdout accuracy=%.4f macro_f1=%.4f", primary["accuracy"], primary["macro_f1"])
     held_out = np.isin(actors, ["21", "22", "23", "24"])
-    actor_model = RandomForestClassifier(n_estimators=30, max_depth=10, class_weight="balanced", n_jobs=-1, random_state=42).fit(features[~held_out], encoded[~held_out])
+    actor_model = ExtraTreesClassifier(n_estimators=100, max_depth=None, class_weight="balanced", n_jobs=-1, random_state=42).fit(features[~held_out], encoded[~held_out])
     actor_test = metrics(encoded[held_out], actor_model.predict(features[held_out]), class_labels)
     LOGGER.info("Actor-held-out accuracy=%.4f macro_f1=%.4f", actor_test["accuracy"], actor_test["macro_f1"])
-    model_path = args.cache.parent / "RandomForestClassifier.joblib"
+    model_path = args.cache.parent / "ExtraTreesClassifier.joblib"
     joblib.dump(model, model_path)
     LOGGER.info("Đã lưu model trung gian: %s", model_path)
     subprocess.run(
@@ -168,7 +168,7 @@ def main() -> None:
         "feature_count": len(FEATURE_NAMES),
         "feature_names": FEATURE_NAMES,
         "labels": class_labels,
-        "classifier": {"type": "RandomForestClassifier", "trees": 30, "max_depth": 10, "class_weight": "balanced", "seed": 42, "exporter": "tools/export_model.py + emlearn float"},
+        "classifier": {"type": "ExtraTreesClassifier", "trees": 100, "max_depth": None, "class_weight": "balanced", "seed": 42, "exporter": "tools/export_model.py + emlearn float"},
         "primary_evaluation": {"protocol": "stratified 80/20 holdout, seed 42", **primary},
         "actor_held_out_evaluation": {"actors": ["21", "22", "23", "24"], **actor_test},
         "class_distribution": dict(Counter(labels.tolist())),

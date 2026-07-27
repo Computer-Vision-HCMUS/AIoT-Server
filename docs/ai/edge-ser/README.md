@@ -7,8 +7,8 @@ audio -> PCM mono -> extractor.h -> 45 đặc trưng âm học -> classify.h -> 
 ```
 
 `extractor.h` định nghĩa hợp đồng: 13 MFCC mean, 13 MFCC std, 12 chroma và 7
-đặc trưng phổ. `classify.h` là mô hình Random Forest float32 được train lại từ
-chính native extractor và export bằng `tools/export_model.py`. Hai file header
+đặc trưng phổ. `classify.h` là mô hình Extra Trees float32 (100 cây) được train
+lại từ chính native extractor và export bằng `tools/export_model.py`. Hai file header
 không tự chạy độc lập; `tools/native_pipeline.cpp` gọi chúng tuần tự.
 
 ## Cấu trúc thư mục

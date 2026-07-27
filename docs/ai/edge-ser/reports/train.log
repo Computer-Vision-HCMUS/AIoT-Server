@@ -1,0 +1,98 @@
+2026-07-27 11:01:32,741 INFO Đã trích xuất 100/1440 file
+2026-07-27 11:01:41,611 INFO Đã trích xuất 200/1440 file
+2026-07-27 11:01:50,704 INFO Đã trích xuất 300/1440 file
+2026-07-27 11:01:59,240 INFO Đã trích xuất 400/1440 file
+2026-07-27 11:02:05,314 INFO Đã trích xuất 500/1440 file
+2026-07-27 11:02:10,113 INFO Đã trích xuất 600/1440 file
+2026-07-27 11:02:14,944 INFO Đã trích xuất 700/1440 file
+2026-07-27 11:02:19,209 INFO Đã trích xuất 800/1440 file
+2026-07-27 11:02:24,139 INFO Đã trích xuất 900/1440 file
+2026-07-27 11:02:28,777 INFO Đã trích xuất 1000/1440 file
+2026-07-27 11:02:33,422 INFO Đã trích xuất 1100/1440 file
+2026-07-27 11:02:38,293 INFO Đã trích xuất 1200/1440 file
+2026-07-27 11:02:42,958 INFO Đã trích xuất 1300/1440 file
+2026-07-27 11:02:47,687 INFO Đã trích xuất 1400/1440 file
+2026-07-27 11:02:49,664 INFO Đã lưu cache build\ravdess_mfcc45_features.npz với shape=(1440, 45)
+2026-07-27 11:02:49,665 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:02:50,032 INFO Holdout accuracy=0.6285 macro_f1=0.6119
+2026-07-27 11:02:50,326 INFO Actor-held-out accuracy=0.3458 macro_f1=0.3004
+2026-07-27 11:02:50,421 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:03:05,772 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:03:05,774 INFO Đã ghi báo cáo: reports\train-metrics.json
+2026-07-27 11:10:02,682 INFO Đã trích xuất 100/1440 file
+2026-07-27 11:10:06,516 INFO Đã trích xuất 200/1440 file
+2026-07-27 11:10:10,267 INFO Đã trích xuất 300/1440 file
+2026-07-27 11:10:14,428 INFO Đã trích xuất 400/1440 file
+2026-07-27 11:10:18,087 INFO Đã trích xuất 500/1440 file
+2026-07-27 11:10:21,982 INFO Đã trích xuất 600/1440 file
+2026-07-27 11:10:25,970 INFO Đã trích xuất 700/1440 file
+2026-07-27 11:10:30,590 INFO Đã trích xuất 800/1440 file
+2026-07-27 11:10:35,811 INFO Đã trích xuất 900/1440 file
+2026-07-27 11:10:41,303 INFO Đã trích xuất 1000/1440 file
+2026-07-27 11:10:46,686 INFO Đã trích xuất 1100/1440 file
+2026-07-27 11:10:51,668 INFO Đã trích xuất 1200/1440 file
+2026-07-27 11:10:57,462 INFO Đã trích xuất 1300/1440 file
+2026-07-27 11:11:02,144 INFO Đã trích xuất 1400/1440 file
+2026-07-27 11:11:03,701 INFO Đã lưu cache build\ravdess_mfcc45_features.npz với shape=(1440, 45)
+2026-07-27 11:11:03,702 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:11:03,953 INFO Holdout accuracy=0.6285 macro_f1=0.6119
+2026-07-27 11:11:04,214 INFO Actor-held-out accuracy=0.3458 macro_f1=0.3004
+2026-07-27 11:11:04,295 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:11:16,670 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:11:16,672 INFO Đã ghi báo cáo: reports\train-metrics.json
+2026-07-27 11:15:46,405 INFO Đã trích xuất 100/1440 file
+2026-07-27 11:15:51,529 INFO Đã trích xuất 200/1440 file
+2026-07-27 11:15:57,684 INFO Đã trích xuất 300/1440 file
+2026-07-27 11:16:02,594 INFO Đã trích xuất 400/1440 file
+2026-07-27 11:16:06,925 INFO Đã trích xuất 500/1440 file
+2026-07-27 11:16:11,253 INFO Đã trích xuất 600/1440 file
+2026-07-27 11:16:15,669 INFO Đã trích xuất 700/1440 file
+2026-07-27 11:16:19,983 INFO Đã trích xuất 800/1440 file
+2026-07-27 11:16:24,387 INFO Đã trích xuất 900/1440 file
+2026-07-27 11:16:29,471 INFO Đã trích xuất 1000/1440 file
+2026-07-27 11:16:34,186 INFO Đã trích xuất 1100/1440 file
+2026-07-27 11:16:39,204 INFO Đã trích xuất 1200/1440 file
+2026-07-27 11:16:44,112 INFO Đã trích xuất 1300/1440 file
+2026-07-27 11:16:48,441 INFO Đã trích xuất 1400/1440 file
+2026-07-27 11:16:50,426 INFO Đã lưu cache build\ravdess_mfcc45_features.npz với shape=(1440, 45)
+2026-07-27 11:16:50,428 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:16:50,746 INFO Holdout accuracy=0.5938 macro_f1=0.5628
+2026-07-27 11:16:51,014 INFO Actor-held-out accuracy=0.3417 macro_f1=0.3154
+2026-07-27 11:16:51,121 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:17:06,822 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:17:06,824 INFO Đã ghi báo cáo: reports\train-metrics.json
+2026-07-27 11:17:20,588 INFO Nạp cache đặc trưng: build\ravdess_mfcc45_features.npz
+2026-07-27 11:17:20,615 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:17:20,896 INFO Holdout accuracy=0.5938 macro_f1=0.5628
+2026-07-27 11:17:21,175 INFO Actor-held-out accuracy=0.3417 macro_f1=0.3154
+2026-07-27 11:17:21,257 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:17:34,509 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:17:34,512 INFO Đã ghi báo cáo: reports\train-metrics.json
+2026-07-27 11:19:13,903 INFO Đã trích xuất 100/1440 file
+2026-07-27 11:19:18,134 INFO Đã trích xuất 200/1440 file
+2026-07-27 11:19:22,575 INFO Đã trích xuất 300/1440 file
+2026-07-27 11:19:28,089 INFO Đã trích xuất 400/1440 file
+2026-07-27 11:19:32,540 INFO Đã trích xuất 500/1440 file
+2026-07-27 11:19:37,356 INFO Đã trích xuất 600/1440 file
+2026-07-27 11:19:41,511 INFO Đã trích xuất 700/1440 file
+2026-07-27 11:19:46,021 INFO Đã trích xuất 800/1440 file
+2026-07-27 11:19:50,858 INFO Đã trích xuất 900/1440 file
+2026-07-27 11:19:55,077 INFO Đã trích xuất 1000/1440 file
+2026-07-27 11:19:59,468 INFO Đã trích xuất 1100/1440 file
+2026-07-27 11:20:04,679 INFO Đã trích xuất 1200/1440 file
+2026-07-27 11:20:09,712 INFO Đã trích xuất 1300/1440 file
+2026-07-27 11:20:14,336 INFO Đã trích xuất 1400/1440 file
+2026-07-27 11:20:16,718 INFO Đã lưu cache build\ravdess_mfcc45_features.npz với shape=(1440, 45)
+2026-07-27 11:20:16,724 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:20:17,291 INFO Holdout accuracy=0.6285 macro_f1=0.6119
+2026-07-27 11:20:17,834 INFO Actor-held-out accuracy=0.3458 macro_f1=0.3004
+2026-07-27 11:20:18,002 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:20:35,019 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:20:35,021 INFO Đã ghi báo cáo: reports\train-metrics.json
+2026-07-27 11:20:38,827 INFO Nạp cache đặc trưng: build\ravdess_mfcc45_features.npz
+2026-07-27 11:20:38,859 INFO Bắt đầu train Extra Trees với 1440 mẫu và 45 đặc trưng
+2026-07-27 11:20:39,257 INFO Holdout accuracy=0.6285 macro_f1=0.6119
+2026-07-27 11:20:39,604 INFO Actor-held-out accuracy=0.3458 macro_f1=0.3004
+2026-07-27 11:20:39,713 INFO Đã lưu model trung gian: build\ExtraTreesClassifier.joblib
+2026-07-27 11:20:53,010 INFO Đã export classifier.h bằng tools\export_model.py
+2026-07-27 11:20:53,012 INFO Đã ghi báo cáo: reports\train-metrics.json

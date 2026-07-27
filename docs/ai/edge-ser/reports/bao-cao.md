@@ -5,7 +5,7 @@
 - Schema: `ravdess-mfcc45-v1`
 - Dataset: RAVDESS audio-only speech
 - Số mẫu: 1.440 WAV, 24 diễn viên, 8 nhãn cảm xúc
-- Model: Random Forest, 30 cây, độ sâu tối đa 10, `class_weight=balanced`, seed 42
+- Model: Extra Trees, 100 cây, không giới hạn độ sâu, `class_weight=balanced`, seed 42
 - Triển khai: `audio -> PCM mono -> 45 float -> classify.h -> emotion`
 
 ## Đặc trưng đầu vào
@@ -25,8 +25,8 @@ Vì vậy `classify.h` luôn nhận đúng schema mà nó đã được train.
 
 | Giao thức | Accuracy | Macro-F1 |
 | --- | ---: | ---: |
-| Stratified holdout 80/20, seed 42 | 46.88% | 44.74% |
-| Giữ riêng actors 21–24 | 31.67% | 28.66% |
+| Stratified holdout 80/20, seed 42 | 62.85% | 61.19% |
+| Giữ riêng actors 21–24 | 34.58% | 30.04% |
 
 Phân bố nhãn gồm 96 mẫu `neutral` và 192 mẫu cho mỗi nhãn còn lại: `calm`,
 `happy`, `sad`, `angry`, `fearful`, `disgust`, `surprised`.
