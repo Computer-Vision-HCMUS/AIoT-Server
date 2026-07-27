@@ -1,4 +1,4 @@
-"""Run the native audio -> PerCom45 -> Random Forest classifier pipeline."""
+"""Run the native audio -> RAVDESS-MFCC45 -> Random Forest pipeline."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ def main() -> None:
     args.features.parent.mkdir(parents=True, exist_ok=True)
     subprocess.run([str(args.binary), "extract", str(args.audio), str(args.features)], check=True)
     subprocess.run([str(args.binary), "classify", str(args.features)], check=True)
-    print(json.dumps({"feature_file": str(args.features), "schema": "percom45-v1"}))
+    print(json.dumps({"feature_file": str(args.features), "schema": "ravdess-mfcc45-v1"}))
 
 
 if __name__ == "__main__":

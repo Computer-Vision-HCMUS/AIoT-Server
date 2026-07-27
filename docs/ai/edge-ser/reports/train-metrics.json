@@ -1,25 +1,96 @@
 {
-  "schema_version": "percom45-v1",
+  "schema_version": "ravdess-mfcc45-v1",
   "dataset": "RAVDESS audio-only speech",
   "sample_count": 1440,
   "feature_count": 45,
-  "labels": ["angry", "calm", "disgust", "fearful", "happy", "neutral", "sad", "surprised"],
+  "feature_names": [
+    "mfcc_1",
+    "mfcc_2",
+    "mfcc_3",
+    "mfcc_4",
+    "mfcc_5",
+    "mfcc_6",
+    "mfcc_7",
+    "mfcc_8",
+    "mfcc_9",
+    "mfcc_10",
+    "mfcc_11",
+    "mfcc_12",
+    "mfcc_13",
+    "mfcc_std_1",
+    "mfcc_std_2",
+    "mfcc_std_3",
+    "mfcc_std_4",
+    "mfcc_std_5",
+    "mfcc_std_6",
+    "mfcc_std_7",
+    "mfcc_std_8",
+    "mfcc_std_9",
+    "mfcc_std_10",
+    "mfcc_std_11",
+    "mfcc_std_12",
+    "mfcc_std_13",
+    "chroma_1",
+    "chroma_2",
+    "chroma_3",
+    "chroma_4",
+    "chroma_5",
+    "chroma_6",
+    "chroma_7",
+    "chroma_8",
+    "chroma_9",
+    "chroma_10",
+    "chroma_11",
+    "chroma_12",
+    "rms",
+    "zero_crossing_rate",
+    "spectral_centroid",
+    "spectral_bandwidth",
+    "spectral_rolloff",
+    "spectral_flatness",
+    "spectral_contrast"
+  ],
+  "labels": [
+    "angry",
+    "calm",
+    "disgust",
+    "fearful",
+    "happy",
+    "neutral",
+    "sad",
+    "surprised"
+  ],
   "classifier": {
     "type": "RandomForestClassifier",
     "trees": 30,
     "max_depth": 10,
     "class_weight": "balanced",
-    "seed": 42
+    "seed": 42,
+    "exporter": "tools/export_model.py + emlearn float"
   },
   "primary_evaluation": {
-    "protocol": "stratified 80/20 holdout; 288 test utterances; seed 42",
-    "accuracy": 0.5243055555555556,
-    "macro_f1": 0.5116425169990949
+    "protocol": "stratified 80/20 holdout, seed 42",
+    "accuracy": 0.46875,
+    "macro_f1": 0.4473553011329812
   },
   "actor_held_out_evaluation": {
-    "protocol": "train actors 01-20; test actors 21-24; 240 test utterances",
-    "accuracy": 0.30416666666666664,
-    "macro_f1": 0.2931088062442645
+    "actors": [
+      "21",
+      "22",
+      "23",
+      "24"
+    ],
+    "accuracy": 0.31666666666666665,
+    "macro_f1": 0.2865935216370178
   },
-  "note": "Actor-held-out performance is the safer estimate for an unseen speaker."
+  "class_distribution": {
+    "neutral": 96,
+    "calm": 192,
+    "happy": 192,
+    "sad": 192,
+    "angry": 192,
+    "fearful": 192,
+    "disgust": 192,
+    "surprised": 192
+  }
 }

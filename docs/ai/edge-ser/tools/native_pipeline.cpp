@@ -8,6 +8,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cmath>
 #include <complex>
 #include <cstdint>
@@ -18,6 +19,7 @@
 #include <iostream>
 #include <limits>
 #include <numeric>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -31,7 +33,7 @@ namespace aiot::ser {
 
 constexpr int kClassCount = 8;
 constexpr int kFftSize = 2048;  // Matches librosa's default n_fft.
-constexpr int kHopSize = 512;   // Matches extractor.py.
+constexpr int kHopSize = 512;
 constexpr double kPi = 3.14159265358979323846;
 
 using Probabilities = std::array<float, kClassCount>;
@@ -134,9 +136,13 @@ public:
             throw std::runtime_error("Input file does not exist: " + mp3_path.string());
         }
 
+        const auto unique_id = std::to_string(std::chrono::high_resolution_clock::now()
+            .time_since_epoch().count()) + "_" + std::to_string(std::random_device{}());
         const auto temporary_wav = std::filesystem::temp_directory_path() /
-            ("aiot_ser_" + std::to_string(std::rand()) + ".wav");
-        const std::string command = "ffmpeg -v error -y -i " + quote_argument(mp3_path) +
+            ("aiot_ser_" + unique_id + ".wav");
+        const char* ffmpeg = std::getenv("AIOT_SER_FFMPEG");
+        const std::string decoder = ffmpeg != nullptr && *ffmpeg != '\0' ? quote_argument(ffmpeg) : "ffmpeg";
+        const std::string command = decoder + " -v error -y -i " + quote_argument(mp3_path) +
             " -ac 1 -c:a pcm_s16le " + quote_argument(temporary_wav);
 
         if (std::system(command.c_str()) != 0) {
@@ -226,15 +232,14 @@ private:
     struct FrameStatistics {
         int frame_count{};
         std::array<double, 13> mfcc_sum{};
+        std::array<double, 13> mfcc_sum_squared{};
         std::array<double, 12> chroma_sum{};
         std::array<double, 7> contrast_sum{};
-        std::vector<double> previous_power = std::vector<double>(kSpectrumBins);
         std::vector<double> rms_values;
         std::vector<double> centroids;
         std::vector<double> bandwidths;
         std::vector<double> rolloffs;
         std::vector<double> flatnesses;
-        std::vector<double> fluxes;
     };
 
     [[nodiscard]] static std::vector<double> power_spectrum(
@@ -262,16 +267,8 @@ private:
         output.flatnesses.push_back(flatness);
         output.rms_values.push_back(frame_rms(audio.samples, start));
 
-        if (output.frame_count > 0) {
-            double positive_difference = 0.0;
-            for (int bin = 0; bin < kSpectrumBins; ++bin) {
-                positive_difference += std::max(0.0, power[bin] - output.previous_power[bin]);
-            }
-            output.fluxes.push_back(std::sqrt(positive_difference));
-        }
-        output.previous_power = power;
         update_chroma(power, audio.sample_rate_hz, output.chroma_sum);
-        update_mfcc(power, audio.sample_rate_hz, output.mfcc_sum);
+        update_mfcc(power, audio.sample_rate_hz, output.mfcc_sum, output.mfcc_sum_squared);
         update_spectral_contrast(power, output.contrast_sum);
         ++output.frame_count;
     }
@@ -315,6 +312,7 @@ private:
 
     static void update_chroma(const std::vector<double>& power, int sample_rate,
                               std::array<double, 12>& chroma_sum) {
+        std::array<double, 12> frame_chroma{};
         for (int bin = 1; bin < kSpectrumBins; ++bin) {
             const double frequency = static_cast<double>(bin) * sample_rate / kFftSize;
             if (frequency < 40.0) {
@@ -322,12 +320,17 @@ private:
             }
             const int midi_note = static_cast<int>(std::lround(69.0 + 12.0 * std::log2(frequency / 440.0)));
             const int pitch_class = (midi_note % 12 + 12) % 12;
-            chroma_sum[pitch_class] += power[bin];
+            frame_chroma[pitch_class] += std::sqrt(power[bin]);
+        }
+        const double maximum = *std::max_element(frame_chroma.begin(), frame_chroma.end());
+        if (maximum > 0.0) {
+            for (int index = 0; index < 12; ++index) chroma_sum[index] += frame_chroma[index] / maximum;
         }
     }
 
     static void update_mfcc(const std::vector<double>& power, int sample_rate,
-                            std::array<double, 13>& mfcc_sum) {
+                            std::array<double, 13>& mfcc_sum,
+                            std::array<double, 13>& mfcc_sum_squared) {
         constexpr int kMelFilterCount = 26;
         std::array<double, kMelFilterCount + 2> mel_points{};
         const double maximum_mel = hertz_to_mel(sample_rate / 2.0);
@@ -352,10 +355,13 @@ private:
         }
 
         for (int coefficient = 0; coefficient < 13; ++coefficient) {
+            double value = 0.0;
             for (int filter = 0; filter < kMelFilterCount; ++filter) {
-                mfcc_sum[coefficient] += std::log(mel_energy[filter] + 1e-12) *
+                value += std::log(mel_energy[filter] + 1e-12) *
                     std::cos(kPi * coefficient * (filter + 0.5) / kMelFilterCount);
             }
+            mfcc_sum[coefficient] += value;
+            mfcc_sum_squared[coefficient] += value * value;
         }
     }
 
@@ -379,81 +385,24 @@ private:
     [[nodiscard]] static std::array<double, kFeatureCount> build_feature_vector(
         const AudioBuffer& audio, const FrameStatistics& data) {
         const double frame_count = data.frame_count;
-        const double energy = average(data.rms_values);
-        const double zcr = zero_crossing_rate(audio.samples);
-        const auto [f0, f2] = pitch_features(audio, data.previous_power);
-        const double jitter = mfcc_jitter(data.mfcc_sum, frame_count);
-        const double shimmer = amplitude_shimmer(audio.samples);
-        const double pause_rate = std::count_if(data.rms_values.begin(), data.rms_values.end(),
-            [](double value) { return value < 0.01; }) / frame_count;
-
         std::array<double, kFeatureCount> values{};
         size_t index = 0;
-        values[index++] = energy;
-        values[index++] = zcr;
-        values[index++] = f0;
-        values[index++] = f2;
-        values[index++] = jitter;
-        values[index++] = shimmer;
-        values[index++] = average(data.bandwidths);
-        values[index++] = pause_rate;
+        for (const double value : data.mfcc_sum) values[index++] = value / frame_count;
+        for (int coefficient = 0; coefficient < 13; ++coefficient) {
+            const double mean = data.mfcc_sum[coefficient] / frame_count;
+            values[index++] = std::sqrt(std::max(0.0, data.mfcc_sum_squared[coefficient] / frame_count - mean * mean));
+        }
+        for (const double value : data.chroma_sum) values[index++] = value / frame_count;
+        values[index++] = average(data.rms_values);
+        values[index++] = zero_crossing_rate(audio.samples);
         values[index++] = average(data.centroids);
         values[index++] = average(data.bandwidths);
         values[index++] = average(data.rolloffs);
-        values[index++] = average(data.fluxes);
         values[index++] = average(data.flatnesses);
-        for (const double value : data.mfcc_sum) values[index++] = value / frame_count;
-        const double chroma_total = std::accumulate(data.chroma_sum.begin(), data.chroma_sum.end(), 0.0);
-        for (const double value : data.chroma_sum) values[index++] = value / (chroma_total + 1e-12);
-        for (const double value : data.contrast_sum) values[index++] = value / frame_count;
+        values[index++] = std::accumulate(data.contrast_sum.begin(), data.contrast_sum.end(), 0.0) /
+            (frame_count * data.contrast_sum.size());
+        if (index != kFeatureCount) throw std::logic_error("Extractor did not produce 45 features.");
         return values;
-    }
-
-    [[nodiscard]] static Features quantize(const std::array<double, kFeatureCount>& values) {
-        // Integer ranges used by the emlearn-generated classifier.h artifact.
-        static constexpr std::array<double, kFeatureCount> kScales = {
-            10000, 1000, 10, 10, 100, 10000, 1, 100, 1, 1, 1, 10, 100,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000,
-            1, 1, 1, 1, 1, 1, 1};
-        Features output{};
-        for (int index = 0; index < kFeatureCount; ++index) {
-            output[index] = static_cast<int16_t>(std::clamp(
-                std::round(values[index] * kScales[index]), -32768.0, 32767.0));
-        }
-        return output;
-    }
-
-    [[nodiscard]] static std::pair<double, double> pitch_features(
-        const AudioBuffer& audio, const std::vector<double>& last_power_spectrum) {
-        const size_t sample_count = std::min(audio.samples.size(), static_cast<size_t>(audio.sample_rate_hz) * 5);
-        int best_lag = audio.sample_rate_hz / 400;
-        const int maximum_lag = audio.sample_rate_hz / 50;
-        double best_correlation = -1.0;
-        for (int lag = best_lag; lag <= maximum_lag; ++lag) {
-            double correlation = 0.0, left_energy = 0.0, right_energy = 0.0;
-            for (size_t sample = lag; sample < sample_count; ++sample) {
-                correlation += audio.samples[sample] * audio.samples[sample - lag];
-                left_energy += audio.samples[sample] * audio.samples[sample];
-                right_energy += audio.samples[sample - lag] * audio.samples[sample - lag];
-            }
-            const double normalized = correlation / std::sqrt(left_energy * right_energy + 1e-18);
-            if (normalized > best_correlation) {
-                best_correlation = normalized;
-                best_lag = lag;
-            }
-        }
-        const double f0 = best_correlation > 0.15 ? static_cast<double>(audio.sample_rate_hz) / best_lag : 0.0;
-        // F2 is a lightweight estimate of the largest spectral peak above 300 Hz.
-        const int start_bin = std::max(1, static_cast<int>(300.0 * kFftSize / audio.sample_rate_hz));
-        int peak_bin = start_bin;
-        for (int bin = start_bin; bin < static_cast<int>(last_power_spectrum.size()); ++bin) {
-            if (last_power_spectrum[bin] > last_power_spectrum[peak_bin]) {
-                peak_bin = bin;
-            }
-        }
-        const double f2 = static_cast<double>(peak_bin) * audio.sample_rate_hz / kFftSize;
-        return {f0, f2};
     }
 
     [[nodiscard]] static double zero_crossing_rate(const std::vector<float>& samples) {
@@ -464,21 +413,6 @@ private:
         return static_cast<double>(crossings) / std::max<size_t>(1, samples.size() - 1);
     }
 
-    [[nodiscard]] static double mfcc_jitter(const std::array<double, 13>& mfcc_sum, double count) {
-        double result = 0.0;
-        for (int index = 1; index < 13; ++index) {
-            result += std::abs(mfcc_sum[index] / count - mfcc_sum[index - 1] / count);
-        }
-        return result / 12.0;
-    }
-
-    [[nodiscard]] static double amplitude_shimmer(const std::vector<float>& samples) {
-        double result = 0.0;
-        for (size_t index = 1; index < samples.size(); ++index) {
-            result += std::abs(samples[index] - samples[index - 1]);
-        }
-        return result / std::max<size_t>(1, samples.size() - 1);
-    }
 
     [[nodiscard]] static double average(const std::vector<double>& values) {
         return values.empty() ? 0.0 : std::accumulate(values.begin(), values.end(), 0.0) / values.size();
@@ -494,15 +428,15 @@ public:
         static constexpr std::array<std::string_view, kClassCount> kLabels = {
             "angry", "calm", "disgust", "fearful", "happy", "neutral", "sad", "surprised"};
         Prediction prediction;
-        prediction.class_index = percom_rf_predict(features.data(), kFeatureCount);
-        percom_rf_predict_proba(features.data(), kFeatureCount,
+        prediction.class_index = rf_predict(features.data(), kFeatureCount);
+        rf_predict_proba(features.data(), kFeatureCount,
                                 prediction.probabilities.data(), kClassCount);
         prediction.label = kLabels.at(prediction.class_index);
         return prediction;
     }
 };
 
-/** Serializes the model-ready PerCom45 float vector without JSON dependencies. */
+/** Serializes the model-ready RAVDESS-MFCC45 float vector without JSON dependencies. */
 class FeatureJsonStore final {
 public:
     static void write(const std::filesystem::path& output_path, const Features& features,
@@ -512,7 +446,7 @@ public:
             throw std::runtime_error("Cannot write feature JSON: " + output_path.string());
         }
         stream << "{\n"
-               << "  \"schema_version\": \"percom45-v1\",\n"
+            << "  \"schema_version\": \"ravdess-mfcc45-v1\",\n"
                << "  \"feature_count\": " << kFeatureCount << ",\n"
                << "  \"sample_rate_hz\": " << audio.sample_rate_hz << ",\n"
                << "  \"duration_seconds\": " << std::fixed << std::setprecision(6)
@@ -553,7 +487,7 @@ public:
             features[index++] = value;
         }
         if (index != features.size()) {
-            throw std::runtime_error("Feature JSON must contain exactly 45 integer values.");
+            throw std::runtime_error("Feature JSON must contain exactly 45 float values.");
         }
         return features;
     }
@@ -601,7 +535,7 @@ int main(int argc, char** argv) {
         if (command == "extract" && argc == 4) {
             const Features features = application.extract(argv[2]);
             FeatureJsonStore::write(argv[3], features, application.last_audio());
-            std::cout << "{\"status\":\"extracted\",\"schema_version\":\"percom45-v1\","
+            std::cout << "{\"status\":\"extracted\",\"schema_version\":\"ravdess-mfcc45-v1\","
                       << "\"output\":\"" << argv[3] << "\",\"feature_count\":45}\n";
             return 0;
         }

@@ -1,58 +1,60 @@
-# Edge speech-emotion recognition
+# Nhận diện cảm xúc từ giọng nói trên Edge
 
-This directory implements one clear pipeline:
-
-```text
-audio -> extractor.h -> 45 PerCom45 features -> classify.h -> 8 RAVDESS emotions
-```
-
-`extractor.h` is the feature-schema contract. `classify.h` is the generated
-float32 Random Forest classifier. Neither header is an executable by itself;
-`tools/native_pipeline.cpp` calls them in sequence.
-
-## Layout
+Thư mục này chỉ duy trì một pipeline rõ ràng:
 
 ```text
-include/       extractor.h and generated classify.h
-tools/         training code and native runner
-samples/       one WAV smoke-test input
-reports/       metrics and label order from the latest training run
-docs/          method and paper references
-data/          local RAVDESS training data (not committed)
+audio -> PCM mono -> extractor.h -> 45 đặc trưng âm học -> classify.h -> 8 cảm xúc RAVDESS
 ```
 
-## Run the two stages
+`extractor.h` định nghĩa hợp đồng: 13 MFCC mean, 13 MFCC std, 12 chroma và 7
+đặc trưng phổ. `classify.h` là mô hình Random Forest float32 được train lại từ
+chính native extractor và export bằng `tools/export_model.py`. Hai file header
+không tự chạy độc lập; `tools/native_pipeline.cpp` gọi chúng tuần tự.
 
-Install a C++17 compiler and `ffmpeg`, then run from this directory:
+## Cấu trúc thư mục
+
+```text
+include/       extractor.h và classify.h đã sinh từ quá trình train
+tools/         mã train và chương trình chạy native
+samples/       một file WAV dùng kiểm thử nhanh
+reports/       chỉ số của lần train gần nhất
+docs/          phương pháp và tài liệu tham khảo
+data/          dữ liệu RAVDESS cục bộ, không đưa lên Git
+```
+
+## Chạy hai giai đoạn
+
+Cài C++17 compiler và `ffmpeg`, sau đó chạy tại thư mục này:
 
 ```powershell
 New-Item -ItemType Directory -Force build
 g++ -std=c++17 -O2 .\tools\native_pipeline.cpp -o .\build\ser_pipeline.exe
 
-# Stage 1: audio -> exactly 45 features
+# Giai đoạn 1: audio -> đúng 45 đặc trưng
 .\build\ser_pipeline.exe extract .\samples\sample.wav .\build\features.json
 
-# Stage 2: 45 features -> emotion label
+# Giai đoạn 2: 45 đặc trưng -> nhãn cảm xúc
 .\build\ser_pipeline.exe classify .\build\features.json
 ```
 
-Or run both stages:
+Hoặc chạy liên tiếp hai giai đoạn:
 
 ```powershell
 python .\tools\run_pipeline.py .\samples\sample.wav
 ```
 
-## Retrain
+## Huấn luyện lại
 
-The RAVDESS audio-only speech files must be in `data/ravdess-speech`. Create a
-Python environment, install `tools/requirements.txt`, then run:
+Các file audio-only speech của RAVDESS phải nằm trong `data/ravdess-speech`.
+Tạo môi trường Python, cài `tools/requirements.txt`, sau đó chạy:
 
 ```powershell
-python .\tools\train.py --dataset .\data\ravdess-speech
+conda run -n base python .\tools\train.py --dataset .\data\ravdess-speech
 ```
 
-Training overwrites `include/classify.h` and `reports/train-metrics.json`.
-Only deploy them after native feature-parity validation; model and extractor
-are one contract.
+Lệnh train sẽ ghi đè `include/classify.h` và `reports/train-metrics.json`.
+Nó gọi chính binary native để trích feature cho RAVDESS, vì vậy model và pipeline
+triển khai luôn dùng cùng một định nghĩa 45 đặc trưng.
 
-Read [the methodology](docs/methodology.md) before interpreting predictions.
+Đọc [phương pháp](docs/methodology.md) và [báo cáo kết quả](reports/bao-cao.md)
+trước khi diễn giải kết quả dự đoán.
