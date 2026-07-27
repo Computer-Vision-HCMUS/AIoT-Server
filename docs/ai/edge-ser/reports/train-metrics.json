@@ -1,0 +1,25 @@
+{
+  "schema_version": "percom45-v1",
+  "dataset": "RAVDESS audio-only speech",
+  "sample_count": 1440,
+  "feature_count": 45,
+  "labels": ["angry", "calm", "disgust", "fearful", "happy", "neutral", "sad", "surprised"],
+  "classifier": {
+    "type": "RandomForestClassifier",
+    "trees": 30,
+    "max_depth": 10,
+    "class_weight": "balanced",
+    "seed": 42
+  },
+  "primary_evaluation": {
+    "protocol": "stratified 80/20 holdout; 288 test utterances; seed 42",
+    "accuracy": 0.5243055555555556,
+    "macro_f1": 0.5116425169990949
+  },
+  "actor_held_out_evaluation": {
+    "protocol": "train actors 01-20; test actors 21-24; 240 test utterances",
+    "accuracy": 0.30416666666666664,
+    "macro_f1": 0.2931088062442645
+  },
+  "note": "Actor-held-out performance is the safer estimate for an unseen speaker."
+}

@@ -1,9 +1,3 @@
-.venv/
 data/
-models/*
-!models/ravdess_ser.tflite
-!models/ravdess_ser.metadata.json
-!models/percom_mlp.tflite
-!models/percom_rf.h
-!models/percom45.metadata.json
+build/
 __pycache__/

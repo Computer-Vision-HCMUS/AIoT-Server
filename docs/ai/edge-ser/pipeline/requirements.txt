@@ -1,5 +1,0 @@
-tensorflow
-librosa
-numpy
-scikit-learn
-emlearn
