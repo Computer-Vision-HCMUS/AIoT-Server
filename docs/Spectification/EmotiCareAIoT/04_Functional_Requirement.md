@@ -1,6 +1,6 @@
-# 06. Functional Requirement
+# 04. Yêu cầu chức năng
 
-## 6.1. Tổng quan
+## 4.1. Tổng quan
 
 Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm vi mới: người dùng theo dõi toàn bộ trên TFT screen, Objective 1 chạy bằng Edge AI, còn Objective 2 và Objective 3 phối hợp Internet/Cloud.
 
@@ -10,7 +10,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 * **UC-04:** Trò chuyện hỗ trợ cảm xúc qua Cloud Conversation Service.
 * **UC-05:** Thống kê và phân tích xu hướng cảm xúc qua Cloud Report Engine, hiển thị trên TFT.
 
-## 6.2. Nhóm chức năng nhận diện cảm xúc trên Edge
+## 4.2. Nhóm chức năng nhận diện cảm xúc trên Edge
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -23,7 +23,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-07 | Hệ thống phải lưu emotion session gồm session ID, user ID, device ID, emotion label, confidence score, quality flag, timestamp và sync status. | UC-01 | Must |
 | FR-08 | Nếu dữ liệu âm thanh không hợp lệ hoặc confidence thấp, hệ thống phải yêu cầu người dùng nói lại hoặc đánh dấu kết quả là không chắc chắn. | UC-01 | Should |
 
-## 6.3. Nhóm chức năng đồng bộ nền tảng
+## 4.3. Nhóm chức năng đồng bộ nền tảng
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -33,7 +33,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-12 | TFT phải hiển thị trạng thái Online, Offline, Sync pending, Waiting cloud và Cloud result ready. | UC-02, UC-03, UC-04, UC-05 | Must |
 | FR-13 | Thiết bị phải gửi heartbeat định kỳ để Cloud biết trạng thái thiết bị. | UC-02, UC-03, UC-04, UC-05 | Should |
 
-## 6.4. Nhóm chức năng gợi ý hoạt động và nội dung qua Cloud
+## 4.4. Nhóm chức năng gợi ý hoạt động và nội dung qua Cloud
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -45,7 +45,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-19 | Thiết bị phải gửi feedback hoạt động/nội dung lên Cloud để phục vụ cá nhân hóa sau này. | UC-02, UC-05 | Should |
 | FR-20 | Nếu không có Internet, TFT phải thông báo rằng chức năng gợi ý cần kết nối Cloud. | UC-02 | Must |
 
-## 6.5. Nhóm chức năng lựa chọn bài hát hoặc podcast theo chủ đích
+## 4.5. Nhóm chức năng lựa chọn bài hát hoặc podcast theo chủ đích
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -57,7 +57,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-26 | Người dùng phải có thể chọn nội dung để nghe, lưu lại, bỏ qua hoặc đánh giá sau khi nghe. | UC-03 | Should |
 | FR-27 | Thiết bị phải đồng bộ media selection log và media feedback lên Cloud khi có kết nối. | UC-03, UC-05 | Must |
 
-## 6.6. Nhóm chức năng trò chuyện hỗ trợ qua Cloud
+## 4.6. Nhóm chức năng trò chuyện hỗ trợ qua Cloud
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -69,7 +69,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-33 | Khi phát hiện tín hiệu nguy cấp, Cloud phải trả thông điệp khuyên liên hệ người thân, chuyên gia hoặc dịch vụ hỗ trợ phù hợp. | UC-04 | Must |
 | FR-34 | Hệ thống chỉ lưu nội dung tóm tắt hội thoại khi người dùng cho phép. | UC-04 | Must |
 
-## 6.7. Nhóm chức năng báo cáo trên TFT qua Cloud
+## 4.7. Nhóm chức năng báo cáo trên TFT qua Cloud
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -81,7 +81,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-40 | Nếu dữ liệu chưa đủ, Cloud phải trả trạng thái `limited_data` và TFT phải hiển thị thông báo khuyến nghị check-in thêm. | UC-05 | Must |
 | FR-41 | Thiết bị phải lưu bản report gần nhất để người dùng xem lại nhanh khi mất Internet. | UC-05 | Should |
 
-## 6.8. Nhóm chức năng quản lý dữ liệu người dùng
+## 4.8. Nhóm chức năng quản lý dữ liệu người dùng
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
@@ -90,7 +90,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | FR-44 | Người dùng phải có cơ chế xóa dữ liệu cục bộ trên thiết bị. | UC-01, UC-05 | Should |
 | FR-45 | Hệ thống phải lưu consent của người dùng liên quan đến dữ liệu âm thanh, hội thoại và lựa chọn nội dung. | UC-03, UC-04, UC-05 | Must |
 
-## 6.9. Traceability Matrix
+## 4.9. Ma trận truy vết
 
 | Objective | Use case | Functional requirements |
 | --------- | -------- | ----------------------- |
@@ -100,7 +100,7 @@ Yêu cầu chức năng của EmotiCare AIoT được cập nhật theo phạm v
 | SMART Objective 2 | UC-04 | FR-12, FR-28 đến FR-34, FR-42, FR-45 |
 | SMART Objective 3 | UC-05 | FR-09 đến FR-13, FR-35 đến FR-45 |
 
-## 6.10. Requirement Domain Summary
+## 4.10. Tóm tắt theo nhóm yêu cầu
 
 | Domain | Requirement range | Thành phần chịu trách nhiệm | Ghi chú kiểm thử |
 | ------ | ----------------- | -------------------------- | ---------------- |

@@ -1,4 +1,4 @@
-# 03. Objectives
+# 03. Mục tiêu
 
 ## 3.1. Tổng quan
 
@@ -10,7 +10,7 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 | SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. | UC-02, UC-03, UC-04 | Biến dữ liệu cảm xúc hoặc nhu cầu trực tiếp từ HOME thành hành động hỗ trợ cụ thể |
 | SMART Objective 3 | Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tháng và năm trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ. | UC-05 | Giúp người dùng nhìn lại xu hướng cảm xúc và hiệu quả của hoạt động/nội dung đã chọn |
 
-### Value Proposition to Requirement Mapping
+### Bảng liên kết giá trị mang lại với yêu cầu
 
 | Value proposition | SMART objective | Use case | Requirement group | Expected user value |
 | ----------------- | --------------- | -------- | ----------------- | ------------------- |
@@ -20,7 +20,7 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 | Người dùng có kênh trò chuyện ngắn, đồng cảm và an toàn | SMART Objective 2 | UC-04 | FR-28 đến FR-34, NFR-03, NFR-19 đến NFR-22 | Người dùng nhận phản hồi ngắn gọn, không phán xét, có safety filter |
 | Người dùng nhìn lại xu hướng cảm xúc dài hạn trên thiết bị | SMART Objective 3 | UC-05 | FR-35 đến FR-41, NFR-05, NFR-26 | Người dùng xem report cards theo ngày/tháng/năm ngay trên TFT |
 
-### Overall Objective Flow Chart
+### Sơ đồ luồng mục tiêu tổng thể
 
 ```mermaid
 flowchart TD
@@ -67,7 +67,7 @@ flowchart TD
 
 *Mô tả chart: Flow chart này cho thấy Objective 1 tạo dữ liệu cảm xúc tại Edge, Objective 2 và Objective 3 dùng Cloud để xử lý nâng cao, còn mọi kết quả đều quay về TFT screen để người dùng theo dõi.*
 
-### Overall Use Case Diagram
+### Sơ đồ tình huống sử dụng tổng thể
 
 ```mermaid
 flowchart LR
@@ -128,7 +128,7 @@ flowchart LR
 
 Objective 1 là nền tảng của toàn bộ hệ thống. Đây là objective duy nhất bắt buộc chạy được tại Edge Device khi mất Internet. Kết quả được hiển thị ngay trên TFT và được lưu vào local cache để đồng bộ cloud sau.
 
-### 3.2.1. Use Case UC-01: Speech Emotion Recognition
+### 3.2.1. Tình huống sử dụng UC-01: Nhận diện cảm xúc bằng giọng nói
 
 * **Input:** Giọng nói của người dùng.
 * **Output:** Trạng thái cảm xúc, ví dụ: vui vẻ, bình thường, căng thẳng, buồn bã, tức giận, mệt mỏi.
@@ -155,49 +155,7 @@ Objective 1 là nền tảng của toàn bộ hệ thống. Đây là objective 
 | Dữ liệu ra | Emotion label, confidence score, timestamp, session ID, sync status |
 | Mục tiêu hiệu năng | Hoàn tất trong vòng 15 giây |
 
-#### Use Case Diagram
-
-```mermaid
-flowchart LR
-    User(["Người dùng"])
-    Edge(["Edge Device"])
-    TFT(["TFT Screen"])
-
-    subgraph System["EmotiCare AIoT - Objective 1"]
-        UC01(("Speech Emotion Recognition"))
-        UC01A(("Thu âm có chủ đích"))
-        UC01B(("Tiền xử lý âm thanh"))
-        UC01C(("Trích xuất đặc trưng SER"))
-        UC01D(("Phân loại cảm xúc"))
-        UC01E(("Hiển thị kết quả trên TFT"))
-        UC01F(("Lưu emotion session"))
-    end
-
-    User --- UC01
-    Edge --- UC01
-    TFT --- UC01E
-    UC01 -. "include" .-> UC01A
-    UC01 -. "include" .-> UC01B
-    UC01 -. "include" .-> UC01C
-    UC01 -. "include" .-> UC01D
-    UC01 -. "include" .-> UC01E
-    UC01 -. "include" .-> UC01F
-
-
-    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
-    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
-    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
-    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
-    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
-    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class User userNode
-    class Edge,TFT edgeNode
-    class UC01,UC01A,UC01B,UC01C,UC01D,UC01E,UC01F actionNode
-```
-
-*Mô tả diagram: Use case diagram này cho thấy người dùng tương tác với Edge Device để chạy SER, sau đó kết quả được hiển thị trên TFT và lưu thành emotion session.*
-
-#### Flow Chart
+#### Sơ đồ luồng
 
 ```mermaid
 flowchart LR
@@ -242,7 +200,7 @@ flowchart LR
 
 Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 tạo emotion label, thiết bị gửi context lên Cloud Service để nhận gợi ý hoạt động hoặc phản hồi hội thoại, sau đó hiển thị kết quả trên TFT.
 
-### 3.3.1. Use Case UC-02: Gợi ý hoạt động và nội dung cải thiện tâm trạng
+### 3.3.1. Tình huống sử dụng UC-02: Gợi ý hoạt động và nội dung cải thiện tâm trạng
 
 * **Input:** Trạng thái cảm xúc hiện tại nếu có, chủ đích hỗ trợ nhanh và lịch sử tương tác đã đồng bộ.
 * **Output:** Danh sách hoạt động, bài hát và podcast phù hợp hiển thị trên TFT.
@@ -267,52 +225,7 @@ Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 t�
 | Dữ liệu ra | Activity cards, song cards, podcast cards, reason text, selected/skipped status, feedback score |
 | Mục tiêu hiệu năng | Cloud trả kết quả về TFT trong vòng 20 giây |
 
-#### Use Case Diagram
-
-```mermaid
-flowchart LR
-    User(["Người dùng"])
-    Cloud(["Cloud Recommendation Service"])
-    TFT(["TFT Screen"])
-
-    subgraph System["EmotiCare AIoT - Objective 2"]
-        UC02(("Gợi ý hoạt động và nội dung\ncải thiện tâm trạng"))
-        UC01(("Speech Emotion Recognition"))
-        UC02A(("Gửi emotion context lên Cloud"))
-        UC02B(("Chọn hoạt động phù hợp"))
-        UC02C(("Chọn bài hát phù hợp"))
-        UC02D(("Chọn podcast phù hợp"))
-        UC02E(("Hiển thị gợi ý trên TFT"))
-        UC02F(("Ghi nhận feedback"))
-    end
-
-    User --- UC02
-    Cloud --- UC02
-    TFT --- UC02E
-    UC02 -. "include" .-> UC01
-    UC02 -. "include" .-> UC02A
-    UC02 -. "include" .-> UC02B
-    UC02 -. "include" .-> UC02C
-    UC02 -. "include" .-> UC02D
-    UC02 -. "include" .-> UC02E
-    UC02 -. "include" .-> UC02F
-
-
-    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
-    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
-    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
-    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
-    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
-    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class User userNode
-    class TFT edgeNode
-    class Cloud cloudNode
-    class UC02,UC01,UC02A,UC02B,UC02C,UC02D,UC02E,UC02F actionNode
-```
-
-*Mô tả diagram: Use case diagram này thể hiện UC-02 cần Cloud Recommendation Service xử lý đồng thời hoạt động, bài hát và podcast; TFT Screen là nơi người dùng xem và phản hồi gợi ý.*
-
-#### Flow Chart
+#### Sơ đồ luồng
 
 ```mermaid
 flowchart LR
@@ -346,7 +259,7 @@ flowchart LR
 
 *Mô tả chart: Flow chart này mô tả quá trình lấy gợi ý hoạt động, bài hát và podcast từ Cloud rồi hiển thị kết quả lên TFT, bao gồm cả nhánh khi thiết bị không có Internet.*
 
-### 3.3.2. Use Case UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích
+### 3.3.2. Tình huống sử dụng UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích
 
 * **Input:** Chủ đích của người dùng, category nội dung mong muốn và emotion label gần nhất nếu có.
 * **Output:** Danh sách bài hát hoặc podcast theo category hiển thị trên TFT.
@@ -371,7 +284,7 @@ flowchart LR
 | Dữ liệu ra | Song list, podcast list, category, reason text, selected media item |
 | Mục tiêu hiệu năng | Danh sách nội dung hiển thị trên TFT trong vòng 20 giây |
 
-#### Category nội dung
+#### Nhóm nội dung
 
 | Category | Nội dung phù hợp | Ví dụ mục đích |
 | -------- | ---------------- | -------------- |
@@ -383,52 +296,7 @@ flowchart LR
 | Giải tỏa tức giận | Nhạc grounding, podcast kiểm soát cảm xúc | Tạm dừng và hạ nhịp |
 | Phục hồi năng lượng | Nhạc nhẹ có nhịp vừa, podcast self-care | Khi mệt mỏi |
 
-#### Use Case Diagram
-
-```mermaid
-flowchart LR
-    User(["Người dùng"])
-    Cloud(["Cloud Media Recommendation Service"])
-    TFT(["TFT Screen"])
-
-    subgraph System["EmotiCare AIoT - Objective 2"]
-        UC03(("Lựa chọn bài hát hoặc podcast\ntheo chủ đích"))
-        UC01(("Speech Emotion Recognition"))
-        UC03A(("Chọn category nội dung"))
-        UC03B(("Gửi intent lên Cloud"))
-        UC03C(("Lọc bài hát theo category"))
-        UC03D(("Lọc podcast theo category"))
-        UC03E(("Hiển thị danh sách trên TFT"))
-        UC03F(("Ghi nhận lựa chọn nội dung"))
-    end
-
-    User --- UC03
-    Cloud --- UC03
-    TFT --- UC03E
-    UC03 -. "include" .-> UC01
-    UC03 -. "include" .-> UC03A
-    UC03 -. "include" .-> UC03B
-    UC03 -. "include" .-> UC03C
-    UC03 -. "include" .-> UC03D
-    UC03 -. "include" .-> UC03E
-    UC03 -. "include" .-> UC03F
-
-
-    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
-    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
-    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
-    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
-    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
-    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class User userNode
-    class TFT edgeNode
-    class Cloud cloudNode
-    class UC03,UC01,UC03A,UC03B,UC03C,UC03D,UC03E,UC03F actionNode
-```
-
-*Mô tả diagram: Use case diagram này mô tả nhánh người dùng chủ động chọn bài hát hoặc podcast theo category; Cloud lọc và xếp hạng nội dung, còn TFT hiển thị danh sách rút gọn.*
-
-#### Flow Chart
+#### Sơ đồ luồng
 
 ```mermaid
 flowchart LR
@@ -461,7 +329,7 @@ flowchart LR
 
 *Mô tả chart: Flow chart này mô tả quá trình người dùng chủ động chọn category bài hát/podcast, Cloud trả danh sách phù hợp và thiết bị ghi nhận lựa chọn.*
 
-### 3.3.3. Use Case UC-04: Trò chuyện hỗ trợ cảm xúc
+### 3.3.3. Tình huống sử dụng UC-04: Trò chuyện hỗ trợ cảm xúc
 
 * **Input:** Giọng nói hoặc câu hỏi của người dùng cùng emotion context.
 * **Output:** Phản hồi đồng cảm hiển thị trên TFT.
@@ -486,50 +354,7 @@ flowchart LR
 | Dữ liệu ra | Empathetic response, suggested next action, safety flag |
 | Mục tiêu hiệu năng | Phản hồi đầu tiên hiển thị trên TFT trong vòng 20 giây |
 
-#### Use Case Diagram
-
-```mermaid
-flowchart LR
-    User(["Người dùng"])
-    Cloud(["Cloud Conversation Service"])
-    TFT(["TFT Screen"])
-
-    subgraph System["EmotiCare AIoT - Objective 2"]
-        UC04(("Trò chuyện hỗ trợ\ncảm xúc"))
-        UC01(("Speech Emotion Recognition"))
-        UC03A(("Gửi conversation context lên Cloud"))
-        UC03B(("Tạo phản hồi đồng cảm"))
-        UC03C(("Kiểm tra an toàn"))
-        UC03D(("Hiển thị phản hồi trên TFT"))
-        UC03E(("Hướng dẫn liên hệ hỗ trợ"))
-    end
-
-    User --- UC04
-    Cloud --- UC04
-    TFT --- UC03D
-    UC04 -. "include" .-> UC01
-    UC04 -. "include" .-> UC03A
-    UC04 -. "include" .-> UC03B
-    UC04 -. "include" .-> UC03C
-    UC04 -. "include" .-> UC03D
-    UC03E -. "extend: nếu có tín hiệu nguy cấp" .-> UC04
-
-
-    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
-    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
-    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
-    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
-    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
-    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class User userNode
-    class TFT edgeNode
-    class Cloud cloudNode
-    class UC04,UC01,UC03A,UC03B,UC03C,UC03D,UC03E actionNode
-```
-
-*Mô tả diagram: Use case diagram này nhấn mạnh Cloud Conversation Service là tác nhân xử lý phản hồi, còn TFT hiển thị câu trả lời đã được rút gọn và kiểm tra an toàn.*
-
-#### Flow Chart
+#### Sơ đồ luồng
 
 ```mermaid
 flowchart TD
@@ -574,7 +399,7 @@ flowchart TD
 
 Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiết bị. Cloud xử lý tổng hợp dữ liệu, còn thiết bị hiển thị phiên bản rút gọn phù hợp với màn hình TFT.
 
-### 3.4.1. Use Case UC-05: Thống kê và phân tích xu hướng cảm xúc
+### 3.4.1. Tình huống sử dụng UC-05: Thống kê và phân tích xu hướng cảm xúc
 
 * **Input:** Lịch sử cảm xúc, activity logs, media selection logs và conversation metadata đã đồng bộ.
 * **Output:** Báo cáo rút gọn theo ngày, tháng và năm hiển thị trên TFT.
@@ -599,56 +424,7 @@ Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiế
 | Dữ liệu ra | TFT report cards, trend summary, activity effectiveness, data quality |
 | Mục tiêu hiệu năng | Báo cáo rút gọn hiển thị trên TFT trong vòng 180 giây |
 
-#### Use Case Diagram
-
-```mermaid
-flowchart LR
-    User(["Người dùng"])
-    Cloud(["Cloud Report Engine"])
-    TFT(["TFT Screen"])
-    Scheduler(["Sync/Report Scheduler"])
-
-    subgraph System["EmotiCare AIoT - Objective 3"]
-        UC05(("Thống kê và phân tích\nxu hướng cảm xúc"))
-        UC01(("Speech Emotion Recognition"))
-        UC02(("Gợi ý hoạt động"))
-        UC03(("Chọn bài hát/podcast"))
-        UC04(("Trò chuyện hỗ trợ"))
-        UC04A(("Tính phân bố cảm xúc"))
-        UC04B(("Phân tích xu hướng"))
-        UC04C(("Phân tích hiệu quả hoạt động"))
-        UC04D(("Hiển thị report trên TFT"))
-    end
-
-    User --- UC05
-    Cloud --- UC05
-    TFT --- UC04D
-    Scheduler --- UC05
-    UC05 -. "include" .-> UC01
-    UC05 -. "include" .-> UC02
-    UC05 -. "include" .-> UC03
-    UC05 -. "include" .-> UC04
-    UC05 -. "include" .-> UC04A
-    UC05 -. "include" .-> UC04B
-    UC05 -. "include" .-> UC04C
-    UC05 -. "include" .-> UC04D
-
-
-    classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
-    classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
-    classDef cacheNode stroke:#2dd4bf,fill:#f0fdfa,stroke-width:2px,color:#0d5a57
-    classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
-    classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
-    classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class User userNode
-    class TFT edgeNode
-    class Cloud cloudNode
-    class Scheduler,UC05,UC01,UC02,UC03,UC04,UC04A,UC04B,UC04C,UC04D actionNode
-```
-
-*Mô tả diagram: Use case diagram này cho thấy Cloud Report Engine tổng hợp dữ liệu từ các use case trước và trả báo cáo rút gọn về TFT Screen.*
-
-#### Flow Chart
+#### Sơ đồ luồng
 
 ```mermaid
 flowchart TD
@@ -687,7 +463,39 @@ flowchart TD
 
 *Mô tả chart: Flow chart này mô tả cách thiết bị yêu cầu Cloud tạo báo cáo và nhận lại các thẻ tóm tắt để hiển thị trên TFT.*
 
-## 3.5. Bảng tổng hợp use case
+## 3.5. Logic Edge AI, API và dữ liệu theo tình huống sử dụng
+
+### 3.5.1. UC-01 — Logic Edge AI, đồng bộ API và lưu dữ liệu
+
+UC-01 xử lý tại thiết bị theo chuỗi: thu âm có chủ đích, kiểm tra chất lượng, tiền xử lý âm thanh, trích xuất đặc trưng (Log-Mel, MFCC, pitch hoặc energy), suy luận mô hình SER và hiển thị nhãn cảm xúc cùng độ tin cậy trên TFT. Khi dữ liệu quá ngắn, nhiễu hoặc có độ tin cậy thấp, thiết bị trả trạng thái không chắc chắn và mời người dùng thử lại.
+
+Kết quả được đóng gói thành một `emotion_session`. Khi có Internet, thiết bị gọi `POST /api/emotion-sessions/sync` với `client_session_id`, `emotion_label`, `confidence_score`, `quality_flag`, `inference_latency_ms` và `client_created_at`. Cơ sở dữ liệu lưu phiên này tại `emotion_sessions`, gắn với `user_id` và `device_id`; cặp `device_id + client_session_id` dùng để tránh tạo trùng khi đồng bộ lại.
+
+### 3.5.2. UC-02 — Logic chọn nhạc/nội dung và API gợi ý
+
+UC-02 dùng nhãn cảm xúc của phiên gần nhất làm ngữ cảnh. Khi có phiên cảm xúc, thiết bị gọi `POST /api/recommendations/request` để nhận gợi ý theo phiên; khi người dùng chỉ muốn xem nhạc/podcast, thiết bị gọi `POST /api/media/recommendations`. Cloud xếp hạng nội dung theo nhãn cảm xúc, nhóm nội dung phù hợp và lịch sử phản hồi. Kết quả trả về là các thẻ ngắn gồm tiêu đề, loại nội dung, thời lượng, lý do gợi ý và mã thao tác để hiển thị trên TFT.
+
+Dữ liệu liên quan gồm `recommendation_requests` để lưu yêu cầu/kết quả gợi ý, `media_items` để lưu thư viện nội dung và `media_selection_logs` để lưu nội dung đã được chọn hoặc đánh giá.
+
+### 3.5.3. UC-03 — Logic gọi API theo chủ đích
+
+Người dùng chọn loại nội dung, nhóm nội dung hoặc nói chủ đích ngắn. Thiết bị gọi `GET /api/media/categories` để lấy nhóm nội dung và gọi `POST /api/media/recommendations` với `category`, `media_type`, `user_intent` và `emotion_label` nếu có. Cloud lọc nội dung đang được bật, xếp hạng theo nhóm/phản hồi lịch sử và trả tối đa các thẻ phù hợp cho TFT.
+
+Sau khi người dùng chọn hoặc đánh giá nội dung, thiết bị gọi `POST /api/feedback/media`. Thông tin được lưu trong `media_selection_logs`, gồm `session_id`, `media_item_id`, `user_intent`, `selected_category`, `feedback_score` và thời điểm tạo.
+
+### 3.5.4. UC-04 — Logic xử lý API trò chuyện
+
+Thiết bị gửi `session_id` và nội dung người dùng chia sẻ đến `POST /api/conversations/respond`. Cloud kiểm tra phiên có thuộc thiết bị hiện tại, xác định mức độ an toàn, tạo phản hồi ngắn phù hợp với TFT và trả về `response card` cùng `safety_flag`. Với tín hiệu nguy cấp, phản hồi ưu tiên hướng người dùng liên hệ nguồn hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường.
+
+Khi được phép, Cloud lưu tóm tắt nội dung người dùng, phản hồi, cờ an toàn và thời điểm tạo tại `conversation_requests`. Thiết bị có thể lấy lịch sử qua `GET /api/conversations/history`.
+
+### 3.5.5. UC-05 — Logic xử lý API báo cáo
+
+Thiết bị gọi `GET /api/reports/tft-summary?period=daily|monthly|yearly` để lấy báo cáo gần nhất, hoặc `POST /api/reports/generate` để yêu cầu tạo báo cáo mới. Cloud lấy các `emotion_sessions`, yêu cầu gợi ý, phản hồi hoạt động, nhật ký chọn nội dung và siêu dữ liệu trò chuyện trong kỳ; sau đó tính phân bố cảm xúc, xu hướng và hiệu quả hỗ trợ.
+
+Kết quả được rút gọn thành thẻ TFT và lưu ở `tft_reports` với `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality` và `generated_at`. Khi dữ liệu chưa đủ, API trả `limited_data` và thẻ hướng dẫn người dùng kiểm tra cảm xúc thêm.
+
+## 3.6. Bảng tổng hợp tình huống sử dụng
 
 | ID | Use case | Input | Output | Xử lý chính |
 | -- | -------- | ----- | ------ | ----------- |

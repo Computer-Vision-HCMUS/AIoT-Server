@@ -1,29 +1,29 @@
-# 10. Appendix & Reference
+# 08. Phụ lục và tài liệu tham khảo
 
-## 10.1. Thuật ngữ
+## 8.1. Thuật ngữ
 
 | Thuật ngữ | Mô tả |
 | --------- | ----- |
 | EmotiCare AIoT | Thiết bị AIoT thông minh đồng hành và chăm sóc sức khỏe cảm xúc |
 | Intelligent Emotional Companion | Định vị sản phẩm như một thiết bị đồng hành cảm xúc thông minh |
-| Edge Device | Thiết bị phần cứng đặt gần người dùng, có microphone, TFT screen, nút bấm và Wi-Fi |
-| TFT Screen | Màn hình theo dõi chính của sản phẩm trong phiên bản này |
-| Edge AI | Mô hình AI chạy cục bộ để xử lý Speech Emotion Recognition |
-| Cloud Service | Backend phục vụ recommendation, media selection, conversation, report và đồng bộ dữ liệu |
-| Media Recommendation Service | Dịch vụ Cloud chọn bài hát/podcast theo emotion context, category, intent và lịch sử feedback |
-| Emotion Session | Bản ghi của một lần check-in cảm xúc |
-| Emotion Label | Nhãn cảm xúc như vui vẻ, bình thường, căng thẳng, buồn bã, tức giận, mệt mỏi |
-| Confidence Score | Độ tin cậy của kết quả nhận diện cảm xúc |
-| Activity Card | Thẻ gợi ý hoạt động rút gọn để hiển thị trên TFT |
-| Song Card | Thẻ bài hát rút gọn gồm title, creator, duration, category và reason text |
-| Podcast Card | Thẻ podcast rút gọn gồm title, creator, duration, category và reason text |
-| Response Card | Thẻ phản hồi hội thoại rút gọn để hiển thị trên TFT |
-| TFT Report Card | Thẻ báo cáo ngắn gồm insight chính theo ngày, tháng hoặc năm |
-| Limited Data | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo insight mạnh |
+| Thiết bị biên | Thiết bị phần cứng đặt gần người dùng, có microphone, màn hình TFT, nút bấm và Wi-Fi |
+| Màn hình TFT | Màn hình theo dõi chính của sản phẩm trong phiên bản này |
+| Edge AI | Mô hình AI chạy cục bộ để xử lý nhận diện cảm xúc bằng giọng nói |
+| Dịch vụ Cloud | Phần máy chủ phục vụ gợi ý, chọn nội dung, trò chuyện, báo cáo và đồng bộ dữ liệu |
+| Dịch vụ gợi ý nội dung | Dịch vụ Cloud chọn bài hát/podcast theo ngữ cảnh cảm xúc, nhóm nội dung, chủ đích và lịch sử phản hồi |
+| Phiên cảm xúc | Bản ghi của một lần kiểm tra cảm xúc |
+| Nhãn cảm xúc | Nhãn cảm xúc như vui vẻ, bình thường, căng thẳng, buồn bã, tức giận, mệt mỏi |
+| Điểm tin cậy | Độ tin cậy của kết quả nhận diện cảm xúc |
+| Thẻ hoạt động | Thẻ gợi ý hoạt động rút gọn để hiển thị trên TFT |
+| Thẻ bài hát | Thẻ bài hát rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
+| Thẻ podcast | Thẻ podcast rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
+| Thẻ phản hồi | Thẻ phản hồi trò chuyện rút gọn để hiển thị trên TFT |
+| Thẻ báo cáo TFT | Thẻ báo cáo ngắn gồm nhận định chính theo ngày, tháng hoặc năm |
+| Dữ liệu chưa đủ | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo nhận định rõ ràng |
 
-## 10.2. Bảng tham chiếu use case
+## 8.2. Bảng tham chiếu tình huống sử dụng
 
-| ID | Use case | Input | Output | Xử lý chính | Mục tiêu thời gian |
+| ID | Tình huống sử dụng | Đầu vào | Đầu ra | Xử lý chính | Mục tiêu thời gian |
 | -- | -------- | ----- | ------ | ----------- | ------------------ |
 | UC-01 | Speech Emotion Recognition | Giọng nói người dùng | Emotion label, confidence, emotion session | Edge AI | <= 15 giây |
 | UC-02 | Gợi ý hoạt động và nội dung cải thiện tâm trạng | Emotion label nếu có, confidence nếu có và lịch sử đã đồng bộ | Activity cards, song cards, podcast cards trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
@@ -31,7 +31,7 @@
 | UC-04 | Trò chuyện hỗ trợ cảm xúc | Giọng nói/câu hỏi và emotion context nếu có | Response card trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
 | UC-05 | Thống kê và phân tích xu hướng cảm xúc | Lịch sử cảm xúc, hoạt động, media logs và conversation metadata | TFT report cards | Cloud + TFT | <= 180 giây |
 
-## 10.3. Emotion session schema
+## 8.3. Cấu trúc dữ liệu phiên cảm xúc
 
 | Trường | Kiểu dữ liệu | Mô tả |
 | ------ | ------------ | ----- |
@@ -46,7 +46,7 @@
 | client_created_at | Timestamp | Thời điểm tạo trên thiết bị |
 | sync_status | String | pending, synced, duplicated, rejected |
 
-## 10.4. Thư viện hoạt động mẫu
+## 8.4. Thư viện hoạt động mẫu
 
 | Cảm xúc | Nhóm hoạt động | Hoạt động mẫu | Ý nghĩa |
 | ------- | -------------- | ------------- | ------- |
@@ -59,7 +59,7 @@
 | Vui vẻ | Reflection | Ghi lại một điều tích cực trong ngày | Củng cố cảm xúc tích cực |
 | Bình thường | Maintenance | Vận động nhẹ hoặc check-in cuối ngày | Duy trì thói quen ổn định |
 
-## 10.5. Media category mẫu
+## 8.5. Nhóm nội dung mẫu
 
 | Category | Nội dung thường gặp | Trường hợp sử dụng |
 | -------- | ------------------ | ------------------ |
@@ -71,7 +71,7 @@
 | anger_release | Nhạc grounding, podcast kiểm soát cảm xúc | Khi tức giận |
 | energy_recover | Nhạc nhẹ có nhịp vừa, podcast self-care | Khi mệt mỏi |
 
-## 10.6. API summary cho Edge Device
+## 8.6. Tóm tắt API cho thiết bị biên
 
 | Endpoint | Method | Mô tả |
 | -------- | ------ | ----- |
@@ -82,46 +82,47 @@
 | `/api/media/categories` | GET | Lấy danh sách category bài hát/podcast |
 | `/api/media/recommendations` | POST | Lấy bài hát/podcast theo chủ đích và category |
 | `/api/conversations/respond` | POST | Lấy response card từ Cloud |
+| `/api/conversations/history` | GET | Lấy lịch sử trò chuyện rút gọn của thiết bị |
 | `/api/feedback/activity` | POST | Lưu lựa chọn hoặc đánh giá hoạt động |
 | `/api/feedback/media` | POST | Lưu lựa chọn hoặc đánh giá bài hát/podcast |
 | `/api/reports/tft-summary` | GET | Lấy report cards theo ngày, tháng hoặc năm |
 | `/api/reports/generate` | POST | Yêu cầu Cloud tạo report mới |
 | `/api/device-config` | GET | Lấy cấu hình rút gọn cho thiết bị |
 
-## 10.7. Screen flow phần cứng
+## 8.7. Luồng màn hình phần cứng
 
 ```text
-HOME -> CHECK-IN / ACTIVITY / MUSIC-PODCAST / CONVERSATION / REPORT / STATUS
-CHECK-IN -> RESULT -> SUPPORT -> ACTIVITY / MUSIC-PODCAST / CONVERSATION
+TRANG CHỦ -> KIỂM TRA CẢM XÚC / HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN / BÁO CÁO / TRẠNG THÁI
+KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN
 ```
 
 | Màn hình | Chức năng chính |
 | -------- | --------------- |
-| HOME | Hiển thị trạng thái thiết bị, cảm xúc gần nhất, pending sessions và lối vào nhanh đến Activity, Music/Podcast, Conversation, Report |
-| CHECK-IN | Thu giọng nói có chủ đích |
-| RESULT | Hiển thị emotion label và confidence |
-| SUPPORT | Chọn hướng hỗ trợ: hoạt động, bài hát/podcast hoặc trò chuyện |
-| ACTIVITY | Hiển thị activity cards, song cards và podcast cards từ Cloud |
-| MUSIC-PODCAST | Chọn category và xem danh sách bài hát/podcast theo chủ đích |
-| CONVERSATION | Hiển thị response card từ Cloud |
-| STATUS | Kiểm tra online/offline, pending count và last sync |
-| REPORT | Chọn ngày/tháng/năm và hiển thị TFT report cards từ Cloud hoặc dữ liệu giả lập khi demo |
+| Trang chủ | Hiển thị trạng thái thiết bị, cảm xúc gần nhất, số phiên chờ đồng bộ và lối vào nhanh đến các chức năng |
+| Kiểm tra cảm xúc | Thu giọng nói có chủ đích |
+| Kết quả | Hiển thị nhãn cảm xúc và độ tin cậy |
+| Hỗ trợ | Chọn hướng hỗ trợ: hoạt động, bài hát/podcast hoặc trò chuyện |
+| Hoạt động | Hiển thị các thẻ gợi ý từ Cloud |
+| Nhạc-Podcast | Chọn nhóm nội dung và xem danh sách bài hát/podcast theo chủ đích |
+| Trò chuyện | Hiển thị thẻ phản hồi từ Cloud |
+| Trạng thái | Kiểm tra trực tuyến/ngoại tuyến, số phiên chờ và lần đồng bộ gần nhất |
+| Báo cáo | Chọn ngày/tháng/năm và hiển thị thẻ báo cáo TFT từ Cloud hoặc dữ liệu giả lập khi demo |
 
-## 10.8. Tham chiếu phần cứng
+## 8.8. Tham chiếu phần cứng
 
-| Component | Vai trò | Ghi chú |
+| Thành phần | Vai trò | Ghi chú |
 | --------- | ------- | ------- |
-| ESP32-S3 hoặc tương đương | Bộ điều khiển chính | Điều khiển UI, Wi-Fi, cache và inference nhẹ |
-| INMP441 Microphone | Thu giọng nói | Giao tiếp I2S, phù hợp prototype SER |
-| TFT/OLED Display | Theo dõi chính | Cảm xúc, gợi ý, nội dung nghe, phản hồi, trạng thái sync và báo cáo |
-| Buttons/Touch | Điều hướng | Mode, Action, Start, Next, Back |
-| Speaker/Buzzer | Phản hồi âm thanh | Báo hiệu ghi âm, có kết quả mới hoặc phát nội dung ngắn nếu phần cứng hỗ trợ |
-| Flash/Local Storage | Cache | Lưu session pending, media selection log pending và report gần nhất |
-| Wi-Fi | Kết nối | Bắt buộc cho Objective 2 và Objective 3 |
+| ESP32-S AI Thinker | Bộ điều khiển chính | Điều khiển giao diện, Wi-Fi và các thiết bị ngoại vi |
+| LCD TFT ST7789 | Theo dõi chính | Hiển thị cảm xúc, gợi ý, nội dung nghe, phản hồi, trạng thái và báo cáo |
+| INMP441 | Thu giọng nói | Giao tiếp I2S |
+| MAX98357 I2S và loa 3W | Phản hồi âm thanh | Khuếch đại và phát âm thanh |
+| Module nút bấm 5 cái | Điều hướng | Điều hướng và xác nhận thao tác |
+| Breadboard, dây nối mạch, dây nối nguồn | Lắp ráp mẫu thử | Kết nối mạch và cấp nguồn |
+| Bao bì phần cứng | Hoàn thiện thiết bị | Bảo vệ và tạo hình thức bên ngoài |
 
-## 10.9. Other Requirements: Metadata và Supported Data Formats
+## 8.9. Yêu cầu khác: Siêu dữ liệu và định dạng dữ liệu được hỗ trợ
 
-### 10.9.1. Required metadata
+### 8.9.1. Siêu dữ liệu bắt buộc
 
 | Data object | Required metadata | Mục đích |
 | ----------- | ----------------- | -------- |
@@ -132,7 +133,7 @@ CHECK-IN -> RESULT -> SUPPORT -> ACTIVITY / MUSIC-PODCAST / CONVERSATION
 | `conversation_requests` | `session_id` nếu có, `user_message_summary`, `response_text`, `safety_flag`, `created_at` | Lưu metadata hội thoại khi được phép và kiểm tra safety |
 | `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality`, `generated_at` | Hiển thị report cards trên TFT và cache report gần nhất |
 
-### 10.9.2. Supported data formats
+### 8.9.2. Định dạng dữ liệu được hỗ trợ
 
 | Format | Extension/MIME | Dùng cho | Trạng thái |
 | ------ | -------------- | -------- | ---------- |
@@ -142,7 +143,7 @@ CHECK-IN -> RESULT -> SUPPORT -> ACTIVITY / MUSIC-PODCAST / CONVERSATION
 | Markdown | `.md` | Tài liệu specification và user manual | Supported |
 | PNG/JPG | `.png`, `.jpg` | Hình minh họa, prototype screenshot nếu cần | Supported |
 
-## 10.10. References
+## 8.10. Tài liệu tham khảo
 
 [1] PubMed Central, bài tham khảo về Speech Emotion Recognition.  
 https://pmc.ncbi.nlm.nih.gov/articles/PMC8898841/
@@ -180,17 +181,3 @@ https://living.ai/product/emo/
 [12] ElliQ, Companion Robot for Seniors, Older Adults & Aging Loved Ones.  
 https://elliq.com/
 
-[13] Espressif Systems, ESP32-S3-DevKitC-1 development board.  
-https://www.espressif.com/en/products/devkits/esp32-s3-devkitc-1
-
-[14] Waveshare, 2.4inch LCD Display Module, 240x320, SPI interface.  
-https://www.waveshare.com/2.4inch-lcd-module.htm
-
-[15] Adafruit, Tactile Button switch 6mm x 20 pack.  
-https://www.adafruit.com/product/367
-
-[16] Adafruit, Piezo Buzzer PS1240.  
-https://www.adafruit.com/product/160
-
-[17] Winbond, Serial NOR Flash Memory product family.  
-https://www.winbond.com/hq/product/code-storage-flash-memory/serial-nor-flash/

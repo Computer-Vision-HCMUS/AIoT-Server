@@ -164,14 +164,3 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 * Thu âm liên tục khi người dùng chưa kích hoạt.
 * Chia sẻ dữ liệu cảm xúc cho bên thứ ba khi chưa có sự đồng ý.
 * Đưa ra kết luận y khoa dựa trên giọng nói hoặc dữ liệu sinh hoạt.
-
-## 1.8. Tiêu chí thành công
-
-| Tiêu chí | Mục tiêu |
-| -------- | -------- |
-| Tốc độ nhận diện | Kết quả cảm xúc trong vòng 15 giây sau tương tác giọng nói hợp lệ |
-| Tốc độ hỗ trợ | Ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi trong vòng 20 giây sau khi có kết quả cảm xúc và có Internet |
-| Tốc độ báo cáo | Tóm tắt báo cáo được trả về TFT screen trong vòng 180 giây sau yêu cầu hoặc chu kỳ đồng bộ |
-| Tính liên tục dữ liệu | Mỗi phiên có timestamp, session ID, emotion label và sync status |
-| Tính riêng tư | Không upload âm thanh thô mặc định; ưu tiên xử lý cục bộ |
-| Giá trị người dùng | Người dùng hiểu được xu hướng cảm xúc và hoạt động/nội dung nào có hiệu quả với mình |
