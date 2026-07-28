@@ -48,9 +48,8 @@ def _period_bounds(period_type: str) -> tuple[date, date]:
             end = start.replace(year=now.year + 1, month=1)
         else:
             end = start.replace(month=now.month + 1)
-    else:  # yearly
-        start = now.date().replace(month=1, day=1)
-        end = start.replace(year=now.year + 1)
+    else:
+        raise ValueError("period_type must be one of: daily, weekly, monthly")
     return start, end
 
 
@@ -295,7 +294,7 @@ def _generate_report(
 def get_tft_summary(
     period: str = Query(
         ...,
-        description="daily | weekly | monthly | yearly",
+        description="daily | weekly | monthly",
     ),
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
@@ -304,10 +303,10 @@ def get_tft_summary(
     Lấy TFT report gần nhất cho period yêu cầu.
     Nếu chưa có, tự generate ngay.
     """
-    if period not in ("daily", "weekly", "monthly", "yearly"):
+    if period not in ("daily", "weekly", "monthly"):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="period must be one of: daily, weekly, monthly, yearly",
+            detail="period must be one of: daily, weekly, monthly",
         )
 
     # Try to find existing report for this period
@@ -358,10 +357,10 @@ def generate_report(
     current_device: Device = Depends(get_current_device),
 ):
     """Tạo mới một TFT report cho period yêu cầu, luôn overwrite report cũ."""
-    if payload.period_type not in ("daily", "weekly", "monthly", "yearly"):
+    if payload.period_type not in ("daily", "weekly", "monthly"):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail="period_type must be one of: daily, weekly, monthly, yearly",
+            detail="period_type must be one of: daily, weekly, monthly",
         )
 
     report = _generate_report(
@@ -385,17 +384,17 @@ def generate_report(
     summary="Liệt kê TFT reports gần nhất của thiết bị",
 )
 def list_reports(
-    period_type: str | None = Query(default=None, description="daily | weekly | monthly | yearly"),
+    period_type: str | None = Query(default=None, description="daily | weekly | monthly"),
     limit: int = Query(default=20, ge=1, le=100),
     db: Session = Depends(get_db),
     current_device: Device = Depends(get_current_device),
 ):
     query = db.query(TftReport).filter(TftReport.user_id == current_device.user_id)
     if period_type:
-        if period_type not in ("daily", "weekly", "monthly", "yearly"):
+        if period_type not in ("daily", "weekly", "monthly"):
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="period_type must be one of: daily, weekly, monthly, yearly",
+                detail="period_type must be one of: daily, weekly, monthly",
             )
         query = query.filter(TftReport.period_type == period_type)
     reports = query.order_by(TftReport.generated_at.desc()).limit(limit).all()

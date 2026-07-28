@@ -1,10 +1,10 @@
-# 05. Yêu cầu phi chức năng
+# 06. Yêu cầu phi chức năng
 
-## 5.1. Tổng quan
+## 6.1. Tổng quan
 
 Non-functional requirements được điều chỉnh theo phạm vi mới: TFT screen là giao diện theo dõi chính, Objective 1 chạy trên Edge, Objective 2 và 3 cần Cloud. Vì nhóm phát triển là sinh viên, các mục tiêu hiệu năng được đặt ở mức khả thi cho prototype.
 
-## 5.2. Hiệu năng
+## 6.2. Hiệu năng
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
@@ -15,7 +15,7 @@ Non-functional requirements được điều chỉnh theo phạm vi mới: TFT s
 | NFR-05 | Độ trễ tạo báo cáo TFT | Không quá 180 giây sau yêu cầu hoặc chu kỳ đồng bộ | Must |
 | NFR-06 | Độ trễ chuyển màn hình TFT | Thao tác menu phản hồi trong vòng 1 giây | Should |
 
-## 5.3. Độ tin cậy và khả dụng
+## 6.3. Độ tin cậy và khả dụng
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
@@ -26,7 +26,7 @@ Non-functional requirements được điều chỉnh theo phạm vi mới: TFT s
 | NFR-11 | Idempotency | Server không tạo trùng session khi Edge gửi lại cùng client_session_id | Must |
 | NFR-12 | Quan sát trạng thái | TFT hiển thị online/offline, pending count và last sync | Must |
 
-## 5.4. Bảo mật và quyền riêng tư
+## 6.4. Bảo mật và quyền riêng tư
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
@@ -37,7 +37,7 @@ Non-functional requirements được điều chỉnh theo phạm vi mới: TFT s
 | NFR-17 | Xóa dữ liệu cục bộ | Người dùng có cơ chế xóa cache hoặc lịch sử gần trên thiết bị | Should |
 | NFR-18 | Bảo mật truyền tải | API dùng HTTPS trong triển khai thực tế | Must |
 
-## 5.5. An toàn cảm xúc
+## 6.5. An toàn cảm xúc
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
@@ -46,7 +46,7 @@ Non-functional requirements được điều chỉnh theo phạm vi mới: TFT s
 | NFR-21 | Xử lý tín hiệu nguy cấp | Cloud trả thông điệp liên hệ hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường | Must |
 | NFR-22 | Quyền tự chủ | Người dùng có thể bỏ qua gợi ý, dừng hội thoại, không chọn nội dung nghe hoặc xóa dữ liệu cục bộ | Must |
 
-## 5.6. Khả dụng và trải nghiệm TFT
+## 6.6. Khả dụng và trải nghiệm TFT
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
@@ -56,7 +56,7 @@ Non-functional requirements được điều chỉnh theo phạm vi mới: TFT s
 | NFR-26 | Báo cáo TFT dễ hiểu | Các thẻ báo cáo phải ngắn, ưu tiên nhận định chính thay vì bảng dài | Must |
 | NFR-27 | Khả năng tiếp cận | Màu sắc, font và tương phản đủ rõ trên màn hình nhỏ | Should |
 
-## 5.7. Khả năng bảo trì và mở rộng
+## 6.7. Khả năng bảo trì và mở rộng
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |

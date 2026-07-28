@@ -1,6 +1,6 @@
-# 08. Phụ lục và tài liệu tham khảo
+# 09. Phụ lục và tài liệu tham khảo
 
-## 8.1. Thuật ngữ
+## 9.1. Thuật ngữ
 
 | Thuật ngữ | Mô tả |
 | --------- | ----- |
@@ -18,20 +18,20 @@
 | Thẻ bài hát | Thẻ bài hát rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ podcast | Thẻ podcast rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ phản hồi | Thẻ phản hồi trò chuyện rút gọn để hiển thị trên TFT |
-| Thẻ báo cáo TFT | Thẻ báo cáo ngắn gồm nhận định chính theo ngày, tháng hoặc năm |
+| Thẻ báo cáo TFT | Thẻ báo cáo ngắn gồm nhận định chính theo ngày, tuần hoặc tháng |
 | Dữ liệu chưa đủ | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo nhận định rõ ràng |
 
-## 8.2. Bảng tham chiếu tình huống sử dụng
+## 9.2. Bảng tham chiếu tình huống sử dụng
 
 | ID | Tình huống sử dụng | Đầu vào | Đầu ra | Xử lý chính | Mục tiêu thời gian |
 | -- | -------- | ----- | ------ | ----------- | ------------------ |
 | UC-01 | Speech Emotion Recognition | Giọng nói người dùng | Emotion label, confidence, emotion session | Edge AI | <= 15 giây |
-| UC-02 | Gợi ý hoạt động và nội dung cải thiện tâm trạng | Emotion label nếu có, confidence nếu có và lịch sử đã đồng bộ | Activity cards, song cards, podcast cards trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
+| UC-02 | Gợi ý hoạt động cải thiện tâm trạng | Emotion label và lịch sử đã đồng bộ | 5 activity cards trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
 | UC-03 | Lựa chọn bài hát hoặc podcast theo chủ đích | Category, media type, user intent và emotion context nếu có | Danh sách bài hát/podcast trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
 | UC-04 | Trò chuyện hỗ trợ cảm xúc | Giọng nói/câu hỏi và emotion context nếu có | Response card trên TFT | Cloud + TFT | <= 20 giây khi có Internet |
 | UC-05 | Thống kê và phân tích xu hướng cảm xúc | Lịch sử cảm xúc, hoạt động, media logs và conversation metadata | TFT report cards | Cloud + TFT | <= 180 giây |
 
-## 8.3. Cấu trúc dữ liệu phiên cảm xúc
+## 9.3. Cấu trúc dữ liệu phiên cảm xúc
 
 | Trường | Kiểu dữ liệu | Mô tả |
 | ------ | ------------ | ----- |
@@ -46,20 +46,22 @@
 | client_created_at | Timestamp | Thời điểm tạo trên thiết bị |
 | sync_status | String | pending, synced, duplicated, rejected |
 
-## 8.4. Thư viện hoạt động mẫu
+## 9.4. Danh mục hoạt động hỗ trợ
 
-| Cảm xúc | Nhóm hoạt động | Hoạt động mẫu | Ý nghĩa |
-| ------- | -------------- | ------------- | ------- |
-| Căng thẳng | Breathing | Hít thở 4-7-8 trong 2 phút | Giảm nhịp căng và tạo khoảng dừng |
-| Căng thẳng | Rest | Nghỉ 5 phút khỏi màn hình | Giảm kích thích tức thời |
-| Buồn bã | Journaling | Viết 3 câu về cảm xúc hiện tại | Giúp gọi tên cảm xúc |
-| Buồn bã | Social | Nhắn tin cho một người tin cậy | Tăng cảm giác được kết nối |
-| Tức giận | Grounding | Đếm 10 nhịp thở trước khi phản hồi | Tránh phản ứng vội |
-| Mệt mỏi | Rest | Uống nước và giãn cơ nhẹ | Hỗ trợ phục hồi năng lượng |
-| Vui vẻ | Reflection | Ghi lại một điều tích cực trong ngày | Củng cố cảm xúc tích cực |
-| Bình thường | Maintenance | Vận động nhẹ hoặc check-in cuối ngày | Duy trì thói quen ổn định |
+| Activity type | Hoạt động | Ý nghĩa |
+| ------------- | --------- | ------- |
+| `breathing` | Hít thở chậm 4-7-8 | Hạ nhịp và tạo khoảng dừng |
+| `grounding` | Neo hiện tại theo bài 5-4-3-2-1 | Giảm quá tải và quay về hiện tại |
+| `rest` | Nghỉ yên tĩnh 10–15 phút | Giảm kích thích tức thời |
+| `rest_water` | Uống nước, nghỉ mắt | Tạo nhịp phục hồi ngắn |
+| `movement` | Kéo giãn hoặc đi bộ ngắn | Đổi nhịp cơ thể nhẹ nhàng |
+| `journaling` | Viết 3 câu về điều đang nghĩ | Giúp gọi tên cảm xúc |
+| `body_scan` | Quét và thả lỏng cơ thể | Nhận biết vùng đang căng |
+| `task_reset` | Chia nhỏ một việc trong 5 phút | Khởi động lại sự tập trung |
+| `gratitude` | Ghi nhận ba điều đang ổn | Củng cố cảm xúc tích cực |
+| `reach_out` | Kết nối với người tin cậy | Tăng cảm giác được hỗ trợ |
 
-## 8.5. Nhóm nội dung mẫu
+## 9.5. Nhóm nội dung mẫu
 
 | Category | Nội dung thường gặp | Trường hợp sử dụng |
 | -------- | ------------------ | ------------------ |
@@ -71,25 +73,25 @@
 | anger_release | Nhạc grounding, podcast kiểm soát cảm xúc | Khi tức giận |
 | energy_recover | Nhạc nhẹ có nhịp vừa, podcast self-care | Khi mệt mỏi |
 
-## 8.6. Tóm tắt API cho thiết bị biên
+## 9.6. Tóm tắt API cho thiết bị biên
 
 | Endpoint | Method | Mô tả |
 | -------- | ------ | ----- |
 | `/api/devices/pair` | POST | Ghép thiết bị với người dùng |
 | `/api/devices/heartbeat` | POST | Cập nhật trạng thái online và firmware |
 | `/api/emotion-sessions/sync` | POST | Đồng bộ emotion sessions từ Edge |
-| `/api/recommendations/request` | POST | Lấy activity cards, song cards và podcast cards từ Cloud |
+| `/api/recommendations/request` | POST | Lấy 5 activity cards từ Cloud |
 | `/api/media/categories` | GET | Lấy danh sách category bài hát/podcast |
 | `/api/media/recommendations` | POST | Lấy bài hát/podcast theo chủ đích và category |
 | `/api/conversations/respond` | POST | Lấy response card từ Cloud |
 | `/api/conversations/history` | GET | Lấy lịch sử trò chuyện rút gọn của thiết bị |
 | `/api/feedback/activity` | POST | Lưu lựa chọn hoặc đánh giá hoạt động |
 | `/api/feedback/media` | POST | Lưu lựa chọn hoặc đánh giá bài hát/podcast |
-| `/api/reports/tft-summary` | GET | Lấy report cards theo ngày, tháng hoặc năm |
+| `/api/reports/tft-summary` | GET | Lấy report cards theo ngày, tuần hoặc tháng |
 | `/api/reports/generate` | POST | Yêu cầu Cloud tạo report mới |
 | `/api/device-config` | GET | Lấy cấu hình rút gọn cho thiết bị |
 
-## 8.7. Luồng màn hình phần cứng
+## 9.7. Luồng màn hình phần cứng
 
 ```text
 TRANG CHỦ -> KIỂM TRA CẢM XÚC / HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN / BÁO CÁO / TRẠNG THÁI
@@ -106,9 +108,9 @@ KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PO
 | Nhạc-Podcast | Chọn nhóm nội dung và xem danh sách bài hát/podcast theo chủ đích |
 | Trò chuyện | Hiển thị thẻ phản hồi từ Cloud |
 | Trạng thái | Kiểm tra trực tuyến/ngoại tuyến, số phiên chờ và lần đồng bộ gần nhất |
-| Báo cáo | Chọn ngày/tháng/năm và hiển thị thẻ báo cáo TFT từ Cloud hoặc dữ liệu giả lập khi demo |
+| Báo cáo | Chọn ngày/tuần/tháng và hiển thị thẻ báo cáo TFT từ Cloud hoặc dữ liệu giả lập khi demo |
 
-## 8.8. Tham chiếu phần cứng
+## 9.8. Tham chiếu phần cứng
 
 | Thành phần | Vai trò | Ghi chú |
 | --------- | ------- | ------- |
@@ -120,9 +122,9 @@ KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PO
 | Breadboard, dây nối mạch, dây nối nguồn | Lắp ráp mẫu thử | Kết nối mạch và cấp nguồn |
 | Bao bì phần cứng | Hoàn thiện thiết bị | Bảo vệ và tạo hình thức bên ngoài |
 
-## 8.9. Yêu cầu khác: Siêu dữ liệu và định dạng dữ liệu được hỗ trợ
+## 9.9. Yêu cầu khác: Siêu dữ liệu và định dạng dữ liệu được hỗ trợ
 
-### 8.9.1. Siêu dữ liệu bắt buộc
+### 9.9.1. Siêu dữ liệu bắt buộc
 
 | Data object | Required metadata | Mục đích |
 | ----------- | ----------------- | -------- |
@@ -133,7 +135,7 @@ KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PO
 | `conversation_requests` | `session_id` nếu có, `user_message_summary`, `response_text`, `safety_flag`, `created_at` | Lưu metadata hội thoại khi được phép và kiểm tra safety |
 | `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality`, `generated_at` | Hiển thị report cards trên TFT và cache report gần nhất |
 
-### 8.9.2. Định dạng dữ liệu được hỗ trợ
+### 9.9.2. Định dạng dữ liệu được hỗ trợ
 
 | Format | Extension/MIME | Dùng cho | Trạng thái |
 | ------ | -------------- | -------- | ---------- |
@@ -143,7 +145,7 @@ KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PO
 | Markdown | `.md` | Tài liệu specification và user manual | Supported |
 | PNG/JPG | `.png`, `.jpg` | Hình minh họa, prototype screenshot nếu cần | Supported |
 
-## 8.10. Tài liệu tham khảo
+## 9.10. Tài liệu tham khảo
 
 [1] PubMed Central, bài tham khảo về Speech Emotion Recognition.  
 https://pmc.ncbi.nlm.nih.gov/articles/PMC8898841/
@@ -180,4 +182,10 @@ https://living.ai/product/emo/
 
 [12] ElliQ, Companion Robot for Seniors, Older Adults & Aging Loved Ones.  
 https://elliq.com/
+
+[13] Livingstone, S. R. & Russo, F. A., "The Ryerson Audio-Visual Database of Emotional Speech and Song (RAVDESS)", PLOS ONE, 2018.
+https://doi.org/10.1371/journal.pone.0196391
+
+[14] Embedded Audio Emotion — tài liệu tham chiếu xuất mô hình nhúng bằng emlearn.
+https://github.com/prasenjit52282/embedded-audio-emotion
 
