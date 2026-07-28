@@ -166,7 +166,7 @@ def _build_media_cards(emotion_label: str, user_id: str, db: Session, limit: int
     "/request",
     response_model=RecommendationResponse,
     status_code=status.HTTP_200_OK,
-    summary="Yêu cầu Cloud gợi ý hoạt động, bài hát và podcast",
+    summary="Yêu cầu Cloud gợi ý hoạt động hỗ trợ cảm xúc",
 )
 def request_recommendation(
     payload: RecommendationRequestPayload,
@@ -174,8 +174,7 @@ def request_recommendation(
     current_device: Device = Depends(get_current_device),
 ):
     """
-    Nhận emotion context và trả về 1-5 recommendation cards rút gọn cho TFT.
-    Cards gồm: hoạt động (activity) + bài hát/podcast (song/podcast).
+    Nhận emotion context và trả về 5 thẻ hoạt động rút gọn cho TFT.
     """
     # Verify session belongs to current device
     session = (

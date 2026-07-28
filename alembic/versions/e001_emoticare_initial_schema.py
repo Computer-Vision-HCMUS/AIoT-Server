@@ -47,7 +47,7 @@ def upgrade() -> None:
     _create_enum("reco_status_enum", "success", "failed", "limited")
     _create_enum("activity_type_enum", "breathing", "rest", "movement", "journaling")
     _create_enum("safety_flag_enum", "none", "low", "medium", "high")
-    _create_enum("period_type_enum", "daily", "weekly", "monthly", "yearly")
+    _create_enum("period_type_enum", "daily", "weekly", "monthly")
     _create_enum("data_quality_enum", "enough_data", "limited_data")
     _create_enum("media_type_enum", "song", "podcast")
     _create_enum(
@@ -224,7 +224,7 @@ def upgrade() -> None:
         ),
         sa.Column(
             "period_type",
-            ENUM("daily", "weekly", "monthly", "yearly",
+            ENUM("daily", "weekly", "monthly",
                     name="period_type_enum", create_type=False),
             nullable=False,
         ),

@@ -243,8 +243,14 @@ class ActivityFeedback(Base):
         Enum(
             "breathing",
             "rest",
+            "rest_water",
             "movement",
             "journaling",
+            "grounding",
+            "body_scan",
+            "task_reset",
+            "gratitude",
+            "reach_out",
             name="activity_type_enum",
         ),
         nullable=False,
@@ -319,7 +325,7 @@ class TftReport(Base):
         index=True,
     )
     period_type: Mapped[str] = mapped_column(
-        Enum("daily", "weekly", "monthly", "yearly", name="period_type_enum"),
+        Enum("daily", "weekly", "monthly", name="period_type_enum"),
         nullable=False,
     )
     period_start: Mapped[date] = mapped_column(Date, nullable=False)

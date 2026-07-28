@@ -15,14 +15,19 @@ from app.models.emoticare import (
 
 
 EMOTION_ACTIVITY_MAP: dict[str, list[str]] = {
-    "stressed": ["breathing", "rest", "rest_water", "movement", "journaling"],
-    "angry": ["breathing", "movement", "rest", "rest_water", "journaling"],
-    "sad": ["rest", "journaling", "rest_water", "breathing", "movement"],
-    "tired": ["rest_water", "rest", "breathing", "movement", "journaling"],
-    "happy": ["movement", "journaling", "breathing", "rest_water", "rest"],
-    "neutral": ["movement", "breathing", "journaling", "rest_water", "rest"],
-    "uncertain": ["breathing", "rest_water", "rest", "journaling", "movement"],
+    "stressed": ["breathing", "grounding", "rest_water", "body_scan", "movement", "journaling", "rest", "reach_out"],
+    "angry": ["breathing", "grounding", "movement", "rest_water", "body_scan", "journaling", "rest", "reach_out"],
+    "sad": ["rest", "reach_out", "journaling", "rest_water", "breathing", "grounding", "movement", "gratitude"],
+    "tired": ["rest_water", "rest", "body_scan", "task_reset", "breathing", "movement", "grounding", "gratitude"],
+    "happy": ["movement", "gratitude", "reach_out", "journaling", "task_reset", "breathing", "rest_water", "grounding"],
+    "neutral": ["task_reset", "movement", "breathing", "journaling", "gratitude", "rest_water", "grounding", "reach_out"],
+    "uncertain": ["grounding", "breathing", "body_scan", "rest_water", "journaling", "task_reset", "rest", "reach_out"],
 }
+
+ACTIVITY_TYPES = [
+    "breathing", "grounding", "rest", "rest_water", "movement",
+    "journaling", "body_scan", "task_reset", "gratitude", "reach_out",
+]
 
 EMOTION_MEDIA_MAP: dict[str, list[str]] = {
     "stressed": ["relax", "sleep"],
@@ -40,6 +45,11 @@ ACTIVITY_DESCRIPTIONS: dict[str, str] = {
     "movement": "Đứng dậy kéo giãn vai, cổ và lưng trong 2 phút, sau đó đi bộ chậm 5 phút. Mục tiêu là đổi nhịp cơ thể, không phải tập nặng.",
     "journaling": "Viết 3 câu: điều đang xảy ra, cảm xúc của bạn và một việc nhỏ bạn có thể làm tiếp theo. Không cần viết hay, chỉ cần thành thật.",
     "rest_water": "Rời màn hình trong 3 phút, uống một cốc nước và nhìn xa khoảng 20 giây. Đây là một nhịp nghỉ ngắn để mắt và cơ thể cùng được thả lỏng.",
+    "grounding": "Gọi tên 5 điều bạn nhìn thấy, 4 điều bạn chạm được, 3 âm thanh bạn nghe thấy, rồi hít thở chậm một nhịp.",
+    "body_scan": "Dành 2 phút để nhận biết vùng vai, hàm và bàn tay. Thả lỏng từng vùng đang căng, không cần ép cơ thể phải thay đổi ngay.",
+    "task_reset": "Chọn đúng một việc nhỏ có thể hoàn thành trong 5 phút, viết ra hoặc làm ngay bước đầu tiên của việc đó.",
+    "gratitude": "Ghi lại hoặc nghĩ về 3 điều nhỏ đang ổn trong hôm nay, dù chỉ là một bữa ăn, một người bạn hay một khoảng nghỉ.",
+    "reach_out": "Nhắn một câu ngắn cho người bạn tin cậy: “Hôm nay mình hơi cần một chút kết nối.” Bạn không cần giải thích nhiều hơn nếu chưa sẵn sàng.",
 }
 
 ACTIVITY_TITLES: dict[str, str] = {
@@ -48,6 +58,11 @@ ACTIVITY_TITLES: dict[str, str] = {
     "movement": "Vận động nhẹ",
     "journaling": "Viết điều đang nghĩ",
     "rest_water": "Uống nước, nghỉ mắt",
+    "grounding": "Neo lại hiện tại",
+    "body_scan": "Thả lỏng cơ thể",
+    "task_reset": "Chia nhỏ việc cần làm",
+    "gratitude": "Ghi nhận điều tích cực",
+    "reach_out": "Kết nối với người tin cậy",
 }
 
 EMOTION_ACTION_FRAMING: dict[str, tuple[str, str]] = {
@@ -80,6 +95,56 @@ def activity_feedback_score(activity_type: str, user_id: str, db: Session) -> fl
     return selected_bonus + avg_score
 
 
+def _activity_personalization_score(activity_type: str, user_id: str, db: Session) -> float:
+    """Return a bounded personal-preference signal in the [-1, 1] range.
+
+    Ratings and explicit selections are useful only after enough observations.
+    The confidence ramp prevents one accidental choice from dominating the
+    emotion-aware default ordering.
+    """
+    feedbacks = (
+        db.query(ActivityFeedback)
+        .join(ActivityFeedback.recommendation)
+        .join(RecommendationRequest.session)
+        .filter(
+            EmotionSession.user_id == user_id,
+            ActivityFeedback.activity_type == activity_type,
+        )
+        .all()
+    )
+    if not feedbacks:
+        return 0.0
+
+    selection_signal = 2.0 * (
+        sum(1 for item in feedbacks if item.selected) / len(feedbacks)
+    ) - 1.0
+    ratings = [item.feedback_score for item in feedbacks if item.feedback_score is not None]
+    rating_signal = ((sum(ratings) / len(ratings)) - 3.0) / 2.0 if ratings else 0.0
+    confidence = min(1.0, len(feedbacks) / 3.0)
+    return confidence * (0.45 * selection_signal + 0.55 * rating_signal)
+
+
+def _recent_action_count(activity_type: str, user_id: str, db: Session) -> int:
+    """Count appearances in the two most recent action recommendation payloads."""
+    payloads = (
+        db.query(RecommendationRequest.response_payload)
+        .join(RecommendationRequest.session)
+        .filter(EmotionSession.user_id == user_id)
+        .order_by(RecommendationRequest.created_at.desc())
+        .limit(2)
+        .all()
+    )
+    target_action_id = f"activity:{activity_type}"
+    appearances = 0
+    for (payload,) in payloads:
+        cards = payload.get("cards", []) if isinstance(payload, dict) else []
+        appearances += sum(
+            1 for card in cards
+            if isinstance(card, dict) and card.get("action_id") == target_action_id
+        )
+    return appearances
+
+
 def media_feedback_score(media_item_id: str, user_id: str, db: Session) -> float:
     logs = (
         db.query(MediaSelectionLog)
@@ -110,33 +175,48 @@ def _recent_media_ids(user_id: str, db: Session, *, limit: int = 8) -> set[str]:
     return {item_id for (item_id,) in rows}
 
 
-def recommend_action(emotion_label: str, user_id: str, db: Session, *, limit: int = 2) -> list[dict]:
+def recommend_action(emotion_label: str, user_id: str, db: Session, *, limit: int = 5) -> list[dict]:
+    """Return five emotion-safe action cards with personalisation and rotation.
+
+    The five activity types remain candidates for every emotion.  Personal
+    feedback and recent exposure change their display order between requests.
+    """
     base_types = EMOTION_ACTIVITY_MAP.get(emotion_label, ["breathing", "rest"])
-    all_types = ["breathing", "rest", "movement", "journaling", "rest_water"]
-    base_score = {
-        activity: max(0, len(base_types) - index)
+    all_types = ACTIVITY_TYPES
+    emotion_score = {
+        activity: (len(base_types) - index) / len(base_types)
         for index, activity in enumerate(base_types)
     }
-    ranked = sorted(
-        all_types,
-        key=lambda item: (base_score.get(item, 0), activity_feedback_score("rest" if item == "rest_water" else item, user_id, db)),
-        reverse=True,
-    )
+    ranked: list[tuple[str, float, float, int]] = []
+    for activity in all_types:
+        personal_score = _activity_personalization_score(activity, user_id, db)
+        recent_count = _recent_action_count(activity, user_id, db)
+        score = (
+            0.70 * emotion_score.get(activity, 0.0)
+            + 0.30 * personal_score
+            - 0.25 * recent_count
+        )
+        ranked.append((activity, score, personal_score, recent_count))
+    ranked.sort(key=lambda item: (item[1], emotion_score.get(item[0], 0.0), item[0]), reverse=True)
 
     cards = []
     framing_title, framing_body = EMOTION_ACTION_FRAMING.get(
         emotion_label,
         ("Chăm sóc bản thân", "Hãy chọn một bước nhỏ, vừa sức và phù hợp với bạn ngay lúc này."),
     )
-    for activity in ranked[:limit]:
-        feedback_activity = "rest" if activity == "rest_water" else activity
-        feedback_score = activity_feedback_score(feedback_activity, user_id, db)
+    for activity, _, personal_score, recent_count in ranked[:limit]:
+        if personal_score > 0.1:
+            reason = "Phù hợp với cảm xúc hiện tại và các phản hồi tích cực trước đây"
+        elif recent_count == 0:
+            reason = "Phù hợp với cảm xúc hiện tại và giúp thay đổi gợi ý gần đây"
+        else:
+            reason = f"Phù hợp với trạng thái {emotion_label}"
         cards.append({
             "type": "activity",
-            "activity_type": feedback_activity,
+            "activity_type": activity,
             "title": f"{framing_title}: {ACTIVITY_TITLES.get(activity, activity.capitalize())}",
             "body": f"{framing_body} {ACTIVITY_DESCRIPTIONS.get(activity, 'Thực hiện hoạt động này để cải thiện tâm trạng')}",
-            "reason": f"Phù hợp với trạng thái {emotion_label}",
+            "reason": reason,
             "severity": "info",
             "action_id": f"activity:{activity}",
         })

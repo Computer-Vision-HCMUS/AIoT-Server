@@ -143,7 +143,10 @@ class SttTranscriptionResponse(BaseModel):
 
 # ─── Feedback ─────────────────────────────────────────────────────────────────
 
-ActivityType = Literal["breathing", "rest", "movement", "journaling"]
+ActivityType = Literal[
+    "breathing", "rest", "rest_water", "movement", "journaling",
+    "grounding", "body_scan", "task_reset", "gratitude", "reach_out",
+]
 
 
 class ActivityFeedbackRequest(BaseModel):
@@ -167,7 +170,7 @@ class FeedbackSavedResponse(BaseModel):
 
 # ─── Reports ──────────────────────────────────────────────────────────────────
 
-PeriodType = Literal["daily", "weekly", "monthly", "yearly"]
+PeriodType = Literal["daily", "weekly", "monthly"]
 
 
 class TftSummaryResponse(BaseModel):

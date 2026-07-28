@@ -44,7 +44,7 @@ Vì vậy, EmotiCare AIoT được định vị như một **Intelligent Emotion
 | Vấn đề | Hệ quả | Cách EmotiCare AIoT giải quyết |
 | ------ | ------ | ------------------------------- |
 | Người dùng ít ghi nhận cảm xúc hằng ngày | Không thấy được xu hướng cảm xúc dài hạn | Check-in bằng giọng nói và lưu emotion session |
-| Cảm xúc tiêu cực kéo dài khó được phát hiện sớm | Người dùng dễ rơi vào trạng thái căng thẳng, buồn bã hoặc mệt mỏi kéo dài | Báo cáo theo ngày, tháng, năm và phát hiện chuỗi cảm xúc tiêu cực |
+| Cảm xúc tiêu cực kéo dài khó được phát hiện sớm | Người dùng dễ rơi vào trạng thái căng thẳng, buồn bã hoặc mệt mỏi kéo dài | Báo cáo theo ngày, tuần, tháng và phát hiện chuỗi cảm xúc tiêu cực |
 | Gợi ý chăm sóc tinh thần thường chung chung | Người dùng khó biết hoạt động hoặc nội dung nghe nào phù hợp với mình | Gợi ý theo cảm xúc hiện tại, chủ đích, lịch sử feedback và phân tích hiệu quả hoạt động/nội dung |
 | Dữ liệu giọng nói nhạy cảm | Người dùng lo ngại quyền riêng tư | Ưu tiên Edge AI, không upload âm thanh thô mặc định |
 | Thiết bị hỗ trợ tinh thần dễ bị hiểu nhầm là thiết bị y tế | Rủi ro kỳ vọng sai | Đặc tả rõ sản phẩm chỉ hỗ trợ tự chăm sóc, không chẩn đoán hoặc điều trị |
@@ -57,7 +57,7 @@ Từ các vấn đề trên, có thể thấy EmotiCare AIoT cần được đ�
 | Trọng tâm sản phẩm | Tạo cảm giác thú cưng để bàn có cá tính, biết phản hồi, di chuyển, nhảy theo nhạc và hỗ trợ tác vụ đơn giản | Companion robot chủ động trò chuyện, nhắc thuốc, gợi ý vận động, kết nối gia đình/người chăm sóc | Thiết bị AIoT nhận diện cảm xúc qua giọng nói, gợi ý chăm sóc cảm xúc và theo dõi xu hướng trên TFT |
 | Nhận diện cảm xúc | Có tương tác thông minh và biểu cảm, nhưng không tập trung vào Speech Emotion Recognition làm use case chính | Có hội thoại và wellness support, nhưng không tập trung vào SER cục bộ trên thiết bị phần cứng sinh viên | UC-01 tập trung vào Speech Emotion Recognition chạy tại Edge |
 | Gợi ý chăm sóc cảm xúc | Thiên về giải trí, nhạc, game và phản hồi kiểu thú cưng | Thiên về thói quen sống, nhắc nhở, vận động nhẹ, kết nối xã hội | Gợi ý hoạt động, bài hát, podcast và phản hồi đồng cảm dựa trên emotion context |
-| Theo dõi dài hạn | Không phải trọng tâm chính của sản phẩm | Có hỗ trợ caregiver/wellness theo định hướng người lớn tuổi | Báo cáo cảm xúc theo ngày, tháng, năm hiển thị trực tiếp trên TFT |
+| Theo dõi dài hạn | Không phải trọng tâm chính của sản phẩm | Có hỗ trợ caregiver/wellness theo định hướng người lớn tuổi | Báo cáo cảm xúc theo ngày, tuần, tháng hiển thị trực tiếp trên TFT |
 | Quyền riêng tư âm thanh | Không phải điểm nhấn chính trong đặc tả đồ án | Có chính sách bảo mật và kết nối Cloud theo hệ sinh thái riêng | Không upload âm thanh thô mặc định; ưu tiên Edge AI cho tác vụ nhận diện cảm xúc |
 | Phù hợp phạm vi đồ án | Sản phẩm thương mại có cơ khí, nhân vật hóa và trải nghiệm giải trí phức tạp | Sản phẩm thương mại có dịch vụ Cloud, caregiver app và vận hành dài hạn | Prototype khả thi hơn: Edge SER, Cloud API, TFT screen, database và flow Edge-Cloud-TFT |
 
@@ -141,7 +141,7 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 | --------------- | --------------- |
 | SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 15 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. |
 | SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. |
-| SMART Objective 3 | Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tháng và năm trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ. |
+| SMART Objective 3 | Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ. |
 
 ## 1.7. Phạm vi sản phẩm
 
@@ -154,7 +154,7 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 * Đề xuất bài hát hoặc podcast theo cảm xúc hiện tại, category và chủ đích của người dùng.
 * Trò chuyện hỗ trợ cảm xúc với phản hồi đồng cảm và an toàn.
 * Lưu emotion session, recommendation log, media selection log và feedback.
-* Tạo báo cáo cảm xúc theo ngày, tháng, năm.
+* Tạo báo cáo cảm xúc theo ngày, tuần, tháng.
 * Hiển thị trên TFT screen về phân bố cảm xúc, xu hướng và hiệu quả hoạt động/nội dung.
 
 ### Ngoài phạm vi
@@ -164,14 +164,3 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 * Thu âm liên tục khi người dùng chưa kích hoạt.
 * Chia sẻ dữ liệu cảm xúc cho bên thứ ba khi chưa có sự đồng ý.
 * Đưa ra kết luận y khoa dựa trên giọng nói hoặc dữ liệu sinh hoạt.
-
-## 1.8. Tiêu chí thành công
-
-| Tiêu chí | Mục tiêu |
-| -------- | -------- |
-| Tốc độ nhận diện | Kết quả cảm xúc trong vòng 15 giây sau tương tác giọng nói hợp lệ |
-| Tốc độ hỗ trợ | Ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi trong vòng 20 giây sau khi có kết quả cảm xúc và có Internet |
-| Tốc độ báo cáo | Tóm tắt báo cáo được trả về TFT screen trong vòng 180 giây sau yêu cầu hoặc chu kỳ đồng bộ |
-| Tính liên tục dữ liệu | Mỗi phiên có timestamp, session ID, emotion label và sync status |
-| Tính riêng tư | Không upload âm thanh thô mặc định; ưu tiên xử lý cục bộ |
-| Giá trị người dùng | Người dùng hiểu được xu hướng cảm xúc và hoạt động/nội dung nào có hiệu quả với mình |
