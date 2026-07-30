@@ -41,7 +41,8 @@ class DeviceHeartbeatResponse(BaseModel):
 # ─── Emotion Sessions ─────────────────────────────────────────────────────────
 
 EmotionLabel = Literal[
-    "happy", "neutral", "stressed", "sad", "angry", "tired", "uncertain"
+    "happy", "neutral", "stressed", "sad", "angry", "tired", "uncertain",
+    "calm", "fearful", "disgust", "surprised",
 ]
 QualityFlag = Literal["clean", "noisy", "too_short", "low_confidence"]
 

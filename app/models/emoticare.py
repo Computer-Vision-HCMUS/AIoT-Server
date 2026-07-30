@@ -142,7 +142,8 @@ class EmotionSession(Base):
     device_id: Mapped[str] = mapped_column(
         String(36), ForeignKey("devices.id", ondelete="CASCADE"), nullable=False, index=True
     )
-    # Emotion label taxonomy: happy | neutral | stressed | sad | angry | tired | uncertain
+    # Emotion label taxonomy includes the local SER labels calm, fearful,
+    # disgust, and surprised in addition to the application labels.
     emotion_label: Mapped[str] = mapped_column(String(50), nullable=False)
     # Confidence 0.000 – 1.000
     confidence_score: Mapped[float] = mapped_column(Numeric(4, 3), nullable=False)
