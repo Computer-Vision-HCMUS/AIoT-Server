@@ -1,4 +1,4 @@
-# 01. Background
+# 01. Bối cảnh
 
 ## 1.1. Bối cảnh
 
@@ -46,7 +46,7 @@ Vì vậy, EmotiCare AIoT được định vị như một **Intelligent Emotion
 | Người dùng ít ghi nhận cảm xúc hằng ngày | Không thấy được xu hướng cảm xúc dài hạn | Check-in bằng giọng nói và lưu emotion session |
 | Cảm xúc tiêu cực kéo dài khó được phát hiện sớm | Người dùng dễ rơi vào trạng thái căng thẳng, buồn bã hoặc mệt mỏi kéo dài | Báo cáo theo ngày, tuần, tháng và phát hiện chuỗi cảm xúc tiêu cực |
 | Gợi ý chăm sóc tinh thần thường chung chung | Người dùng khó biết hoạt động hoặc nội dung nghe nào phù hợp với mình | Gợi ý theo cảm xúc hiện tại, chủ đích, lịch sử feedback và phân tích hiệu quả hoạt động/nội dung |
-| Dữ liệu giọng nói nhạy cảm | Người dùng lo ngại quyền riêng tư | Ưu tiên Edge AI, không upload âm thanh thô mặc định |
+| Dữ liệu giọng nói nhạy cảm | Người dùng lo ngại quyền riêng tư | Audio check-in SER xử lý tại Edge; audio Voice Conversation chỉ gửi tạm thời cho STT và không được lưu |
 | Thiết bị hỗ trợ tinh thần dễ bị hiểu nhầm là thiết bị y tế | Rủi ro kỳ vọng sai | Đặc tả rõ sản phẩm chỉ hỗ trợ tự chăm sóc, không chẩn đoán hoặc điều trị |
 
 Từ các vấn đề trên, có thể thấy EmotiCare AIoT cần được đặt cạnh các sản phẩm tương tự để làm rõ khoảng trống sản phẩm mà đồ án hướng đến. Các sản phẩm như EMO hoặc ElliQ đã chứng minh rằng thiết bị vật lý có thể tạo cảm giác đồng hành tốt hơn một giao diện phần mềm thuần túy, nhưng chúng chưa trùng hoàn toàn với mục tiêu của EmotiCare AIoT.
@@ -58,7 +58,7 @@ Từ các vấn đề trên, có thể thấy EmotiCare AIoT cần được đ�
 | Nhận diện cảm xúc | Có tương tác thông minh và biểu cảm, nhưng không tập trung vào Speech Emotion Recognition làm use case chính | Có hội thoại và wellness support, nhưng không tập trung vào SER cục bộ trên thiết bị phần cứng sinh viên | UC-01 tập trung vào Speech Emotion Recognition chạy tại Edge |
 | Gợi ý chăm sóc cảm xúc | Thiên về giải trí, nhạc, game và phản hồi kiểu thú cưng | Thiên về thói quen sống, nhắc nhở, vận động nhẹ, kết nối xã hội | Gợi ý hoạt động, bài hát, podcast và phản hồi đồng cảm dựa trên emotion context |
 | Theo dõi dài hạn | Không phải trọng tâm chính của sản phẩm | Có hỗ trợ caregiver/wellness theo định hướng người lớn tuổi | Báo cáo cảm xúc theo ngày, tuần, tháng hiển thị trực tiếp trên TFT |
-| Quyền riêng tư âm thanh | Không phải điểm nhấn chính trong đặc tả đồ án | Có chính sách bảo mật và kết nối Cloud theo hệ sinh thái riêng | Không upload âm thanh thô mặc định; ưu tiên Edge AI cho tác vụ nhận diện cảm xúc |
+| Quyền riêng tư âm thanh | Không phải điểm nhấn chính trong đặc tả đồ án | Có chính sách bảo mật và kết nối Cloud theo hệ sinh thái riêng | Ưu tiên Edge AI cho SER; PCM của Voice Conversation chỉ dùng tạm thời cho STT và không được lưu |
 | Phù hợp phạm vi đồ án | Sản phẩm thương mại có cơ khí, nhân vật hóa và trải nghiệm giải trí phức tạp | Sản phẩm thương mại có dịch vụ Cloud, caregiver app và vận hành dài hạn | Prototype khả thi hơn: Edge SER, Cloud API, TFT screen, database và flow Edge-Cloud-TFT |
 
 Như vậy, EmotiCare AIoT không cố cạnh tranh trực tiếp với robot đồng hành thương mại. Sản phẩm chọn một lát cắt hẹp và rõ hơn: **nhận diện cảm xúc bằng giọng nói, hỗ trợ chăm sóc cảm xúc theo ngữ cảnh và tạo dữ liệu theo dõi dài hạn trên chính thiết bị phần cứng**.
@@ -77,9 +77,9 @@ Như vậy, EmotiCare AIoT không cố cạnh tranh trực tiếp với robot đ
 | User class | Đặc điểm | Quyền truy cập/chức năng | Giới hạn |
 | ---------- | -------- | ------------------------ | -------- |
 | End User | Người dùng trực tiếp thiết bị hằng ngày | Check-in cảm xúc, chọn Activity, Music/Podcast, Conversation, Report, xóa dữ liệu cục bộ | Không truy cập database thô hoặc cấu hình hệ thống |
-| Device Owner | Người sở hữu/ghép thiết bị với tài khoản | Pairing device, xem trạng thái sync, quản lý consent cơ bản | Chỉ quản lý thiết bị của chính mình |
-| Developer/Admin | Thành viên nhóm phát triển hoặc người vận hành demo | Cấu hình API, kiểm tra log, seed dữ liệu media, chạy test | Không xem audio thô nếu user chưa cho phép |
-| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response và report cards | Chỉ xử lý dữ liệu theo consent và device token hợp lệ |
+| Device Owner | Người sở hữu/ghép thiết bị với tài khoản | Pairing device, xem trạng thái sync | Chỉ quản lý thiết bị của chính mình |
+| Developer/Admin | Thành viên nhóm phát triển hoặc người vận hành demo | Cấu hình API, kiểm tra log, seed dữ liệu media, chạy test | Audio thô không được lưu bởi các luồng hiện tại |
+| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response và report cards | Chỉ xử lý dữ liệu từ device token hợp lệ |
 | Tester/Reviewer | Người kiểm thử hoặc đánh giá đồ án | Kiểm thử use case, requirement, screen flow và dữ liệu giả lập | Không thay đổi dữ liệu người dùng thật |
 
 ## 1.5. Mục đích sản phẩm
@@ -90,7 +90,7 @@ Về mặt trải nghiệm, EmotiCare AIoT tập trung vào ba giá trị chính
 
 | Giá trị | Ý nghĩa đối với người dùng | Cách sản phẩm hỗ trợ |
 | ------- | -------------------------- | -------------------- |
-| Nhận biết cảm xúc | Người dùng biết mình đang vui vẻ, bình thường, căng thẳng, buồn bã, tức giận hoặc mệt mỏi | Check-in bằng giọng nói và nhận diện cảm xúc bằng Edge AI |
+| Nhận biết cảm xúc | Người dùng biết nhãn cảm xúc nhận diện được: vui vẻ, bình thường, bình tĩnh, buồn bã, tức giận, sợ hãi, ghê sợ hoặc ngạc nhiên | Check-in bằng giọng nói và nhận diện cảm xúc bằng Edge AI |
 | Hỗ trợ đúng lúc | Người dùng nhận được một hành động nhỏ, một nội dung nghe phù hợp hoặc một phản hồi đồng cảm khi cần | Cloud gợi ý hoạt động, bài hát, podcast hoặc phản hồi hội thoại, sau đó hiển thị trên TFT |
 | Hiểu xu hướng dài hạn | Người dùng nhìn lại sự thay đổi cảm xúc theo thời gian và biết hoạt động/nội dung nào có hiệu quả | Cloud tổng hợp emotion sessions, activity feedback, media selection logs và trả báo cáo rút gọn về TFT |
 
@@ -113,15 +113,16 @@ flowchart TD
     Obj1["SMART Objective 1"]
     Obj2["SMART Objective 2"]
     Obj3["SMART Objective 3"]
+    Insight["Người dùng hiểu xu hướng và chủ động chọn hỗ trợ phù hợp"]
 
     Purpose --> Need1 --> Obj1
     Purpose --> Need2 --> Obj2
     Purpose --> Need3 --> Obj3
 
-    Obj1 -->|"emotion session làm đầu vào"| Obj2
-    Obj1 -->|"lịch sử cảm xúc"| Obj3
-    Obj2 -->|"log hoạt động, media selection và feedback"| Obj3
-    Obj3 -->|"cá nhân hóa gợi ý tiếp theo"| Obj2
+    Obj1 -->|"Phiên cảm xúc đã đồng bộ"| Obj2
+    Obj1 -->|"Dữ liệu cảm xúc đã đồng bộ"| Obj3
+    Obj2 -->|"Dữ liệu sử dụng đã có"| Obj3
+    Obj3 -->|"Bản tóm tắt xu hướng"| Insight
 
 
     classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
@@ -130,18 +131,18 @@ flowchart TD
     classDef cloudNode stroke:#38bdf8,fill:#f0f9ff,stroke-width:2px,color:#0c3d67
     classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
     classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
-    class Purpose,Need1,Need2,Need3,Obj1,Obj2,Obj3 actionNode
+    class Purpose,Need1,Need2,Need3,Obj1,Obj2,Obj3,Insight actionNode
 ```
 
-*Mô tả diagram: Sơ đồ cho thấy mục đích chăm sóc cảm xúc được tách thành ba mục tiêu liên kết nhau: Edge AI nhận diện cảm xúc, Cloud hỗ trợ phản hồi/gợi ý, và Cloud tổng hợp báo cáo để hiển thị lại trên TFT screen.*
+*Mô tả sơ đồ: Mục đích chăm sóc cảm xúc được tách thành ba mục tiêu liên kết nhau: thiết bị nhận diện cảm xúc, máy chủ hỗ trợ gợi ý hoặc trò chuyện, rồi tổng hợp báo cáo để người dùng hiểu xu hướng của mình.*
 
 Ghi chú nội dung đầy đủ của các SMART objective:
 
 | SMART Objective | Nội dung đầy đủ |
 | --------------- | --------------- |
-| SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 15 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. |
+| SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. |
 | SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. |
-| SMART Objective 3 | Tự động tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu hoặc sau một chu kỳ đồng bộ. |
+| SMART Objective 3 | Tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu. |
 
 ## 1.7. Phạm vi sản phẩm
 
@@ -149,7 +150,7 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 
 * Thu âm khi người dùng chủ động kích hoạt tương tác.
 * Nhận diện cảm xúc từ giọng nói bằng Edge AI.
-* Phân loại các trạng thái: vui vẻ, bình thường, căng thẳng, buồn bã, tức giận, mệt mỏi và nhóm mở rộng.
+* Phân loại tám trạng thái RAVDESS hiện có trên Edge: vui vẻ, bình thường, bình tĩnh, buồn bã, tức giận, sợ hãi, ghê sợ và ngạc nhiên.
 * Đề xuất hoạt động cải thiện hoặc duy trì tâm trạng.
 * Đề xuất bài hát hoặc podcast theo cảm xúc hiện tại, category và chủ đích của người dùng.
 * Trò chuyện hỗ trợ cảm xúc với phản hồi đồng cảm và an toàn.

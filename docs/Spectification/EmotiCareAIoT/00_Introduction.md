@@ -62,7 +62,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | Thuật ngữ sử dụng | Thiết bị biên, Edge AI, nhận diện cảm xúc bằng giọng nói, phiên cảm xúc, thẻ báo cáo TFT và dịch vụ gợi ý nội dung được định nghĩa trong phụ lục |
 | Cách tổ chức SRS | Tài liệu được tổ chức theo hướng đặc tả yêu cầu phần mềm: mục đích, phạm vi, bối cảnh, tình huống sử dụng, yêu cầu chức năng, yêu cầu phi chức năng, yêu cầu khác và kế hoạch tiếp theo |
 | Cách thiết kế API | Dịch vụ Cloud ưu tiên REST API, phản hồi JSON, mã thiết bị hoặc yêu cầu có chữ ký |
-| Định dạng dữ liệu | Dữ liệu trao đổi chính dùng JSON; âm thanh thô không được tải lên mặc định; nhật ký/báo cáo có thể xuất dạng CSV hoặc JSON trong các phiên bản sau |
+| Định dạng dữ liệu | Dữ liệu trao đổi chính dùng JSON. Audio check-in SER chỉ xử lý tại Edge; riêng Voice Conversation gửi PCM 16-bit tạm thời qua API để STT, không lưu audio thô. Nhật ký/báo cáo có thể xuất dạng CSV hoặc JSON trong các phiên bản sau |
 | Nguyên tắc riêng tư | Ưu tiên bảo vệ riêng tư ngay từ thiết kế: xử lý SER tại Edge, chỉ đồng bộ ngữ cảnh cảm xúc và siêu dữ liệu cần thiết |
 | Nguyên tắc an toàn | Phản hồi từ Cloud không chẩn đoán y khoa, không thay thế chuyên gia và có bộ lọc an toàn cho tín hiệu nguy cấp |
 
@@ -92,12 +92,12 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | Hạng mục | Đặc tả trước | Đặc tả cập nhật |
 | -------- | ------------ | --------------- |
 | Định hướng sản phẩm | Thiết bị thông minh cá nhân với nhiều chức năng rời rạc | Thiết bị đồng hành cảm xúc tập trung vào nhận diện, hỗ trợ và phân tích cảm xúc |
-| Objective 1 | Theo dõi phiên học/tác vụ cá nhân | Speech Emotion Recognition trên Edge Device trong 15 giây |
-| Objective 2 | Tạo báo cáo cho một nhóm chức năng khác | Cloud-assisted recommendation, media selection và conversation trong 20 giây |
-| Objective 3 | Giao diện web theo dõi phiên sử dụng | Báo cáo cảm xúc hiển thị trên TFT theo ngày, tuần, tháng trong 180 giây |
-| Edge AI | Xử lý cục bộ cho một tác vụ giới hạn | Phân tích đặc trưng giọng nói và ngữ cảnh sức khỏe cảm xúc tại thiết bị |
-| Internet Service | Đồng bộ và giao diện web cơ bản | Thiết kế DB, API, cloud recommendation/conversation/report service và flow Edge-Cloud-TFT |
-| User Manual | Hướng dẫn theo luồng cũ | Hướng dẫn theo luồng phần cứng mới của EmotiCare AIoT |
+| Mục tiêu 1 | Theo dõi phiên học hoặc tác vụ cá nhân | Nhận diện cảm xúc bằng giọng nói tại thiết bị trong 30 giây |
+| Mục tiêu 2 | Tạo báo cáo cho một nhóm chức năng khác | Gợi ý hoạt động, nội dung nghe và trò chuyện qua Internet trong 20 giây |
+| Mục tiêu 3 | Giao diện theo dõi phiên sử dụng | Báo cáo cảm xúc hiển thị trên màn hình theo ngày, tuần và tháng trong 180 giây |
+| Xử lý tại thiết bị | Xử lý cục bộ cho một tác vụ giới hạn | Phân tích giọng nói và nhận diện cảm xúc ngay trên thiết bị |
+| Dịch vụ Internet | Đồng bộ và hỗ trợ các chức năng trực tuyến | Đồng bộ dữ liệu, gợi ý, trò chuyện và báo cáo |
+| Hướng dẫn sử dụng | Hướng dẫn theo luồng cũ | Hướng dẫn theo luồng phần cứng mới của EmotiCare AIoT |
 
 ## 0.9. Lịch sử phiên bản
 
@@ -115,8 +115,8 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | ------ | -------- |
 | 01. Bối cảnh | Bối cảnh, nguồn cảm hứng từ EMO, vấn đề, người dùng mục tiêu và sơ đồ suy ra mục tiêu |
 | 02. Phần cứng | Thành phần phần cứng, kết nối, chi phí và ràng buộc triển khai |
-| 03. Mục tiêu và tình huống sử dụng | Mục tiêu SMART, tình huống sử dụng, logic Edge AI, API Cloud, dữ liệu và sơ đồ |
-| 04. Kết nối Edge–Server và API | Quy trình kết nối, đồng bộ dữ liệu, API và schema của 5 use case |
+| 03. Mục tiêu và tình huống sử dụng | Ba mục tiêu, tình huống sử dụng, dữ liệu chính và sơ đồ luồng |
+| 04. Kết nối thiết bị và máy chủ | Quy trình kết nối, đồng bộ dữ liệu và thông tin trao đổi của năm tình huống sử dụng |
 | 05. Yêu cầu chức năng | Yêu cầu chức năng được truy vết theo mục tiêu và tình huống sử dụng |
 | 06. Yêu cầu phi chức năng | Yêu cầu phi chức năng về hiệu năng, bảo mật, riêng tư, độ tin cậy và an toàn cảm xúc |
 | 07. Hướng dẫn sử dụng | Hướng dẫn sử dụng thiết bị phần cứng, màn hình TFT và đồng bộ Internet |

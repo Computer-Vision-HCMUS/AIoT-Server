@@ -41,7 +41,7 @@ KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PO
 | ---- | ----------------------- | -------------------- |
 | 1 | Từ Trang chủ chọn Kiểm tra cảm xúc | Màn hình chuyển sang Kiểm tra cảm xúc |
 | 2 | Nhấn Start và nói một câu ngắn | Thiết bị hiển thị trạng thái đang nghe |
-| 3 | Chờ xử lý | Edge AI phân tích giọng nói trong vòng 15 giây |
+| 3 | Chờ xử lý | Edge AI phân tích giọng nói trong vòng 30 giây |
 | 4 | Xem kết quả | TFT hiển thị nhãn cảm xúc và độ tin cậy |
 | 5 | Chọn bước tiếp theo | Chuyển sang Hoạt động, Nhạc/Podcast hoặc Trò chuyện nếu có Internet; người dùng cũng có thể quay về Trang chủ |
 
@@ -93,12 +93,12 @@ Chế độ Nhạc/Podcast dành cho trường hợp người dùng muốn chủ
 
 ## 7.7. Sử dụng trò chuyện hỗ trợ cảm xúc qua Cloud
 
-Chế độ Trò chuyện cũng cần Internet. Người dùng có thể mở Trò chuyện trực tiếp từ Trang chủ mà không cần dự đoán cảm xúc trước. Thiết bị gửi nội dung chia sẻ của người dùng lên dịch vụ trò chuyện Cloud; nếu có ngữ cảnh cảm xúc gần nhất thì gửi kèm để phản hồi tinh tế hơn, sau đó hiển thị phản hồi rút gọn trên TFT.
+Chế độ Trò chuyện cần Internet và một emotion session đã được đồng bộ từ lần check-in gần nhất. Người dùng có thể mở Trò chuyện từ Trang chủ hoặc Hỗ trợ sau check-in. Thiết bị gửi PCM 16-bit, 16 kHz của phần chia sẻ (tối đa 10 giây) cùng `session_id` lên Cloud; Cloud chuyển giọng nói thành transcript, tạo phản hồi rút gọn và có thể trả audio TTS. Audio đầu vào chỉ xử lý tạm thời, không được lưu.
 
 | Bước | Hành động | Kết quả |
 | ---- | --------- | ------- |
-| 1 | Chọn Trò chuyện từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet |
-| 2 | Chia sẻ ngắn bằng giọng nói | Thiết bị gửi context lên Cloud |
+| 1 | Sau check-in đã đồng bộ, chọn Trò chuyện từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet và session |
+| 2 | Chia sẻ ngắn bằng giọng nói (tối đa 10 giây) | Thiết bị gửi PCM và `session_id` lên Cloud |
 | 3 | Đợi phản hồi | Cloud trả phản hồi trong mục tiêu 20 giây |
 | 4 | Đọc phản hồi trên TFT | Người dùng có thể tiếp tục hoặc kết thúc |
 
@@ -116,32 +116,32 @@ Lưu ý: EmotiCare AIoT không thay thế chuyên gia sức khỏe tinh thần. 
 
 ## 7.9. Xem báo cáo trên TFT
 
-Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dùng chọn mốc thống kê cần xem, gồm ngày, tuần hoặc tháng. Báo cáo được tạo trên Cloud và trả về thành các thẻ ngắn; nếu đang demo hoặc dữ liệu thật chưa đủ, thiết bị có thể hiển thị kết quả giả lập để mô phỏng cách Cloud trả về.
+Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dùng chọn mốc thống kê cần xem, gồm ngày, tuần hoặc tháng. Báo cáo được tạo trên máy chủ và trả về thành các thẻ ngắn; nếu dữ liệu chưa đủ, thiết bị thông báo rõ để người dùng hiểu kết quả chỉ mang tính tham khảo.
 
-| Lựa chọn trên TFT | Ý nghĩa | Giá trị period gửi tới API |
+| Lựa chọn trên màn hình | Ý nghĩa | Giá trị gửi tới máy chủ |
 | ----------------- | ------- | ------------ |
-| Ngày | Xem thống kê trong một ngày | `daily` |
-| Tuần | Xem thống kê trong một tuần | `weekly` |
-| Tháng | Xem thống kê trong một tháng | `monthly` |
+| Ngày | Xem thống kê trong một ngày | `GET /api/statistics/day` |
+| Tuần | Xem thống kê trong một tuần | `GET /api/statistics/week` |
+| Tháng | Xem thống kê trong một tháng | `GET /api/statistics/month` |
 
-| Report card | Nội dung |
-| ----------- | -------- |
-| Emotion mix | Tỷ lệ cảm xúc chính trong period |
-| Trend | Xu hướng tích cực, ổn định hoặc tiêu cực |
-| Stress streak | Số phiên căng thẳng/buồn/tức giận liên tiếp nếu có |
-| Helpful activity | Hoạt động được đánh giá hữu ích nhất |
-| Helpful content | Bài hát hoặc podcast được chọn/đánh giá tích cực |
-| Data quality | enough_data hoặc limited_data |
+| Nội dung hiển thị | Ý nghĩa |
+| ----------------- | ------- |
+| Phân bố cảm xúc | Tỷ lệ các cảm xúc chính trong kỳ |
+| Xu hướng | Dấu hiệu cải thiện, ổn định hoặc cần chú ý |
+| Chuỗi cảm xúc khó chịu | Số lần buồn bã hoặc tức giận liên tiếp nếu có |
+| Hoạt động hữu ích | Hoạt động được đánh giá hữu ích nhất |
+| Nội dung hữu ích | Bài hát hoặc podcast được chọn hay đánh giá tích cực |
+| Mức độ đầy đủ của dữ liệu | Đủ dữ liệu hoặc cần thêm dữ liệu |
 
 Ví dụ kết quả giả lập trả về trên TFT:
 
-| Period | Emotion mix | Trend | Helpful activity | Helpful content | Data quality |
-| ------ | ----------- | ----- | ---------------- | --------------- | ------------ |
-| Ngày | Vui vẻ 35%, bình thường 30%, căng thẳng 25%, mệt mỏi 10% | Căng thẳng tăng nhẹ vào buổi tối | Hít thở 4-7-8 | Podcast thở chậm 5 phút | enough_data |
-| Tuần | Bình thường 37%, vui vẻ 25%, căng thẳng 20%, buồn bã 10%, mệt mỏi 8% | Nhịp cảm xúc ổn định hơn vào nửa cuối tuần | Neo lại hiện tại | Podcast tập trung ngắn | enough_data |
-| Tháng | Bình thường 40%, vui vẻ 28%, căng thẳng 20%, buồn bã 8%, mệt mỏi 4% | Cảm xúc ổn định hơn sau tuần 2 | Nghỉ 5 phút khỏi màn hình | Playlist tập trung nhẹ | enough_data |
+| Kỳ thống kê | Phân bố cảm xúc | Xu hướng | Hoạt động hữu ích | Nội dung hữu ích | Mức độ đầy đủ của dữ liệu |
+| ----------- | ---------------- | -------- | ----------------- | ---------------- | -------------------------- |
+| Ngày | Vui vẻ 35%, bình thường 30%, bình tĩnh 25%, buồn bã 10% | Bình tĩnh tăng nhẹ vào buổi tối | Hít thở 4-7-8 | Podcast thở chậm 5 phút | Đủ dữ liệu |
+| Tuần | Bình thường 37%, vui vẻ 25%, bình tĩnh 20%, buồn bã 10%, tức giận 8% | Nhịp cảm xúc ổn định hơn vào nửa cuối tuần | Neo lại hiện tại | Podcast tập trung ngắn | Đủ dữ liệu |
+| Tháng | Bình thường 40%, vui vẻ 28%, bình tĩnh 20%, buồn bã 8%, sợ hãi 4% | Cảm xúc ổn định hơn sau tuần 2 | Nghỉ 5 phút khỏi màn hình | Danh sách nhạc tập trung nhẹ | Đủ dữ liệu |
 
-Nếu thiết bị offline, TFT hiển thị report gần nhất đã cache nếu có, kèm thông báo dữ liệu có thể chưa mới.
+Nếu thiết bị không có kết nối Internet, màn hình thông báo cần kết nối để lấy hoặc tạo báo cáo; phiên bản hiện tại không lưu báo cáo trên thiết bị.
 
 ## 7.10. Xử lý sự cố
 
