@@ -1,0 +1,76 @@
+{
+  "input": "D:\\code\\Project\\AIoT\\AIoT-Server\\docs\\Spectification\\EmotiCareAIoT\\specification.docx",
+  "fonts_by_char_count": {},
+  "direct_run_formatting_runs": 33,
+  "direct_paragraph_formatting_paragraphs": 0,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 1,
+      "text": "\u0110\u1ea0I H\u1eccC QU\u1ed0C GIA TH\u00c0NH PH\u1ed0 H\u1ed2 CH\u00cd MINH",
+      "style": "Normal"
+    },
+    {
+      "para_index": 2,
+      "text": "TR\u01af\u1edcNG \u0110\u1ea0I H\u1eccC KHOA H\u1eccC T\u1ef0 NHI\u00caN",
+      "style": "Normal"
+    },
+    {
+      "para_index": 4,
+      "text": "B\u1ea3n \u0111\u1eb7c t\u1ea3 s\u1ea3n ph\u1ea9m Emoticare - Ng\u01b0\u1eddi b\u1ea1n \u0111\u1ed3ng h\u00e0nh c\u1ea3m x\u00fac th\u00f4ng minh",
+      "style": "Normal"
+    },
+    {
+      "para_index": 5,
+      "text": "M\u00f4n h\u1ecdc: Nh\u1eadp m\u00f4n \u0111i\u1ec1u khi\u1ec3n thi\u1ebft b\u1ecb th\u00f4ng minh",
+      "style": "Normal"
+    },
+    {
+      "para_index": 7,
+      "text": "Gi\u1ea3ng vi\u00ean h\u01b0\u1edbng d\u1eabn:  Th\u1ea7y V\u00f5 Ho\u00e0i Vi\u1ec7t",
+      "style": "Normal"
+    },
+    {
+      "para_index": 9,
+      "text": "Th\u00f4ng tin th\u00e0nh vi\u00ean",
+      "style": "Normal"
+    },
+    {
+      "para_index": 15,
+      "text": "Ho Chi Minh City, Octorber 2025",
+      "style": "Normal"
+    }
+  ],
+  "examples": {
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "\u0110\u1ea0I H\u1eccC QU\u1ed0C GIA TH\u00c0NH PH\u1ed0 H\u1ed2 CH\u00cd MINH",
+        "style": "Normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "TR\u01af\u1edcNG \u0110\u1ea0I H\u1eccC KHOA H\u1eccC T\u1ef0 NHI\u00caN",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "B\u1ea3n \u0111\u1eb7c t\u1ea3 s\u1ea3n ph\u1ea9m Emoticare - ",
+        "style": "Normal"
+      },
+      {
+        "para_index": 4,
+        "run_text": "Ng\u01b0\u1eddi b\u1ea1n \u0111\u1ed3ng h\u00e0nh c\u1ea3m x\u00fac th\u00f4ng minh",
+        "style": "Normal"
+      },
+      {
+        "para_index": 5,
+        "run_text": "M\u00f4n h\u1ecdc",
+        "style": "Normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}
