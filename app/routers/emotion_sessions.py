@@ -88,7 +88,7 @@ def list_emotion_sessions(
     sessions = (
         db.query(EmotionSession)
         .filter(EmotionSession.device_id == current_device.id)
-        .order_by(EmotionSession.client_created_at.desc())
+        .order_by(EmotionSession.created_at.desc())
         .limit(limit)
         .all()
     )

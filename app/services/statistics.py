@@ -28,7 +28,6 @@ def build_statistics(period_type: str, current_device: Device, db: Session) -> T
         db.commit()
     return _generate_report(
         user_id=current_device.user_id,
-        device_id=current_device.id,
         period_type=period_type,
         db=db,
     )

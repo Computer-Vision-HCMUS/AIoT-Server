@@ -83,6 +83,9 @@ class Device(Base):
     """Thiết bị phần cứng EmotiCare — liên kết với một User."""
 
     __tablename__ = "devices"
+    __table_args__ = (
+        UniqueConstraint("user_id", name="uq_devices_user"),
+    )
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     user_id: Mapped[str] = mapped_column(

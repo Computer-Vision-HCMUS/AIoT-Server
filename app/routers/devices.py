@@ -49,17 +49,28 @@ def pair_device(payload: DevicePairRequest, db: Session = Depends(get_db)):
     plain_token = secrets.token_hex(32)
     token_hash = hash_token(plain_token)
 
-    device = Device(
-        id=str(uuid.uuid4()),
-        user_id=user.id,
-        name=payload.device_name,
-        device_token_hash=token_hash,
-        firmware_version=payload.firmware_version,
-        status="online",
-        last_seen_at=datetime.now(timezone.utc),
-        created_at=datetime.now(timezone.utc),
-    )
-    db.add(device)
+    # EmotiCare currently supports one physical device per user. Re-pairing
+    # rotates that device's token instead of creating an orphan device row.
+    device = db.query(Device).filter(Device.user_id == user.id).first()
+    now = datetime.now(timezone.utc)
+    if device is None:
+        device = Device(
+            id=str(uuid.uuid4()),
+            user_id=user.id,
+            name=payload.device_name,
+            device_token_hash=token_hash,
+            firmware_version=payload.firmware_version,
+            status="online",
+            last_seen_at=now,
+            created_at=now,
+        )
+        db.add(device)
+    else:
+        device.name = payload.device_name
+        device.device_token_hash = token_hash
+        device.firmware_version = payload.firmware_version
+        device.status = "online"
+        device.last_seen_at = now
     db.commit()
     db.refresh(device)
 

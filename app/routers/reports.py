@@ -102,7 +102,6 @@ def _trend_card(sessions: list[EmotionSession]) -> dict:
 
 def _generate_report(
     user_id: str,
-    device_id: str,
     period_type: str,
     db: Session,
 ) -> TftReport:
@@ -111,33 +110,18 @@ def _generate_report(
     period_start_dt = _as_utc_datetime(period_start)
     period_end_dt = _as_utc_datetime(period_end)
 
+    # ESP32 has no RTC, so client_created_at may be an epoch-relative value.
+    # The server-assigned timestamp is the reliable source for calendar periods.
     sessions = (
         db.query(EmotionSession)
         .filter(
             EmotionSession.user_id == user_id,
-            EmotionSession.device_id == device_id,
-            EmotionSession.client_created_at >= period_start_dt,
-            EmotionSession.client_created_at < period_end_dt,
+            EmotionSession.created_at >= period_start_dt,
+            EmotionSession.created_at < period_end_dt,
         )
-        .order_by(EmotionSession.client_created_at.asc())
+        .order_by(EmotionSession.created_at.asc())
         .all()
     )
-
-    # Fallback: ESP32 has no RTC so client_created_at is always anchored to 2025-01-01.
-    # If the primary filter returns nothing, retry using the server-assigned created_at
-    # (which is always an accurate UTC wall-clock timestamp).
-    if not sessions:
-        sessions = (
-            db.query(EmotionSession)
-            .filter(
-                EmotionSession.user_id == user_id,
-                EmotionSession.device_id == device_id,
-                EmotionSession.created_at >= period_start_dt,
-                EmotionSession.created_at < period_end_dt,
-            )
-            .order_by(EmotionSession.created_at.asc())
-            .all()
-        )
     session_ids = [session.id for session in sessions]
     recommendation_count = 0
     activity_scores: list[int] = []
@@ -327,7 +311,6 @@ def get_tft_summary(
     else:
         report = _generate_report(
             user_id=current_device.user_id,
-            device_id=current_device.id,
             period_type=period,
             db=db,
         )
@@ -365,7 +348,6 @@ def generate_report(
 
     report = _generate_report(
         user_id=current_device.user_id,
-        device_id=current_device.id,
         period_type=payload.period_type,
         db=db,
     )

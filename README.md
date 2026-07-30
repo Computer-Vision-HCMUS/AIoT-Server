@@ -42,7 +42,7 @@ python -m app.seed
 pip install -r requirements.txt
 alembic upgrade head
 python -m app.seed
-uvicorn app.main:app --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 Local API:
@@ -51,6 +51,10 @@ Local API:
 http://localhost:8000
 http://localhost:8000/docs
 ```
+
+Khi khởi động, server sẽ log các URL IP nội bộ (LAN), ví dụ
+`Server LAN address(es): http://192.168.1.10:8000`. Dùng URL này cho ESP32
+hoặc thiết bị khác trong cùng mạng.
 
 Demo token:
 

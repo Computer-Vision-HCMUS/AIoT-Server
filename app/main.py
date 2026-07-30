@@ -6,9 +6,12 @@ Handles emotion session sync, recommendations, media, conversations,
 feedback and TFT reports.
 
 Run with:
-    uvicorn app.main:app --reload
+    uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 """
 
+import logging
+import socket
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -31,6 +34,35 @@ from app.routers import (
     voice_conversations,
 )
 
+
+logger = logging.getLogger("uvicorn.error")
+
+
+def get_server_ips() -> list[str]:
+    """Return non-loopback IPv4 addresses that LAN clients can use."""
+    addresses: set[str] = set()
+
+    try:
+        for result in socket.getaddrinfo(socket.gethostname(), None, socket.AF_INET):
+            address = result[4][0]
+            if not address.startswith("127."):
+                addresses.add(address)
+    except socket.gaierror:
+        logger.warning("Could not determine the server's local IP address.")
+
+    return sorted(addresses)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    """Log reachable server URLs once the application has started."""
+    urls = [f"http://{address}:{settings.APP_PORT}" for address in get_server_ips()]
+    if urls:
+        logger.info("Server LAN address(es): %s", ", ".join(urls))
+    else:
+        logger.info("Server LAN address could not be determined; use the host IP on port %s.", settings.APP_PORT)
+    yield
+
 # ─── FastAPI app ──────────────────────────────────────────────────────────────
 app = FastAPI(
     title="EmotiCare AIoT — Cloud API",
@@ -51,6 +83,7 @@ app = FastAPI(
     version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # ─── CORS ─────────────────────────────────────────────────────────────────────
