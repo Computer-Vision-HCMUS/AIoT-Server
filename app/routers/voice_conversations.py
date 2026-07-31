@@ -130,8 +130,9 @@ def companion_voice_audio(
             _audio_cache.pop(audio_id, None)
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Reply audio expired")
         _, _, pcm = audio
-        # A reply is private and intended for a single ESP playback request.
-        del _audio_cache[audio_id]
+        # Keep it until its short TTL expires.  ESP32 may lose the connection
+        # after the server has sent 200 but before it receives the headers;
+        # retaining this private, device-bound entry permits one safe retry.
     logger.info("Companion audio served: device=%s audio=%s pcm_bytes=%d",
                 current_device.id, audio_id, len(pcm))
     return Response(
