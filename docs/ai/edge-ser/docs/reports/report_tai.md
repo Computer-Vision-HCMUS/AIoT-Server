@@ -16,3 +16,6 @@ Monday, august 3, 2026
 Tuesday, august 4, 2026
     tài liệu gpt gợi ý để overfit model 
     https://pandas.pydata.org/pandas-docs/version/2.2/reference/api/pandas.core.groupby.DataFrameGroupBy.sample.html?utm_source=chatgpt.com
+
+    colab để làm overfit
+    https://colab.research.google.com/drive/1eVIBfyBqbcsDKhs0MHp5fz_Se6Z3kVSL?usp=sharing
