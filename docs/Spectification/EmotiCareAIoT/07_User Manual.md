@@ -2,121 +2,104 @@
 
 ## 7.1. Tổng quan
 
-EmotiCare AIoT được sử dụng trực tiếp trên thiết bị phần cứng. Cảm xúc hiện tại, gợi ý hoạt động, danh sách bài hát/podcast, phản hồi trò chuyện, trạng thái đồng bộ và báo cáo rút gọn đều được hiển thị trên màn hình TFT.
+EmotiCare AIoT được sử dụng trực tiếp trên thiết bị phần cứng. Cảm xúc hiện tại, gợi ý hoạt động, danh sách bài hát/podcast, phản hồi trò chuyện, trạng thái đồng bộ và biểu đồ thống kê cảm xúc đều được hiển thị trên màn hình TFT.
 
 Luồng sử dụng chính:
 
-```text
-TRANG CHỦ -> KIỂM TRA CẢM XÚC / HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN / BÁO CÁO / TRẠNG THÁI
-KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN
-```
+![Sơ đồ luồng sử dụng chính](user-flow-v2.png)
+
+`HOME` mở các mục `CHECK-IN`, `DISCOVER`, `COMPANION CHAT`, `INSIGHTS`, `TEST MIC`, `TEST BUTTONS` và `WIFI SETUP`. Sau `CHECK-IN`, người dùng xem **Kết quả**, **Xác nhận** rồi mới mở **Support**. Discover dẫn đến danh sách Music hoặc Podcast.
 
 ## 7.2. Luồng màn hình thiết bị
 
 | Màn hình | Mục đích | Thao tác chính |
 | -------- | -------- | -------------- |
-| Trang chủ | Xem trạng thái kết nối, cảm xúc gần nhất và số phiên đang chờ đồng bộ | Chuyển trực tiếp sang kiểm tra cảm xúc, hoạt động, nhạc/podcast, trò chuyện, báo cáo hoặc trạng thái |
-| Kiểm tra cảm xúc | Ghi âm giọng nói khi người dùng chủ động kích hoạt | Bắt đầu/dừng ghi âm |
-| Kết quả | Hiển thị nhãn cảm xúc và độ tin cậy từ Edge AI | Xem kết quả, chuyển sang phần hỗ trợ |
-| Hỗ trợ | Chọn hướng hỗ trợ sau khi kiểm tra cảm xúc; các chức năng này cũng có thể mở trực tiếp từ trang chủ | Chọn hoạt động, nhạc/podcast hoặc trò chuyện |
-| Hoạt động | Hiển thị 5 gợi ý hoạt động từ dịch vụ gợi ý Cloud | Chọn, bỏ qua hoặc đánh giá hoạt động |
-| Nhạc-Podcast | Chọn bài hát hoặc podcast theo chủ đích và nhóm nội dung | Chọn nhóm nội dung, xem danh sách, chọn nội dung để nghe |
-| Trò chuyện | Hiển thị phản hồi từ dịch vụ trò chuyện Cloud | Nói tiếp, nhận phản hồi, kết thúc |
-| Trạng thái | Xem trực tuyến/ngoại tuyến, số phiên chờ và lần đồng bộ gần nhất | Thử đồng bộ lại |
-| Báo cáo | Xem tóm tắt ngày/tuần/tháng từ bộ tạo báo cáo Cloud | Chọn mốc thời gian và xem các thẻ báo cáo |
+| Trang chủ | Hiển thị trạng thái Wi-Fi, cảm xúc gần nhất và bảy mục điều hướng | Mở Check-In, Discover, Companion Chat, Insights, Test Mic, Test Buttons hoặc WiFi Setup |
+| Check-In | Ghi âm, xử lý và yêu cầu xác nhận kết quả cảm xúc | S1 ghi âm; S2/S3 thực thi, xác nhận và mở Support |
+| Support | Hiển thị danh sách hoạt động từ máy chủ hoặc fallback cục bộ | Mở chi tiết hoạt động, chuyển mục hoặc quay về màn hình trước |
+| Discover | Chọn Music hoặc Podcast | Mở danh sách nội dung tương ứng |
+| Nhạc/Podcast | Hiển thị danh sách cuộn và phát nội dung được chọn | S3 phát, S2 dừng, S4/S5 cuộn, S1 quay lại Discover |
+| Companion Chat | Thu âm chia sẻ và hiển thị phản hồi hội thoại | S1 bắt đầu thu; sau khi thu xong, S2/S3 gửi yêu cầu |
+| WiFi Setup | Hiển thị trạng thái `Online`, `Unpaired`, `Setup AP` hoặc `Offline` | Mở captive portal hoặc thử kết nối lại |
+| Insights | Xem thống kê cảm xúc ngày/tuần/tháng | Chọn mốc thời gian và xem tám thanh tỷ lệ cảm xúc hoặc phần diễn giải AI |
 
 ## 7.3. Thiết lập lần đầu
 
 | Bước | Hành động | Kết quả mong đợi |
 | ---- | --------- | ---------------- |
-| 1 | Bật nguồn thiết bị | Màn hình Trang chủ hiển thị tên EmotiCare AIoT |
-| 2 | Kết nối Wi-Fi hoặc điểm phát sóng | Trạng thái mạng chuyển sang trực tuyến |
-| 3 | Nhập mã ghép thiết bị hoặc quét mã theo hướng dẫn của nhóm | Thiết bị được liên kết với người dùng trên Cloud |
-| 4 | Kiểm tra microphone | Thiết bị sẵn sàng để kiểm tra cảm xúc |
-| 5 | Kiểm tra Trạng thái | TFT hiển thị trạng thái trực tuyến, lần đồng bộ gần nhất và số phiên chờ |
+| 1 | Bật nguồn và mở **WiFi Setup** nếu thiết bị chưa trực tuyến | TFT hiển thị trạng thái mạng hiện tại |
+| 2 | Khi thấy `Setup AP`, kết nối điện thoại vào Wi-Fi `EmotiCare-Setup` (mật khẩu `12345678`) | Điện thoại kết nối với captive portal của thiết bị |
+| 3 | Mở `http://192.168.4.1`, chọn Wi-Fi, nhập mật khẩu, Server URL và pairing code | Thiết bị kết nối Wi-Fi, pair với máy chủ rồi khởi động lại |
+| 4 | Mở **Test Mic** để kiểm tra đường thu/phát âm thanh khi cần | Xác nhận microphone và loa hoạt động |
 
 ## 7.4. Kiểm tra cảm xúc bằng giọng nói
 
 | Bước | Hành động của người dùng | Hành vi của thiết bị |
 | ---- | ----------------------- | -------------------- |
 | 1 | Từ Trang chủ chọn Kiểm tra cảm xúc | Màn hình chuyển sang Kiểm tra cảm xúc |
-| 2 | Nhấn Start và nói một câu ngắn | Thiết bị hiển thị trạng thái đang nghe |
-| 3 | Chờ xử lý | Edge AI phân tích giọng nói trong vòng 30 giây |
-| 4 | Xem kết quả | TFT hiển thị nhãn cảm xúc và độ tin cậy |
-| 5 | Chọn bước tiếp theo | Chuyển sang Hoạt động, Nhạc/Podcast hoặc Trò chuyện nếu có Internet; người dùng cũng có thể quay về Trang chủ |
+| 2 | Nhấn S1 (`REC`) và nói trong tối đa 10 giây | Thiết bị hiển thị thời gian thu âm |
+| 3 | Sau khi thu xong, nhấn S2 hoặc S3 (`EXEC`) | Thiết bị xử lý giọng nói tại Edge |
+| 4 | Xem kết quả rồi nhấn S2/S3 (`CONFIRM`) để lưu | TFT hiển thị nhãn cảm xúc và độ tin cậy theo phần trăm |
+| 5 | Nhấn S2/S3 lần nữa (`SUPPORT`) | Chuyển sang màn hình Support; S5 quay về màn hình trước |
 
 Ví dụ kết quả:
 
 | Trường | Giá trị |
 | ------ | ------- |
 | Cảm xúc | Căng thẳng |
-| Độ tin cậy | 0.74 |
-| Trạng thái đồng bộ | Đang chờ hoặc đã đồng bộ |
-| Gợi ý tiếp theo | Kết nối Cloud để nhận hoạt động, nhạc/podcast hoặc phản hồi trò chuyện |
+| Độ tin cậy | 74% |
+| Bước tiếp theo | Xác nhận kết quả rồi mở Support, hoặc quay về Trang chủ |
 
 ## 7.5. Sử dụng các dịch vụ hỗ trợ qua Cloud
 
-Gợi ý hoạt động cần Internet và một phiên cảm xúc đã được đồng bộ. Người dùng chọn Hoạt động từ Trang chủ sau khi check-in; thiết bị gửi `session_id` lên Cloud. Kết quả luôn là 5 thẻ hoạt động hiển thị trên TFT, được xếp hạng theo cảm xúc, feedback hoạt động và lịch sử card gần đây. Nhạc/podcast được chọn trong màn hình riêng tại mục 6.6.
+Sau khi xác nhận Check-In, nhấn S2/S3 để mở **Support**. Firmware ưu tiên lấy danh sách hoạt động theo session gần nhất từ máy chủ; khi không lấy được dữ liệu, nó vẫn hiển thị một hoạt động fallback theo cảm xúc hiện tại. Màn hình chỉ hỗ trợ xem danh sách và mở chi tiết, không có thao tác bỏ qua hoặc đánh giá hoạt động.
 
-| Cảm xúc | Hoạt động ưu tiên mẫu |
-| ------- | ---------------------- |
-| Vui vẻ | Vận động nhẹ, ghi nhận điều tích cực, kết nối |
-| Bình thường | Chia nhỏ việc, vận động nhẹ, hít thở |
-| Căng thẳng | Hít thở, neo hiện tại, nghỉ mắt/uống nước |
-| Buồn bã | Nghỉ ngơi, kết nối với người tin cậy, viết |
-| Tức giận | Hít thở, neo hiện tại, vận động nhẹ |
-| Mệt mỏi | Nghỉ mắt/uống nước, nghỉ ngơi, quét cơ thể |
+| Cảm xúc fallback | Hoạt động fallback trong firmware |
+| ----------------- | -------------------------------- |
+| `Happy` | Capture the Moment |
+| `Sad` | Small Reset Walk |
+| `Anxious` hoặc `stressed` | Box Breathing |
+| Nhãn khác | Breathing & Light Stretch |
 
-Nếu thiết bị ngoại tuyến, TFT hiển thị thông báo: `Cần Internet để lấy gợi ý từ Cloud`.
+Khi thiết bị ngoại tuyến hoặc máy chủ lỗi, Support vẫn dùng hoạt động fallback cục bộ.
 
 ## 7.6. Chọn bài hát hoặc podcast theo chủ đích
 
-Chế độ Nhạc/Podcast dành cho trường hợp người dùng muốn chủ động chọn nội dung thay vì chỉ nhận gợi ý tự động. Người dùng có thể mở Nhạc/Podcast trực tiếp từ Trang chủ, chọn loại nội dung, nhóm nội dung và chủ đích ngắn trên TFT; dịch vụ gợi ý nội dung trên Cloud sẽ trả về danh sách phù hợp. Ngữ cảnh cảm xúc chỉ là dữ liệu bổ sung nếu người dùng đã kiểm tra cảm xúc trước đó.
+Từ Trang chủ, chọn **Discover** để mở danh mục nội dung. Màn hình này chỉ có hai lựa chọn: **Music** và **Podcast**. Nếu đã check-in, TFT hiển thị cảm xúc gần nhất và độ tin cậy để cho biết danh sách được ưu tiên theo ngữ cảnh đó; nếu chưa check-in, thiết bị dùng ngữ cảnh `Neutral (default)`.
 
-| Nhóm nội dung | Nội dung thường gặp | Khi nên chọn |
-| -------- | ------------------ | ------------ |
-| Thư giãn | Nhạc nhẹ, ambient, podcast thở chậm | Khi căng thẳng |
-| Tập trung | Nhạc không lời, white noise, podcast tập trung | Khi học tập hoặc làm việc |
-| Ngủ nghỉ | Nhạc chậm, sleep story, podcast thiền ngủ | Khi chuẩn bị nghỉ ngơi |
-| Vui vẻ | Nhạc tích cực, podcast truyền cảm hứng | Khi muốn duy trì cảm xúc tốt |
-| Xoa dịu buồn bã | Nhạc ấm, podcast chia sẻ cảm xúc | Khi cần cảm giác được đồng hành |
-| Giải tỏa tức giận | Nhạc grounding, podcast kiểm soát cảm xúc | Khi cần tạm dừng và hạ nhịp |
-| Phục hồi năng lượng | Nhạc nhẹ có nhịp vừa, podcast self-care | Khi mệt mỏi |
+Danh sách nội dung được lấy từ catalog của máy chủ. Các mục được AI đề xuất được đưa lên đầu danh sách và có nhãn `AI`; khi không tải được catalog mới, firmware dùng dữ liệu fallback cục bộ. Phiên bản hiện tại không có bước chọn category, chọn `Both`, nhập/nói chủ đích hoặc lưu/đánh giá nội dung ngay trên TFT.
 
-| Bước | Hành động | Kết quả |
-| ---- | --------- | ------- |
-| 1 | Chọn Nhạc/Podcast từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet |
-| 2 | Chọn Music, Podcast hoặc Both | TFT hiển thị danh sách category |
-| 3 | Chọn category hoặc nói chủ đích ngắn | Thiết bị gửi intent lên Cloud |
-| 4 | Chờ danh sách gợi ý | Cloud trả song/podcast cards |
-| 5 | Chọn nội dung để nghe hoặc lưu lại | Thiết bị ghi nhận media selection log |
+| Màn hình | Nội dung hiển thị |
+| -------- | ---------------- |
+| Discover | Hai mục `Music` và `Podcast`, số lượng mục hiện có và số mục được AI ưu tiên; S4 đi xuống, S5 đi lên/quay lại, S2 hoặc S3 mở mục đang chọn. |
+| Music | Danh sách cuộn tối đa bốn bài hát cùng lúc; mỗi mục có tiêu đề, category và thời lượng. Nhấn S3 để phát, S2 để dừng, S4/S5 để cuộn, S1 để quay lại Discover. |
+| Podcast | Danh sách cuộn tối đa bốn tập cùng lúc; mỗi mục có tiêu đề, category và thời lượng. Nhấn S3 để phát, S2 để dừng, S4/S5 để cuộn, S1 để quay lại Discover. |
 
 ## 7.7. Sử dụng trò chuyện hỗ trợ cảm xúc qua Cloud
 
-Chế độ Trò chuyện cần Internet và một emotion session đã được đồng bộ từ lần check-in gần nhất. Người dùng có thể mở Trò chuyện từ Trang chủ hoặc Hỗ trợ sau check-in. Thiết bị gửi PCM 16-bit, 16 kHz của phần chia sẻ (tối đa 10 giây) cùng `session_id` lên Cloud; Cloud chuyển giọng nói thành transcript, tạo phản hồi rút gọn và có thể trả audio TTS. Audio đầu vào chỉ xử lý tạm thời, không được lưu.
+Chế độ **Companion Chat** mở trực tiếp từ Trang chủ. Thiết bị thu PCM 16-bit, 16 kHz trong tối đa 10 giây; nếu chưa có session check-in, firmware thử tạo một session `neutral` trước khi gửi yêu cầu. Khi có kết nối, máy chủ trả transcript, phản hồi văn bản và có thể kèm URL audio TTS. Nếu dịch vụ không khả dụng, firmware dùng phản hồi fallback.
 
 | Bước | Hành động | Kết quả |
 | ---- | --------- | ------- |
-| 1 | Sau check-in đã đồng bộ, chọn Trò chuyện từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet và session |
-| 2 | Chia sẻ ngắn bằng giọng nói (tối đa 10 giây) | Thiết bị gửi PCM và `session_id` lên Cloud |
-| 3 | Đợi phản hồi | Cloud trả phản hồi trong mục tiêu 20 giây |
+| 1 | Chọn Companion Chat từ Trang chủ, nhấn S1 (`REC`) và chia sẻ ngắn | Thiết bị bắt đầu thu âm |
+| 2 | Chờ đủ thời gian thu, sau đó nhấn S2 hoặc S3 | Thiết bị gửi PCM và session hiện có hoặc session `neutral` |
+| 3 | Đợi phản hồi | TFT hiển thị transcript/phản hồi; audio TTS được phát nếu có URL hợp lệ |
 | 4 | Đọc phản hồi trên TFT | Người dùng có thể tiếp tục hoặc kết thúc |
 
 Lưu ý: EmotiCare AIoT không thay thế chuyên gia sức khỏe tinh thần. Nếu người dùng có cảm giác nguy hiểm cho bản thân hoặc người khác, cần liên hệ ngay người thân, chuyên gia hoặc dịch vụ hỗ trợ khẩn cấp tại địa phương.
 
-## 7.8. Xem trạng thái đồng bộ
+## 7.8. Xem trạng thái Wi-Fi và pairing
 
 | Trạng thái | Ý nghĩa | Hành động đề xuất |
 | ---------- | ------- | ----------------- |
-| Online | Thiết bị đang kết nối Cloud | Có thể dùng Activity, Music/Podcast, Conversation và Report |
-| Ngoại tuyến | Thiết bị không có Internet | Chỉ Mục tiêu 1 hoạt động; dữ liệu được lưu chờ đồng bộ |
-| Có phiên chờ | Có phiên chưa đồng bộ | Kiểm tra Wi-Fi hoặc chọn đồng bộ ngay |
-| Đang chờ Cloud | Thiết bị đang chờ Cloud trả kết quả | Giữ kết nối và đợi phản hồi |
-| Có kết quả từ Cloud | Có kết quả mới từ Cloud | Mở màn hình tương ứng để xem |
+| Online | Đã kết nối Wi-Fi và pair với máy chủ | Có thể gọi các API máy chủ; một số màn hình vẫn có fallback khi API lỗi |
+| Unpaired | Đã kết nối Wi-Fi nhưng chưa pair với máy chủ | Mở WiFi Setup để nhập Server URL và pairing code |
+| Setup AP | Thiết bị đang mở hotspot cấu hình | Kết nối `EmotiCare-Setup` và mở `192.168.4.1` |
+| Offline | Chưa kết nối Wi-Fi | Mở WiFi Setup để cấu hình hoặc kết nối lại |
 
 ## 7.9. Xem báo cáo trên TFT
 
-Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dùng chọn mốc thống kê cần xem, gồm ngày, tuần hoặc tháng. Báo cáo được tạo trên máy chủ và trả về thành các thẻ ngắn; nếu dữ liệu chưa đủ, thiết bị thông báo rõ để người dùng hiểu kết quả chỉ mang tính tham khảo.
+Màn hình **Insights** có thể mở trực tiếp từ Trang chủ. Người dùng chọn kỳ thống kê ngày, tuần hoặc tháng để xem biểu đồ tỷ lệ của tám nhãn cảm xúc. Thiết bị ưu tiên lấy dữ liệu từ máy chủ; nếu không lấy được dữ liệu hợp lệ, firmware hiển thị bảng dữ liệu mẫu cục bộ để giao diện vẫn hoạt động.
 
 | Lựa chọn trên màn hình | Ý nghĩa | Giá trị gửi tới máy chủ |
 | ----------------- | ------- | ------------ |
@@ -126,22 +109,38 @@ Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dù
 
 | Nội dung hiển thị | Ý nghĩa |
 | ----------------- | ------- |
-| Phân bố cảm xúc | Tỷ lệ các cảm xúc chính trong kỳ |
-| Xu hướng | Dấu hiệu cải thiện, ổn định hoặc cần chú ý |
-| Chuỗi cảm xúc khó chịu | Số lần buồn bã hoặc tức giận liên tiếp nếu có |
-| Hoạt động hữu ích | Hoạt động được đánh giá hữu ích nhất |
-| Nội dung hữu ích | Bài hát hoặc podcast được chọn hay đánh giá tích cực |
-| Mức độ đầy đủ của dữ liệu | Đủ dữ liệu hoặc cần thêm dữ liệu |
+| Bộ chọn kỳ | Ba lựa chọn `Day`, `Week`, `Month`; kỳ đang chọn được làm nổi bật. |
+| Biểu đồ cảm xúc | Tám thanh tỷ lệ phần trăm cho các nhãn `Angry`, `Calm`, `Disgust`, `Fearful`, `Happy`, `Neutral`, `Sad` và `Surprise`. |
+| Dòng trạng thái | Hiển thị kỳ đang xem theo dạng `Period: <kỳ> | AI-analyzed`. |
+| Chế độ AI assessment | Nhấn S1 (`AI VIEW`) để xem phần diễn giải do API `POST /api/statistics/{period}/explain` trả về; nhấn S1 lần nữa để quay lại biểu đồ. |
+| Điều hướng | S2 hoặc S4 chuyển sang kỳ tiếp theo; S3 chuyển về kỳ trước; S5 quay lại màn hình trước. |
 
-Ví dụ kết quả giả lập trả về trên TFT:
+### Ví dụ nội dung báo cáo trên TFT
 
-| Kỳ thống kê | Phân bố cảm xúc | Xu hướng | Hoạt động hữu ích | Nội dung hữu ích | Mức độ đầy đủ của dữ liệu |
-| ----------- | ---------------- | -------- | ----------------- | ---------------- | -------------------------- |
-| Ngày | Vui vẻ 35%, bình thường 30%, bình tĩnh 25%, buồn bã 10% | Bình tĩnh tăng nhẹ vào buổi tối | Hít thở 4-7-8 | Podcast thở chậm 5 phút | Đủ dữ liệu |
-| Tuần | Bình thường 37%, vui vẻ 25%, bình tĩnh 20%, buồn bã 10%, tức giận 8% | Nhịp cảm xúc ổn định hơn vào nửa cuối tuần | Neo lại hiện tại | Podcast tập trung ngắn | Đủ dữ liệu |
-| Tháng | Bình thường 40%, vui vẻ 28%, bình tĩnh 20%, buồn bã 8%, sợ hãi 4% | Cảm xúc ổn định hơn sau tuần 2 | Nghỉ 5 phút khỏi màn hình | Danh sách nhạc tập trung nhẹ | Đủ dữ liệu |
+Các số liệu dưới đây là bảng fallback hiện có trong firmware. Chúng chỉ được dùng khi thiết bị không lấy được `emotion_distribution` hợp lệ từ máy chủ và không phải kết quả đánh giá sức khỏe tâm lý.
 
-Nếu thiết bị không có kết nối Internet, màn hình thông báo cần kết nối để lấy hoặc tạo báo cáo; phiên bản hiện tại không lưu báo cáo trên thiết bị.
+**Báo cáo ngày**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 4%; Calm 22%; Disgust 2%; Fearful 5%; Happy 42%; Neutral 16%; Sad 6%; Surprise 3% |
+| Dòng trạng thái | `Period: Day | AI-analyzed` |
+
+**Báo cáo tuần**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 7%; Calm 18%; Disgust 3%; Fearful 8%; Happy 34%; Neutral 18%; Sad 9%; Surprise 3% |
+| Dòng trạng thái | `Period: Week | AI-analyzed` |
+
+**Báo cáo tháng**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 5%; Calm 20%; Disgust 3%; Fearful 7%; Happy 38%; Neutral 17%; Sad 7%; Surprise 3% |
+| Dòng trạng thái | `Period: Month | AI-analyzed` |
+
+Nếu máy chủ hoặc kết nối không sẵn sàng, màn hình biểu đồ vẫn hiển thị bảng fallback nêu trên. Riêng chế độ **AI assessment** cần gọi API; khi không lấy được diễn giải, thiết bị hiển thị thông báo yêu cầu kiểm tra Wi-Fi và máy chủ.
 
 ## 7.10. Xử lý sự cố
 
@@ -150,6 +149,6 @@ Nếu thiết bị không có kết nối Internet, màn hình thông báo cần
 | Thiết bị không nghe rõ | Microphone bị che hoặc môi trường quá ồn | Nói gần hơn, giảm nhiễu nền |
 | Kết quả là không chắc chắn | Câu nói quá ngắn hoặc confidence thấp | Check-in lại bằng câu rõ hơn |
 | Không lấy được gợi ý | Thiết bị offline hoặc Cloud timeout | Kiểm tra Wi-Fi và thử lại |
-| Không có danh sách bài hát/podcast | Chưa có Internet, category trống hoặc Cloud chưa trả kết quả | Mở Status, đổi category hoặc thử lại |
-| Không có phản hồi hội thoại | Internet lỗi hoặc Cloud chưa trả kết quả | Mở Status để xem trạng thái |
-| Báo cáo limited data | Chưa đủ session trong kỳ thống kê | Check-in đều hơn trong các ngày tiếp theo |
+| Không phát được bài hát/podcast | Mục đang chọn không có URL phát hoặc audio output không khả dụng | Chọn mục khác, kiểm tra Wi-Fi và loa |
+| Không có phản hồi hội thoại | Internet lỗi, máy chủ không trả kết quả hoặc thu âm chưa đủ | Kiểm tra Wi-Fi, thu lại rồi gửi bằng S2/S3 |
+| Không xem được AI assessment | Không có Wi-Fi, chưa kết nối máy chủ hoặc API diễn giải không trả kết quả | Kiểm tra Wi-Fi và máy chủ, sau đó nhấn S1 để thử lại; biểu đồ fallback vẫn có thể xem. |

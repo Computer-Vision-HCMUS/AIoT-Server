@@ -12,8 +12,8 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | Loại tài liệu | AIoT Product Specification |
 | Môn học | Nhập môn lập trình thiết bị thông minh |
 | Lớp | 23CLC02 |
-| Phiên bản | 3.1 |
-| Ngày cập nhật | 25/06/2026 |
+| Phiên bản | 3.5 |
+| Ngày cập nhật | 05/08/2026 |
 
 ## 0.2. Định vị sản phẩm
 
@@ -34,6 +34,9 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | 3.0 | 25/06/2026 | Nhóm dự án | Thiết kế lại sản phẩm | Chuyển đổi đặc tả sang EmotiCare AIoT |
 | 3.1 | 25/06/2026 | Nhóm dự án | Hoàn thiện đặc tả | Viết lại có dấu, chi tiết hóa bối cảnh, mục tiêu, Edge AI, dịch vụ Internet, luồng màn hình và hướng dẫn sử dụng |
 | 3.2 | 29/06/2026 | Nhóm dự án | Đồng bộ theo SRS | Bổ sung cấu trúc theo mẫu đặc tả yêu cầu phần mềm |
+| 3.3 | 29/07/2026 | Hải Đức | Rà soát cấu trúc tài liệu | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
+| 3.4 | 05/08/2026 | Hải Đức | Đồng bộ theo sản phẩm thực tế | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
+| 3.5 | 05/08/2026 | Hải Đức | Rà soát consistency | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
 
 ### 0.3.2. Xác nhận
 
@@ -51,7 +54,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | ------------- | --------------- | -------------------------- |
 | Nhóm phần cứng | Chương 02, 06, 08 | Chọn linh kiện, thiết kế luồng màn hình TFT và chuẩn bị mẫu thử |
 | Nhóm Edge AI | Chương 03, 04, 05 | Xây dựng quy trình SER, xác định đầu vào/đầu ra và tiêu chí đánh giá |
-| Nhóm Cloud/API | Chương 03, 04, 05, 08 | Thiết kế cơ sở dữ liệu, API, đồng bộ dữ liệu và các thẻ báo cáo |
+| Nhóm Cloud/API | Chương 03, 04, 05, 08 | Thiết kế cơ sở dữ liệu, API, đồng bộ dữ liệu, phân bố cảm xúc và diễn giải AI |
 | Nhóm kiểm thử | Chương 03, 04, 05, 06 | Viết trường hợp kiểm thử theo tình huống sử dụng, yêu cầu chức năng và yêu cầu phi chức năng |
 | Giảng viên/reviewer | Toàn bộ tài liệu | Đánh giá tính nhất quán, phạm vi và khả thi của sản phẩm |
 
@@ -59,7 +62,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 
 | Nhóm | Nội dung áp dụng |
 | ---- | --------------- |
-| Thuật ngữ sử dụng | Thiết bị biên, Edge AI, nhận diện cảm xúc bằng giọng nói, phiên cảm xúc, thẻ báo cáo TFT và dịch vụ gợi ý nội dung được định nghĩa trong phụ lục |
+| Thuật ngữ sử dụng | Thiết bị biên, Edge AI, nhận diện cảm xúc bằng giọng nói, phiên cảm xúc, màn hình Insights và dịch vụ gợi ý nội dung được định nghĩa trong phụ lục |
 | Cách tổ chức SRS | Tài liệu được tổ chức theo hướng đặc tả yêu cầu phần mềm: mục đích, phạm vi, bối cảnh, tình huống sử dụng, yêu cầu chức năng, yêu cầu phi chức năng, yêu cầu khác và kế hoạch tiếp theo |
 | Cách thiết kế API | Dịch vụ Cloud ưu tiên REST API, phản hồi JSON, mã thiết bị hoặc yêu cầu có chữ ký |
 | Định dạng dữ liệu | Dữ liệu trao đổi chính dùng JSON. Audio check-in SER chỉ xử lý tại Edge; riêng Voice Conversation gửi PCM 16-bit tạm thời qua API để STT, không lưu audio thô. Nhật ký/báo cáo có thể xuất dạng CSV hoặc JSON trong các phiên bản sau |
@@ -108,6 +111,9 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | 3.0 | 25/06/2026 | Project team | Chuyển đổi đặc tả sang EmotiCare AIoT |
 | 3.1 | 25/06/2026 | Nhóm dự án | Viết lại có dấu, chi tiết hóa bối cảnh, mục tiêu, Edge AI, dịch vụ Internet, luồng màn hình và hướng dẫn sử dụng |
 | 3.2 | 29/06/2026 | Nhóm dự án | Bổ sung các phần theo mẫu SRS: đối tượng đọc, xác nhận, cách dùng, giả định, liên kết, siêu dữ liệu và kế hoạch tiếp theo |
+| 3.3 | 29/07/2026 | Hải Đức | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
+| 3.4 | 05/08/2026 | Hải Đức | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
+| 3.5 | 05/08/2026 | Hải Đức | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
 
 ## 0.10. Cấu trúc tài liệu
 

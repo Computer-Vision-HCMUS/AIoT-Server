@@ -41,7 +41,7 @@ Thiết bị tạo payload JSON theo schema của use case, đặt timeout và c
 
 ### 4.1.3. Đồng bộ, lưu trữ và quyền riêng tư
 
-Cloud lưu session, request, feedback và report theo `user_id`/`device_id`. UC-01 chỉ gửi metadata nhận diện, không gửi audio thô. UC-04 Voice Conversation gửi PCM tạm thời để STT; Server không lưu audio thô mà chỉ lưu transcript tóm tắt và phản hồi. Dữ liệu nguy cấp trong hội thoại được che trước khi lưu. Thiết bị gửi feedback sau khi người dùng chọn/đánh giá hoạt động hoặc media; Server dùng feedback cho cá nhân hóa và thống kê ở các request sau.
+Cloud lưu session, request và report theo `user_id`/`device_id`. UC-01 chỉ gửi metadata nhận diện, không gửi audio thô. UC-04 Voice Conversation gửi PCM tạm thời để STT; Server không lưu audio thô mà chỉ lưu transcript tóm tắt và phản hồi. Các thao tác feedback hoạt động/media chưa được triển khai trên TFT hiện tại.
 
 ## 4.2. Thông tin trao đổi của năm tình huống sử dụng
 
@@ -51,9 +51,9 @@ Phần này là nguồn mô tả chuẩn về dữ liệu trao đổi giữa thi
 | --- | --- | --- | --- |
 | UC-01 | `POST /api/emotion-sessions/sync` | `sessions[]`: `client_session_id`, `emotion_label`, `confidence_score`, `quality_flag`, `inference_latency_ms`, `client_created_at` | `received_count`, `received_ids`; lưu `emotion_sessions` theo `user_id`, `device_id` |
 | UC-02 | `POST /api/recommendations/request`; `POST /api/feedback/activity` | Request: `session_id`. Feedback: `recommendation_id`, `activity_type`, `selected`, `feedback_score` 1–5 | `recommendation_id`, `emotion_label`, 5 activity cards; lưu `recommendation_requests`, `activity_feedback` |
-| UC-03 | `GET /api/media/categories`; `POST /api/media/recommendations`; `POST /api/media/music/recommend`; `POST /api/media/podcast/recommend`; `POST /api/feedback/media` | Media request: `category?`, `media_type?`, `emotion_label?`, `user_intent?`. Feedback: `session_id`, `media_item_id`, `feedback_score` 1–5 | Media cards gồm `media_id`, `media_type`, `title`, `creator`, `category`, `duration_sec`, `source_url`, `reason`; lưu `media_selection_logs` |
+| UC-03 | `GET /api/media/library`; `POST /api/media/recommendations` | Firmware chọn `Music` hoặc `Podcast`, tải catalog từ library rồi dùng emotion context gần nhất khi gọi recommendation | Danh sách media gồm `media_id`, `title`, `category`, `duration_sec`, `source_url`; mục khớp recommendation được gắn ưu tiên AI |
 | UC-04 | `POST /api/conversations/voice?session_id=<UUID>&sample_rate=16000`; `POST /api/conversations/respond`; `GET /api/conversations/history` | Voice request từ firmware: body PCM 16-bit, `Content-Type: application/octet-stream`, tối đa 10 giây; Server chấp nhận tối đa 30 giây. Text request thay thế: `session_id`, `user_message?` tối đa 500 ký tự | Voice response: `conversation_id`, `transcript`, `reply_text`, `safety_flag`, `next_action`, `audio_path?`; lưu transcript tóm tắt và response trong `conversation_requests` |
-| UC-05 | `GET /api/statistics/day`; `GET /api/statistics/week`; `GET /api/statistics/month`; `POST /api/statistics/{period}/explain` | Firmware chọn path theo period `day`, `week` hoặc `month`; request explain không có body | `TftSummaryResponse` gồm phân bố cảm xúc, xu hướng, report cards và `data_quality`; lưu/refresh `tft_reports` |
+| UC-05 | `GET /api/statistics/day`; `GET /api/statistics/week`; `GET /api/statistics/month`; `POST /api/statistics/{period}/explain` | Firmware chọn path theo period `day`, `week` hoặc `month`; request explain không có body | Firmware đọc trường `emotion_distribution` để vẽ tám thanh tỷ lệ cảm xúc. Diễn giải AI được lấy riêng từ trường `explanation` của API `/explain`; khi không lấy được thống kê hợp lệ, firmware dùng bảng fallback cục bộ. |
 
 ### 4.2.1. Quy ước schema và thẻ TFT
 

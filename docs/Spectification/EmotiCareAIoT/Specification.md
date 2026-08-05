@@ -12,8 +12,8 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | Loại tài liệu | AIoT Product Specification |
 | Môn học | Nhập môn lập trình thiết bị thông minh |
 | Lớp | 23CLC02 |
-| Phiên bản | 3.1 |
-| Ngày cập nhật | 25/06/2026 |
+| Phiên bản | 3.5 |
+| Ngày cập nhật | 05/08/2026 |
 
 ## 0.2. Định vị sản phẩm
 
@@ -34,6 +34,9 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | 3.0 | 25/06/2026 | Nhóm dự án | Thiết kế lại sản phẩm | Chuyển đổi đặc tả sang EmotiCare AIoT |
 | 3.1 | 25/06/2026 | Nhóm dự án | Hoàn thiện đặc tả | Viết lại có dấu, chi tiết hóa bối cảnh, mục tiêu, Edge AI, dịch vụ Internet, luồng màn hình và hướng dẫn sử dụng |
 | 3.2 | 29/06/2026 | Nhóm dự án | Đồng bộ theo SRS | Bổ sung cấu trúc theo mẫu đặc tả yêu cầu phần mềm |
+| 3.3 | 29/07/2026 | Hải Đức | Rà soát cấu trúc tài liệu | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
+| 3.4 | 05/08/2026 | Hải Đức | Đồng bộ theo sản phẩm thực tế | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
+| 3.5 | 05/08/2026 | Hải Đức | Rà soát consistency | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
 
 ### 0.3.2. Xác nhận
 
@@ -51,7 +54,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | ------------- | --------------- | -------------------------- |
 | Nhóm phần cứng | Chương 02, 06, 08 | Chọn linh kiện, thiết kế luồng màn hình TFT và chuẩn bị mẫu thử |
 | Nhóm Edge AI | Chương 03, 04, 05 | Xây dựng quy trình SER, xác định đầu vào/đầu ra và tiêu chí đánh giá |
-| Nhóm Cloud/API | Chương 03, 04, 05, 08 | Thiết kế cơ sở dữ liệu, API, đồng bộ dữ liệu và các thẻ báo cáo |
+| Nhóm Cloud/API | Chương 03, 04, 05, 08 | Thiết kế cơ sở dữ liệu, API, đồng bộ dữ liệu, phân bố cảm xúc và diễn giải AI |
 | Nhóm kiểm thử | Chương 03, 04, 05, 06 | Viết trường hợp kiểm thử theo tình huống sử dụng, yêu cầu chức năng và yêu cầu phi chức năng |
 | Giảng viên/reviewer | Toàn bộ tài liệu | Đánh giá tính nhất quán, phạm vi và khả thi của sản phẩm |
 
@@ -59,7 +62,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 
 | Nhóm | Nội dung áp dụng |
 | ---- | --------------- |
-| Thuật ngữ sử dụng | Thiết bị biên, Edge AI, nhận diện cảm xúc bằng giọng nói, phiên cảm xúc, thẻ báo cáo TFT và dịch vụ gợi ý nội dung được định nghĩa trong phụ lục |
+| Thuật ngữ sử dụng | Thiết bị biên, Edge AI, nhận diện cảm xúc bằng giọng nói, phiên cảm xúc, màn hình Insights và dịch vụ gợi ý nội dung được định nghĩa trong phụ lục |
 | Cách tổ chức SRS | Tài liệu được tổ chức theo hướng đặc tả yêu cầu phần mềm: mục đích, phạm vi, bối cảnh, tình huống sử dụng, yêu cầu chức năng, yêu cầu phi chức năng, yêu cầu khác và kế hoạch tiếp theo |
 | Cách thiết kế API | Dịch vụ Cloud ưu tiên REST API, phản hồi JSON, mã thiết bị hoặc yêu cầu có chữ ký |
 | Định dạng dữ liệu | Dữ liệu trao đổi chính dùng JSON. Audio check-in SER chỉ xử lý tại Edge; riêng Voice Conversation gửi PCM 16-bit tạm thời qua API để STT, không lưu audio thô. Nhật ký/báo cáo có thể xuất dạng CSV hoặc JSON trong các phiên bản sau |
@@ -108,6 +111,9 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | 3.0 | 25/06/2026 | Project team | Chuyển đổi đặc tả sang EmotiCare AIoT |
 | 3.1 | 25/06/2026 | Nhóm dự án | Viết lại có dấu, chi tiết hóa bối cảnh, mục tiêu, Edge AI, dịch vụ Internet, luồng màn hình và hướng dẫn sử dụng |
 | 3.2 | 29/06/2026 | Nhóm dự án | Bổ sung các phần theo mẫu SRS: đối tượng đọc, xác nhận, cách dùng, giả định, liên kết, siêu dữ liệu và kế hoạch tiếp theo |
+| 3.3 | 29/07/2026 | Hải Đức | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
+| 3.4 | 05/08/2026 | Hải Đức | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
+| 3.5 | 05/08/2026 | Hải Đức | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
 
 ## 0.10. Cấu trúc tài liệu
 
@@ -203,10 +209,10 @@ Như vậy, EmotiCare AIoT không cố cạnh tranh trực tiếp với robot đ
 
 | User class | Đặc điểm | Quyền truy cập/chức năng | Giới hạn |
 | ---------- | -------- | ------------------------ | -------- |
-| End User | Người dùng trực tiếp thiết bị hằng ngày | Check-in cảm xúc, chọn Activity, Music/Podcast, Conversation, Report, xóa dữ liệu cục bộ | Không truy cập database thô hoặc cấu hình hệ thống |
+| End User | Người dùng trực tiếp thiết bị hằng ngày | Check-in cảm xúc, xem Support, Discover, Companion Chat, Insights và WiFi Setup | Không truy cập database thô hoặc cấu hình hệ thống |
 | Device Owner | Người sở hữu/ghép thiết bị với tài khoản | Pairing device, xem trạng thái sync | Chỉ quản lý thiết bị của chính mình |
 | Developer/Admin | Thành viên nhóm phát triển hoặc người vận hành demo | Cấu hình API, kiểm tra log, seed dữ liệu media, chạy test | Audio thô không được lưu bởi các luồng hiện tại |
-| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response và report cards | Chỉ xử lý dữ liệu từ device token hợp lệ |
+| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response, phân bố cảm xúc và diễn giải AI | Chỉ xử lý dữ liệu từ device token hợp lệ |
 | Tester/Reviewer | Người kiểm thử hoặc đánh giá đồ án | Kiểm thử use case, requirement, screen flow và dữ liệu giả lập | Không thay đổi dữ liệu người dùng thật |
 
 ## 1.5. Mục đích sản phẩm
@@ -279,11 +285,11 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 * Nhận diện cảm xúc từ giọng nói bằng Edge AI.
 * Phân loại tám trạng thái RAVDESS hiện có trên Edge: vui vẻ, bình thường, bình tĩnh, buồn bã, tức giận, sợ hãi, ghê sợ và ngạc nhiên.
 * Đề xuất hoạt động cải thiện hoặc duy trì tâm trạng.
-* Đề xuất bài hát hoặc podcast theo cảm xúc hiện tại, category và chủ đích của người dùng.
+* Ưu tiên bài hát hoặc podcast theo cảm xúc hiện tại trong danh sách Discover.
 * Trò chuyện hỗ trợ cảm xúc với phản hồi đồng cảm và an toàn.
 * Lưu emotion session, recommendation log, media selection log và feedback.
 * Tạo báo cáo cảm xúc theo ngày, tuần, tháng.
-* Hiển thị trên TFT screen về phân bố cảm xúc, xu hướng và hiệu quả hoạt động/nội dung.
+* Hiển thị trên TFT screen phân bố của tám nhãn cảm xúc và diễn giải AI tùy chọn.
 
 ### Ngoài phạm vi
 
@@ -352,7 +358,7 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------ |
 | SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. | UC-01               | Tạo emotion session làm dữ liệu nền cho các chức năng hỗ trợ và báo cáo              |
 | SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet.                                                               | UC-02, UC-03, UC-04 | Biến dữ liệu cảm xúc hoặc nhu cầu trực tiếp từ HOME thành hành động hỗ trợ cụ thể    |
-| SMART Objective 3 | Tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Giúp người dùng nhìn lại xu hướng cảm xúc và hiệu quả của hoạt động/nội dung đã chọn |
+| SMART Objective 3 | Hiển thị phân bố tám nhãn cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Giúp người dùng xem lại tỷ lệ cảm xúc trong từng kỳ và, khi cần, mở phần diễn giải AI |
 
 
 
@@ -364,9 +370,9 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 | ------------------------------------------------------------------ | ----------------- | -------- | ----------------------------------------------------------------------------------------- |
 | Người dùng nhận biết cảm xúc nhanh mà không cần nhập liệu thủ công | SMART Objective 1 | UC-01    | Người dùng có emotion label và confidence ngay trên TFT sau một lần check-in ngắn         |
 | Người dùng nhận hỗ trợ phù hợp khi đang cần điều chỉnh cảm xúc     | SMART Objective 2 | UC-02    | Người dùng nhận 5 hoạt động gợi ý mà không phải tự tìm                                    |
-| Người dùng chủ động chọn nội dung nghe theo mục đích               | SMART Objective 2 | UC-03    | Người dùng chọn category và nhận danh sách bài hát/podcast phù hợp                        |
+| Người dùng duyệt nội dung nghe theo ngữ cảnh cảm xúc               | SMART Objective 2 | UC-03    | Người dùng mở Discover, chọn Music hoặc Podcast và phát mục đã chọn                        |
 | Người dùng có kênh trò chuyện ngắn, đồng cảm và an toàn            | SMART Objective 2 | UC-04    | Người dùng nhận phản hồi ngắn gọn, không phán xét, có safety filter                       |
-| Người dùng nhìn lại xu hướng cảm xúc dài hạn trên thiết bị         | SMART Objective 3 | UC-05    | Người dùng xem report cards theo ngày/tuần/tháng ngay trên TFT                            |
+| Người dùng xem thống kê cảm xúc theo kỳ trên thiết bị              | SMART Objective 3 | UC-05    | Người dùng xem biểu đồ tám tỷ lệ cảm xúc theo ngày/tuần/tháng ngay trên TFT              |
 
 
 
@@ -389,7 +395,7 @@ flowchart TD
     end
 
     subgraph O3["SMART Objective 3"]
-        UC5["UC-05: Thống kê và phân tích xu hướng cảm xúc"]
+        UC5["UC-05: Xem thống kê cảm xúc"]
     end
 
     User -->|"Kiểm tra cảm xúc bằng giọng nói"| UC1
@@ -525,7 +531,7 @@ Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 t�
 
 **Mô tả:** Cloud Recommendation Service đề xuất năm hoạt động ngắn, an toàn và phù hợp với emotion label của một emotion session đã đồng bộ, lịch sử tương tác và feedback trước đó. Danh sách hoạt động có thể gồm hít thở, grounding, nghỉ ngơi, vận động nhẹ, ghi nhật ký cảm xúc hoặc kết nối với người thân. Gợi ý bài hát và podcast thuộc UC-03.
 
-**Ý nghĩa của use case:** UC-02 biến một emotion session đã đồng bộ thành các lựa chọn chăm sóc cụ thể. Người dùng có thể mở Activity từ HOME sau khi đã check-in; thiết bị dùng session gần nhất thuộc thiết bị để gọi Cloud.
+**Ý nghĩa của use case:** UC-02 đưa người dùng từ kết quả Check-In đã xác nhận đến danh sách hoạt động hỗ trợ. Firmware ưu tiên dùng session gần nhất để gọi Cloud và có fallback cục bộ khi không lấy được dữ liệu.
 
 **Vai trò trong objective:** UC-02 là nhánh hỗ trợ nhanh sau nhận diện cảm xúc, trong đó Cloud xử lý recommendation còn TFT hiển thị kết quả ngắn gọn để người dùng chọn.
 
@@ -537,8 +543,9 @@ Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 t�
 | Tác nhân chính     | Người dùng                                                                                                                                                                                                                                                                                                                                                                                     |
 | Tác nhân phụ       | Edge Device, Cloud Recommendation Service, TFT Screen                                                                                                                                                                                                                                                                                                                                          |
 | Tiền điều kiện     | Thiết bị có Internet và có một emotion session đã được đồng bộ thuộc thiết bị. |
-| Kích hoạt          | Người dùng chọn Activity từ HOME, RESULT hoặc SUPPORT sau khi check-in. |
-| Luồng chính        | 1. Người dùng chọn Activity. 2. Thiết bị gửi `session_id` của emotion session đã đồng bộ lên Cloud. 3. Cloud lấy emotion label, lịch sử hoạt động và feedback. 4. Cloud chọn, xếp hạng năm hoạt động phù hợp. 5. Cloud trả năm activity card về Edge Device. 6. TFT hiển thị các card gợi ý. 7. Người dùng chọn, bỏ qua hoặc đánh giá. 8. Thiết bị gửi feedback lên Cloud. |
+| Kích hoạt          | Sau khi xác nhận Check-In, người dùng nhấn S2/S3 để mở Support. |
+| Luồng chính        | 1. Firmware dùng session gần nhất để gọi API recommendation. 2. Nếu nhận được danh sách, TFT hiển thị các hoạt động. 3. Người dùng dùng S4/S5 để duyệt và S2/S3 để mở chi tiết. |
+| Luồng thay thế     | Nếu API không có kết quả, Support hiển thị một hoạt động fallback theo cảm xúc hiện tại. |
 | Luồng thay thế     | Nếu Internet lỗi, TFT hiển thị thông báo cần kết nối Internet để lấy gợi ý cloud.                                                                                                                                                                                                                                                                                                              |
 | Dữ liệu vào        | `session_id`, emotion label của session, activity feedback |
 | Dữ liệu ra         | 5 activity cards, reason text, selected/skipped status, feedback score                                                                                                                                                                                                                                                                                                                          |
@@ -549,7 +556,7 @@ Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 t�
 
 #### Cách chọn hoạt động
 
-Máy chủ chọn năm hoạt động ngắn, an toàn và phù hợp với cảm xúc hiện tại. Các lần lựa chọn và đánh giá trước đó được dùng để ưu tiên gợi ý hữu ích, đồng thời tránh lặp lại quá nhiều một hoạt động.
+Máy chủ có thể trả danh sách hoạt động phù hợp với cảm xúc hiện tại. Firmware hiển thị các hoạt động nhận được; nếu không lấy được danh sách, nó dùng một hoạt động fallback cục bộ. TFT hiện không có thao tác chọn, bỏ qua hoặc đánh giá để cá nhân hóa.
 
 #### Sơ đồ luồng
 
@@ -557,19 +564,18 @@ Máy chủ chọn năm hoạt động ngắn, an toàn và phù hợp với cả
 flowchart LR
     Start([Bắt đầu])
     Emotion["Nhận emotion label từ UC-01"]
-    Online{"Có Internet?"}
-    NeedNet["TFT hiển thị yêu cầu kết nối Internet"]
+    Online{"Có API recommendation?"}
+    NeedNet["Firmware dùng hoạt động fallback"]
     Send["Gửi context lên Cloud Recommendation API"]
-    Rank["Cloud chọn và xếp hạng 5 hoạt động"]
+    Rank["Cloud trả danh sách hoạt động"]
     Return["Cloud trả danh sách card rút gọn"]
-    Display["TFT hiển thị 5 activity card"]
-    Feedback["Người dùng chọn/bỏ qua/đánh giá"]
-    Save["Đồng bộ feedback lên Cloud"]
+    Display["TFT hiển thị danh sách hoạt động"]
+    Detail["Người dùng mở chi tiết hoạt động"]
     End([Kết thúc])
 
     Start --> Emotion --> Online
-    Online -- "Không" --> NeedNet --> End
-    Online -- "Có" --> Send --> Rank --> Return --> Display --> Feedback --> Save --> End
+    Online -- "Không" --> NeedNet --> Display
+    Online -- "Có" --> Send --> Rank --> Return --> Display --> Detail --> End
 
 
     classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
@@ -579,8 +585,7 @@ flowchart LR
     classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
     classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
     class Display edgeNode
-    class Feedback cloudNode
-    class Start,Emotion,Online,NeedNet,Send,Rank,Return,Save,End actionNode
+    class Start,Emotion,Online,NeedNet,Send,Rank,Return,Detail,End actionNode
 ```
 
 
@@ -589,10 +594,10 @@ flowchart LR
 
 ### 3.3.2. Tình huống sử dụng UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích
 
-- **Input:** Chủ đích của người dùng, category nội dung mong muốn và emotion label gần nhất nếu có.
-- **Output:** Danh sách bài hát hoặc podcast theo category hiển thị trên TFT.
+- **Input:** Loại nội dung người dùng chọn (`Music` hoặc `Podcast`) và emotion label gần nhất nếu có.
+- **Output:** Danh sách Music hoặc Podcast có các mục AI được ưu tiên.
 
-**Mô tả:** Người dùng có thể chủ động chọn nghe bài hát hoặc podcast ngay từ HOME, không bắt buộc phải check-in cảm xúc trước. Cloud Media Recommendation Service phân loại nội dung theo bảy category mã hóa: `relax`, `focus`, `sleep`, `happy`, `sad_support`, `anger_release`, `energy_recover`. Nếu có emotion context từ check-in gần nhất thì Cloud dùng để lọc nội dung; nếu chưa có, Cloud ưu tiên category và chủ đích người dùng chọn.
+**Mô tả:** Người dùng mở Discover từ HOME rồi chọn Music hoặc Podcast. Firmware tải catalog, dùng emotion context gần nhất để nhận diện các mục AI ưu tiên và đưa chúng lên đầu danh sách. Nếu chưa check-in, thiết bị dùng ngữ cảnh `Neutral (default)`; nếu không tải được catalog mới, firmware dùng danh sách fallback cục bộ.
 
 **Ý nghĩa của use case:** UC-03 cho người dùng quyền chủ động hơn. Thay vì chỉ chờ hệ thống gợi ý, người dùng có thể nói rõ mình muốn nghe nhạc thư giãn, podcast động viên hoặc nội dung giúp tập trung.
 
@@ -610,11 +615,11 @@ Người dùng có thể chọn theo mục đích, chẳng hạn thư giãn, t�
 | Tác nhân chính     | Người dùng                                                                                                                                                                                                                                                                                                                                                                                              |
 | Tác nhân phụ       | Edge Device, Cloud Media Recommendation Service, TFT Screen                                                                                                                                                                                                                                                                                                                                             |
 | Tiền điều kiện     | Thiết bị có Internet và người dùng chọn Music/Podcast Mode                                                                                                                                                                                                                                                                                                                                              |
-| Kích hoạt          | Người dùng chọn category hoặc nói chủ đích nghe nội dung                                                                                                                                                                                                                                                                                                                                                |
-| Luồng chính        | 1. Người dùng chọn Music/Podcast từ HOME hoặc SUPPORT. 2. Người dùng chọn Music, Podcast hoặc Both. 3. Người dùng chọn category hoặc nói chủ đích. 4. Thiết bị gửi category, intent và emotion context nếu có lên Cloud. 5. Cloud lọc danh sách bài hát/podcast theo category. 6. Cloud xếp hạng nội dung phù hợp. 7. TFT hiển thị danh sách rút gọn. 8. Người dùng chọn nội dung để nghe hoặc lưu lại. |
-| Luồng thay thế     | Nếu Internet lỗi, TFT hiển thị thông báo cần kết nối Cloud để lấy danh sách nội dung. Nếu category không có nội dung, Cloud trả category gần nhất.                                                                                                                                                                                                                                                      |
-| Dữ liệu vào        | User intent, selected category, optional emotion label, optional confidence score, listening history                                                                                                                                                                                                                                                                                                    |
-| Dữ liệu ra         | Song list, podcast list, category, reason text, selected media item                                                                                                                                                                                                                                                                                                                                     |
+| Kích hoạt          | Người dùng chọn Discover từ HOME. |
+| Luồng chính        | 1. Người dùng chọn Music hoặc Podcast. 2. TFT hiển thị danh sách cuộn tối đa bốn mục. 3. Người dùng dùng S4/S5 để duyệt. 4. Người dùng nhấn S3 để phát mục đang chọn hoặc S2 để dừng. |
+| Luồng thay thế     | Nếu không tải được catalog hoặc recommendation, firmware dùng dữ liệu fallback cục bộ; mục không có URL phát hiển thị lỗi không thể phát. |
+| Dữ liệu vào        | `media_type` và emotion context gần nhất nếu có |
+| Dữ liệu ra         | Danh sách title, category, duration, trạng thái ưu tiên AI và URL phát của mục được chọn |
 | Mục tiêu hiệu năng | Danh sách nội dung hiển thị trên TFT trong vòng 20 giây                                                                                                                                                                                                                                                                                                                                                 |
 
 
@@ -641,21 +646,18 @@ Người dùng có thể chọn theo mục đích, chẳng hạn thư giãn, t�
 ```mermaid
 flowchart LR
     Start([Bắt đầu])
-    SelectMode["Người dùng chọn Music/Podcast Mode"]
-    ChooseCategory["Chọn category hoặc nói chủ đích"]
-    Online{"Có Internet?"}
-    NeedNet["TFT hiển thị yêu cầu kết nối Internet"]
-    Send["Gửi category + emotion context lên Cloud"]
-    Filter["Cloud lọc bài hát và podcast"]
-    Rank["Cloud xếp hạng nội dung phù hợp"]
+    SelectMode["Người dùng mở Discover và chọn Music hoặc Podcast"]
+    Load["Firmware tải catalog"]
+    Recommend["Gọi recommendation theo emotion context"]
+    Fallback["Dùng catalog fallback nếu API lỗi"]
     Display["TFT hiển thị danh sách"]
     SelectItem["Người dùng chọn nội dung"]
-    Save["Đồng bộ media selection log"]
+    Play["Phát hoặc dừng nội dung được chọn"]
     End([Kết thúc])
 
-    Start --> SelectMode --> ChooseCategory --> Online
-    Online -->|Không| NeedNet --> End
-    Online -->|Có| Send --> Filter --> Rank --> Display --> SelectItem --> Save --> End
+    Start --> SelectMode --> Load
+    Load --> Recommend --> Display --> SelectItem --> Play --> End
+    Load --> Fallback --> Display
 
     classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
     classDef edgeNode stroke:#a78bfa,fill:#f5f3ff,stroke-width:2px,color:#2e1065
@@ -664,12 +666,12 @@ flowchart LR
     classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
     classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
     class Display edgeNode
-    class Start,SelectMode,ChooseCategory,Online,NeedNet,Send,Filter,Rank,SelectItem,Save,End actionNode
+    class Start,SelectMode,Load,Recommend,Fallback,SelectItem,Play,End actionNode
 ```
 
 
 
-*Mô tả chart: Flow chart này mô tả quá trình người dùng chủ động chọn category bài hát/podcast, Cloud trả danh sách phù hợp và thiết bị ghi nhận lựa chọn.*
+*Mô tả chart: Flow chart này mô tả việc mở Discover, tải danh sách, ưu tiên mục AI theo cảm xúc và phát nội dung đã chọn.*
 
 ### 3.3.3. Tình huống sử dụng UC-04: Trò chuyện hỗ trợ cảm xúc
 
@@ -749,18 +751,18 @@ flowchart LR
 
 
 
-## 3.4. SMART Objective 3: Tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu
+## 3.4. SMART Objective 3: Hiển thị phân bố cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu
 
 Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiết bị. Cloud xử lý tổng hợp dữ liệu, còn thiết bị hiển thị phiên bản rút gọn phù hợp với màn hình TFT.
 
-### 3.4.1. Tình huống sử dụng UC-05: Thống kê và phân tích xu hướng cảm xúc
+### 3.4.1. Tình huống sử dụng UC-05: Xem thống kê cảm xúc
 
-- **Input:** Lịch sử cảm xúc, activity logs, media selection logs và conversation metadata đã đồng bộ.
-- **Output:** Báo cáo rút gọn theo ngày, tuần và tháng hiển thị trên TFT.
+- **Input:** Kỳ thống kê được chọn và dữ liệu phân bố cảm xúc do API trả về.
+- **Output:** Biểu đồ tám tỷ lệ cảm xúc theo ngày, tuần hoặc tháng; diễn giải AI là chế độ xem tùy chọn.
 
-**Mô tả:** Cloud Report Engine tổng hợp dữ liệu cảm xúc theo nhiều mốc thời gian, tính tỷ lệ cảm xúc, xu hướng thay đổi và hiệu quả hoạt động. Kết quả được nén thành các thẻ thông tin ngắn để hiển thị trên TFT.
+**Mô tả:** Firmware gọi API thống kê theo kỳ đã chọn và đọc trường `emotion_distribution` để vẽ tám thanh tỷ lệ cảm xúc trên TFT. Khi người dùng nhấn S1, firmware gọi API diễn giải để hiển thị `explanation`. Nếu không nhận được dữ liệu thống kê hợp lệ, firmware sử dụng bảng fallback cục bộ.
 
-**Ý nghĩa của use case:** UC-05 biến các phiên cảm xúc rời rạc thành bức tranh dài hạn, giúp người dùng theo dõi xu hướng ngay trên thiết bị phần cứng.
+**Ý nghĩa của use case:** UC-05 giúp người dùng xem phân bố của tám nhãn cảm xúc theo từng kỳ ngay trên thiết bị phần cứng.
 
 **Vai trò trong objective:** UC-05 là phần tổng hợp dữ liệu dài hạn của hệ thống, dùng Cloud cho xử lý nặng và TFT cho hiển thị.
 
@@ -768,23 +770,23 @@ Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiế
 | Trường             | Nội dung                                                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Use case ID        | UC-05                                                                                                                                                                                                                                                                                                                                                                                                |
-| Tên use case       | Thống kê và phân tích xu hướng cảm xúc                                                                                                                                                                                                                                                                                                                                                               |
+| Tên use case       | Xem thống kê cảm xúc                                                                                                                                                                                                                                                                                                                                                                                |
 | Tác nhân chính     | Người dùng                                                                                                                                                                                                                                                                                                                                                                                           |
 | Tác nhân phụ       | Edge Device, Cloud Report Engine, TFT Screen                                                                                                                                                                                                                                                                                                                                                         |
-| Tiền điều kiện     | Có dữ liệu đã đồng bộ lên Cloud                                                                                                                                                                                                                                                                                                                                                                      |
-| Kích hoạt          | Người dùng mở Report từ HOME/TFT và chọn period. |
-| Luồng chính        | 1. Người dùng chọn Report từ HOME. 2. TFT hiển thị lựa chọn ngày, tuần hoặc tháng. 3. Người dùng chọn period cần xem. 4. Thiết bị gửi yêu cầu report theo period. 5. Cloud Report Engine lấy emotion sessions và logs. 6. Cloud tính phân bố cảm xúc. 7. Cloud phân tích xu hướng và hiệu quả hoạt động/nội dung. 8. Cloud tạo report rút gọn. 9. Thiết bị nhận report và hiển thị kết quả trên TFT. |
-| Luồng thay thế     | Nếu dữ liệu quá ít, Cloud trả report `limited_data` và TFT hiển thị khuyến nghị check-in thêm.                                                                                                                                                                                                                                                                                                       |
-| Dữ liệu vào        | Emotion sessions, activity logs, media selection logs, conversation metadata, selected period                                                                                                                                                                                                                                                                                                        |
-| Dữ liệu ra         | TFT report cards, trend summary, activity effectiveness, data quality                                                                                                                                                                                                                                                                                                                                |
-| Mục tiêu hiệu năng | Báo cáo rút gọn hiển thị trên TFT trong vòng 180 giây                                                                                                                                                                                                                                                                                                                                                |
+| Tiền điều kiện     | Không có; firmware có bảng fallback khi API không khả dụng. |
+| Kích hoạt          | Người dùng mở Insights từ HOME/TFT và chọn kỳ. |
+| Luồng chính        | 1. Người dùng mở Insights từ HOME. 2. TFT hiển thị `Day`, `Week`, `Month`. 3. Người dùng đổi kỳ bằng S2/S4 hoặc S3. 4. Firmware gọi `GET /api/statistics/{period}`. 5. Firmware đọc `emotion_distribution`. 6. TFT hiển thị tám thanh tỷ lệ cảm xúc. 7. Người dùng có thể nhấn S1 để gọi API `/explain` và xem diễn giải AI. |
+| Luồng thay thế     | Nếu API lỗi, thiếu `emotion_distribution` hoặc trường này rỗng, firmware hiển thị bảng fallback cục bộ. Nếu API diễn giải lỗi, màn hình AI assessment hiển thị thông báo kiểm tra Wi-Fi và máy chủ. |
+| Dữ liệu vào        | Kỳ được chọn và `emotion_distribution` gồm các nhãn `angry`, `calm`, `disgust`, `fearful`, `happy`, `neutral`, `sad`, `surprised` |
+| Dữ liệu ra         | Tám thanh tỷ lệ cảm xúc, dòng `Period: <kỳ> | AI-analyzed` và, khi được yêu cầu, văn bản `explanation` |
+| Mục tiêu hiệu năng | Biểu đồ thống kê hiển thị trên TFT trong vòng 180 giây                                                                                                                                                                                                                                                                                                                                              |
 
 
 
 
 #### Cách tạo báo cáo
 
-Máy chủ tổng hợp các lần kiểm tra cảm xúc theo ngày, tuần hoặc tháng. Báo cáo cho biết phân bố cảm xúc, xu hướng thay đổi và mức độ sử dụng các chức năng hỗ trợ. Nếu chưa có đủ ba lần kiểm tra trong kỳ, hệ thống thông báo rằng dữ liệu chưa đủ thay vì đưa ra nhận định chắc chắn.
+Máy chủ trả phân bố cảm xúc cho kỳ ngày, tuần hoặc tháng. Firmware dùng trực tiếp các giá trị trả về để hiển thị các thanh phần trăm; không hiển thị trend summary, mức độ hiệu quả hoạt động/nội dung hoặc trạng thái `limited_data` trong màn hình Insights hiện tại.
 
 Phần diễn giải, nếu có, chỉ giúp người dùng hiểu số liệu bằng vài câu ngắn và không đưa ra chẩn đoán y khoa.
 
@@ -793,26 +795,22 @@ Phần diễn giải, nếu có, chỉ giúp người dùng hiểu số liệu b
 ```mermaid
 flowchart LR
     Start([Bắt đầu])
-    Trigger["Người dùng mở Report trên TFT và chọn period"]
-    Online{"Có Internet?"}
-    NeedNet["TFT hiển thị yêu cầu kết nối Internet"]
-    Request["Edge gửi report request lên Cloud"]
-    Load["Cloud lấy emotion sessions và logs"]
-    Enough{"Dữ liệu đủ phân tích?"}
-    Limited["Tạo report limited_data"]
-    Aggregate["Tính phân bố cảm xúc"]
-    Trend["Phân tích xu hướng"]
-    Effect["Phân tích hiệu quả hoạt động"]
-    Compact["Rút gọn thành TFT report cards"]
-    Display["TFT hiển thị báo cáo"]
+    Trigger["Người dùng mở Insights và chọn kỳ"]
+    Request["Firmware gọi API thống kê"]
+    Valid{"Có emotion_distribution hợp lệ?"}
+    Fallback["Dùng bảng fallback cục bộ"]
+    Chart["Vẽ tám thanh tỷ lệ cảm xúc"]
+    AiView{"Người dùng nhấn S1?"}
+    Explain["Gọi API /explain"]
+    Display["TFT hiển thị biểu đồ hoặc diễn giải AI"]
     End([Kết thúc])
 
-    Start --> Trigger --> Online
-    Online -- "Không" --> NeedNet --> End
-    Online -- "Có" --> Request --> Load --> Enough
-    Enough -- "Không" --> Limited --> Compact
-    Enough -- "Có" --> Aggregate --> Trend --> Effect --> Compact
-    Compact --> Display --> End
+    Start --> Trigger --> Request --> Valid
+    Valid -- "Không" --> Fallback --> Chart
+    Valid -- "Có" --> Chart
+    Chart --> AiView
+    AiView -- "Không" --> Display --> End
+    AiView -- "Có" --> Explain --> Display
 
 
     classDef userNode stroke:#818cf8,fill:#eef2ff,stroke-width:2px,color:#1e1b4b
@@ -822,12 +820,12 @@ flowchart LR
     classDef serviceNode stroke:#4ade80,fill:#f0fdf4,stroke-width:2px,color:#1a3a1a
     classDef actionNode stroke:#f59e0b,fill:#fffbeb,stroke-width:2px,color:#78350f
     class Display edgeNode
-    class Start,Trigger,Online,NeedNet,Request,Load,Enough,Limited,Aggregate,Trend,Effect,Compact,End actionNode
+    class Start,Trigger,Request,Valid,Fallback,Chart,AiView,Explain,End actionNode
 ```
 
 
 
-*Mô tả chart: Flow chart này mô tả cách thiết bị yêu cầu Cloud tạo báo cáo và nhận lại các thẻ tóm tắt để hiển thị trên TFT.*
+*Mô tả chart: Flow chart này mô tả cách firmware lấy phân bố cảm xúc, dùng fallback khi cần và mở chế độ diễn giải AI theo yêu cầu.*
 
 ## 3.5. Liên kết mục tiêu và tình huống sử dụng
 
@@ -884,7 +882,7 @@ Thiết bị tạo payload JSON theo schema của use case, đặt timeout và c
 
 ### 4.1.3. Đồng bộ, lưu trữ và quyền riêng tư
 
-Cloud lưu session, request, feedback và report theo `user_id`/`device_id`. UC-01 chỉ gửi metadata nhận diện, không gửi audio thô. UC-04 Voice Conversation gửi PCM tạm thời để STT; Server không lưu audio thô mà chỉ lưu transcript tóm tắt và phản hồi. Dữ liệu nguy cấp trong hội thoại được che trước khi lưu. Thiết bị gửi feedback sau khi người dùng chọn/đánh giá hoạt động hoặc media; Server dùng feedback cho cá nhân hóa và thống kê ở các request sau.
+Cloud lưu session, request và report theo `user_id`/`device_id`. UC-01 chỉ gửi metadata nhận diện, không gửi audio thô. UC-04 Voice Conversation gửi PCM tạm thời để STT; Server không lưu audio thô mà chỉ lưu transcript tóm tắt và phản hồi. Các thao tác feedback hoạt động/media chưa được triển khai trên TFT hiện tại.
 
 ## 4.2. Thông tin trao đổi của năm tình huống sử dụng
 
@@ -894,9 +892,9 @@ Phần này là nguồn mô tả chuẩn về dữ liệu trao đổi giữa thi
 | --- | --- | --- | --- |
 | UC-01 | `POST /api/emotion-sessions/sync` | `sessions[]`: `client_session_id`, `emotion_label`, `confidence_score`, `quality_flag`, `inference_latency_ms`, `client_created_at` | `received_count`, `received_ids`; lưu `emotion_sessions` theo `user_id`, `device_id` |
 | UC-02 | `POST /api/recommendations/request`; `POST /api/feedback/activity` | Request: `session_id`. Feedback: `recommendation_id`, `activity_type`, `selected`, `feedback_score` 1–5 | `recommendation_id`, `emotion_label`, 5 activity cards; lưu `recommendation_requests`, `activity_feedback` |
-| UC-03 | `GET /api/media/categories`; `POST /api/media/recommendations`; `POST /api/media/music/recommend`; `POST /api/media/podcast/recommend`; `POST /api/feedback/media` | Media request: `category?`, `media_type?`, `emotion_label?`, `user_intent?`. Feedback: `session_id`, `media_item_id`, `feedback_score` 1–5 | Media cards gồm `media_id`, `media_type`, `title`, `creator`, `category`, `duration_sec`, `source_url`, `reason`; lưu `media_selection_logs` |
+| UC-03 | `GET /api/media/library`; `POST /api/media/recommendations` | Firmware chọn `Music` hoặc `Podcast`, tải catalog từ library rồi dùng emotion context gần nhất khi gọi recommendation | Danh sách media gồm `media_id`, `title`, `category`, `duration_sec`, `source_url`; mục khớp recommendation được gắn ưu tiên AI |
 | UC-04 | `POST /api/conversations/voice?session_id=<UUID>&sample_rate=16000`; `POST /api/conversations/respond`; `GET /api/conversations/history` | Voice request từ firmware: body PCM 16-bit, `Content-Type: application/octet-stream`, tối đa 10 giây; Server chấp nhận tối đa 30 giây. Text request thay thế: `session_id`, `user_message?` tối đa 500 ký tự | Voice response: `conversation_id`, `transcript`, `reply_text`, `safety_flag`, `next_action`, `audio_path?`; lưu transcript tóm tắt và response trong `conversation_requests` |
-| UC-05 | `GET /api/statistics/day`; `GET /api/statistics/week`; `GET /api/statistics/month`; `POST /api/statistics/{period}/explain` | Firmware chọn path theo period `day`, `week` hoặc `month`; request explain không có body | `TftSummaryResponse` gồm phân bố cảm xúc, xu hướng, report cards và `data_quality`; lưu/refresh `tft_reports` |
+| UC-05 | `GET /api/statistics/day`; `GET /api/statistics/week`; `GET /api/statistics/month`; `POST /api/statistics/{period}/explain` | Firmware chọn path theo period `day`, `week` hoặc `month`; request explain không có body | Firmware đọc trường `emotion_distribution` để vẽ tám thanh tỷ lệ cảm xúc. Diễn giải AI được lấy riêng từ trường `explanation` của API `/explain`; khi không lấy được thống kê hợp lệ, firmware dùng bảng fallback cục bộ. |
 
 ### 4.2.1. Quy ước schema và thẻ TFT
 
@@ -920,81 +918,81 @@ Yêu cầu chức năng của EmotiCare AIoT tập trung vào trải nghiệm tr
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-01 | Hệ thống phải cho phép người dùng kích hoạt phiên check-in bằng nút vật lý hoặc thao tác tương đương trên thiết bị. | UC-01 | Must |
-| FR-02 | Thiết bị phải hiển thị rõ trạng thái đang ghi âm trên TFT trong suốt thời gian thu giọng nói. | UC-01 | Must |
-| FR-03 | Thiết bị phải ghi âm trong thời lượng giới hạn và tự dừng khi đủ dữ liệu hoặc hết thời gian. | UC-01 | Must |
-| FR-04 | Edge AI phải tiền xử lý âm thanh, giảm nhiễu cơ bản và trích xuất đặc trưng SER như Log-Mel Spectrogram, MFCC, pitch hoặc energy. | UC-01 | Must |
-| FR-05 | Mô hình SER trên firmware phải phân loại thành tám nhãn RAVDESS: `angry`, `calm`, `disgust`, `fearful`, `happy`, `neutral`, `sad`, `surprised`; UI đánh dấu low-confidence để người dùng xác nhận lại. | UC-01 | Must |
-| FR-06 | Hệ thống phải trả kết quả cảm xúc trên TFT trong vòng 30 giây sau khi nhận được giọng nói hợp lệ. | UC-01 | Must |
-| FR-07 | Cloud phải lưu emotion session gồm ID Cloud, `client_session_id`, user ID, device ID, emotion label, confidence score, quality flag, `inference_latency_ms` nếu có, `client_created_at` và `created_at`. | UC-01 | Must |
-| FR-08 | Nếu dữ liệu âm thanh không hợp lệ hoặc confidence thấp, hệ thống phải yêu cầu người dùng nói lại hoặc đánh dấu kết quả là không chắc chắn. | UC-01 | Should |
+| FR-01 | Hệ thống phải cho phép người dùng kích hoạt phiên check-in bằng nút vật lý hoặc thao tác tương đương trên thiết bị. | UC-01 | Bắt buộc |
+| FR-02 | Thiết bị phải hiển thị rõ trạng thái đang ghi âm trên TFT trong suốt thời gian thu giọng nói. | UC-01 | Bắt buộc |
+| FR-03 | Thiết bị phải ghi âm trong thời lượng giới hạn và tự dừng khi đủ dữ liệu hoặc hết thời gian. | UC-01 | Bắt buộc |
+| FR-04 | Edge AI phải tiền xử lý âm thanh, giảm nhiễu cơ bản và trích xuất đặc trưng SER như Log-Mel Spectrogram, MFCC, pitch hoặc energy. | UC-01 | Bắt buộc |
+| FR-05 | Mô hình SER trên firmware phải phân loại thành tám nhãn RAVDESS: `angry`, `calm`, `disgust`, `fearful`, `happy`, `neutral`, `sad`, `surprised`; UI đánh dấu low-confidence để người dùng xác nhận lại. | UC-01 | Bắt buộc |
+| FR-06 | Hệ thống phải trả kết quả cảm xúc trên TFT trong vòng 30 giây sau khi nhận được giọng nói hợp lệ. | UC-01 | Bắt buộc |
+| FR-07 | Cloud phải lưu emotion session gồm ID Cloud, `client_session_id`, user ID, device ID, emotion label, confidence score, quality flag, `inference_latency_ms` nếu có, `client_created_at` và `created_at`. | UC-01 | Bắt buộc |
+| FR-08 | Nếu dữ liệu âm thanh không hợp lệ hoặc confidence thấp, hệ thống phải yêu cầu người dùng nói lại hoặc đánh dấu kết quả là không chắc chắn. | UC-01 | Nên làm |
 
 ## 5.3. Nhóm chức năng đồng bộ dữ liệu
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-09 | Khi mất Internet, firmware lưu trạng thái emotion đã xác nhận gần nhất vào bộ nhớ cục bộ; trạng thái mới ghi đè trạng thái cũ. | UC-01 | Must |
-| FR-10 | Firmware chỉ thử đồng bộ emotion session ngay lúc người dùng xác nhận check-in và Wi-Fi/pairing khả dụng; hàng đợi session pending và retry tự động chưa được triển khai. | UC-01 | Must |
-| FR-11 | API đồng bộ phải xử lý idempotent theo `device_id + client_session_id` để tránh tạo trùng session. | UC-05 | Must |
-| FR-12 | TFT phải hiển thị trạng thái Online, Offline, Sync pending, Waiting cloud và Cloud result ready. | UC-02, UC-03, UC-04, UC-05 | Must |
-| FR-13 | Thiết bị phải gửi heartbeat định kỳ để Cloud biết trạng thái thiết bị. | UC-02, UC-03, UC-04, UC-05 | Should |
+| FR-09 | Khi mất Internet, firmware lưu trạng thái emotion đã xác nhận gần nhất vào bộ nhớ cục bộ; trạng thái mới ghi đè trạng thái cũ. | UC-01 | Bắt buộc |
+| FR-10 | Firmware chỉ thử đồng bộ emotion session ngay lúc người dùng xác nhận check-in và Wi-Fi/pairing khả dụng; hàng đợi session pending và retry tự động chưa được triển khai. | UC-01 | Bắt buộc |
+| FR-11 | API đồng bộ phải xử lý idempotent theo `device_id + client_session_id` để tránh tạo trùng session. | UC-01 | Bắt buộc |
+| FR-12 | TFT phải hiển thị trạng thái mạng hiện có: `Online`, `Unpaired`, `Setup AP` hoặc `Offline`. | UC-01 đến UC-05 | Bắt buộc |
+| FR-13 | Khi khởi động với Wi-Fi và pairing hợp lệ, firmware phải gọi heartbeat để xác minh máy chủ và cập nhật trạng thái thiết bị. | UC-01 đến UC-05 | Nên làm |
 
 ## 5.4. Nhóm chức năng gợi ý hoạt động qua máy chủ
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-14 | Khi có Internet và có emotion session đã đồng bộ, thiết bị phải cho phép người dùng mở Activity từ HOME hoặc sau check-in; thiết bị gửi `session_id` lên Cloud Recommendation API. | UC-02 | Must |
-| FR-15 | Cloud phải trả năm recommendation card phù hợp với emotion label của session được yêu cầu. | UC-02 | Must |
-| FR-16 | Recommendation card phải được rút gọn để hiển thị được trên TFT, gồm title, type, body ngắn, reason text và action ID nếu có. | UC-02 | Must |
-| FR-17 | Kết quả gợi ý phải hiển thị trên TFT trong vòng 20 giây sau khi UC-01 hoàn tất và thiết bị có Internet. | UC-02 | Must |
-| FR-18 | Người dùng phải có thể chọn, bỏ qua hoặc đánh giá hoạt động được gợi ý trên thiết bị. | UC-02 | Should |
-| FR-19 | Thiết bị phải gửi feedback hoạt động lên Cloud để phục vụ cá nhân hóa sau này. | UC-02, UC-05 | Should |
-| FR-20 | Nếu không có Internet, TFT phải thông báo rằng chức năng gợi ý cần kết nối Cloud. | UC-02 | Must |
+| FR-14 | Sau khi người dùng xác nhận kết quả check-in, thiết bị phải cho phép mở Support và gửi session gần nhất lên Cloud Recommendation API khi có thể. | UC-02 | Bắt buộc |
+| FR-15 | Cloud có thể trả danh sách recommendation card phù hợp với emotion label; khi không có kết quả, firmware phải dùng hoạt động fallback cục bộ. | UC-02 | Bắt buộc |
+| FR-16 | Recommendation card phải được rút gọn để hiển thị được trên TFT, gồm title, type, body ngắn, reason text và action ID nếu có. | UC-02 | Bắt buộc |
+| FR-17 | Kết quả gợi ý phải hiển thị trên TFT trong vòng 20 giây sau khi UC-01 hoàn tất và thiết bị có Internet. | UC-02 | Bắt buộc |
+| FR-18 | Người dùng phải có thể duyệt danh sách và mở chi tiết hoạt động được gợi ý trên thiết bị. | UC-02 | Bắt buộc |
+| FR-19 | Việc bỏ qua hoặc đánh giá hoạt động để cá nhân hóa chưa được triển khai trên TFT. | UC-02 | Out of scope |
+| FR-20 | Nếu không có Internet hoặc Cloud lỗi, TFT phải tiếp tục hiển thị hoạt động fallback cục bộ. | UC-02 | Bắt buộc |
 
 ## 5.5. Nhóm chức năng lựa chọn bài hát hoặc podcast theo chủ đích
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-21 | Khi có Internet, thiết bị phải cho phép người dùng mở Music/Podcast Mode trực tiếp từ HOME hoặc từ màn hình SUPPORT. | UC-03 | Must |
-| FR-22 | TFT phải hiển thị danh sách category nội dung gồm thư giãn, tập trung, ngủ nghỉ, vui vẻ, xoa dịu buồn bã, giải tỏa tức giận và phục hồi năng lượng. | UC-03 | Must |
-| FR-23 | Thiết bị phải gửi category, media type, user intent và emotion context nếu có lên Cloud Media Recommendation API. | UC-03 | Must |
-| FR-24 | Cloud Media Recommendation Service phải lọc và xếp hạng bài hát/podcast theo category, emotion label, lịch sử lựa chọn và feedback. | UC-03 | Must |
-| FR-25 | TFT phải hiển thị danh sách bài hát/podcast rút gọn, bao gồm title, creator, duration, category và reason text. | UC-03 | Must |
-| FR-26 | Người dùng phải có thể chọn nội dung để nghe, lưu lại, bỏ qua hoặc đánh giá sau khi nghe. | UC-03 | Should |
-| FR-27 | Thiết bị phải đồng bộ media selection log và media feedback lên Cloud khi có kết nối. | UC-03, UC-05 | Must |
+| FR-21 | Thiết bị phải cho phép người dùng mở Discover từ HOME và chọn một trong hai danh sách Music hoặc Podcast. | UC-03 | Bắt buộc |
+| FR-22 | Discover phải hiển thị hai lựa chọn Music và Podcast, kèm ngữ cảnh cảm xúc gần nhất hoặc `Neutral (default)`. | UC-03 | Bắt buộc |
+| FR-23 | Firmware phải lấy catalog Music/Podcast và, khi có cảm xúc, dùng emotion context để ưu tiên các mục do AI đề xuất. | UC-03 | Bắt buộc |
+| FR-24 | Cloud Media Recommendation Service phải lọc và xếp hạng bài hát/podcast theo category, emotion label, lịch sử lựa chọn và feedback. | UC-03 | Bắt buộc |
+| FR-25 | TFT phải hiển thị danh sách cuộn Music/Podcast gồm title, category, duration và nhãn `AI` cho mục được ưu tiên. | UC-03 | Bắt buộc |
+| FR-26 | Người dùng phải có thể chọn nội dung để phát bằng S3 và dừng bằng S2. | UC-03 | Bắt buộc |
+| FR-27 | Lưu media selection log hoặc media feedback trên TFT chưa được triển khai. | UC-03 | Out of scope |
 
 ## 5.6. Nhóm chức năng trò chuyện hỗ trợ qua máy chủ
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-28 | Khi có Internet và có emotion session đã đồng bộ, thiết bị phải cho phép người dùng mở Conversation Mode từ HOME hoặc sau check-in. | UC-04 | Must |
-| FR-29 | Firmware phải gửi PCM 16-bit, 16 kHz tối đa 10 giây cùng `session_id` lên Cloud Voice Conversation API; Server chuyển âm thanh thành transcript trước khi tạo phản hồi. | UC-04 | Must |
-| FR-30 | Cloud Conversation Service phải tạo phản hồi đồng cảm, ngắn gọn và phù hợp với TFT. | UC-04 | Must |
-| FR-31 | Phản hồi đầu tiên phải hiển thị trên TFT trong vòng 20 giây sau khi nhận input hợp lệ và có Internet. | UC-04 | Must |
-| FR-32 | Cloud phải áp dụng safety filter để tránh chẩn đoán y khoa, phán xét người dùng hoặc đưa lời khuyên nguy hiểm. | UC-04 | Must |
-| FR-33 | Khi phát hiện tín hiệu nguy cấp, Cloud phải trả thông điệp khuyên liên hệ người thân, chuyên gia hoặc dịch vụ hỗ trợ phù hợp. | UC-04 | Must |
-| FR-34 | Cloud chỉ lưu transcript tóm tắt và phản hồi hội thoại; audio PCM đầu vào không được lưu. | UC-04 | Must |
+| FR-28 | Thiết bị phải cho phép người dùng mở Companion Chat trực tiếp từ HOME; nếu chưa có session check-in, firmware thử tạo session `neutral` trước khi gửi audio. | UC-04 | Bắt buộc |
+| FR-29 | Firmware phải gửi PCM 16-bit, 16 kHz tối đa 10 giây cùng `session_id` lên Cloud Voice Conversation API; Server chuyển âm thanh thành transcript trước khi tạo phản hồi. | UC-04 | Bắt buộc |
+| FR-30 | Cloud Conversation Service phải tạo phản hồi đồng cảm, ngắn gọn và phù hợp với TFT. | UC-04 | Bắt buộc |
+| FR-31 | Phản hồi đầu tiên phải hiển thị trên TFT trong vòng 20 giây sau khi nhận input hợp lệ và có Internet. | UC-04 | Bắt buộc |
+| FR-32 | Cloud phải áp dụng safety filter để tránh chẩn đoán y khoa, phán xét người dùng hoặc đưa lời khuyên nguy hiểm. | UC-04 | Bắt buộc |
+| FR-33 | Khi phát hiện tín hiệu nguy cấp, Cloud phải trả thông điệp khuyên liên hệ người thân, chuyên gia hoặc dịch vụ hỗ trợ phù hợp. | UC-04 | Bắt buộc |
+| FR-34 | Cloud chỉ lưu transcript tóm tắt và phản hồi hội thoại; audio PCM đầu vào không được lưu. | UC-04 | Bắt buộc |
 
 ## 5.7. Nhóm chức năng báo cáo trên màn hình qua máy chủ
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-35 | Thiết bị phải cho phép người dùng mở Report từ HOME và chọn report period trên TFT: ngày, tuần hoặc tháng. | UC-05 | Must |
-| FR-36 | Firmware phải gọi `GET /api/statistics/day`, `/week` hoặc `/month` để lấy báo cáo rút gọn theo period đã chọn. | UC-05 | Must |
-| FR-37 | Cloud Report Engine phải tính tỷ lệ từng cảm xúc, xu hướng thay đổi, hiệu quả hoạt động và hiệu quả nội dung đã nghe dựa trên dữ liệu đã đồng bộ. | UC-05 | Must |
-| FR-38 | Cloud phải trả report dưới dạng TFT cards, mỗi card ngắn gọn và có thể đọc trên màn hình nhỏ; prototype có thể hiển thị dữ liệu giả lập khi chưa đủ dữ liệu thật. | UC-05 | Must |
-| FR-39 | Báo cáo rút gọn phải hiển thị trên TFT trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Must |
-| FR-40 | Nếu dữ liệu chưa đủ, Cloud phải trả trạng thái `limited_data` và TFT phải hiển thị thông báo khuyến nghị check-in thêm. | UC-05 | Must |
-| FR-41 | Khi mất Internet, TFT phải thông báo không thể lấy hoặc tạo báo cáo mới từ Cloud. | UC-05 | Must |
+| FR-35 | Thiết bị phải cho phép người dùng mở Insights từ HOME và chọn kỳ `Day`, `Week` hoặc `Month` trên TFT. | UC-05 | Bắt buộc |
+| FR-36 | Firmware phải gọi `GET /api/statistics/day`, `/week` hoặc `/month` để lấy báo cáo rút gọn theo period đã chọn. | UC-05 | Bắt buộc |
+| FR-37 | Firmware phải đọc `emotion_distribution` gồm tám nhãn cảm xúc để hiển thị thanh tỷ lệ; phần diễn giải AI được lấy riêng qua API `/explain`. | UC-05 | Bắt buộc |
+| FR-38 | Nếu API thống kê lỗi, thiếu hoặc rỗng `emotion_distribution`, firmware phải hiển thị bảng fallback cục bộ. | UC-05 | Bắt buộc |
+| FR-39 | Báo cáo rút gọn phải hiển thị trên TFT trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Bắt buộc |
+| FR-40 | TFT không hiển thị trạng thái `limited_data`; dữ liệu fallback được dùng khi không có thống kê hợp lệ. | UC-05 | Bắt buộc |
+| FR-41 | Khi mất Internet, biểu đồ Insights vẫn dùng dữ liệu fallback; riêng AI assessment hiển thị thông báo kiểm tra Wi-Fi và máy chủ nếu API lỗi. | UC-05 | Bắt buộc |
 
 ## 5.8. Nhóm chức năng quản lý dữ liệu người dùng
 
 | ID | Yêu cầu chức năng | Use case liên quan | Độ ưu tiên |
 | -- | ----------------- | ------------------ | ---------- |
-| FR-42 | Hệ thống phải liên kết mỗi thiết bị với đúng một tài khoản người dùng tại một thời điểm. | UC-02, UC-03, UC-04, UC-05 | Must |
-| FR-43 | Người dùng phải có thể xem lịch sử cảm xúc rút gọn trên TFT theo các phiên gần nhất. | UC-05 | Should |
-| FR-44 | Người dùng phải có cơ chế xóa dữ liệu cục bộ trên thiết bị. | UC-01, UC-05 | Should |
-| FR-45 | Hệ thống phải áp dụng chính sách lưu trữ hiện tại: không lưu audio thô, lưu transcript tóm tắt/response hội thoại và media feedback phục vụ báo cáo. | UC-03, UC-04, UC-05 | Must |
+| FR-42 | Hệ thống phải liên kết mỗi thiết bị với đúng một tài khoản người dùng tại một thời điểm. | UC-02, UC-03, UC-04, UC-05 | Bắt buộc |
+| FR-43 | Xem lịch sử emotion session theo các phiên gần nhất chưa được triển khai trên TFT. | UC-05 | Out of scope |
+| FR-44 | Xóa dữ liệu cục bộ từ TFT chưa được triển khai. | UC-01, UC-05 | Out of scope |
+| FR-45 | Hệ thống phải áp dụng chính sách lưu trữ hiện tại: không lưu audio thô, lưu transcript tóm tắt/response hội thoại và media feedback phục vụ báo cáo. | UC-03, UC-04, UC-05 | Bắt buộc |
 
 ## 5.9. Ma trận truy vết
 
@@ -1013,10 +1011,10 @@ Yêu cầu chức năng của EmotiCare AIoT tập trung vào trải nghiệm tr
 | Edge AI | FR-01 đến FR-08 | Edge Device, SER Engine, TFT | Kiểm thử thu âm, inference, confidence và quality flag |
 | Sync/Data | FR-09 đến FR-13 | Edge Device, Cloud API, Cloud Database | Kiểm thử pending cache, retry và idempotency |
 | Recommendation | FR-14 đến FR-20 | Cloud Recommendation Service, TFT | Kiểm thử 5 activity cards và feedback hoạt động |
-| Media | FR-21 đến FR-27 | Cloud Media Recommendation Service, TFT | Kiểm thử category, media list, selection log |
+| Media | FR-21 đến FR-27 | Cloud Media Recommendation Service, TFT | Kiểm thử Discover, media list, ưu tiên AI và phát/dừng |
 | Conversation | FR-28 đến FR-34 | Cloud Conversation Service, Safety Filter, TFT | Kiểm thử phản hồi đồng cảm và tình huống safety |
-| Report | FR-35 đến FR-41 | Cloud Report Engine, TFT | Kiểm thử report ngày/tuần/tháng, limited_data và cache |
-| User Data | FR-42 đến FR-45 | Device Auth, Local Cache, Cloud Database | Kiểm thử pairing, chính sách lưu trữ audio và xóa dữ liệu cục bộ |
+| Report | FR-35 đến FR-41 | Cloud Report Engine, TFT | Kiểm thử Insights ngày/tuần/tháng, AI assessment và fallback |
+| User Data | FR-42 đến FR-45 | Device Auth, Local Cache, Cloud Database | Kiểm thử pairing và chính sách lưu trữ audio |
 
 ---
 
@@ -1033,9 +1031,9 @@ Yêu cầu phi chức năng được điều chỉnh theo phạm vi mới: màn 
 | NFR-01 | Độ trễ nhận diện cảm xúc bằng giọng nói | Không quá 30 giây sau tương tác giọng nói hợp lệ | Bắt buộc |
 | NFR-02 | Độ trễ gợi ý hoạt động hoặc nội dung | Không quá 20 giây sau khi người dùng yêu cầu hỗ trợ và có Internet; nếu có nhãn cảm xúc thì dùng để cá nhân hóa | Bắt buộc |
 | NFR-03 | Độ trễ phản hồi hội thoại | Không quá 20 giây sau khi có dữ liệu hợp lệ và có Internet | Bắt buộc |
-| NFR-04 | Độ trễ danh sách bài hát/podcast theo chủ đích | Không quá 20 giây sau khi người dùng chọn category và có Internet | Must |
-| NFR-05 | Độ trễ tạo báo cáo TFT | Không quá 180 giây sau yêu cầu của người dùng | Must |
-| NFR-06 | Độ trễ chuyển màn hình TFT | Thao tác menu phản hồi trong vòng 1 giây | Should |
+| NFR-04 | Độ trễ tải danh sách bài hát/podcast | Không quá 20 giây sau khi người dùng chọn Music hoặc Podcast và có Internet | Bắt buộc |
+| NFR-05 | Độ trễ tạo báo cáo TFT | Không quá 180 giây sau yêu cầu của người dùng | Bắt buộc |
+| NFR-06 | Độ trễ chuyển màn hình TFT | Thao tác menu phản hồi trong vòng 1 giây | Nên làm |
 
 ## 6.3. Độ tin cậy và khả dụng
 
@@ -1046,46 +1044,46 @@ Yêu cầu phi chức năng được điều chỉnh theo phạm vi mới: màn 
 | NFR-09 | Lưu trạng thái khi mất kết nối | Phần mềm thiết bị chỉ giữ cảm xúc đã xác nhận gần nhất trong bộ nhớ cục bộ; trạng thái mới ghi đè trạng thái cũ | Bắt buộc |
 | NFR-10 | Thử đồng bộ lại | Chưa có chức năng tự thử đồng bộ lại khi Internet khả dụng | Khuyến nghị |
 | NFR-11 | Không tạo trùng dữ liệu | Máy chủ không tạo trùng phiên khi nhận lại cùng `client_session_id` từ một thiết bị | Bắt buộc |
-| NFR-12 | Theo dõi trạng thái | Màn hình hiển thị trạng thái có hoặc không có kết nối, số phiên chờ và lần đồng bộ gần nhất | Bắt buộc |
+| NFR-12 | Theo dõi trạng thái | Màn hình WiFi Setup hiển thị `Online`, `Unpaired`, `Setup AP` hoặc `Offline` | Bắt buộc |
 
 ## 6.4. Bảo mật và quyền riêng tư
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
 | NFR-13 | Bảo vệ âm thanh | Âm thanh dùng để kiểm tra cảm xúc không được gửi lên máy chủ. Âm thanh trò chuyện chỉ được gửi khi người dùng chủ động bắt đầu hội thoại, được xử lý tạm thời thành văn bản và không được lưu | Bắt buộc |
-| NFR-14 | Minh bạch ghi âm | TFT hiển thị rõ khi thiết bị đang nghe/ghi âm | Must |
-| NFR-15 | Xác thực thiết bị | Edge API yêu cầu device token hoặc signed request | Must |
-| NFR-16 | Phân quyền dữ liệu | Cloud chỉ chấp nhận dữ liệu từ thiết bị đã ghép với user hợp lệ | Must |
-| NFR-17 | Xóa dữ liệu cục bộ | Người dùng có cơ chế xóa cache hoặc lịch sử gần trên thiết bị | Should |
-| NFR-18 | Bảo mật truyền tải | API dùng HTTPS trong triển khai thực tế | Must |
+| NFR-14 | Minh bạch ghi âm | TFT hiển thị rõ khi thiết bị đang nghe/ghi âm | Bắt buộc |
+| NFR-15 | Xác thực thiết bị | Edge API yêu cầu device token hoặc signed request | Bắt buộc |
+| NFR-16 | Phân quyền dữ liệu | Cloud chỉ chấp nhận dữ liệu từ thiết bị đã ghép với user hợp lệ | Bắt buộc |
+| NFR-17 | Xóa dữ liệu cục bộ | Chưa cung cấp thao tác xóa cache hoặc lịch sử từ TFT trong phiên bản hiện tại | Out of scope |
+| NFR-18 | Bảo mật truyền tải | API dùng HTTPS trong triển khai thực tế | Bắt buộc |
 
 ## 6.5. An toàn cảm xúc
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-19 | Không chẩn đoán | Hệ thống không tuyên bố chẩn đoán bệnh lý tâm thần | Must |
-| NFR-20 | Ngôn ngữ đồng cảm | Phản hồi cloud phải bình tĩnh, tôn trọng và không phán xét | Must |
-| NFR-21 | Xử lý tín hiệu nguy cấp | Cloud trả thông điệp liên hệ hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường | Must |
-| NFR-22 | Quyền tự chủ | Người dùng có thể bỏ qua gợi ý, dừng hội thoại, không chọn nội dung nghe hoặc xóa dữ liệu cục bộ | Must |
+| NFR-19 | Không chẩn đoán | Hệ thống không tuyên bố chẩn đoán bệnh lý tâm thần | Bắt buộc |
+| NFR-20 | Ngôn ngữ đồng cảm | Phản hồi cloud phải bình tĩnh, tôn trọng và không phán xét | Bắt buộc |
+| NFR-21 | Xử lý tín hiệu nguy cấp | Cloud trả thông điệp liên hệ hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường | Bắt buộc |
+| NFR-22 | Quyền tự chủ | Người dùng có thể quay lại màn hình trước, dừng phát media và kết thúc/không gửi phần thu hội thoại | Bắt buộc |
 
 ## 6.6. Khả dụng và trải nghiệm TFT
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-23 | Thao tác đơn giản | Người dùng bắt đầu check-in bằng một thao tác rõ ràng | Must |
-| NFR-24 | Kết quả dễ đọc | Emotion label, confidence, gợi ý và danh sách bài hát/podcast phải vừa màn hình TFT | Must |
-| NFR-25 | Luồng màn hình nhất quán | Trang chủ, Kiểm tra cảm xúc, Kết quả, Hỗ trợ, Hoạt động, Nhạc-Podcast, Trò chuyện, Trạng thái và Báo cáo liên kết rõ | Must |
-| NFR-26 | Báo cáo TFT dễ hiểu | Các thẻ báo cáo phải ngắn, ưu tiên nhận định chính thay vì bảng dài | Must |
-| NFR-27 | Khả năng tiếp cận | Màu sắc, font và tương phản đủ rõ trên màn hình nhỏ | Should |
+| NFR-23 | Thao tác đơn giản | Người dùng bắt đầu check-in bằng một thao tác rõ ràng | Bắt buộc |
+| NFR-24 | Kết quả dễ đọc | Emotion label, confidence, gợi ý và danh sách bài hát/podcast phải vừa màn hình TFT | Bắt buộc |
+| NFR-25 | Luồng màn hình nhất quán | Trang chủ, Kiểm tra cảm xúc, Kết quả, Hỗ trợ, Hoạt động, Nhạc-Podcast, Trò chuyện, Trạng thái và Báo cáo liên kết rõ | Bắt buộc |
+| NFR-26 | Thống kê TFT dễ hiểu | Biểu đồ tỷ lệ cảm xúc và phần diễn giải AI phải đọc được trên màn hình TFT nhỏ | Bắt buộc |
+| NFR-27 | Khả năng tiếp cận | Màu sắc, font và tương phản đủ rõ trên màn hình nhỏ | Nên làm |
 
 ## 6.7. Khả năng bảo trì và mở rộng
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-28 | Pipeline tách module | SER, sync, recommendation, media recommendation, conversation và report có thể cập nhật độc lập | Should |
-| NFR-29 | Mở rộng emotion taxonomy | Có thể thêm lớp cảm xúc mới mà không phá vỡ schema chính | Should |
-| NFR-30 | Mở rộng thư viện hoạt động/nội dung | Có thể thêm hoạt động, bài hát, podcast hoặc category mới trong Cloud Service | Should |
-| NFR-31 | Truy vết yêu cầu | Objective, use case, requirement và API có ID rõ ràng | Should |
+| NFR-28 | Pipeline tách module | SER, sync, recommendation, media recommendation, conversation và report có thể cập nhật độc lập | Nên làm |
+| NFR-29 | Mở rộng emotion taxonomy | Có thể thêm lớp cảm xúc mới mà không phá vỡ schema chính | Nên làm |
+| NFR-30 | Mở rộng thư viện hoạt động/nội dung | Có thể thêm hoạt động, bài hát, podcast hoặc category mới trong Cloud Service | Nên làm |
+| NFR-31 | Truy vết yêu cầu | Objective, use case, requirement và API có ID rõ ràng | Nên làm |
 
 ---
 
@@ -1093,121 +1091,104 @@ Yêu cầu phi chức năng được điều chỉnh theo phạm vi mới: màn 
 
 ## 7.1. Tổng quan
 
-EmotiCare AIoT được sử dụng trực tiếp trên thiết bị phần cứng. Cảm xúc hiện tại, gợi ý hoạt động, danh sách bài hát/podcast, phản hồi trò chuyện, trạng thái đồng bộ và báo cáo rút gọn đều được hiển thị trên màn hình TFT.
+EmotiCare AIoT được sử dụng trực tiếp trên thiết bị phần cứng. Cảm xúc hiện tại, gợi ý hoạt động, danh sách bài hát/podcast, phản hồi trò chuyện, trạng thái đồng bộ và biểu đồ thống kê cảm xúc đều được hiển thị trên màn hình TFT.
 
 Luồng sử dụng chính:
 
-```text
-TRANG CHỦ -> KIỂM TRA CẢM XÚC / HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN / BÁO CÁO / TRẠNG THÁI
-KIỂM TRA CẢM XÚC -> KẾT QUẢ -> HỖ TRỢ -> HOẠT ĐỘNG / NHẠC-PODCAST / TRÒ CHUYỆN
-```
+![Sơ đồ luồng sử dụng chính](user-flow-v2.png)
+
+`HOME` mở các mục `CHECK-IN`, `DISCOVER`, `COMPANION CHAT`, `INSIGHTS`, `TEST MIC`, `TEST BUTTONS` và `WIFI SETUP`. Sau `CHECK-IN`, người dùng xem **Kết quả**, **Xác nhận** rồi mới mở **Support**. Discover dẫn đến danh sách Music hoặc Podcast.
 
 ## 7.2. Luồng màn hình thiết bị
 
 | Màn hình | Mục đích | Thao tác chính |
 | -------- | -------- | -------------- |
-| Trang chủ | Xem trạng thái kết nối, cảm xúc gần nhất và số phiên đang chờ đồng bộ | Chuyển trực tiếp sang kiểm tra cảm xúc, hoạt động, nhạc/podcast, trò chuyện, báo cáo hoặc trạng thái |
-| Kiểm tra cảm xúc | Ghi âm giọng nói khi người dùng chủ động kích hoạt | Bắt đầu/dừng ghi âm |
-| Kết quả | Hiển thị nhãn cảm xúc và độ tin cậy từ Edge AI | Xem kết quả, chuyển sang phần hỗ trợ |
-| Hỗ trợ | Chọn hướng hỗ trợ sau khi kiểm tra cảm xúc; các chức năng này cũng có thể mở trực tiếp từ trang chủ | Chọn hoạt động, nhạc/podcast hoặc trò chuyện |
-| Hoạt động | Hiển thị 5 gợi ý hoạt động từ dịch vụ gợi ý Cloud | Chọn, bỏ qua hoặc đánh giá hoạt động |
-| Nhạc-Podcast | Chọn bài hát hoặc podcast theo chủ đích và nhóm nội dung | Chọn nhóm nội dung, xem danh sách, chọn nội dung để nghe |
-| Trò chuyện | Hiển thị phản hồi từ dịch vụ trò chuyện Cloud | Nói tiếp, nhận phản hồi, kết thúc |
-| Trạng thái | Xem trực tuyến/ngoại tuyến, số phiên chờ và lần đồng bộ gần nhất | Thử đồng bộ lại |
-| Báo cáo | Xem tóm tắt ngày/tuần/tháng từ bộ tạo báo cáo Cloud | Chọn mốc thời gian và xem các thẻ báo cáo |
+| Trang chủ | Hiển thị trạng thái Wi-Fi, cảm xúc gần nhất và bảy mục điều hướng | Mở Check-In, Discover, Companion Chat, Insights, Test Mic, Test Buttons hoặc WiFi Setup |
+| Check-In | Ghi âm, xử lý và yêu cầu xác nhận kết quả cảm xúc | S1 ghi âm; S2/S3 thực thi, xác nhận và mở Support |
+| Support | Hiển thị danh sách hoạt động từ máy chủ hoặc fallback cục bộ | Mở chi tiết hoạt động, chuyển mục hoặc quay về màn hình trước |
+| Discover | Chọn Music hoặc Podcast | Mở danh sách nội dung tương ứng |
+| Nhạc/Podcast | Hiển thị danh sách cuộn và phát nội dung được chọn | S3 phát, S2 dừng, S4/S5 cuộn, S1 quay lại Discover |
+| Companion Chat | Thu âm chia sẻ và hiển thị phản hồi hội thoại | S1 bắt đầu thu; sau khi thu xong, S2/S3 gửi yêu cầu |
+| WiFi Setup | Hiển thị trạng thái `Online`, `Unpaired`, `Setup AP` hoặc `Offline` | Mở captive portal hoặc thử kết nối lại |
+| Insights | Xem thống kê cảm xúc ngày/tuần/tháng | Chọn mốc thời gian và xem tám thanh tỷ lệ cảm xúc hoặc phần diễn giải AI |
 
 ## 7.3. Thiết lập lần đầu
 
 | Bước | Hành động | Kết quả mong đợi |
 | ---- | --------- | ---------------- |
-| 1 | Bật nguồn thiết bị | Màn hình Trang chủ hiển thị tên EmotiCare AIoT |
-| 2 | Kết nối Wi-Fi hoặc điểm phát sóng | Trạng thái mạng chuyển sang trực tuyến |
-| 3 | Nhập mã ghép thiết bị hoặc quét mã theo hướng dẫn của nhóm | Thiết bị được liên kết với người dùng trên Cloud |
-| 4 | Kiểm tra microphone | Thiết bị sẵn sàng để kiểm tra cảm xúc |
-| 5 | Kiểm tra Trạng thái | TFT hiển thị trạng thái trực tuyến, lần đồng bộ gần nhất và số phiên chờ |
+| 1 | Bật nguồn và mở **WiFi Setup** nếu thiết bị chưa trực tuyến | TFT hiển thị trạng thái mạng hiện tại |
+| 2 | Khi thấy `Setup AP`, kết nối điện thoại vào Wi-Fi `EmotiCare-Setup` (mật khẩu `12345678`) | Điện thoại kết nối với captive portal của thiết bị |
+| 3 | Mở `http://192.168.4.1`, chọn Wi-Fi, nhập mật khẩu, Server URL và pairing code | Thiết bị kết nối Wi-Fi, pair với máy chủ rồi khởi động lại |
+| 4 | Mở **Test Mic** để kiểm tra đường thu/phát âm thanh khi cần | Xác nhận microphone và loa hoạt động |
 
 ## 7.4. Kiểm tra cảm xúc bằng giọng nói
 
 | Bước | Hành động của người dùng | Hành vi của thiết bị |
 | ---- | ----------------------- | -------------------- |
 | 1 | Từ Trang chủ chọn Kiểm tra cảm xúc | Màn hình chuyển sang Kiểm tra cảm xúc |
-| 2 | Nhấn Start và nói một câu ngắn | Thiết bị hiển thị trạng thái đang nghe |
-| 3 | Chờ xử lý | Edge AI phân tích giọng nói trong vòng 30 giây |
-| 4 | Xem kết quả | TFT hiển thị nhãn cảm xúc và độ tin cậy |
-| 5 | Chọn bước tiếp theo | Chuyển sang Hoạt động, Nhạc/Podcast hoặc Trò chuyện nếu có Internet; người dùng cũng có thể quay về Trang chủ |
+| 2 | Nhấn S1 (`REC`) và nói trong tối đa 10 giây | Thiết bị hiển thị thời gian thu âm |
+| 3 | Sau khi thu xong, nhấn S2 hoặc S3 (`EXEC`) | Thiết bị xử lý giọng nói tại Edge |
+| 4 | Xem kết quả rồi nhấn S2/S3 (`CONFIRM`) để lưu | TFT hiển thị nhãn cảm xúc và độ tin cậy theo phần trăm |
+| 5 | Nhấn S2/S3 lần nữa (`SUPPORT`) | Chuyển sang màn hình Support; S5 quay về màn hình trước |
 
 Ví dụ kết quả:
 
 | Trường | Giá trị |
 | ------ | ------- |
 | Cảm xúc | Căng thẳng |
-| Độ tin cậy | 0.74 |
-| Trạng thái đồng bộ | Đang chờ hoặc đã đồng bộ |
-| Gợi ý tiếp theo | Kết nối Cloud để nhận hoạt động, nhạc/podcast hoặc phản hồi trò chuyện |
+| Độ tin cậy | 74% |
+| Bước tiếp theo | Xác nhận kết quả rồi mở Support, hoặc quay về Trang chủ |
 
 ## 7.5. Sử dụng các dịch vụ hỗ trợ qua Cloud
 
-Gợi ý hoạt động cần Internet và một phiên cảm xúc đã được đồng bộ. Người dùng chọn Hoạt động từ Trang chủ sau khi check-in; thiết bị gửi `session_id` lên Cloud. Kết quả luôn là 5 thẻ hoạt động hiển thị trên TFT, được xếp hạng theo cảm xúc, feedback hoạt động và lịch sử card gần đây. Nhạc/podcast được chọn trong màn hình riêng tại mục 6.6.
+Sau khi xác nhận Check-In, nhấn S2/S3 để mở **Support**. Firmware ưu tiên lấy danh sách hoạt động theo session gần nhất từ máy chủ; khi không lấy được dữ liệu, nó vẫn hiển thị một hoạt động fallback theo cảm xúc hiện tại. Màn hình chỉ hỗ trợ xem danh sách và mở chi tiết, không có thao tác bỏ qua hoặc đánh giá hoạt động.
 
-| Cảm xúc | Hoạt động ưu tiên mẫu |
-| ------- | ---------------------- |
-| Vui vẻ | Vận động nhẹ, ghi nhận điều tích cực, kết nối |
-| Bình thường | Chia nhỏ việc, vận động nhẹ, hít thở |
-| Căng thẳng | Hít thở, neo hiện tại, nghỉ mắt/uống nước |
-| Buồn bã | Nghỉ ngơi, kết nối với người tin cậy, viết |
-| Tức giận | Hít thở, neo hiện tại, vận động nhẹ |
-| Mệt mỏi | Nghỉ mắt/uống nước, nghỉ ngơi, quét cơ thể |
+| Cảm xúc fallback | Hoạt động fallback trong firmware |
+| ----------------- | -------------------------------- |
+| `Happy` | Capture the Moment |
+| `Sad` | Small Reset Walk |
+| `Anxious` hoặc `stressed` | Box Breathing |
+| Nhãn khác | Breathing & Light Stretch |
 
-Nếu thiết bị ngoại tuyến, TFT hiển thị thông báo: `Cần Internet để lấy gợi ý từ Cloud`.
+Khi thiết bị ngoại tuyến hoặc máy chủ lỗi, Support vẫn dùng hoạt động fallback cục bộ.
 
 ## 7.6. Chọn bài hát hoặc podcast theo chủ đích
 
-Chế độ Nhạc/Podcast dành cho trường hợp người dùng muốn chủ động chọn nội dung thay vì chỉ nhận gợi ý tự động. Người dùng có thể mở Nhạc/Podcast trực tiếp từ Trang chủ, chọn loại nội dung, nhóm nội dung và chủ đích ngắn trên TFT; dịch vụ gợi ý nội dung trên Cloud sẽ trả về danh sách phù hợp. Ngữ cảnh cảm xúc chỉ là dữ liệu bổ sung nếu người dùng đã kiểm tra cảm xúc trước đó.
+Từ Trang chủ, chọn **Discover** để mở danh mục nội dung. Màn hình này chỉ có hai lựa chọn: **Music** và **Podcast**. Nếu đã check-in, TFT hiển thị cảm xúc gần nhất và độ tin cậy để cho biết danh sách được ưu tiên theo ngữ cảnh đó; nếu chưa check-in, thiết bị dùng ngữ cảnh `Neutral (default)`.
 
-| Nhóm nội dung | Nội dung thường gặp | Khi nên chọn |
-| -------- | ------------------ | ------------ |
-| Thư giãn | Nhạc nhẹ, ambient, podcast thở chậm | Khi căng thẳng |
-| Tập trung | Nhạc không lời, white noise, podcast tập trung | Khi học tập hoặc làm việc |
-| Ngủ nghỉ | Nhạc chậm, sleep story, podcast thiền ngủ | Khi chuẩn bị nghỉ ngơi |
-| Vui vẻ | Nhạc tích cực, podcast truyền cảm hứng | Khi muốn duy trì cảm xúc tốt |
-| Xoa dịu buồn bã | Nhạc ấm, podcast chia sẻ cảm xúc | Khi cần cảm giác được đồng hành |
-| Giải tỏa tức giận | Nhạc grounding, podcast kiểm soát cảm xúc | Khi cần tạm dừng và hạ nhịp |
-| Phục hồi năng lượng | Nhạc nhẹ có nhịp vừa, podcast self-care | Khi mệt mỏi |
+Danh sách nội dung được lấy từ catalog của máy chủ. Các mục được AI đề xuất được đưa lên đầu danh sách và có nhãn `AI`; khi không tải được catalog mới, firmware dùng dữ liệu fallback cục bộ. Phiên bản hiện tại không có bước chọn category, chọn `Both`, nhập/nói chủ đích hoặc lưu/đánh giá nội dung ngay trên TFT.
 
-| Bước | Hành động | Kết quả |
-| ---- | --------- | ------- |
-| 1 | Chọn Nhạc/Podcast từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet |
-| 2 | Chọn Music, Podcast hoặc Both | TFT hiển thị danh sách category |
-| 3 | Chọn category hoặc nói chủ đích ngắn | Thiết bị gửi intent lên Cloud |
-| 4 | Chờ danh sách gợi ý | Cloud trả song/podcast cards |
-| 5 | Chọn nội dung để nghe hoặc lưu lại | Thiết bị ghi nhận media selection log |
+| Màn hình | Nội dung hiển thị |
+| -------- | ---------------- |
+| Discover | Hai mục `Music` và `Podcast`, số lượng mục hiện có và số mục được AI ưu tiên; S4 đi xuống, S5 đi lên/quay lại, S2 hoặc S3 mở mục đang chọn. |
+| Music | Danh sách cuộn tối đa bốn bài hát cùng lúc; mỗi mục có tiêu đề, category và thời lượng. Nhấn S3 để phát, S2 để dừng, S4/S5 để cuộn, S1 để quay lại Discover. |
+| Podcast | Danh sách cuộn tối đa bốn tập cùng lúc; mỗi mục có tiêu đề, category và thời lượng. Nhấn S3 để phát, S2 để dừng, S4/S5 để cuộn, S1 để quay lại Discover. |
 
 ## 7.7. Sử dụng trò chuyện hỗ trợ cảm xúc qua Cloud
 
-Chế độ Trò chuyện cần Internet và một emotion session đã được đồng bộ từ lần check-in gần nhất. Người dùng có thể mở Trò chuyện từ Trang chủ hoặc Hỗ trợ sau check-in. Thiết bị gửi PCM 16-bit, 16 kHz của phần chia sẻ (tối đa 10 giây) cùng `session_id` lên Cloud; Cloud chuyển giọng nói thành transcript, tạo phản hồi rút gọn và có thể trả audio TTS. Audio đầu vào chỉ xử lý tạm thời, không được lưu.
+Chế độ **Companion Chat** mở trực tiếp từ Trang chủ. Thiết bị thu PCM 16-bit, 16 kHz trong tối đa 10 giây; nếu chưa có session check-in, firmware thử tạo một session `neutral` trước khi gửi yêu cầu. Khi có kết nối, máy chủ trả transcript, phản hồi văn bản và có thể kèm URL audio TTS. Nếu dịch vụ không khả dụng, firmware dùng phản hồi fallback.
 
 | Bước | Hành động | Kết quả |
 | ---- | --------- | ------- |
-| 1 | Sau check-in đã đồng bộ, chọn Trò chuyện từ Trang chủ hoặc Hỗ trợ | Thiết bị kiểm tra Internet và session |
-| 2 | Chia sẻ ngắn bằng giọng nói (tối đa 10 giây) | Thiết bị gửi PCM và `session_id` lên Cloud |
-| 3 | Đợi phản hồi | Cloud trả phản hồi trong mục tiêu 20 giây |
+| 1 | Chọn Companion Chat từ Trang chủ, nhấn S1 (`REC`) và chia sẻ ngắn | Thiết bị bắt đầu thu âm |
+| 2 | Chờ đủ thời gian thu, sau đó nhấn S2 hoặc S3 | Thiết bị gửi PCM và session hiện có hoặc session `neutral` |
+| 3 | Đợi phản hồi | TFT hiển thị transcript/phản hồi; audio TTS được phát nếu có URL hợp lệ |
 | 4 | Đọc phản hồi trên TFT | Người dùng có thể tiếp tục hoặc kết thúc |
 
 Lưu ý: EmotiCare AIoT không thay thế chuyên gia sức khỏe tinh thần. Nếu người dùng có cảm giác nguy hiểm cho bản thân hoặc người khác, cần liên hệ ngay người thân, chuyên gia hoặc dịch vụ hỗ trợ khẩn cấp tại địa phương.
 
-## 7.8. Xem trạng thái đồng bộ
+## 7.8. Xem trạng thái Wi-Fi và pairing
 
 | Trạng thái | Ý nghĩa | Hành động đề xuất |
 | ---------- | ------- | ----------------- |
-| Online | Thiết bị đang kết nối Cloud | Có thể dùng Activity, Music/Podcast, Conversation và Report |
-| Ngoại tuyến | Thiết bị không có Internet | Chỉ Mục tiêu 1 hoạt động; dữ liệu được lưu chờ đồng bộ |
-| Có phiên chờ | Có phiên chưa đồng bộ | Kiểm tra Wi-Fi hoặc chọn đồng bộ ngay |
-| Đang chờ Cloud | Thiết bị đang chờ Cloud trả kết quả | Giữ kết nối và đợi phản hồi |
-| Có kết quả từ Cloud | Có kết quả mới từ Cloud | Mở màn hình tương ứng để xem |
+| Online | Đã kết nối Wi-Fi và pair với máy chủ | Có thể gọi các API máy chủ; một số màn hình vẫn có fallback khi API lỗi |
+| Unpaired | Đã kết nối Wi-Fi nhưng chưa pair với máy chủ | Mở WiFi Setup để nhập Server URL và pairing code |
+| Setup AP | Thiết bị đang mở hotspot cấu hình | Kết nối `EmotiCare-Setup` và mở `192.168.4.1` |
+| Offline | Chưa kết nối Wi-Fi | Mở WiFi Setup để cấu hình hoặc kết nối lại |
 
 ## 7.9. Xem báo cáo trên TFT
 
-Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dùng chọn mốc thống kê cần xem, gồm ngày, tuần hoặc tháng. Báo cáo được tạo trên máy chủ và trả về thành các thẻ ngắn; nếu dữ liệu chưa đủ, thiết bị thông báo rõ để người dùng hiểu kết quả chỉ mang tính tham khảo.
+Màn hình **Insights** có thể mở trực tiếp từ Trang chủ. Người dùng chọn kỳ thống kê ngày, tuần hoặc tháng để xem biểu đồ tỷ lệ của tám nhãn cảm xúc. Thiết bị ưu tiên lấy dữ liệu từ máy chủ; nếu không lấy được dữ liệu hợp lệ, firmware hiển thị bảng dữ liệu mẫu cục bộ để giao diện vẫn hoạt động.
 
 | Lựa chọn trên màn hình | Ý nghĩa | Giá trị gửi tới máy chủ |
 | ----------------- | ------- | ------------ |
@@ -1217,22 +1198,38 @@ Màn hình Báo cáo có thể mở trực tiếp từ Trang chủ. Người dù
 
 | Nội dung hiển thị | Ý nghĩa |
 | ----------------- | ------- |
-| Phân bố cảm xúc | Tỷ lệ các cảm xúc chính trong kỳ |
-| Xu hướng | Dấu hiệu cải thiện, ổn định hoặc cần chú ý |
-| Chuỗi cảm xúc khó chịu | Số lần buồn bã hoặc tức giận liên tiếp nếu có |
-| Hoạt động hữu ích | Hoạt động được đánh giá hữu ích nhất |
-| Nội dung hữu ích | Bài hát hoặc podcast được chọn hay đánh giá tích cực |
-| Mức độ đầy đủ của dữ liệu | Đủ dữ liệu hoặc cần thêm dữ liệu |
+| Bộ chọn kỳ | Ba lựa chọn `Day`, `Week`, `Month`; kỳ đang chọn được làm nổi bật. |
+| Biểu đồ cảm xúc | Tám thanh tỷ lệ phần trăm cho các nhãn `Angry`, `Calm`, `Disgust`, `Fearful`, `Happy`, `Neutral`, `Sad` và `Surprise`. |
+| Dòng trạng thái | Hiển thị kỳ đang xem theo dạng `Period: <kỳ> | AI-analyzed`. |
+| Chế độ AI assessment | Nhấn S1 (`AI VIEW`) để xem phần diễn giải do API `POST /api/statistics/{period}/explain` trả về; nhấn S1 lần nữa để quay lại biểu đồ. |
+| Điều hướng | S2 hoặc S4 chuyển sang kỳ tiếp theo; S3 chuyển về kỳ trước; S5 quay lại màn hình trước. |
 
-Ví dụ kết quả giả lập trả về trên TFT:
+### Ví dụ nội dung báo cáo trên TFT
 
-| Kỳ thống kê | Phân bố cảm xúc | Xu hướng | Hoạt động hữu ích | Nội dung hữu ích | Mức độ đầy đủ của dữ liệu |
-| ----------- | ---------------- | -------- | ----------------- | ---------------- | -------------------------- |
-| Ngày | Vui vẻ 35%, bình thường 30%, bình tĩnh 25%, buồn bã 10% | Bình tĩnh tăng nhẹ vào buổi tối | Hít thở 4-7-8 | Podcast thở chậm 5 phút | Đủ dữ liệu |
-| Tuần | Bình thường 37%, vui vẻ 25%, bình tĩnh 20%, buồn bã 10%, tức giận 8% | Nhịp cảm xúc ổn định hơn vào nửa cuối tuần | Neo lại hiện tại | Podcast tập trung ngắn | Đủ dữ liệu |
-| Tháng | Bình thường 40%, vui vẻ 28%, bình tĩnh 20%, buồn bã 8%, sợ hãi 4% | Cảm xúc ổn định hơn sau tuần 2 | Nghỉ 5 phút khỏi màn hình | Danh sách nhạc tập trung nhẹ | Đủ dữ liệu |
+Các số liệu dưới đây là bảng fallback hiện có trong firmware. Chúng chỉ được dùng khi thiết bị không lấy được `emotion_distribution` hợp lệ từ máy chủ và không phải kết quả đánh giá sức khỏe tâm lý.
 
-Nếu thiết bị không có kết nối Internet, màn hình thông báo cần kết nối để lấy hoặc tạo báo cáo; phiên bản hiện tại không lưu báo cáo trên thiết bị.
+**Báo cáo ngày**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 4%; Calm 22%; Disgust 2%; Fearful 5%; Happy 42%; Neutral 16%; Sad 6%; Surprise 3% |
+| Dòng trạng thái | `Period: Day | AI-analyzed` |
+
+**Báo cáo tuần**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 7%; Calm 18%; Disgust 3%; Fearful 8%; Happy 34%; Neutral 18%; Sad 9%; Surprise 3% |
+| Dòng trạng thái | `Period: Week | AI-analyzed` |
+
+**Báo cáo tháng**
+
+| Nội dung | Kết quả minh họa |
+| -------- | ---------------- |
+| Phân bố cảm xúc | Angry 5%; Calm 20%; Disgust 3%; Fearful 7%; Happy 38%; Neutral 17%; Sad 7%; Surprise 3% |
+| Dòng trạng thái | `Period: Month | AI-analyzed` |
+
+Nếu máy chủ hoặc kết nối không sẵn sàng, màn hình biểu đồ vẫn hiển thị bảng fallback nêu trên. Riêng chế độ **AI assessment** cần gọi API; khi không lấy được diễn giải, thiết bị hiển thị thông báo yêu cầu kiểm tra Wi-Fi và máy chủ.
 
 ## 7.10. Xử lý sự cố
 
@@ -1241,9 +1238,9 @@ Nếu thiết bị không có kết nối Internet, màn hình thông báo cần
 | Thiết bị không nghe rõ | Microphone bị che hoặc môi trường quá ồn | Nói gần hơn, giảm nhiễu nền |
 | Kết quả là không chắc chắn | Câu nói quá ngắn hoặc confidence thấp | Check-in lại bằng câu rõ hơn |
 | Không lấy được gợi ý | Thiết bị offline hoặc Cloud timeout | Kiểm tra Wi-Fi và thử lại |
-| Không có danh sách bài hát/podcast | Chưa có Internet, category trống hoặc Cloud chưa trả kết quả | Mở Status, đổi category hoặc thử lại |
-| Không có phản hồi hội thoại | Internet lỗi hoặc Cloud chưa trả kết quả | Mở Status để xem trạng thái |
-| Báo cáo limited data | Chưa đủ session trong kỳ thống kê | Check-in đều hơn trong các ngày tiếp theo |
+| Không phát được bài hát/podcast | Mục đang chọn không có URL phát hoặc audio output không khả dụng | Chọn mục khác, kiểm tra Wi-Fi và loa |
+| Không có phản hồi hội thoại | Internet lỗi, máy chủ không trả kết quả hoặc thu âm chưa đủ | Kiểm tra Wi-Fi, thu lại rồi gửi bằng S2/S3 |
+| Không xem được AI assessment | Không có Wi-Fi, chưa kết nối máy chủ hoặc API diễn giải không trả kết quả | Kiểm tra Wi-Fi và máy chủ, sau đó nhấn S1 để thử lại; biểu đồ fallback vẫn có thể xem. |
 
 ---
 
@@ -1255,7 +1252,7 @@ EmotiCare AIoT - Người bạn đồng hành cảm xúc thông minh là một t
 
 1. Nhận diện cảm xúc bằng giọng nói trên Edge AI.
 2. Gửi ngữ cảnh cảm xúc lên Cloud để nhận gợi ý hoạt động, bài hát, podcast hoặc phản hồi trò chuyện.
-3. Tổng hợp xu hướng cảm xúc trên Cloud và trả báo cáo rút gọn về TFT.
+3. Lấy phân bố cảm xúc theo kỳ từ Cloud và hiển thị biểu đồ thống kê trên TFT.
 
 Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER tại Edge -> hiển thị trên TFT -> đồng bộ Cloud -> hỗ trợ/báo cáo -> hiển thị trên TFT**.
 
@@ -1273,7 +1270,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | ------- | ----- |
 | Tăng tự nhận thức | Người dùng gọi tên được cảm xúc hiện tại thông qua check-in bằng giọng nói |
 | Hỗ trợ đúng lúc | Thiết bị hiển thị gợi ý hoạt động, bài hát/podcast hoặc phản hồi Cloud ngay trên TFT |
-| Theo dõi dài hạn | TFT hiển thị report cards giúp người dùng nhìn lại xu hướng cảm xúc |
+| Theo dõi theo kỳ | TFT hiển thị biểu đồ tỷ lệ của tám nhãn cảm xúc theo ngày, tuần hoặc tháng |
 | Phù hợp prototype sinh viên | Edge xử lý phần cốt lõi, Cloud hỗ trợ các phần nặng hơn |
 | Riêng tư hơn | Audio check-in SER xử lý tại Edge; PCM Voice Conversation chỉ xử lý tạm thời cho STT và không được lưu |
 
@@ -1285,7 +1282,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | Objective 2 và 3 phụ thuộc Internet | Khi offline, thiết bị chỉ nhận diện và giữ trạng thái emotion đã xác nhận gần nhất; chưa tạo hỗ trợ cloud mới |
 | TFT có không gian hạn chế | Báo cáo và phản hồi phải rút gọn, không phù hợp trình bày bảng dài |
 | Không phải thiết bị y tế | Không chẩn đoán, điều trị hoặc thay thế chuyên gia |
-| Cá nhân hóa phụ thuộc feedback | Gợi ý sẽ tốt hơn khi người dùng đánh giá hoạt động, bài hát hoặc podcast sau khi trải nghiệm |
+| Cá nhân hóa hiện còn giới hạn | TFT hiện chưa có thao tác đánh giá hoạt động, bài hát hoặc podcast; danh sách AI được ưu tiên theo emotion context gần nhất |
 
 ## 8.5. Hướng phát triển
 
@@ -1294,7 +1291,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | Baseline cảm xúc cá nhân | Học ngưỡng cảm xúc riêng của từng người dùng |
 | Model update | Cập nhật mô hình SER tối ưu hơn cho Edge Device |
 | Cloud recommendation nâng cao | Cá nhân hóa hoạt động, bài hát và podcast dựa trên hiệu quả trong lịch sử |
-| TFT visualization tốt hơn | Tối ưu biểu đồ nhỏ, biểu tượng cảm xúc và report cards |
+| TFT visualization tốt hơn | Tối ưu biểu đồ nhỏ, biểu tượng cảm xúc và phần diễn giải AI |
 | Tài nguyên hỗ trợ theo khu vực | Gợi ý hotline hoặc dịch vụ hỗ trợ phù hợp với địa phương khi cần |
 
 ## 8.6. Kế hoạch tiếp theo và các mốc thực hiện
@@ -1337,8 +1334,8 @@ EmotiCare AIoT không cố gắng thay thế con người trong việc chăm só
 | Thẻ bài hát | Thẻ bài hát rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ podcast | Thẻ podcast rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ phản hồi | Thẻ phản hồi trò chuyện rút gọn để hiển thị trên TFT |
-| Thẻ báo cáo TFT | Thẻ báo cáo ngắn gồm nhận định chính theo ngày, tuần hoặc tháng |
-| Dữ liệu chưa đủ | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo nhận định rõ ràng |
+| Màn hình Insights | Màn hình thống kê gồm bộ chọn `Day`/`Week`/`Month`, tám thanh tỷ lệ cảm xúc và chế độ xem diễn giải AI |
+| Dữ liệu fallback | Bảng tỷ lệ cảm xúc mẫu trong firmware, được dùng khi API thống kê không trả `emotion_distribution` hợp lệ |
 
 ## 9.2. Bảng tham chiếu tình huống sử dụng
 
@@ -1348,7 +1345,7 @@ EmotiCare AIoT không cố gắng thay thế con người trong việc chăm só
 | UC-02 | Gợi ý hoạt động cải thiện tâm trạng | Kết quả cảm xúc và lịch sử đã đồng bộ | 5 thẻ hoạt động trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
 | UC-03 | Lựa chọn bài hát hoặc podcast theo chủ đích | Nhóm nội dung, loại nội dung, chủ đích và ngữ cảnh cảm xúc nếu có | Danh sách bài hát hoặc podcast trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
 | UC-04 | Trò chuyện hỗ trợ cảm xúc | Giọng nói hoặc câu hỏi và ngữ cảnh cảm xúc nếu có | Thẻ phản hồi trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
-| UC-05 | Thống kê và phân tích xu hướng cảm xúc | Lịch sử cảm xúc, hoạt động, nội dung đã chọn và thông tin trò chuyện | Bản tóm tắt trên màn hình | Máy chủ và màn hình thiết bị | Không quá 180 giây |
+| UC-05 | Xem thống kê cảm xúc | Kỳ được chọn (`day`, `week` hoặc `month`) và dữ liệu phân bố cảm xúc từ API | Tám thanh tỷ lệ cảm xúc; diễn giải AI tùy chọn | Máy chủ và màn hình thiết bị; dùng fallback khi API lỗi | Không quá 180 giây |
 
 ## 9.3. Cấu trúc dữ liệu phiên cảm xúc
 
@@ -1376,7 +1373,7 @@ Các thông tin dưới đây là thông tin được lưu trên máy chủ, kh�
 | `media_items` | `media_type`, `title`, `creator`, `category`, `duration_sec`, `enabled` | Phân loại bài hát hoặc podcast theo nhóm nội dung |
 | `media_selection_logs` | `session_id`, `media_item_id`, `user_intent`, `selected_category`, `feedback_score`, `created_at` | Theo dõi nội dung người dùng chọn để hỗ trợ cá nhân hóa |
 | `conversation_requests` | `session_id`, `user_message_summary`, `response_text`, `safety_flag`, `created_at` | Lưu nội dung trò chuyện rút gọn và phản hồi; không lưu âm thanh thô |
-| `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality`, `generated_at` | Lưu bản báo cáo gần nhất trên máy chủ để phục vụ việc trả kết quả; không phải bộ nhớ đệm trên thiết bị |
+| `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `emotion_distribution`, `generated_at` | Dữ liệu báo cáo phía máy chủ; firmware hiện chỉ đọc `emotion_distribution` để vẽ biểu đồ, không đọc `tft_cards` hoặc `data_quality` |
 
 ## 9.4. Danh mục hoạt động hỗ trợ
 
@@ -1415,19 +1412,19 @@ Các thông tin dưới đây là thông tin được lưu trên máy chủ, kh�
 | `/api/devices/heartbeat` | POST | Cập nhật trạng thái online và firmware |
 | `/api/emotion-sessions/sync` | POST | Đồng bộ emotion sessions từ Edge |
 | `/api/recommendations/request` | POST | Lấy 5 activity cards từ Cloud |
-| `/api/media/categories` | GET | Lấy danh sách category bài hát/podcast |
-| `/api/media/recommendations` | POST | Lấy bài hát/podcast theo chủ đích và category |
-| `/api/media/music/recommend` | POST | Gợi ý tối đa 5 bài hát theo emotion label tùy chọn |
-| `/api/media/podcast/recommend` | POST | Gợi ý tối đa 5 podcast theo emotion label tùy chọn |
+| `/api/media/library` | GET | Firmware lấy catalog Music và Podcast để hiển thị danh sách Discover |
+| `/api/media/recommendations` | POST | Firmware đánh dấu các mục Music/Podcast ưu tiên theo emotion context |
+| `/api/media/music/recommend` | POST | API dự kiến; firmware hiện dùng `/api/media/recommendations` |
+| `/api/media/podcast/recommend` | POST | API dự kiến; firmware hiện dùng `/api/media/recommendations` |
 | `/api/conversations/respond` | POST | Lấy response card từ Cloud |
 | `/api/conversations/voice` | POST | Gửi PCM 16-bit tạm thời cùng `session_id` để Whisper tạo transcript, phản hồi và audio TTS nếu khả dụng |
 | `/api/conversations/voice-audio/{audio_id}` | GET | Lấy PCM phản hồi TTS còn hiệu lực của thiết bị |
 | `/api/conversations/history` | GET | Lấy lịch sử trò chuyện rút gọn của thiết bị |
-| `/api/feedback/activity` | POST | Lưu lựa chọn hoặc đánh giá hoạt động |
-| `/api/feedback/media` | POST | Lưu lựa chọn hoặc đánh giá bài hát/podcast |
-| `/api/statistics/day` | GET | Firmware lấy thống kê ngày và refresh report hiện tại |
-| `/api/statistics/week` | GET | Firmware lấy thống kê tuần và refresh report hiện tại |
-| `/api/statistics/month` | GET | Firmware lấy thống kê tháng và refresh report hiện tại |
+| `/api/feedback/activity` | POST | API dự kiến; chưa được firmware TFT hiện tại gọi |
+| `/api/feedback/media` | POST | API dự kiến; chưa được firmware TFT hiện tại gọi |
+| `/api/statistics/day` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Day |
+| `/api/statistics/week` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Week |
+| `/api/statistics/month` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Month |
 | `/api/statistics/{period}/explain` | POST | Lấy diễn giải AI cho `day`, `week` hoặc `month` |
 | `/api/device-config` | GET | Lấy cấu hình rút gọn cho thiết bị |
 

@@ -6,7 +6,7 @@ EmotiCare AIoT - Người bạn đồng hành cảm xúc thông minh là một t
 
 1. Nhận diện cảm xúc bằng giọng nói trên Edge AI.
 2. Gửi ngữ cảnh cảm xúc lên Cloud để nhận gợi ý hoạt động, bài hát, podcast hoặc phản hồi trò chuyện.
-3. Tổng hợp xu hướng cảm xúc trên Cloud và trả báo cáo rút gọn về TFT.
+3. Lấy phân bố cảm xúc theo kỳ từ Cloud và hiển thị biểu đồ thống kê trên TFT.
 
 Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER tại Edge -> hiển thị trên TFT -> đồng bộ Cloud -> hỗ trợ/báo cáo -> hiển thị trên TFT**.
 
@@ -24,7 +24,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | ------- | ----- |
 | Tăng tự nhận thức | Người dùng gọi tên được cảm xúc hiện tại thông qua check-in bằng giọng nói |
 | Hỗ trợ đúng lúc | Thiết bị hiển thị gợi ý hoạt động, bài hát/podcast hoặc phản hồi Cloud ngay trên TFT |
-| Theo dõi dài hạn | TFT hiển thị report cards giúp người dùng nhìn lại xu hướng cảm xúc |
+| Theo dõi theo kỳ | TFT hiển thị biểu đồ tỷ lệ của tám nhãn cảm xúc theo ngày, tuần hoặc tháng |
 | Phù hợp prototype sinh viên | Edge xử lý phần cốt lõi, Cloud hỗ trợ các phần nặng hơn |
 | Riêng tư hơn | Audio check-in SER xử lý tại Edge; PCM Voice Conversation chỉ xử lý tạm thời cho STT và không được lưu |
 
@@ -36,7 +36,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | Objective 2 và 3 phụ thuộc Internet | Khi offline, thiết bị chỉ nhận diện và giữ trạng thái emotion đã xác nhận gần nhất; chưa tạo hỗ trợ cloud mới |
 | TFT có không gian hạn chế | Báo cáo và phản hồi phải rút gọn, không phù hợp trình bày bảng dài |
 | Không phải thiết bị y tế | Không chẩn đoán, điều trị hoặc thay thế chuyên gia |
-| Cá nhân hóa phụ thuộc feedback | Gợi ý sẽ tốt hơn khi người dùng đánh giá hoạt động, bài hát hoặc podcast sau khi trải nghiệm |
+| Cá nhân hóa hiện còn giới hạn | TFT hiện chưa có thao tác đánh giá hoạt động, bài hát hoặc podcast; danh sách AI được ưu tiên theo emotion context gần nhất |
 
 ## 8.5. Hướng phát triển
 
@@ -45,7 +45,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | Baseline cảm xúc cá nhân | Học ngưỡng cảm xúc riêng của từng người dùng |
 | Model update | Cập nhật mô hình SER tối ưu hơn cho Edge Device |
 | Cloud recommendation nâng cao | Cá nhân hóa hoạt động, bài hát và podcast dựa trên hiệu quả trong lịch sử |
-| TFT visualization tốt hơn | Tối ưu biểu đồ nhỏ, biểu tượng cảm xúc và report cards |
+| TFT visualization tốt hơn | Tối ưu biểu đồ nhỏ, biểu tượng cảm xúc và phần diễn giải AI |
 | Tài nguyên hỗ trợ theo khu vực | Gợi ý hotline hoặc dịch vụ hỗ trợ phù hợp với địa phương khi cần |
 
 ## 8.6. Kế hoạch tiếp theo và các mốc thực hiện

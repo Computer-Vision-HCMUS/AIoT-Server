@@ -76,10 +76,10 @@ Như vậy, EmotiCare AIoT không cố cạnh tranh trực tiếp với robot đ
 
 | User class | Đặc điểm | Quyền truy cập/chức năng | Giới hạn |
 | ---------- | -------- | ------------------------ | -------- |
-| End User | Người dùng trực tiếp thiết bị hằng ngày | Check-in cảm xúc, chọn Activity, Music/Podcast, Conversation, Report, xóa dữ liệu cục bộ | Không truy cập database thô hoặc cấu hình hệ thống |
+| End User | Người dùng trực tiếp thiết bị hằng ngày | Check-in cảm xúc, xem Support, Discover, Companion Chat, Insights và WiFi Setup | Không truy cập database thô hoặc cấu hình hệ thống |
 | Device Owner | Người sở hữu/ghép thiết bị với tài khoản | Pairing device, xem trạng thái sync | Chỉ quản lý thiết bị của chính mình |
 | Developer/Admin | Thành viên nhóm phát triển hoặc người vận hành demo | Cấu hình API, kiểm tra log, seed dữ liệu media, chạy test | Audio thô không được lưu bởi các luồng hiện tại |
-| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response và report cards | Chỉ xử lý dữ liệu từ device token hợp lệ |
+| Cloud Service | Thành phần backend xử lý request từ Edge | Nhận sync, tạo recommendation, media list, conversation response, phân bố cảm xúc và diễn giải AI | Chỉ xử lý dữ liệu từ device token hợp lệ |
 | Tester/Reviewer | Người kiểm thử hoặc đánh giá đồ án | Kiểm thử use case, requirement, screen flow và dữ liệu giả lập | Không thay đổi dữ liệu người dùng thật |
 
 ## 1.5. Mục đích sản phẩm
@@ -152,11 +152,11 @@ Ghi chú nội dung đầy đủ của các SMART objective:
 * Nhận diện cảm xúc từ giọng nói bằng Edge AI.
 * Phân loại tám trạng thái RAVDESS hiện có trên Edge: vui vẻ, bình thường, bình tĩnh, buồn bã, tức giận, sợ hãi, ghê sợ và ngạc nhiên.
 * Đề xuất hoạt động cải thiện hoặc duy trì tâm trạng.
-* Đề xuất bài hát hoặc podcast theo cảm xúc hiện tại, category và chủ đích của người dùng.
+* Ưu tiên bài hát hoặc podcast theo cảm xúc hiện tại trong danh sách Discover.
 * Trò chuyện hỗ trợ cảm xúc với phản hồi đồng cảm và an toàn.
 * Lưu emotion session, recommendation log, media selection log và feedback.
 * Tạo báo cáo cảm xúc theo ngày, tuần, tháng.
-* Hiển thị trên TFT screen về phân bố cảm xúc, xu hướng và hiệu quả hoạt động/nội dung.
+* Hiển thị trên TFT screen phân bố của tám nhãn cảm xúc và diễn giải AI tùy chọn.
 
 ### Ngoài phạm vi
 

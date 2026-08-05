@@ -11,9 +11,9 @@ Yêu cầu phi chức năng được điều chỉnh theo phạm vi mới: màn 
 | NFR-01 | Độ trễ nhận diện cảm xúc bằng giọng nói | Không quá 30 giây sau tương tác giọng nói hợp lệ | Bắt buộc |
 | NFR-02 | Độ trễ gợi ý hoạt động hoặc nội dung | Không quá 20 giây sau khi người dùng yêu cầu hỗ trợ và có Internet; nếu có nhãn cảm xúc thì dùng để cá nhân hóa | Bắt buộc |
 | NFR-03 | Độ trễ phản hồi hội thoại | Không quá 20 giây sau khi có dữ liệu hợp lệ và có Internet | Bắt buộc |
-| NFR-04 | Độ trễ danh sách bài hát/podcast theo chủ đích | Không quá 20 giây sau khi người dùng chọn category và có Internet | Must |
-| NFR-05 | Độ trễ tạo báo cáo TFT | Không quá 180 giây sau yêu cầu của người dùng | Must |
-| NFR-06 | Độ trễ chuyển màn hình TFT | Thao tác menu phản hồi trong vòng 1 giây | Should |
+| NFR-04 | Độ trễ tải danh sách bài hát/podcast | Không quá 20 giây sau khi người dùng chọn Music hoặc Podcast và có Internet | Bắt buộc |
+| NFR-05 | Độ trễ tạo báo cáo TFT | Không quá 180 giây sau yêu cầu của người dùng | Bắt buộc |
+| NFR-06 | Độ trễ chuyển màn hình TFT | Thao tác menu phản hồi trong vòng 1 giây | Nên làm |
 
 ## 6.3. Độ tin cậy và khả dụng
 
@@ -24,43 +24,43 @@ Yêu cầu phi chức năng được điều chỉnh theo phạm vi mới: màn 
 | NFR-09 | Lưu trạng thái khi mất kết nối | Phần mềm thiết bị chỉ giữ cảm xúc đã xác nhận gần nhất trong bộ nhớ cục bộ; trạng thái mới ghi đè trạng thái cũ | Bắt buộc |
 | NFR-10 | Thử đồng bộ lại | Chưa có chức năng tự thử đồng bộ lại khi Internet khả dụng | Khuyến nghị |
 | NFR-11 | Không tạo trùng dữ liệu | Máy chủ không tạo trùng phiên khi nhận lại cùng `client_session_id` từ một thiết bị | Bắt buộc |
-| NFR-12 | Theo dõi trạng thái | Màn hình hiển thị trạng thái có hoặc không có kết nối, số phiên chờ và lần đồng bộ gần nhất | Bắt buộc |
+| NFR-12 | Theo dõi trạng thái | Màn hình WiFi Setup hiển thị `Online`, `Unpaired`, `Setup AP` hoặc `Offline` | Bắt buộc |
 
 ## 6.4. Bảo mật và quyền riêng tư
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
 | NFR-13 | Bảo vệ âm thanh | Âm thanh dùng để kiểm tra cảm xúc không được gửi lên máy chủ. Âm thanh trò chuyện chỉ được gửi khi người dùng chủ động bắt đầu hội thoại, được xử lý tạm thời thành văn bản và không được lưu | Bắt buộc |
-| NFR-14 | Minh bạch ghi âm | TFT hiển thị rõ khi thiết bị đang nghe/ghi âm | Must |
-| NFR-15 | Xác thực thiết bị | Edge API yêu cầu device token hoặc signed request | Must |
-| NFR-16 | Phân quyền dữ liệu | Cloud chỉ chấp nhận dữ liệu từ thiết bị đã ghép với user hợp lệ | Must |
-| NFR-17 | Xóa dữ liệu cục bộ | Người dùng có cơ chế xóa cache hoặc lịch sử gần trên thiết bị | Should |
-| NFR-18 | Bảo mật truyền tải | API dùng HTTPS trong triển khai thực tế | Must |
+| NFR-14 | Minh bạch ghi âm | TFT hiển thị rõ khi thiết bị đang nghe/ghi âm | Bắt buộc |
+| NFR-15 | Xác thực thiết bị | Edge API yêu cầu device token hoặc signed request | Bắt buộc |
+| NFR-16 | Phân quyền dữ liệu | Cloud chỉ chấp nhận dữ liệu từ thiết bị đã ghép với user hợp lệ | Bắt buộc |
+| NFR-17 | Xóa dữ liệu cục bộ | Chưa cung cấp thao tác xóa cache hoặc lịch sử từ TFT trong phiên bản hiện tại | Out of scope |
+| NFR-18 | Bảo mật truyền tải | API dùng HTTPS trong triển khai thực tế | Bắt buộc |
 
 ## 6.5. An toàn cảm xúc
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-19 | Không chẩn đoán | Hệ thống không tuyên bố chẩn đoán bệnh lý tâm thần | Must |
-| NFR-20 | Ngôn ngữ đồng cảm | Phản hồi cloud phải bình tĩnh, tôn trọng và không phán xét | Must |
-| NFR-21 | Xử lý tín hiệu nguy cấp | Cloud trả thông điệp liên hệ hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường | Must |
-| NFR-22 | Quyền tự chủ | Người dùng có thể bỏ qua gợi ý, dừng hội thoại, không chọn nội dung nghe hoặc xóa dữ liệu cục bộ | Must |
+| NFR-19 | Không chẩn đoán | Hệ thống không tuyên bố chẩn đoán bệnh lý tâm thần | Bắt buộc |
+| NFR-20 | Ngôn ngữ đồng cảm | Phản hồi cloud phải bình tĩnh, tôn trọng và không phán xét | Bắt buộc |
+| NFR-21 | Xử lý tín hiệu nguy cấp | Cloud trả thông điệp liên hệ hỗ trợ phù hợp thay vì tiếp tục hội thoại thông thường | Bắt buộc |
+| NFR-22 | Quyền tự chủ | Người dùng có thể quay lại màn hình trước, dừng phát media và kết thúc/không gửi phần thu hội thoại | Bắt buộc |
 
 ## 6.6. Khả dụng và trải nghiệm TFT
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-23 | Thao tác đơn giản | Người dùng bắt đầu check-in bằng một thao tác rõ ràng | Must |
-| NFR-24 | Kết quả dễ đọc | Emotion label, confidence, gợi ý và danh sách bài hát/podcast phải vừa màn hình TFT | Must |
-| NFR-25 | Luồng màn hình nhất quán | Trang chủ, Kiểm tra cảm xúc, Kết quả, Hỗ trợ, Hoạt động, Nhạc-Podcast, Trò chuyện, Trạng thái và Báo cáo liên kết rõ | Must |
-| NFR-26 | Báo cáo TFT dễ hiểu | Các thẻ báo cáo phải ngắn, ưu tiên nhận định chính thay vì bảng dài | Must |
-| NFR-27 | Khả năng tiếp cận | Màu sắc, font và tương phản đủ rõ trên màn hình nhỏ | Should |
+| NFR-23 | Thao tác đơn giản | Người dùng bắt đầu check-in bằng một thao tác rõ ràng | Bắt buộc |
+| NFR-24 | Kết quả dễ đọc | Emotion label, confidence, gợi ý và danh sách bài hát/podcast phải vừa màn hình TFT | Bắt buộc |
+| NFR-25 | Luồng màn hình nhất quán | Trang chủ, Kiểm tra cảm xúc, Kết quả, Hỗ trợ, Hoạt động, Nhạc-Podcast, Trò chuyện, Trạng thái và Báo cáo liên kết rõ | Bắt buộc |
+| NFR-26 | Thống kê TFT dễ hiểu | Biểu đồ tỷ lệ cảm xúc và phần diễn giải AI phải đọc được trên màn hình TFT nhỏ | Bắt buộc |
+| NFR-27 | Khả năng tiếp cận | Màu sắc, font và tương phản đủ rõ trên màn hình nhỏ | Nên làm |
 
 ## 6.7. Khả năng bảo trì và mở rộng
 
 | ID | Yêu cầu | Mục tiêu | Độ ưu tiên |
 | -- | ------ | -------- | ---------- |
-| NFR-28 | Pipeline tách module | SER, sync, recommendation, media recommendation, conversation và report có thể cập nhật độc lập | Should |
-| NFR-29 | Mở rộng emotion taxonomy | Có thể thêm lớp cảm xúc mới mà không phá vỡ schema chính | Should |
-| NFR-30 | Mở rộng thư viện hoạt động/nội dung | Có thể thêm hoạt động, bài hát, podcast hoặc category mới trong Cloud Service | Should |
-| NFR-31 | Truy vết yêu cầu | Objective, use case, requirement và API có ID rõ ràng | Should |
+| NFR-28 | Pipeline tách module | SER, sync, recommendation, media recommendation, conversation và report có thể cập nhật độc lập | Nên làm |
+| NFR-29 | Mở rộng emotion taxonomy | Có thể thêm lớp cảm xúc mới mà không phá vỡ schema chính | Nên làm |
+| NFR-30 | Mở rộng thư viện hoạt động/nội dung | Có thể thêm hoạt động, bài hát, podcast hoặc category mới trong Cloud Service | Nên làm |
+| NFR-31 | Truy vết yêu cầu | Objective, use case, requirement và API có ID rõ ràng | Nên làm |

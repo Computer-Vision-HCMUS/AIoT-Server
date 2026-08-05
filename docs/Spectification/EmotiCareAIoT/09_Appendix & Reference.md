@@ -19,8 +19,8 @@
 | Thẻ bài hát | Thẻ bài hát rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ podcast | Thẻ podcast rút gọn gồm tiêu đề, người sáng tạo, thời lượng, nhóm nội dung và lý do gợi ý |
 | Thẻ phản hồi | Thẻ phản hồi trò chuyện rút gọn để hiển thị trên TFT |
-| Thẻ báo cáo TFT | Thẻ báo cáo ngắn gồm nhận định chính theo ngày, tuần hoặc tháng |
-| Dữ liệu chưa đủ | Trạng thái báo cáo khi dữ liệu chưa đủ để tạo nhận định rõ ràng |
+| Màn hình Insights | Màn hình thống kê gồm bộ chọn `Day`/`Week`/`Month`, tám thanh tỷ lệ cảm xúc và chế độ xem diễn giải AI |
+| Dữ liệu fallback | Bảng tỷ lệ cảm xúc mẫu trong firmware, được dùng khi API thống kê không trả `emotion_distribution` hợp lệ |
 
 ## 9.2. Bảng tham chiếu tình huống sử dụng
 
@@ -30,7 +30,7 @@
 | UC-02 | Gợi ý hoạt động cải thiện tâm trạng | Kết quả cảm xúc và lịch sử đã đồng bộ | 5 thẻ hoạt động trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
 | UC-03 | Lựa chọn bài hát hoặc podcast theo chủ đích | Nhóm nội dung, loại nội dung, chủ đích và ngữ cảnh cảm xúc nếu có | Danh sách bài hát hoặc podcast trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
 | UC-04 | Trò chuyện hỗ trợ cảm xúc | Giọng nói hoặc câu hỏi và ngữ cảnh cảm xúc nếu có | Thẻ phản hồi trên màn hình | Máy chủ và màn hình thiết bị | Không quá 20 giây khi có Internet |
-| UC-05 | Thống kê và phân tích xu hướng cảm xúc | Lịch sử cảm xúc, hoạt động, nội dung đã chọn và thông tin trò chuyện | Bản tóm tắt trên màn hình | Máy chủ và màn hình thiết bị | Không quá 180 giây |
+| UC-05 | Xem thống kê cảm xúc | Kỳ được chọn (`day`, `week` hoặc `month`) và dữ liệu phân bố cảm xúc từ API | Tám thanh tỷ lệ cảm xúc; diễn giải AI tùy chọn | Máy chủ và màn hình thiết bị; dùng fallback khi API lỗi | Không quá 180 giây |
 
 ## 9.3. Cấu trúc dữ liệu phiên cảm xúc
 
@@ -58,7 +58,7 @@ Các thông tin dưới đây là thông tin được lưu trên máy chủ, kh�
 | `media_items` | `media_type`, `title`, `creator`, `category`, `duration_sec`, `enabled` | Phân loại bài hát hoặc podcast theo nhóm nội dung |
 | `media_selection_logs` | `session_id`, `media_item_id`, `user_intent`, `selected_category`, `feedback_score`, `created_at` | Theo dõi nội dung người dùng chọn để hỗ trợ cá nhân hóa |
 | `conversation_requests` | `session_id`, `user_message_summary`, `response_text`, `safety_flag`, `created_at` | Lưu nội dung trò chuyện rút gọn và phản hồi; không lưu âm thanh thô |
-| `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `tft_cards`, `emotion_distribution`, `data_quality`, `generated_at` | Lưu bản báo cáo gần nhất trên máy chủ để phục vụ việc trả kết quả; không phải bộ nhớ đệm trên thiết bị |
+| `tft_reports` | `user_id`, `period_type`, `period_start`, `period_end`, `emotion_distribution`, `generated_at` | Dữ liệu báo cáo phía máy chủ; firmware hiện chỉ đọc `emotion_distribution` để vẽ biểu đồ, không đọc `tft_cards` hoặc `data_quality` |
 
 ## 9.4. Danh mục hoạt động hỗ trợ
 
@@ -97,19 +97,19 @@ Các thông tin dưới đây là thông tin được lưu trên máy chủ, kh�
 | `/api/devices/heartbeat` | POST | Cập nhật trạng thái online và firmware |
 | `/api/emotion-sessions/sync` | POST | Đồng bộ emotion sessions từ Edge |
 | `/api/recommendations/request` | POST | Lấy 5 activity cards từ Cloud |
-| `/api/media/categories` | GET | Lấy danh sách category bài hát/podcast |
-| `/api/media/recommendations` | POST | Lấy bài hát/podcast theo chủ đích và category |
-| `/api/media/music/recommend` | POST | Gợi ý tối đa 5 bài hát theo emotion label tùy chọn |
-| `/api/media/podcast/recommend` | POST | Gợi ý tối đa 5 podcast theo emotion label tùy chọn |
+| `/api/media/library` | GET | Firmware lấy catalog Music và Podcast để hiển thị danh sách Discover |
+| `/api/media/recommendations` | POST | Firmware đánh dấu các mục Music/Podcast ưu tiên theo emotion context |
+| `/api/media/music/recommend` | POST | API dự kiến; firmware hiện dùng `/api/media/recommendations` |
+| `/api/media/podcast/recommend` | POST | API dự kiến; firmware hiện dùng `/api/media/recommendations` |
 | `/api/conversations/respond` | POST | Lấy response card từ Cloud |
 | `/api/conversations/voice` | POST | Gửi PCM 16-bit tạm thời cùng `session_id` để Whisper tạo transcript, phản hồi và audio TTS nếu khả dụng |
 | `/api/conversations/voice-audio/{audio_id}` | GET | Lấy PCM phản hồi TTS còn hiệu lực của thiết bị |
 | `/api/conversations/history` | GET | Lấy lịch sử trò chuyện rút gọn của thiết bị |
-| `/api/feedback/activity` | POST | Lưu lựa chọn hoặc đánh giá hoạt động |
-| `/api/feedback/media` | POST | Lưu lựa chọn hoặc đánh giá bài hát/podcast |
-| `/api/statistics/day` | GET | Firmware lấy thống kê ngày và refresh report hiện tại |
-| `/api/statistics/week` | GET | Firmware lấy thống kê tuần và refresh report hiện tại |
-| `/api/statistics/month` | GET | Firmware lấy thống kê tháng và refresh report hiện tại |
+| `/api/feedback/activity` | POST | API dự kiến; chưa được firmware TFT hiện tại gọi |
+| `/api/feedback/media` | POST | API dự kiến; chưa được firmware TFT hiện tại gọi |
+| `/api/statistics/day` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Day |
+| `/api/statistics/week` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Week |
+| `/api/statistics/month` | GET | Firmware lấy phân bố cảm xúc cho biểu đồ Month |
 | `/api/statistics/{period}/explain` | POST | Lấy diễn giải AI cho `day`, `week` hoặc `month` |
 | `/api/device-config` | GET | Lấy cấu hình rút gọn cho thiết bị |
 
