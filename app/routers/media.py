@@ -195,10 +195,23 @@ def stream_media(
                 media_id,
                 local_path.name,
             )
+            # Force a close-terminated body instead of Transfer-Encoding:
+            # chunked. ESP32's HTTPClient::getStreamPtr() reads the raw TCP
+            # payload and does NOT strip chunk framing itself (that only
+            # happens inside writeToStream()/getString()), so a chunked
+            # response corrupts the PCM stream with interleaved chunk-size
+            # headers, causing clicking/static playback artifacts.
+            # "Connection: close" lets the ESP32 client treat connection
+            # closure as end-of-stream, so no Content-Length or chunked
+            # framing is needed for a size we can't know in advance anyway.
             return StreamingResponse(
                 _pcm_chunks(local_path),
                 media_type="audio/L16;rate=16000;channels=1",
-                headers={"Cache-Control": "no-store", "X-Audio-Format": "s16le-16000-mono"},
+                headers={
+                    "Cache-Control": "no-store",
+                    "X-Audio-Format": "s16le-16000-mono",
+                    "Connection": "close",
+                },
             )
         return FileResponse(
             local_path,
