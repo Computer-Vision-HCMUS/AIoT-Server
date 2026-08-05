@@ -317,8 +317,8 @@ def get_media_library(
         for item in items
     ]
     return {
-        "music": [item for item in serialized if item["media_type"] == "song"],
-        "podcasts": [item for item in serialized if item["media_type"] == "podcast"],
+        "music": [item for item in serialized if item["media_type"] == "song"][:40],
+        "podcasts": [item for item in serialized if item["media_type"] == "podcast"][:40],
     }
 
 

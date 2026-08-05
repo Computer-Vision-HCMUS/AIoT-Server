@@ -4,7 +4,7 @@ EmotiCare AIoT — Seed script.
 Creates demo data for local development and API testing:
   - 1 demo user  (pairing_code = DEMO-001)
   - 1 demo device (token printed to console after seeding)
-  - 20 media items (10 songs + 10 podcasts, 20-second MP3 metadata)
+  - 80 local media items (40 songs + 40 podcasts)
 
 Usage:
     python -m app.seed

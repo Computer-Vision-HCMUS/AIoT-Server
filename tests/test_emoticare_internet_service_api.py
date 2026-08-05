@@ -491,11 +491,11 @@ def test_gemini_client_falls_back_without_api_key():
     assert client.generate_text("hello", fallback="fallback text") == "fallback text"
 
 
-def test_demo_media_seed_is_twenty_mp3_items():
-    assert len(MEDIA_SEED) == 20
-    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "song") == 10
-    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "podcast") == 10
-    assert all(item["duration_sec"] == 20 for item in MEDIA_SEED)
+def test_demo_media_seed_has_forty_items_per_type():
+    assert len(MEDIA_SEED) == 80
+    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "song") == 40
+    assert sum(1 for item in MEDIA_SEED if item["media_type"] == "podcast") == 40
+    assert all(item["duration_sec"] > 0 for item in MEDIA_SEED)
     assert all(item["source_url"].endswith(".mp3") for item in MEDIA_SEED)
 
 
@@ -530,6 +530,11 @@ def test_alias_recommendation_media_and_statistics_endpoints(client):
     assert podcast.status_code == 200
     assert podcast.json()["media_type"] == "podcast"
     assert all(card["media_type"] == "podcast" for card in podcast.json()["cards"])
+
+    library = client.get("/api/media/library", headers=headers)
+    assert library.status_code == 200
+    assert len(library.json()["music"]) == 40
+    assert len(library.json()["podcasts"]) == 40
 
     statistic = client.get("/api/statistics/day", headers=headers)
     assert statistic.status_code == 200
