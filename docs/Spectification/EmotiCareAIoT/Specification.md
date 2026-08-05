@@ -25,20 +25,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 
 ## 0.3. Vòng đời tài liệu và xác nhận
 
-### 0.3.1. Lịch sử cập nhật
-
-| Phiên bản | Ngày | Người cập nhật | Phase | Nội dung thay đổi |
-| --------- | ---- | -------------- | ----- | ----------------- |
-| 1.0 | 26/05/2026 | Nhóm dự án | Bản nháp đầu tiên | Khởi tạo đặc tả thiết bị thông minh |
-| 2.0 | 13/06/2026 | Nhóm dự án | Cập nhật trong quá trình thực hiện | Cập nhật đặc tả theo hướng sản phẩm trước đó |
-| 3.0 | 25/06/2026 | Nhóm dự án | Thiết kế lại sản phẩm | Chuyển đổi đặc tả sang EmotiCare AIoT |
-| 3.1 | 25/06/2026 | Nhóm dự án | Hoàn thiện đặc tả | Viết lại có dấu, chi tiết hóa bối cảnh, mục tiêu, Edge AI, dịch vụ Internet, luồng màn hình và hướng dẫn sử dụng |
-| 3.2 | 29/06/2026 | Nhóm dự án | Đồng bộ theo SRS | Bổ sung cấu trúc theo mẫu đặc tả yêu cầu phần mềm |
-| 3.3 | 29/07/2026 | Hải Đức | Rà soát cấu trúc tài liệu | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
-| 3.4 | 05/08/2026 | Hải Đức | Đồng bộ theo sản phẩm thực tế | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
-| 3.5 | 05/08/2026 | Hải Đức | Rà soát consistency | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
-
-### 0.3.2. Xác nhận
+### 0.3.1. Xác nhận
 
 | Vai trò | Người/nhóm phụ trách | Trách nhiệm xác nhận | Trạng thái |
 | ------- | -------------------- | -------------------- | ---------- |
@@ -75,7 +62,7 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | ---- | ------------ |
 | 1 | Đọc chương 01 để hiểu bối cảnh, mục đích sản phẩm, người dùng mục tiêu và phạm vi |
 | 2 | Đọc chương 02 để nắm danh mục, kết nối, chi phí và ràng buộc phần cứng |
-| 3 | Đọc chương 03 để hiểu mục tiêu SMART, tình huống sử dụng, đầu vào/đầu ra và sơ đồ |
+| 3 | Đọc chương 03 để hiểu các mục tiêu, tình huống sử dụng, đầu vào/đầu ra và sơ đồ |
 | 4 | Đọc các phần UC trong chương 03 nếu cần triển khai hoặc đánh giá Edge AI, API Cloud, cơ sở dữ liệu và luồng đồng bộ |
 | 5 | Dùng chương 04 và 05 để viết checklist phát triển, trường hợp kiểm thử và tiêu chí nghiệm thu |
 | 6 | Dùng chương 06 để demo thao tác trên thiết bị phần cứng/TFT |
@@ -114,20 +101,6 @@ Tài liệu này mô tả đặc tả sản phẩm **EmotiCare AIoT - Người b
 | 3.3 | 29/07/2026 | Hải Đức | Điều chỉnh cách trình bày theo hướng logic, khoa học và dễ theo dõi hơn; giảm các phần rối rắm của bản cũ. |
 | 3.4 | 05/08/2026 | Hải Đức | Cập nhật hướng dẫn sử dụng để khớp với các màn hình và luồng chức năng đã triển khai trên sản phẩm thực tế. |
 | 3.5 | 05/08/2026 | Hải Đức | Đồng bộ User Manual, use case, yêu cầu chức năng/phi chức năng, API và phụ lục theo firmware; tái tạo bản đặc tả gộp. |
-
-## 0.10. Cấu trúc tài liệu
-
-| Chương | Nội dung |
-| ------ | -------- |
-| 01. Bối cảnh | Bối cảnh, nguồn cảm hứng từ EMO, vấn đề, người dùng mục tiêu và sơ đồ suy ra mục tiêu |
-| 02. Phần cứng | Thành phần phần cứng, kết nối, chi phí và ràng buộc triển khai |
-| 03. Mục tiêu và tình huống sử dụng | Ba mục tiêu, tình huống sử dụng, dữ liệu chính và sơ đồ luồng |
-| 04. Kết nối thiết bị và máy chủ | Quy trình kết nối, đồng bộ dữ liệu và thông tin trao đổi của năm tình huống sử dụng |
-| 05. Yêu cầu chức năng | Yêu cầu chức năng được truy vết theo mục tiêu và tình huống sử dụng |
-| 06. Yêu cầu phi chức năng | Yêu cầu phi chức năng về hiệu năng, bảo mật, riêng tư, độ tin cậy và an toàn cảm xúc |
-| 07. Hướng dẫn sử dụng | Hướng dẫn sử dụng thiết bị phần cứng, màn hình TFT và đồng bộ Internet |
-| 08. Kết luận | Tổng kết, lợi ích, giới hạn và hướng phát triển |
-| 09. Phụ lục và tài liệu tham khảo | Thuật ngữ, bảng dữ liệu, tóm tắt API và tài liệu tham khảo |
 
 ---
 
@@ -233,7 +206,7 @@ Do đó, mục đích sản phẩm có thể tóm tắt như sau: **giúp ngư�
 
 ## 1.6. Từ mục đích sản phẩm suy ra 3 mục tiêu
 
-Mục đích cốt lõi của EmotiCare AIoT là giúp người dùng **nhận biết cảm xúc**, **được hỗ trợ đúng lúc** và **hiểu xu hướng cảm xúc theo thời gian**. Từ mục đích này, sản phẩm được tách thành ba SMART objective liên kết thành một vòng lặp hoàn chỉnh.
+Mục đích cốt lõi của EmotiCare AIoT là giúp người dùng **nhận biết cảm xúc**, **được hỗ trợ đúng lúc** và **hiểu xu hướng cảm xúc theo thời gian**. Từ mục đích này, sản phẩm được tách thành ba m?c ti?u liên kết thành một vòng lặp hoàn chỉnh.
 
 ```mermaid
 flowchart TD
@@ -243,9 +216,9 @@ flowchart TD
     Need2["Cần phản hồi, hoạt động hoặc nội dung nghe hỗ trợ đúng lúc"]
     Need3["Cần dữ liệu dài hạn để hiểu xu hướng và hiệu quả hoạt động/nội dung"]
 
-    Obj1["SMART Objective 1"]
-    Obj2["SMART Objective 2"]
-    Obj3["SMART Objective 3"]
+    Obj1["M?c ti?u 1"]
+    Obj2["M?c ti?u 2"]
+    Obj3["M?c ti?u 3"]
     Insight["Người dùng hiểu xu hướng và chủ động chọn hỗ trợ phù hợp"]
 
     Purpose --> Need1 --> Obj1
@@ -269,13 +242,13 @@ flowchart TD
 
 *Mô tả sơ đồ: Mục đích chăm sóc cảm xúc được tách thành ba mục tiêu liên kết nhau: thiết bị nhận diện cảm xúc, máy chủ hỗ trợ gợi ý hoặc trò chuyện, rồi tổng hợp báo cáo để người dùng hiểu xu hướng của mình.*
 
-Ghi chú nội dung đầy đủ của các SMART objective:
+Ghi chú nội dung đầy đủ của các m?c ti?u:
 
-| SMART Objective | Nội dung đầy đủ |
+| M?c ti?u | Nội dung đầy đủ |
 | --------------- | --------------- |
-| SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. |
-| SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. |
-| SMART Objective 3 | Tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu. |
+| M?c ti?u 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. |
+| M?c ti?u 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet. |
+| M?c ti?u 3 | Tạo tóm tắt thống kê và phân tích cảm xúc theo ngày, tuần và tháng trên Cloud Service, sau đó trả kết quả rút gọn về TFT screen trong vòng 180 giây sau khi người dùng yêu cầu. |
 
 ## 1.7. Phạm vi sản phẩm
 
@@ -351,14 +324,14 @@ Mức giá này là danh mục đã chốt cho mẫu thử. Breadboard và dây 
 
 ## 3.1. Tổng quan
 
-Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hành trên thiết bị, trong đó TFT là giao diện theo dõi chính, Edge AI xử lý tác vụ nhận diện cảm xúc cốt lõi, còn Cloud hỗ trợ các chức năng cần dữ liệu dài hạn hoặc nội dung phong phú hơn.
+Ba m?c ti?u của EmotiCare AIoT tạo thành một vòng lặp vận hành trên thiết bị, trong đó TFT là giao diện theo dõi chính, Edge AI xử lý tác vụ nhận diện cảm xúc cốt lõi, còn Cloud hỗ trợ các chức năng cần dữ liệu dài hạn hoặc nội dung phong phú hơn.
 
 
-| SMART Objective   | Mô tả đầy đủ                                                                                                                                                                                                               | Use case liên quan  | Vai trò trong vòng lặp                                                               |
+| M?c ti?u   | Mô tả đầy đủ                                                                                                                                                                                                               | Use case liên quan  | Vai trò trong vòng lặp                                                               |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------ |
-| SMART Objective 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. | UC-01               | Tạo emotion session làm dữ liệu nền cho các chức năng hỗ trợ và báo cáo              |
-| SMART Objective 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet.                                                               | UC-02, UC-03, UC-04 | Biến dữ liệu cảm xúc hoặc nhu cầu trực tiếp từ HOME thành hành động hỗ trợ cụ thể    |
-| SMART Objective 3 | Hiển thị phân bố tám nhãn cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Giúp người dùng xem lại tỷ lệ cảm xúc trong từng kỳ và, khi cần, mở phần diễn giải AI |
+| M?c ti?u 1 | Phát hiện và phân loại trạng thái cảm xúc của người dùng trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi và phân tích cảm xúc theo thời gian. | UC-01               | Tạo emotion session làm dữ liệu nền cho các chức năng hỗ trợ và báo cáo              |
+| M?c ti?u 2 | Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi đồng cảm phù hợp trong vòng 20 giây khi người dùng yêu cầu hỗ trợ và thiết bị có Internet.                                                               | UC-02, UC-03, UC-04 | Biến dữ liệu cảm xúc hoặc nhu cầu trực tiếp từ HOME thành hành động hỗ trợ cụ thể    |
+| M?c ti?u 3 | Hiển thị phân bố tám nhãn cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu. | UC-05 | Giúp người dùng xem lại tỷ lệ cảm xúc trong từng kỳ và, khi cần, mở phần diễn giải AI |
 
 
 
@@ -366,13 +339,13 @@ Ba SMART objective của EmotiCare AIoT tạo thành một vòng lặp vận hà
 ### Bảng liên kết giá trị mang lại với yêu cầu
 
 
-| Value proposition                                                  | SMART objective   | Use case | Giá trị người dùng mong đợi                                                               |
+| Value proposition                                                  | m?c ti?u   | Use case | Giá trị người dùng mong đợi                                                               |
 | ------------------------------------------------------------------ | ----------------- | -------- | ----------------------------------------------------------------------------------------- |
-| Người dùng nhận biết cảm xúc nhanh mà không cần nhập liệu thủ công | SMART Objective 1 | UC-01    | Người dùng có emotion label và confidence ngay trên TFT sau một lần check-in ngắn         |
-| Người dùng nhận hỗ trợ phù hợp khi đang cần điều chỉnh cảm xúc     | SMART Objective 2 | UC-02    | Người dùng nhận 5 hoạt động gợi ý mà không phải tự tìm                                    |
-| Người dùng duyệt nội dung nghe theo ngữ cảnh cảm xúc               | SMART Objective 2 | UC-03    | Người dùng mở Discover, chọn Music hoặc Podcast và phát mục đã chọn                        |
-| Người dùng có kênh trò chuyện ngắn, đồng cảm và an toàn            | SMART Objective 2 | UC-04    | Người dùng nhận phản hồi ngắn gọn, không phán xét, có safety filter                       |
-| Người dùng xem thống kê cảm xúc theo kỳ trên thiết bị              | SMART Objective 3 | UC-05    | Người dùng xem biểu đồ tám tỷ lệ cảm xúc theo ngày/tuần/tháng ngay trên TFT              |
+| Người dùng nhận biết cảm xúc nhanh mà không cần nhập liệu thủ công | M?c ti?u 1 | UC-01    | Người dùng có emotion label và confidence ngay trên TFT sau một lần check-in ngắn         |
+| Người dùng nhận hỗ trợ phù hợp khi đang cần điều chỉnh cảm xúc     | M?c ti?u 2 | UC-02    | Người dùng nhận 5 hoạt động gợi ý mà không phải tự tìm                                    |
+| Người dùng duyệt nội dung nghe theo ngữ cảnh cảm xúc               | M?c ti?u 2 | UC-03    | Người dùng mở Discover, chọn Music hoặc Podcast và phát mục đã chọn                        |
+| Người dùng có kênh trò chuyện ngắn, đồng cảm và an toàn            | M?c ti?u 2 | UC-04    | Người dùng nhận phản hồi ngắn gọn, không phán xét, có safety filter                       |
+| Người dùng xem thống kê cảm xúc theo kỳ trên thiết bị              | M?c ti?u 3 | UC-05    | Người dùng xem biểu đồ tám tỷ lệ cảm xúc theo ngày/tuần/tháng ngay trên TFT              |
 
 
 
@@ -384,17 +357,17 @@ flowchart TD
     User(["Người dùng"])
     TFT["TFT Screen"]
 
-    subgraph O1["SMART Objective 1"]
+    subgraph O1["M?c ti?u 1"]
         UC1["UC-01: Speech Emotion Recognition"]
     end
 
-    subgraph O2["SMART Objective 2"]
+    subgraph O2["M?c ti?u 2"]
         UC2["UC-02: Gợi ý hoạt động cải thiện tâm trạng"]
         UC3["UC-03: Lựa chọn bài hát hoặc podcast theo chủ đích"]
         UC4["UC-04: Trò chuyện hỗ trợ cảm xúc"]
     end
 
-    subgraph O3["SMART Objective 3"]
+    subgraph O3["M?c ti?u 3"]
         UC5["UC-05: Xem thống kê cảm xúc"]
     end
 
@@ -434,9 +407,9 @@ flowchart TD
 
 
 
-## 3.2. SMART Objective 1: Phát hiện và phân loại trạng thái cảm xúc của người dùng bằng Speech Emotion Recognition trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi cảm xúc theo thời gian
+## 3.2. M?c ti?u 1: Phát hiện và phân loại trạng thái cảm xúc của người dùng bằng Speech Emotion Recognition trong vòng 30 giây sau mỗi lần tương tác bằng giọng nói hợp lệ, đồng thời lưu lại kết quả của từng phiên để phục vụ theo dõi cảm xúc theo thời gian
 
-Objective 1 là nền tảng của toàn bộ hệ thống. Đây là objective duy nhất chạy được tại Edge Device khi mất Internet. Kết quả được hiển thị ngay trên TFT; firmware lưu trạng thái check-in đã xác nhận gần nhất cục bộ và chỉ thử đồng bộ ngay khi check-in nếu Wi-Fi và pairing sẵn sàng.
+M?c ti?u 1 là nền tảng của toàn bộ hệ thống. Đây là objective duy nhất chạy được tại Edge Device khi mất Internet. Kết quả được hiển thị ngay trên TFT; firmware lưu trạng thái check-in đã xác nhận gần nhất cục bộ và chỉ thử đồng bộ ngay khi check-in nếu Wi-Fi và pairing sẵn sàng.
 
 ### 3.2.1. Tình huống sử dụng UC-01: Nhận diện cảm xúc bằng giọng nói
 
@@ -520,9 +493,9 @@ flowchart LR
 
 
 
-## 3.3. SMART Objective 2: Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi phù hợp thông qua Cloud Service trong vòng 20 giây sau khi người dùng yêu cầu hỗ trợ và thiết bị có Internet, nhằm cải thiện hoặc duy trì trạng thái cảm xúc của người dùng
+## 3.3. M?c ti?u 2: Đề xuất ít nhất một hoạt động, bài hát, podcast hoặc một phản hồi phù hợp thông qua Cloud Service trong vòng 20 giây sau khi người dùng yêu cầu hỗ trợ và thiết bị có Internet, nhằm cải thiện hoặc duy trì trạng thái cảm xúc của người dùng
 
-Objective 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 tạo emotion label, thiết bị gửi context lên Cloud Service để nhận gợi ý hoạt động hoặc phản hồi hội thoại, sau đó hiển thị kết quả trên TFT.
+M?c ti?u 2 không chạy độc lập hoàn toàn trên Edge. Sau khi UC-01 tạo emotion label, thiết bị gửi context lên Cloud Service để nhận gợi ý hoạt động hoặc phản hồi hội thoại, sau đó hiển thị kết quả trên TFT.
 
 ### 3.3.1. Tình huống sử dụng UC-02: Gợi ý hoạt động cải thiện tâm trạng
 
@@ -601,7 +574,7 @@ flowchart LR
 
 **Ý nghĩa của use case:** UC-03 cho người dùng quyền chủ động hơn. Thay vì chỉ chờ hệ thống gợi ý, người dùng có thể nói rõ mình muốn nghe nhạc thư giãn, podcast động viên hoặc nội dung giúp tập trung.
 
-**Vai trò trong objective:** UC-03 mở rộng Objective 2 từ hỗ trợ phản ứng theo cảm xúc sang hỗ trợ theo chủ đích, vẫn dùng Cloud để chọn nội dung và TFT để hiển thị danh sách.
+**Vai trò trong objective:** UC-03 mở rộng M?c ti?u 2 từ hỗ trợ phản ứng theo cảm xúc sang hỗ trợ theo chủ đích, vẫn dùng Cloud để chọn nội dung và TFT để hiển thị danh sách.
 
 #### Cách chọn nội dung nghe
 
@@ -751,9 +724,9 @@ flowchart LR
 
 
 
-## 3.4. SMART Objective 3: Hiển thị phân bố cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu
+## 3.4. M?c ti?u 3: Hiển thị phân bố cảm xúc theo ngày, tuần và tháng trên TFT trong vòng 180 giây sau khi người dùng yêu cầu
 
-Objective 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiết bị. Cloud xử lý tổng hợp dữ liệu, còn thiết bị hiển thị phiên bản rút gọn phù hợp với màn hình TFT.
+M?c ti?u 3 giúp người dùng theo dõi dài hạn trực tiếp trên thiết bị. Cloud xử lý tổng hợp dữ liệu, còn thiết bị hiển thị phiên bản rút gọn phù hợp với màn hình TFT.
 
 ### 3.4.1. Tình huống sử dụng UC-05: Xem thống kê cảm xúc
 
@@ -998,11 +971,11 @@ Yêu cầu chức năng của EmotiCare AIoT tập trung vào trải nghiệm tr
 
 | Objective | Use case | Functional requirements |
 | --------- | -------- | ----------------------- |
-| SMART Objective 1 | UC-01 | FR-01 đến FR-09, FR-44 |
-| SMART Objective 2 | UC-02 | FR-12 đến FR-20, FR-42 |
-| SMART Objective 2 | UC-03 | FR-12, FR-21 đến FR-27, FR-42, FR-45 |
-| SMART Objective 2 | UC-04 | FR-12, FR-28 đến FR-34, FR-42, FR-45 |
-| SMART Objective 3 | UC-05 | FR-09 đến FR-13, FR-35 đến FR-45 |
+| M?c ti?u 1 | UC-01 | FR-01 đến FR-09, FR-44 |
+| M?c ti?u 2 | UC-02 | FR-12 đến FR-20, FR-42 |
+| M?c ti?u 2 | UC-03 | FR-12, FR-21 đến FR-27, FR-42, FR-45 |
+| M?c ti?u 2 | UC-04 | FR-12, FR-28 đến FR-34, FR-42, FR-45 |
+| M?c ti?u 3 | UC-05 | FR-09 đến FR-13, FR-35 đến FR-45 |
 
 ## 5.10. Tóm tắt theo nhóm yêu cầu
 
@@ -1258,11 +1231,11 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 
 ## 8.2. Mức độ đáp ứng mục tiêu
 
-| SMART Objective | Cách tài liệu đáp ứng |
+| M?c ti?u | Cách tài liệu đáp ứng |
 | --------------- | --------------------- |
-| Objective 1 | UC-01, Edge AI pipeline và FR-01 đến FR-08 mô tả nhận diện cảm xúc trong 30 giây, hiển thị TFT và lưu emotion session |
-| Objective 2 | UC-02, UC-03, UC-04 và FR-14 đến FR-34 mô tả gợi ý hoạt động, lựa chọn bài hát/podcast, trò chuyện hỗ trợ qua Cloud và hiển thị trên TFT trong 20 giây |
-| Objective 3 | UC-05, logic API/dữ liệu báo cáo trong Chương 03 và FR-35 đến FR-45 mô tả báo cáo ngày/tuần/tháng trả về TFT trong 180 giây |
+| M?c ti?u 1 | UC-01, Edge AI pipeline và FR-01 đến FR-08 mô tả nhận diện cảm xúc trong 30 giây, hiển thị TFT và lưu emotion session |
+| M?c ti?u 2 | UC-02, UC-03, UC-04 và FR-14 đến FR-34 mô tả gợi ý hoạt động, lựa chọn bài hát/podcast, trò chuyện hỗ trợ qua Cloud và hiển thị trên TFT trong 20 giây |
+| M?c ti?u 3 | UC-05, logic API/dữ liệu báo cáo trong Chương 03 và FR-35 đến FR-45 mô tả báo cáo ngày/tuần/tháng trả về TFT trong 180 giây |
 
 ## 8.3. Lợi ích kỳ vọng
 
@@ -1279,7 +1252,7 @@ Ba năng lực này tạo thành vòng lặp: **kiểm tra cảm xúc -> SER t�
 | Giới hạn | Ảnh hưởng |
 | -------- | --------- |
 | Nhận diện cảm xúc là bài toán xác suất | Kết quả có thể sai khi âm thanh nhiễu, câu nói quá ngắn hoặc cảm xúc phức tạp |
-| Objective 2 và 3 phụ thuộc Internet | Khi offline, thiết bị chỉ nhận diện và giữ trạng thái emotion đã xác nhận gần nhất; chưa tạo hỗ trợ cloud mới |
+| M?c ti?u 2 và 3 phụ thuộc Internet | Khi offline, thiết bị chỉ nhận diện và giữ trạng thái emotion đã xác nhận gần nhất; chưa tạo hỗ trợ cloud mới |
 | TFT có không gian hạn chế | Báo cáo và phản hồi phải rút gọn, không phù hợp trình bày bảng dài |
 | Không phải thiết bị y tế | Không chẩn đoán, điều trị hoặc thay thế chuyên gia |
 | Cá nhân hóa hiện còn giới hạn | TFT hiện chưa có thao tác đánh giá hoạt động, bài hát hoặc podcast; danh sách AI được ưu tiên theo emotion context gần nhất |
