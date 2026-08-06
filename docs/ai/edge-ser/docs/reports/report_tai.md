@@ -19,3 +19,13 @@ Tuesday, august 4, 2026
 
     colab để làm overfit
     https://colab.research.google.com/drive/1eVIBfyBqbcsDKhs0MHp5fz_Se6Z3kVSL?usp=sharing
+
+Th aug 6, 2026
+    folder overfit:
+        https://drive.google.com/drive/folders/1mPT05yS4mRbgqQbV1bMJx62qgojE3i8i?usp=drive_link
+
+    chưa tìm được tài liệu nói về việc cố tình overfit thì nên để mấy sample / nhãn.
+    The DecisionTreeClassifier provides parameters such as min_samples_leaf and max_depth to prevent a tree from overfitting. 
+        https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html?utm_source=chatgpt.com
+
+    sửa phần đọc dữ liệu thành 1 mẫu cho mỗi nhãn Trong train_one_sample.py.
