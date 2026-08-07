@@ -40,4 +40,6 @@ fri aug 7, 2026
 
     https://colab.research.google.com/drive/1eVIBfyBqbcsDKhs0MHp5fz_Se6Z3kVSL?authuser=1#scrollTo=qZ_KRgZ5HvV7
 
+    https://drive.google.com/drive/folders/1mPT05yS4mRbgqQbV1bMJx62qgojE3i8i?usp=drive_link
+
     trong file train_one_sample.py
