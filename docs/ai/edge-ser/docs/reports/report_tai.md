@@ -29,3 +29,15 @@ Th aug 6, 2026
         https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html?utm_source=chatgpt.com
 
     sửa phần đọc dữ liệu thành 1 mẫu cho mỗi nhãn Trong train_one_sample.py.
+
+fri aug 7, 2026
+    sửa phần đọc dữ liệu thành 1 mẫu cho mỗi nhãn
+    Tìm đoạn đang chia train/test.
+
+    Mỗi emotion chỉ giữ 1 sample → Decision Tree học đúng các sample đó → predict lại chính các sample đó → kiểm tra model Python và sau đó model .h có cho cùng kết quả hay không.
+
+    bỏ StratifiedKFold
+
+    https://colab.research.google.com/drive/1eVIBfyBqbcsDKhs0MHp5fz_Se6Z3kVSL?authuser=1#scrollTo=qZ_KRgZ5HvV7
+
+    trong file train_one_sample.py
