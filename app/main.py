@@ -1,32 +1,88 @@
 """
-AIoT Backend Server — entry point.
+EmotiCare AIoT — Cloud API Server
 
-Starts a FastAPI application that serves:
-  - SmartClock (ESP32-S3): Pomodoro, Sleep, Seminar, Flappy Bird
-  - VisionDriveAI (ESP32-CAM + IMU): Trip tracking, distraction detection
+Internet Service for the EmotiCare AIoT Edge Device.
+Handles emotion session sync, recommendations, media, conversations,
+feedback and TFT reports.
 
 Run with:
-    uvicorn app.main:app --reload
+    uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 """
+
+import logging
+import socket
+from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.config import settings
+from app.routers import (
+    conversations,
+    device_config,
+    devices,
+    emotion_sessions,
+    feedback,
+    media,
+    recommendations,
+    reports,
+    statistics,
+    stt,
+    tts,
+)
 
-from app.routers import devices, health, smartclock, visiondrive
 
-# ─── FastAPI app ─────────────────────────────────────────────────────────────
+logger = logging.getLogger("uvicorn.error")
+
+
+def get_server_ips() -> list[str]:
+    """Return non-loopback IPv4 addresses that LAN clients can use."""
+    addresses: set[str] = set()
+
+    try:
+        for result in socket.getaddrinfo(socket.gethostname(), None, socket.AF_INET):
+            address = result[4][0]
+            if not address.startswith("127."):
+                addresses.add(address)
+    except socket.gaierror:
+        logger.warning("Could not determine the server's local IP address.")
+
+    return sorted(addresses)
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    """Log reachable server URLs once the application has started."""
+    urls = [f"http://{address}:{settings.APP_PORT}" for address in get_server_ips()]
+    if urls:
+        logger.info("Server LAN address(es): %s", ", ".join(urls))
+    else:
+        logger.info("Server LAN address could not be determined; use the host IP on port %s.", settings.APP_PORT)
+    yield
+
+# ─── FastAPI app ──────────────────────────────────────────────────────────────
 app = FastAPI(
-    title="AIoT Backend Server",
+    title="EmotiCare AIoT — Cloud API",
     description=(
-        "Backend server for **SmartDesk Buddy** (SmartClock + VisionDriveAI).\n\n"
-        "Receives data from ESP32 devices over WiFi, stores session logs and "
-        "time-series sensor data, and provides REST API for devices and the web dashboard."
+        "Cloud backend for **EmotiCare AIoT — Intelligent Emotional Companion**.\n\n"
+        "Provides REST API for the Edge Device (ESP32-S3) to:\n"
+        "- Pair and authenticate devices\n"
+        "- Sync emotion sessions (idempotent)\n"
+        "- Request activity and media recommendations\n"
+        "- Trigger AI-assisted conversations with safety filter\n"
+        "- Submit feedback for personalisation\n"
+        "- Retrieve TFT-optimised emotion reports\n\n"
+        "**Authentication:** Pass `X-Device-Token: <token>` header "
+        "or `Authorization: Bearer <token>` on all endpoints except `/api/devices/pair`.\n\n"
+        "**Quick start:** Use `/api/devices/pair` with `pairing_code = DEMO-001` to get a token, "
+        "then use that token for all other endpoints."
     ),
-    version="0.1.0",
+    version="2.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
 # ─── CORS ─────────────────────────────────────────────────────────────────────
@@ -38,24 +94,60 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+dataset_dir = Path(__file__).resolve().parent.parent / "media-dataset"
+dataset_dir.mkdir(exist_ok=True)
+app.mount("/media", StaticFiles(directory=dataset_dir), name="local-media")
+
 
 @app.get("/", tags=["Root"])
 def root():
     return {
-        "name": "AIoT Backend Server",
+        "name": "EmotiCare AIoT Cloud API",
+        "version": "2.0.0",
         "status": "running",
         "docs": "/docs",
-        "health": "/health",
-        "postman_guide": "docs/api/POSTMAN_TESTING.md",
-        "demo_tokens": {
-            "smartclock": "dev-smartclock-token",
-            "visiondrive": "dev-visiondrive-token",
+        "quick_start": {
+            "step_1": "POST /api/devices/pair  with body: {pairing_code: 'DEMO-001', device_name: 'My Device'}",
+            "step_2": "Copy device_token from response",
+            "step_3": "Use X-Device-Token header on all other endpoints",
+        },
+        "endpoints": {
+            "pair_device":            "POST /api/devices/pair",
+            "heartbeat":              "POST /api/devices/heartbeat",
+            "sync_sessions":          "POST /api/emotion-sessions/sync",
+            "list_sessions":          "GET  /api/emotion-sessions",
+            "request_recommendation": "POST /api/recommendations/request",
+            "list_recommendations":   "GET  /api/recommendations",
+            "media_categories":       "GET  /api/media/categories",
+            "media_recommendations":  "POST /api/media/recommendations",
+            "media_stream":           "GET  /api/media/stream/{media_id}",
+            "media_history":          "GET  /api/media/history",
+            "conversation":           "POST /api/conversations/respond",
+            "companion_voice":        "POST /api/conversations/voice",
+            "stt":                    "POST /api/stt/transcribe",
+            "tts":                    "POST /api/tts/synthesize",
+            "feedback_activity":      "POST /api/feedback/activity",
+            "feedback_media":         "POST /api/feedback/media",
+            "tft_summary":            "GET  /api/reports/tft-summary",
+            "statistic_day":          "GET  /api/statistics/day",
+            "statistic_week":         "GET  /api/statistics/week",
+            "statistic_month":        "GET  /api/statistics/month",
+            "generate_report":        "POST /api/reports/generate",
+            "list_reports":           "GET  /api/reports",
+            "device_config":          "GET  /api/device-config",
         },
     }
 
 
 # ─── Routers ──────────────────────────────────────────────────────────────────
-app.include_router(health.router)
 app.include_router(devices.router)
-app.include_router(smartclock.router)
-app.include_router(visiondrive.router)
+app.include_router(emotion_sessions.router)
+app.include_router(recommendations.router)
+app.include_router(media.router)
+app.include_router(conversations.router)
+app.include_router(stt.router)
+app.include_router(tts.router)
+app.include_router(feedback.router)
+app.include_router(reports.router)
+app.include_router(statistics.router)
+app.include_router(device_config.router)

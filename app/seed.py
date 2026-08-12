@@ -1,211 +1,160 @@
+"""
+EmotiCare AIoT — Seed script.
+
+Creates demo data for local development and API testing:
+  - 1 demo user  (pairing_code = DEMO-001)
+  - 1 demo device (token printed to console after seeding)
+  - 80 local media items (40 songs + 40 podcasts)
+
+Usage:
+    python -m app.seed
+"""
+
+import hashlib
+import json
+import secrets
+import uuid
 from datetime import datetime, timezone
+from pathlib import Path
 
-from sqlalchemy.orm import Session
-
+from app.config import settings
 from app.database import SessionLocal
-from app.models.device import Device, SleepConfig, TimerConfig
-from app.models.smartclock import (
-    GameScore,
-    PomodoroSession,
-    SleepQualityReport,
-    SleepSensorBatch,
-    SleepSession,
-)
-from app.models.visiondrive import DistractionEvent, Trip
+from app.models.emoticare import Device, MediaItem, User
 
 
-SMARTCLOCK_ID = "smartclock-demo-001"
-SMARTCLOCK_TOKEN = "dev-smartclock-token"
-VISIONDRIVE_ID = "visiondrive-demo-001"
-VISIONDRIVE_TOKEN = "dev-visiondrive-token"
+def _utcnow() -> datetime:
+    return datetime.now(timezone.utc)
 
 
-def _dt(value: str) -> datetime:
-    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+DEMO_USER_ID = "00000000-0000-0000-0000-000000000001"
+DEMO_PAIRING_CODE = "DEMO-001"
 
 
-def _get_or_create_device(
-    db: Session,
-    device_id: str,
-    device_type: str,
-    device_token: str,
-) -> Device:
-    device = db.query(Device).filter(Device.device_id == device_id).first()
-    if device is None:
-        device = Device(
-            device_id=device_id,
-            device_type=device_type,
-            device_token=device_token,
-        )
-        db.add(device)
-        db.flush()
-        return device
-
-    device.device_type = device_type
-    device.device_token = device_token
-    device.last_seen_at = datetime.now(timezone.utc)
-    db.flush()
-    return device
+def _media_url(path: str) -> str:
+    if settings.SUPABASE_URL:
+        base_url = settings.SUPABASE_URL.rstrip("/")
+        bucket = settings.SUPABASE_MEDIA_BUCKET
+        return f"{base_url}/storage/v1/object/public/{bucket}/{path}"
+    return f"/media/{path}"
 
 
-def _replace_device_children(db: Session, device: Device) -> None:
-    for model in (PomodoroSession, SleepSession, GameScore, Trip):
-        db.query(model).filter(model.device_id == device.id).delete(
-            synchronize_session=False
-        )
-    db.query(TimerConfig).filter(TimerConfig.device_id == device.id).delete(
-        synchronize_session=False
-    )
-    db.query(SleepConfig).filter(SleepConfig.device_id == device.id).delete(
-        synchronize_session=False
-    )
-    db.flush()
+MEDIA_SEED: list[dict] = [
+    {"media_type": "song", "category": "relax", "title": "Calm Morning Pad", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/01-calm-morning-pad.mp3")},
+    {"media_type": "song", "category": "relax", "title": "Soft Rain Keys", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/02-soft-rain-keys.mp3")},
+    {"media_type": "song", "category": "focus", "title": "Low Focus Pulse", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/03-low-focus-pulse.mp3")},
+    {"media_type": "song", "category": "focus", "title": "Clean Study Loop", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/04-clean-study-loop.mp3")},
+    {"media_type": "song", "category": "sleep", "title": "Night Breath Drone", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/05-night-breath-drone.mp3")},
+    {"media_type": "song", "category": "happy", "title": "Light Steps", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/06-light-steps.mp3")},
+    {"media_type": "song", "category": "happy", "title": "Warm Smile Beat", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/07-warm-smile-beat.mp3")},
+    {"media_type": "song", "category": "sad_support", "title": "Gentle Hold", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/08-gentle-hold.mp3")},
+    {"media_type": "song", "category": "anger_release", "title": "Grounding Low Tone", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/09-grounding-low-tone.mp3")},
+    {"media_type": "song", "category": "energy_recover", "title": "Small Energy Rise", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("music/10-small-energy-rise.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Bai tho 4-7-8", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/01-breathing-478.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Dung lai mot phut", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/02-one-minute-pause.mp3")},
+    {"media_type": "podcast", "category": "focus", "title": "Bat dau tap trung", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/03-start-focus.mp3")},
+    {"media_type": "podcast", "category": "sleep", "title": "Chuan bi nghi ngoi", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/04-prepare-rest.mp3")},
+    {"media_type": "podcast", "category": "happy", "title": "Giu nang luong tot", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/05-keep-good-energy.mp3")},
+    {"media_type": "podcast", "category": "sad_support", "title": "O canh noi buon", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/06-with-sadness.mp3")},
+    {"media_type": "podcast", "category": "sad_support", "title": "Tu noi loi tu te", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/07-kind-self-talk.mp3")},
+    {"media_type": "podcast", "category": "anger_release", "title": "Ha nhiet con gian", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/08-cool-down-anger.mp3")},
+    {"media_type": "podcast", "category": "energy_recover", "title": "Nap lai nang luong", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/09-energy-recover.mp3")},
+    {"media_type": "podcast", "category": "relax", "title": "Goi ten cam xuc", "creator": "EmotiCare Demo", "duration_sec": 20, "source_url": _media_url("podcast/10-name-the-feeling.mp3")},
+]
 
 
-def seed_database() -> None:
+def _local_catalog() -> list[dict]:
+    """Prefer the downloaded local catalog over the legacy demo manifest."""
+    catalog = Path(__file__).resolve().parent.parent / "media-dataset" / "catalog.json"
+    if not catalog.is_file():
+        return []
+    with catalog.open(encoding="utf-8") as handle:
+        items = json.load(handle)
+    required = {"media_type", "title", "creator", "duration_sec", "category", "source_url"}
+    if not isinstance(items, list) or any(not required.issubset(item) for item in items):
+        raise ValueError(f"Invalid local media catalog: {catalog}")
+    return [{key: item[key] for key in required} for item in items]
+
+
+MEDIA_SEED = _local_catalog() or MEDIA_SEED
+
+
+def seed():
     db = SessionLocal()
     try:
-        smartclock = _get_or_create_device(
-            db,
-            SMARTCLOCK_ID,
-            "smartclock",
-            SMARTCLOCK_TOKEN,
-        )
-        visiondrive = _get_or_create_device(
-            db,
-            VISIONDRIVE_ID,
-            "visiondrive",
-            VISIONDRIVE_TOKEN,
-        )
-
-        _replace_device_children(db, smartclock)
-        _replace_device_children(db, visiondrive)
-
-        db.add(
-            TimerConfig(
-                device_id=smartclock.id,
-                study_duration=25,
-                break_duration=5,
+        # ── User ──────────────────────────────────────────────────────────────
+        existing_user = db.query(User).filter(User.id == DEMO_USER_ID).first()
+        if existing_user:
+            print(f"[seed] User already exists: id={DEMO_USER_ID}")
+            user = existing_user
+        else:
+            user = User(
+                id=DEMO_USER_ID,
+                name="Demo User",
+                pairing_code=DEMO_PAIRING_CODE,
+                consent_audio_storage=False,
+                created_at=_utcnow(),
+                updated_at=_utcnow(),
             )
+            db.add(user)
+            db.commit()
+            print(f"[seed] Created user: id={DEMO_USER_ID} pairing_code={DEMO_PAIRING_CODE}")
+
+        # ── Device ────────────────────────────────────────────────────────────
+        # Check if a device already exists for this user (seeded device)
+        existing_device = (
+            db.query(Device).filter(Device.user_id == DEMO_USER_ID).first()
         )
-        db.add(
-            SleepConfig(
-                device_id=smartclock.id,
-                alarm_enabled=True,
-                alarm_time="06:30",
-                sleep_duration=480,
+        if existing_device:
+            print(f"[seed] Device already exists: id={existing_device.id}")
+            print("[seed] Use /api/devices/pair with pairing_code=DEMO-001 to get a new token.")
+        else:
+            # Generate a fixed demo token for easy local testing
+            demo_token = "demo-emoticare-device-token-local-dev"
+            token_hash = hashlib.sha256(demo_token.encode()).hexdigest()
+            device = Device(
+                id=str(uuid.uuid4()),
+                user_id=DEMO_USER_ID,
+                name="Demo EmotiCare Device",
+                device_token_hash=token_hash,
+                firmware_version="1.0.0",
+                status="offline",
+                created_at=_utcnow(),
             )
-        )
+            db.add(device)
+            db.commit()
+            print(f"[seed] Created device: id={device.id}")
+            print(f"[seed] Demo device token (plain): {demo_token}")
+            print("[seed] Use this in X-Device-Token header for testing.")
 
-        db.add_all(
-            [
-                PomodoroSession(
-                    device_id=smartclock.id,
-                    timestamp=_dt("2026-05-28T08:30:00Z"),
-                    duration=1500,
-                    session_type="study",
-                ),
-                PomodoroSession(
-                    device_id=smartclock.id,
-                    timestamp=_dt("2026-05-28T08:35:00Z"),
-                    duration=300,
-                    session_type="break",
-                ),
-                GameScore(
-                    device_id=smartclock.id,
-                    score=42,
-                    timestamp=_dt("2026-05-28T10:00:00Z"),
-                ),
-            ]
-        )
-
-        sleep_session = SleepSession(
-            device_id=smartclock.id,
-            start_time=_dt("2026-05-28T23:00:00Z"),
-            end_time=_dt("2026-05-29T06:10:00Z"),
-            status="completed",
-            sleep_score=86,
-        )
-        db.add(sleep_session)
-        db.flush()
-
-        db.add_all(
-            [
-                SleepSensorBatch(
-                    sleep_session_id=sleep_session.id,
-                    timestamp=_dt("2026-05-28T23:30:00Z"),
-                    sound_level=18.5,
-                    light_level=7.2,
-                ),
-                SleepSensorBatch(
-                    sleep_session_id=sleep_session.id,
-                    timestamp=_dt("2026-05-29T02:30:00Z"),
-                    sound_level=22.0,
-                    light_level=5.5,
-                ),
-                SleepSensorBatch(
-                    sleep_session_id=sleep_session.id,
-                    timestamp=_dt("2026-05-29T05:30:00Z"),
-                    sound_level=31.0,
-                    light_level=18.0,
-                ),
-                SleepQualityReport(
-                    sleep_session_id=sleep_session.id,
-                    duration_minutes=430,
-                    quality_label="good",
-                    duration_score=35,
-                    sound_score=24,
-                    light_score=27,
-                    avg_sound_level=23.8,
-                    avg_light_level=10.2,
-                    duration_issue=True,
-                    noise_issue=False,
-                    light_issue=False,
-                    recommendation=(
-                        "Sleep quality is good. Try going to bed 30-60 minutes "
-                        "earlier to reach the 8-hour target."
-                    ),
-                ),
-            ]
-        )
-
-        trip = Trip(
-            device_id=visiondrive.id,
-            start_time=_dt("2026-05-29T01:00:00Z"),
-            end_time=_dt("2026-05-29T01:25:00Z"),
-            status="completed",
-            safety_score=83,
-        )
-        db.add(trip)
-        db.flush()
-
-        db.add_all(
-            [
-                DistractionEvent(
-                    trip_id=trip.id,
-                    timestamp=_dt("2026-05-29T01:08:00Z"),
-                    event_type="gaze_distraction",
-                    severity="medium",
-                ),
-                DistractionEvent(
-                    trip_id=trip.id,
-                    timestamp=_dt("2026-05-29T01:18:00Z"),
-                    event_type="phone_use",
-                    severity="high",
-                ),
-            ]
-        )
+        # ── Media Items ───────────────────────────────────────────────────────
+        created_count = 0
+        for item_data in MEDIA_SEED:
+            # Deduplicate by title + creator
+            existing = (
+                db.query(MediaItem)
+                .filter(
+                    MediaItem.title == item_data["title"],
+                    MediaItem.creator == item_data["creator"],
+                )
+                .first()
+            )
+            if existing:
+                continue
+            media = MediaItem(
+                id=str(uuid.uuid4()),
+                **item_data,
+                enabled=True,
+            )
+            db.add(media)
+            created_count += 1
 
         db.commit()
-        print("Seed data inserted.")
-        print(f"SmartClock token: {SMARTCLOCK_TOKEN}")
-        print(f"VisionDrive token: {VISIONDRIVE_TOKEN}")
-    except Exception:
-        db.rollback()
-        raise
+        print(f"[seed] Created {created_count} media items ({len(MEDIA_SEED)} total in seed).")
+        print("[seed] Done.")
+
     finally:
         db.close()
 
 
 if __name__ == "__main__":
-    seed_database()
+    seed()
