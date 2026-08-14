@@ -20,3 +20,6 @@ __pycache__/
 docs/Spectification/example specification.pdf
 
 venv/
+
+# Large locally cached corpus and generated PCM/features for the edge arousal experiment.
+docs/ai/edge-ser-v2/data/
